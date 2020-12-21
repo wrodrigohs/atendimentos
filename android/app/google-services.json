@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "100927655331",
+    "project_id": "atendimentos-e3d73",
+    "storage_bucket": "atendimentos-e3d73.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:100927655331:android:096d1a456171bbe24d5e16",
+        "android_client_info": {
+          "package_name": "br.com.aplicativoswr.atendimentos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "100927655331-bj18crhh9g7l2lpndh76d22deu1kc355.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.aplicativoswr.atendimentos",
+            "certificate_hash": "6cd59f0e417d399155798ee3e4090d0b1f936b0d"
+          }
+        },
+        {
+          "client_id": "100927655331-qsmjihdp8sspd7ljep53h9aprlper58a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOG-lvgYa6PS9HJWjye09KcZDZGGqw5Vo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "100927655331-qsmjihdp8sspd7ljep53h9aprlper58a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
