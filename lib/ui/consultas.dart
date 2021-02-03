@@ -11,6 +11,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:ui' as ui;
 
 final FirebaseDatabase db = FirebaseDatabase.instance;
 
@@ -112,128 +113,164 @@ class _ConsultasState extends State<Consultas> {
                 fit: BoxFit.cover,
               ),
             ),
-            width: double.infinity,
-            child: listaBuscado.isEmpty ?
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Text('Nenhum atendimento marcado para hoje',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.height/50,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'quicksand',
-                  ),
-                ),
-                Lottie.asset(
-                  'assets/images/sad.json',
-                  animate: true,
-                  repeat: true,
-                  reverse: true,
-                  width: 200,
-                  height: 200,
-                  fit: BoxFit.fill,
-                ),
-              ],
-            )
-                :
-            Flexible(
-              child: ListView.builder(
-                  itemCount: listaBuscado.length,
-                  itemBuilder: (BuildContext context, int posicao) {
-                    String id = listaBuscado[posicao].primaryKey;
-                    return Card(
-                      elevation: 4,
-                      margin: EdgeInsets.all(4),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+            width: MediaQuery.of(context).size.width,
+            child: Stack(
+                fit: StackFit.expand,
+                children: <Widget>[
+                  Container(
+                    height: MediaQuery.of(context).size.height/1,
+                    width: MediaQuery.of(context).size.width/1,
+                    decoration: new BoxDecoration(color: Colors.black.withOpacity(0.0)),
+                    child: new BackdropFilter(
+                      filter: new ui.ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+                      child: new Container(
+                        decoration: new BoxDecoration(color: Colors.transparent.withOpacity(0.1)),
                       ),
-                      child: ListTile(
-                        onTap: () {
-                          launchWhatsApp(phone: '${listaBuscado[posicao].telefone}', message: 'Oi, ${listaBuscado[posicao].nome}, entro em contato para tratar da sua consulta de ${DateFormat.d().format(data)}/${DateFormat.M().format(data)}/${DateFormat.y().format(data)}.');
-                        },
-                        leading: CircleAvatar(
-                            child: Text('${listaBuscado[posicao].nome.substring(0,1)}',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'quicksand',
-                                fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  listaBuscado.isEmpty ?
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      SizedBox(
+                        height: distancia,
+                      ),
+                      Text('Nenhum atendimento marcado para hoje',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            inherit: false,
+                            fontSize: MediaQuery.of(context).size.height/45,
+                            fontFamily: 'quicksand',
+                            color: Colors.white,
+                            shadows: [
+                              Shadow( // bottomLeft
+                                  offset: Offset(-0.5, -0.5),
+                                  color: Colors.black
+                              ),
+                              Shadow( // bottomRight
+                                  offset: Offset(0.5, -0.5),
+                                  color: Colors.black
+                              ),
+                              Shadow( // topRight
+                                  offset: Offset(0.5, 0.5),
+                                  color: Colors.black
+                              ),
+                              Shadow( // topLeft
+                                  offset: Offset(-0.5, 0.5),
+                                  color: Colors.black
+                              ),
+                            ]
+                        ),
+                      ),
+                      Lottie.asset(
+                        'assets/images/sad.json',
+                        animate: true,
+                        repeat: true,
+                        reverse: true,
+                        width: 200,
+                        height: 200,
+                        fit: BoxFit.fill,
+                      ),
+                    ],
+                  )
+                      :
+                  Flexible(
+                    child: ListView.builder(
+                        itemCount: listaBuscado.length,
+                        itemBuilder: (BuildContext context, int posicao) {
+                          String id = listaBuscado[posicao].primaryKey;
+                          return Card(
+                            elevation: 4,
+                            margin: EdgeInsets.all(4),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: ListTile(
+                              onTap: () {
+                                launchWhatsApp(phone: '${listaBuscado[posicao].telefone}', message: 'Oi, ${listaBuscado[posicao].nome}, entro em contato para tratar da sua consulta de ${DateFormat.d().format(data)}/${DateFormat.M().format(data)}/${DateFormat.y().format(data)}.');
+                              },
+                              leading: CircleAvatar(
+                                  child: Text('${listaBuscado[posicao].nome.substring(0,1)}',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: 'quicksand',
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  backgroundColor: Colors.purpleAccent),
+                              title: Text(
+                                '${listaBuscado[posicao].nome}',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontFamily: 'quicksand',
+                                ),
+                              ),
+                              subtitle: Text(
+                                '${DateFormat.d().format(data)}/${DateFormat.M().format(data)}/${DateFormat.y().format(data)} às ${listaBuscado[posicao].hora}',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontFamily: 'quicksand',
+                                ),
+                              ),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  IconButton(
+                                    icon: (listaDt[posicao].confirmado) ?
+                                    Icon(Icons.done_outline,
+                                        color: Colors.green)
+                                        :
+                                    Icon(Icons.done,
+                                        color: Colors.grey),
+                                    onPressed: () {
+                                      setState(() {
+                                        if (listaDt[posicao].confirmado == true) {
+                                          Fluttertoast.showToast(
+                                            msg:'Consulta confirmada',
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            timeInSecForIosWeb: 5,
+                                          );
+                                          //envia mensagem ao paciente confirmando a consulta
+                                          launchWhatsApp(phone: '${listaDt[posicao].telefone}', message: 'Oi, ${listaDt[posicao].nome}, sua consulta de ${DateFormat.d().format(listaDt[posicao].data)}/${DateFormat.M().format(listaDt[posicao].data)}/${DateFormat.y().format(listaDt[posicao].data)} está confirmada.');
+                                        } else {
+                                          Fluttertoast.showToast(
+                                            msg:'Consulta não confirmada',
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            timeInSecForIosWeb: 5,
+                                          );
+                                        }
+                                      });
+                                    },
+                                  ),
+                                  IconButton(
+                                    icon: Icon(Icons.edit),
+                                    color: Colors.green,
+                                    onPressed: () {
+                                      Paciente pacienteEdicao = new Paciente(listaBuscado[posicao].nome, listaBuscado[posicao].telefone,
+                                          listaBuscado[posicao].email, formatarData(listaBuscado[posicao].data), listaBuscado[posicao].hora,
+                                          listaBuscado[posicao].anotacao, listaBuscado[posicao].confirmado);
+                                      //Navigator.push(context, MaterialPageRoute(builder: (context) => Edicao(paciente: pacienteEdicao)));
+                                    }, //=> deleteTx(transactions[index].id),
+                                  ),
+                                  IconButton(
+                                    icon: Icon(Icons.delete),
+                                    color: Theme.of(context).errorColor,
+                                    onPressed: () {
+                                      _showDialog(
+                                          context, listaBuscado[posicao], posicao);
+                                      //remover(id, posicao);
+                                    }, //=> deleteTx(transactions[index].id),
+                                  ),
+                                ],
                               ),
                             ),
-                            backgroundColor: Colors.purpleAccent),
-                        title: Text(
-                          '${listaBuscado[posicao].nome}',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontFamily: 'quicksand',
-                          ),
-                        ),
-                        subtitle: Text(
-                          '${DateFormat.d().format(data)}/${DateFormat.M().format(data)}/${DateFormat.y().format(data)} às ${listaBuscado[posicao].hora}',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontFamily: 'quicksand',
-                          ),
-                        ),
-                        trailing: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            IconButton(
-                              icon: (listaDt[posicao].confirmado) ?
-                              Icon(Icons.done_outline,
-                                  color: Colors.green)
-                                  :
-                              Icon(Icons.done,
-                                  color: Colors.grey),
-                              onPressed: () {
-                                setState(() {
-                                  if (listaDt[posicao].confirmado == true) {
-                                    Fluttertoast.showToast(
-                                      msg:'Consulta confirmada',
-                                      toastLength: Toast.LENGTH_SHORT,
-                                      timeInSecForIosWeb: 5,
-                                    );
-                                    //envia mensagem ao paciente confirmando a consulta
-                                    launchWhatsApp(phone: '${listaDt[posicao].telefone}', message: 'Oi, ${listaDt[posicao].nome}, sua consulta de ${DateFormat.d().format(listaDt[posicao].data)}/${DateFormat.M().format(listaDt[posicao].data)}/${DateFormat.y().format(listaDt[posicao].data)} está confirmada.');
-                                  } else {
-                                    Fluttertoast.showToast(
-                                      msg:'Consulta não confirmada',
-                                      toastLength: Toast.LENGTH_SHORT,
-                                      timeInSecForIosWeb: 5,
-                                    );
-                                  }
-                                });
-                              },
-                            ),
-                            IconButton(
-                              icon: Icon(Icons.edit),
-                              color: Colors.green,
-                              onPressed: () {
-                                Paciente pacienteEdicao = new Paciente(listaBuscado[posicao].nome, listaBuscado[posicao].telefone,
-                                    listaBuscado[posicao].email, formatarData(listaBuscado[posicao].data), listaBuscado[posicao].hora,
-                                    listaBuscado[posicao].anotacao, listaBuscado[posicao].confirmado);
-                                //Navigator.push(context, MaterialPageRoute(builder: (context) => Edicao(paciente: pacienteEdicao)));
-                              }, //=> deleteTx(transactions[index].id),
-                            ),
-                            IconButton(
-                              icon: Icon(Icons.delete),
-                              color: Theme.of(context).errorColor,
-                              onPressed: () {
-                                _showDialog(
-                                    context, listaBuscado[posicao], posicao);
-                                //remover(id, posicao);
-                              }, //=> deleteTx(transactions[index].id),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  }
-              ),
+                          );
+                        }
+                    ),
+                  ),
+                ],
             ),
-
           ),
         ),
       ],
@@ -351,13 +388,12 @@ class _ConsultasState extends State<Consultas> {
                             FlatButton(
                               color: Colors.black,
                               textColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
                               child: Text(
                                 'Sim',
                                 style: TextStyle(
-                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  fontSize: MediaQuery.of(context).size.height/60,
+                                  fontFamily: 'quicksand',
                                 ),
                               ),
                               onPressed: () {

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui' as ui;
 
 import 'package:atendimentos/model/profissional.dart';
 import 'package:atendimentos/ui/anotar.dart';
@@ -127,101 +128,118 @@ class _VerProntuariosState extends State<VerProntuarios> {
                   fit: BoxFit.cover,
                 ),
               ),
+              height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
+              child: Stack(
+                fit: StackFit.expand,
                 children: <Widget>[
-                  if (listaAnotacoes.isEmpty) Column(
+                  Container(
+                    height: MediaQuery.of(context).size.height/1,
+                    width: MediaQuery.of(context).size.width/1,
+                    decoration: new BoxDecoration(color: Colors.black.withOpacity(0.0)),
+                    child: new BackdropFilter(
+                      filter: new ui.ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+                      child: new Container(
+                        decoration: new BoxDecoration(color: Colors.transparent.withOpacity(0.1)),
+                      ),
+                    ),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      Text('Não há consultas marcadas.',
-                        style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.height/50,
-                            fontFamily: 'quicksand',
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                        width: double.infinity,
-                      ),
-                      Container(
-                          height: 230,
-                          width: double.infinity,
-                          child: Image.asset(
-                              'assets/images/triste.png',
-                              fit: BoxFit.cover,
-                              color: Colors.white
-                          )
+                      if (listaAnotacoes.isEmpty) Column(
+                        children: <Widget>[
+                          Text('Não há consultas marcadas.',
+                            style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.height/50,
+                                fontFamily: 'quicksand',
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                            width: double.infinity,
+                          ),
+                          Container(
+                              height: 230,
+                              width: double.infinity,
+                              child: Image.asset(
+                                  'assets/images/triste.png',
+                                  fit: BoxFit.cover,
+                                  color: Colors.white
+                              )
+                          ),
+                        ],
+                      ) else Flexible(
+                        child: ListView.builder(
+                            itemCount: listaAnotacoes.length,
+                            itemBuilder: (BuildContext context, int posicao) {
+                              String id = listaAnotacoes[posicao].primaryKey;
+                              return Card(
+                                shadowColor: Color(0xFF333366),
+                                elevation: 4,
+                                color: Colors.transparent,
+                                margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                  side: BorderSide(width: 0.5, color: new Color(0xFF333366)),
+                                ),
+                                child: ListTile(
+                                  onTap: () {
+                                    //Share.share('Anotações sobre a consulta de ${listaAnotacoes[posicao].nome} no dia ${listaAnotacoes[posicao].data} às ${listaAnotacoes[posicao].hora}\n\n${listaAnotacoes[posicao].anotacao}');
+                                    //Navigator.push(context, MaterialPageRoute(builder: (context) => EditarTexto(texto: listaTextos[posicao])));
+                                  },
+                                  title: Text('Consulta de',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: 'quicksand',
+                                    ),
+                                  ),
+                                  subtitle: Text('${listaAnotacoes[posicao].data} às ${listaAnotacoes[posicao].hora}',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: 'quicksand',
+                                    ),
+                                  ),
+                                  trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      CircleAvatar(
+                                        child: IconButton(
+                                          icon: Icon(Icons.edit),
+                                          color: Colors.green.shade900,
+                                          onPressed: () {
+                                            Navigator.push(context, MaterialPageRoute(builder:
+                                                (context) => Anotar(paciente: listaAnotacoes[posicao], profissional: widget.profissional)));
+                                            //Navigator.of(context).pop();
+                                          },
+                                        ),
+                                        backgroundColor: Colors.white,
+                                      ),
+                                      SizedBox(
+                                        width: 3.0,
+                                      ),
+                                      CircleAvatar(
+                                        child: IconButton(
+                                          icon: Icon(Icons.picture_as_pdf),
+                                          color: Theme.of(context).errorColor,
+                                          onPressed: () {
+                                            reportView(context, listaAnotacoes[posicao]);
+                                            //Navigator.push(context, MaterialPageRoute(builder:
+                                            //  (context) => reportView(context, listaAnotacoes[posicao])));
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                        backgroundColor: Colors.white,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }),
                       ),
                     ],
-                  ) else Flexible(
-                    child: ListView.builder(
-                        itemCount: listaAnotacoes.length,
-                        itemBuilder: (BuildContext context, int posicao) {
-                          String id = listaAnotacoes[posicao].primaryKey;
-                          return Card(
-                            shadowColor: Color(0xFF333366),
-                            elevation: 4,
-                            color: Colors.transparent,
-                            margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                              side: BorderSide(width: 0.5, color: new Color(0xFF333366)),
-                            ),
-                            child: ListTile(
-                              onTap: () {
-                                //Share.share('Anotações sobre a consulta de ${listaAnotacoes[posicao].nome} no dia ${listaAnotacoes[posicao].data} às ${listaAnotacoes[posicao].hora}\n\n${listaAnotacoes[posicao].anotacao}');
-                                //Navigator.push(context, MaterialPageRoute(builder: (context) => EditarTexto(texto: listaTextos[posicao])));
-                              },
-                              title: Text('Consulta de',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'quicksand',
-                                ),
-                              ),
-                              subtitle: Text('${listaAnotacoes[posicao].data} às ${listaAnotacoes[posicao].hora}',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'quicksand',
-                                ),
-                              ),
-                              trailing: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  CircleAvatar(
-                                    child: IconButton(
-                                      icon: Icon(Icons.edit),
-                                      color: Colors.green.shade900,
-                                      onPressed: () {
-                                        Navigator.push(context, MaterialPageRoute(builder:
-                                          (context) => Anotar(paciente: listaAnotacoes[posicao], profissional: widget.profissional)));
-                                        //Navigator.of(context).pop();
-                                      },
-                                    ),
-                                    backgroundColor: Colors.white,
-                                  ),
-                                  SizedBox(
-                                    width: 3.0,
-                                  ),
-                                  CircleAvatar(
-                                    child: IconButton(
-                                      icon: Icon(Icons.picture_as_pdf),
-                                      color: Theme.of(context).errorColor,
-                                      onPressed: () {
-                                        reportView(context, listaAnotacoes[posicao]);
-                                        //Navigator.push(context, MaterialPageRoute(builder:
-                                        //  (context) => reportView(context, listaAnotacoes[posicao])));
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                    backgroundColor: Colors.white,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        }),
                   ),
                 ],
               ),

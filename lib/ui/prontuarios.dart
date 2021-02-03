@@ -1,5 +1,5 @@
 import 'dart:collection';
-import 'dart:io';
+import 'dart:ui' as ui;
 
 import 'package:atendimentos/model/paciente.dart';
 import 'package:atendimentos/model/profissional.dart';
@@ -45,7 +45,7 @@ class _ProntuariosState extends State<Prontuarios> {
       Paciente paciente = new Paciente(values['nome'], values['telefone'],
           values['email'], values['data'], values['hora'], values['anotacao'], values['confirmado']);
       if(paciente.nome != null) {
-          listaPacientes.add(paciente);
+        listaPacientes.add(paciente);
       }
     });
   }
@@ -65,9 +65,9 @@ class _ProntuariosState extends State<Prontuarios> {
       listaAnotacoes.add(listaPacientes[i]);
       for(int j = i + 1; j < listaPacientes.length; j++) {
         if ((equalsIgnoreCase(listaPacientes[i].nome, listaPacientes[j].nome)) &&
-        (equalsIgnoreCase(listaPacientes[i].telefone, listaPacientes[j].telefone)) &&
-        (equalsIgnoreCase(listaPacientes[i].email, listaPacientes[j].email)) &&
-        (!equalsIgnoreCase(listaPacientes[i].primaryKey, listaPacientes[j].primaryKey))){
+            (equalsIgnoreCase(listaPacientes[i].telefone, listaPacientes[j].telefone)) &&
+            (equalsIgnoreCase(listaPacientes[i].email, listaPacientes[j].email)) &&
+            (!equalsIgnoreCase(listaPacientes[i].primaryKey, listaPacientes[j].primaryKey))){
           //listaAnotacoes.add(listaPacientes[i]);
           listaPacientes.removeAt(j);
         }
@@ -107,81 +107,98 @@ class _ProntuariosState extends State<Prontuarios> {
                   fit: BoxFit.cover,
                 ),
               ),
-              width: double.infinity,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: Stack(
+                fit: StackFit.expand,
                 children: <Widget>[
-                  listaAnotacoes.isEmpty ?
+                  Container(
+                    height: MediaQuery.of(context).size.height/1,
+                    width: MediaQuery.of(context).size.width/1,
+                    decoration: new BoxDecoration(color: Colors.black.withOpacity(0.0)),
+                    child: new BackdropFilter(
+                      filter: new ui.ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+                      child: new Container(
+                        decoration: new BoxDecoration(color: Colors.transparent.withOpacity(0.1)),
+                      ),
+                    ),
+                  ),
                   Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      Text('Nenhum atendimento marcado.',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.height/50,
-                            fontFamily: 'quicksand',
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                          height: 200,
-                          child: Image.asset(
-                            'assets/images/triste.png',
-                            fit: BoxFit.cover,
-                            color: Colors.white,
-                          )
-                      ),
-                    ],
-                  )
-                      :
-                  Flexible(
-                    child: ListView.builder(
-                        itemCount: listaAnotacoes.length,
-                        itemBuilder: (BuildContext context, int posicao) {
-                          String id = listaAnotacoes[posicao].primaryKey;
-                          return Card(
-                            shadowColor: Color(0xFF333366),
-                            elevation: 4,
-                            color: Colors.transparent,
-                            margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                              side: BorderSide(width: 0.5, color: new Color(0xFF333366)),
+                      listaAnotacoes.isEmpty ?
+                      Column(
+                        children: <Widget>[
+                          Text('Nenhum atendimento marcado.',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.height/50,
+                                fontFamily: 'quicksand',
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white
                             ),
-                            child: ListTile(
-                              onTap: () {
-                                Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) => VerProntuarios(profissional: widget.profissional, paciente: listaAnotacoes[posicao])),
-                                );
-                              },
-                              leading: CircleAvatar(
-                                  child: Text('${listaAnotacoes[posicao].nome.substring(0,1)}',
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                              height: 200,
+                              child: Image.asset(
+                                'assets/images/triste.png',
+                                fit: BoxFit.cover,
+                                color: Colors.white,
+                              )
+                          ),
+                        ],
+                      )
+                          :
+                      Flexible(
+                        child: ListView.builder(
+                            itemCount: listaAnotacoes.length,
+                            itemBuilder: (BuildContext context, int posicao) {
+                              String id = listaAnotacoes[posicao].primaryKey;
+                              return Card(
+                                shadowColor: Color(0xFF333366),
+                                elevation: 4,
+                                color: Colors.transparent,
+                                margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                  side: BorderSide(width: 0.5, color: new Color(0xFF333366)),
+                                ),
+                                child: ListTile(
+                                  onTap: () {
+                                    Navigator.push(context, MaterialPageRoute(
+                                        builder: (context) => VerProntuarios(profissional: widget.profissional, paciente: listaAnotacoes[posicao])),
+                                    );
+                                  },
+                                  leading: CircleAvatar(
+                                      child: Text('${listaAnotacoes[posicao].nome.substring(0,1)}',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: 'quicksand',
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      backgroundColor: Colors.black),
+                                  title: Text(
+                                    'Prontuário de ${listaAnotacoes[posicao].nome}',
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontFamily: 'quicksand',
-                                      fontWeight: FontWeight.w600,
                                     ),
                                   ),
-                                  backgroundColor: Colors.black),
-                              title: Text(
-                                'Prontuário de ${listaAnotacoes[posicao].nome}',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'quicksand',
+                                  trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              trailing: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                ],
-                              ),
-                            ),
-                          );
-                        }
-                    ),
+                              );
+                            }
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -209,7 +226,7 @@ class _ProntuariosState extends State<Prontuarios> {
     });
   }
 
-  /*void updateTexto(Texto texto) {
+/*void updateTexto(Texto texto) {
     //Toggle completed
     //paciente.completed = !paciente.completed;
     if (texto != null) {

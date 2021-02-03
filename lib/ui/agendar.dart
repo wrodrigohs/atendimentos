@@ -8,6 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'dart:ui' as ui;
 
 final FirebaseDatabase db = FirebaseDatabase.instance;
 
@@ -96,348 +97,365 @@ class _AgendarState extends State<Agendar> {
           body: Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/images/homebg.jpg"),
+                image: AssetImage("assets/images/ceu.jpg"),
                 fit: BoxFit.cover,
               ),
             ),
-            height: double.infinity,
-            child: SingleChildScrollView(
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(
-                      height: distancia,
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: Stack(
+              fit: StackFit.expand,
+              children: <Widget>[
+                Container(
+                  height: MediaQuery.of(context).size.height/1,
+                  width: MediaQuery.of(context).size.width/1,
+                  decoration: new BoxDecoration(color: Colors.black.withOpacity(0.0)),
+                  child: new BackdropFilter(
+                    filter: new ui.ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+                    child: new Container(
+                      decoration: new BoxDecoration(color: Colors.transparent.withOpacity(0.1)),
                     ),
-                    Form(
-                      key: formKey,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Flexible(
-                            child: ListTile(
-                              leading: Icon(Icons.account_box, color: Colors.white),
-                              title: TextFormField(
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'quicksand',
-                                  fontSize: MediaQuery.of(context).size.height/50,
-                                ),
-                                controller: _nomeController,
-                                onSaved: (nome) => paciente.nome = nome,
-                                validator: (nome) => nome.length < 3 ? "Deve ter ao menos 3 caracteres." : null,
-                                cursorColor: Colors.white,
-                                onFieldSubmitted: (_) {
-                                  setState(() {
-                                    paciente.nome = _nomeController.text.toString();
-                                  });
-                                },
-                                decoration: InputDecoration(
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide:
-                                    const BorderSide(color: Colors.white, width: 3.0),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                  enabledBorder: new OutlineInputBorder(
-                                    borderRadius: new BorderRadius.circular(8.0),
-                                    borderSide:
-                                    new BorderSide(color: Colors.white, width: 2.0),
-                                  ),
-                                  hintText: "Nome e sobrenome",
-                                  hintStyle: TextStyle(color: Colors.white, fontFamily: 'quicksand', fontSize: MediaQuery.of(context).size.height/50,),
-                                  labelText: "Nome",
-                                  labelStyle: TextStyle(color: Colors.white, fontFamily: 'quicksand', fontSize: MediaQuery.of(context).size.height/50,),
-                                  errorBorder: OutlineInputBorder(
-                                    borderSide:
-                                    const BorderSide(color: Colors.red, width: 3.0),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          ListTile(
-                            leading: Icon(Icons.phone, color: Colors.white),
-                            title: InternationalPhoneNumberInput(
-                              //maxLength: 15,
-                              textStyle: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'quicksand',
-                                fontSize: MediaQuery.of(context).size.height/50,
-                              ),
-                              textFieldController: _telefoneController,
-                              //autoValidate: false,
-                              //onInputValidated: (value) => validarTelefone(tel),
-                              //errorMessage: 'Número fora do padrão',
-                              inputDecoration: InputDecoration(
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                  const BorderSide(color: Colors.white, width: 3.0),
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                                enabledBorder: new OutlineInputBorder(
-                                  borderRadius: new BorderRadius.circular(8.0),
-                                  borderSide:
-                                  new BorderSide(color: Colors.white, width: 2.0),
-                                ),
-                                hintText: "xx xxxxx xxxx",
-                                hintStyle: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'quicksand',
-                                  fontSize: MediaQuery.of(context).size.height/50,
-                                ),
-                                labelText: "WhatsApp/Telefone",
-                                labelStyle: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'quicksand',
-                                  fontSize: MediaQuery.of(context).size.height/50,
-                                ),
-                                errorBorder: OutlineInputBorder(
-                                  borderSide:
-                                  const BorderSide(color: Colors.red, width: 3.0),
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                              ),
-                              locale: 'BR',
-                              countries: ['BR'],
-                              onInputChanged: (phone) {
-                                tel = '${phone.dialCode.toString()}' + '${_telefoneController.text}';
-                              },
-                            ),
-                          ),
-                          ListTile(
-                            leading: Icon(Icons.alternate_email, color: Colors.white),
-                            title: TextFormField(
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'quicksand',
-                                fontSize: MediaQuery.of(context).size.height/50,
-                              ),
-                              controller: _emailController,
-                              onSaved: (email) => paciente.email = email,
-                              validator: validateEmail,
-                              cursorColor: Colors.white,
-                              onFieldSubmitted: (_) {
-                                setState(() {
-                                  paciente.email = _emailController.text.toString();
-                                });
-                              },
-                              keyboardType: TextInputType.emailAddress,
-                              decoration: InputDecoration(
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                  const BorderSide(color: Colors.white, width: 3.0),
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                                enabledBorder: new OutlineInputBorder(
-                                  borderRadius: new BorderRadius.circular(8.0),
-                                  borderSide:
-                                  new BorderSide(color: Colors.white, width: 2.0),
-                                ),
-                                hintText: "Digite seu e-mail",
-                                hintStyle: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: MediaQuery.of(context).size.height/50,
-                                  fontFamily: 'quicksand',
-                                ),
-                                labelText: "E-mail",
-                                labelStyle: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: MediaQuery.of(context).size.height/50,
-                                  fontFamily: 'quicksand',
-                                ),
-                                errorBorder: OutlineInputBorder(
-                                  borderSide:
-                                  const BorderSide(color: Colors.red, width: 3.0),
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                              ),
-                            ),
-                          ),
-                          ListTile(
-                            leading: Icon(Icons.date_range, color: Colors.white),
-                            title: Container(
-                              height: 40,
-                              child: Row(
-                                children: <Widget>[
-                                  Expanded(
-                                    child: Text(
-                                      _dataEscolhida == null
-                                          ? 'Data da consulta'
-                                          : '${DateFormat.d().format(
-                                          _dataEscolhida)}/${DateFormat.M().format(
-                                          _dataEscolhida)}/${DateFormat.y().format(
-                                          _dataEscolhida)}',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: MediaQuery.of(context).size.height/50,
-                                        fontFamily: 'quicksand',
-                                      ),
+                  ),
+                ),
+                SingleChildScrollView(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        SizedBox(
+                          height: distancia,
+                        ),
+                        Form(
+                          key: formKey,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Flexible(
+                                child: ListTile(
+                                  leading: Icon(Icons.account_box, color: Colors.white),
+                                  title: TextFormField(
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: 'quicksand',
+                                      fontSize: MediaQuery.of(context).size.height/50,
                                     ),
-                                  ),
-                                  FlatButton(
-                                    color: Colors.black,
-                                    textColor: Colors.white,
-                                    child: Text(
-                                      'Escolher data',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: MediaQuery.of(context).size.height/60,
-                                        fontFamily: 'quicksand',
-                                      ),
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                        side: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                            style: BorderStyle.solid
-                                        ),
-                                        borderRadius: BorderRadius.circular(40)
-                                    ),
-                                    onPressed: () {
+                                    controller: _nomeController,
+                                    onSaved: (nome) => paciente.nome = nome,
+                                    validator: (nome) => nome.length < 3 ? "Deve ter ao menos 3 caracteres." : null,
+                                    cursorColor: Colors.white,
+                                    keyboardType: TextInputType.name,
+                                    onFieldSubmitted: (_) {
                                       setState(() {
-                                        _presentDatePicker();
+                                        paciente.nome = _nomeController.text.toString();
                                       });
                                     },
+                                    decoration: InputDecoration(
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide:
+                                        const BorderSide(color: Colors.white, width: 3.0),
+                                        borderRadius: BorderRadius.circular(8.0),
+                                      ),
+                                      enabledBorder: new OutlineInputBorder(
+                                        borderRadius: new BorderRadius.circular(8.0),
+                                        borderSide:
+                                        new BorderSide(color: Colors.white, width: 2.0),
+                                      ),
+                                      hintText: "Nome e sobrenome",
+                                      hintStyle: TextStyle(color: Colors.white, fontFamily: 'quicksand', fontSize: MediaQuery.of(context).size.height/50,),
+                                      labelText: "Nome",
+                                      labelStyle: TextStyle(color: Colors.white, fontFamily: 'quicksand', fontSize: MediaQuery.of(context).size.height/50,),
+                                      errorBorder: OutlineInputBorder(
+                                        borderSide:
+                                        const BorderSide(color: Colors.red, width: 3.0),
+                                        borderRadius: BorderRadius.circular(8.0),
+                                      ),
+                                    ),
                                   ),
-                                ],
+                                ),
                               ),
-                            ),
-                          ),
-                          ListTile(
-                            leading: Icon(Icons.alarm, color: Colors.white),
-                            title: Container(
-                              height: 40,
-                              child: Row(
-                                children: <Widget>[
-                                  Expanded(
-                                    child: Text(
-                                      horaSelecionada == null
-                                          ? 'Hora da consulta'
-                                          : '$horaSelecionada',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: MediaQuery.of(context).size.height/50,
-                                        fontFamily: 'quicksand',
-                                      ),
+                              ListTile(
+                                leading: Icon(Icons.phone, color: Colors.white),
+                                title: InternationalPhoneNumberInput(
+                                  //maxLength: 15,
+                                  textStyle: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'quicksand',
+                                    fontSize: MediaQuery.of(context).size.height/50,
+                                  ),
+                                  textFieldController: _telefoneController,
+                                  //autoValidate: false,
+                                  //onInputValidated: (value) => validarTelefone(tel),
+                                  //errorMessage: 'Número fora do padrão',
+                                  inputDecoration: InputDecoration(
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                      const BorderSide(color: Colors.white, width: 3.0),
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    enabledBorder: new OutlineInputBorder(
+                                      borderRadius: new BorderRadius.circular(8.0),
+                                      borderSide:
+                                      new BorderSide(color: Colors.white, width: 2.0),
+                                    ),
+                                    hintText: "xx xxxxx xxxx",
+                                    hintStyle: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: 'quicksand',
+                                      fontSize: MediaQuery.of(context).size.height/50,
+                                    ),
+                                    labelText: "WhatsApp/Telefone",
+                                    labelStyle: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: 'quicksand',
+                                      fontSize: MediaQuery.of(context).size.height/50,
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide:
+                                      const BorderSide(color: Colors.red, width: 3.0),
+                                      borderRadius: BorderRadius.circular(8.0),
                                     ),
                                   ),
-                                  FlatButton(
-                                    color: Colors.black,
-                                    textColor: Colors.white,
-                                    child: Text(
-                                      'Escolher hora',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: MediaQuery.of(context).size.height/60,
-                                        fontFamily: 'quicksand',
-                                      ),
+                                  locale: 'BR',
+                                  countries: ['BR'],
+                                  onInputChanged: (phone) {
+                                    tel = '${phone.dialCode.toString()}' + '${_telefoneController.text}';
+                                  },
+                                ),
+                              ),
+                              ListTile(
+                                leading: Icon(Icons.alternate_email, color: Colors.white),
+                                title: TextFormField(
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'quicksand',
+                                    fontSize: MediaQuery.of(context).size.height/50,
+                                  ),
+                                  controller: _emailController,
+                                  onSaved: (email) => paciente.email = email,
+                                  validator: validateEmail,
+                                  cursorColor: Colors.white,
+                                  onFieldSubmitted: (_) {
+                                    setState(() {
+                                      paciente.email = _emailController.text.toString();
+                                    });
+                                  },
+                                  keyboardType: TextInputType.emailAddress,
+                                  decoration: InputDecoration(
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                      const BorderSide(color: Colors.white, width: 3.0),
+                                      borderRadius: BorderRadius.circular(8.0),
                                     ),
-                                    shape: RoundedRectangleBorder(
-                                        side: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                            style: BorderStyle.solid
-                                        ),
-                                        borderRadius: BorderRadius.circular(40)
+                                    enabledBorder: new OutlineInputBorder(
+                                      borderRadius: new BorderRadius.circular(8.0),
+                                      borderSide:
+                                      new BorderSide(color: Colors.white, width: 2.0),
                                     ),
-                                    onPressed: () {
-                                      setState(() {
-                                        Navigator.of(context).push(
-                                          showPicker(
-                                            accentColor: Theme.of(context).accentColor,
-                                            blurredBackground: true,
-                                            cancelText: 'cancelar',
-                                            okText: 'Escolher',
-                                            unselectedColor: Colors.grey,
-                                            context: context,
-                                            value: _time,
-                                            onChange: onTimeChanged,
-                                            is24HrFormat: true,
-                                            // Optional onChange to receive value as DateTime
-                                            onChangeDateTime: (DateTime dateTime) {
-                                              //print(dateTime);
-                                            },
+                                    hintText: "Digite seu e-mail",
+                                    hintStyle: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: MediaQuery.of(context).size.height/50,
+                                      fontFamily: 'quicksand',
+                                    ),
+                                    labelText: "E-mail",
+                                    labelStyle: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: MediaQuery.of(context).size.height/50,
+                                      fontFamily: 'quicksand',
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide:
+                                      const BorderSide(color: Colors.red, width: 3.0),
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              ListTile(
+                                leading: Icon(Icons.date_range, color: Colors.white),
+                                title: Container(
+                                  height: 40,
+                                  child: Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                        child: Text(
+                                          _dataEscolhida == null
+                                              ? 'Data da consulta'
+                                              : '${DateFormat.d().format(
+                                              _dataEscolhida)}/${DateFormat.M().format(
+                                              _dataEscolhida)}/${DateFormat.y().format(
+                                              _dataEscolhida)}',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: MediaQuery.of(context).size.height/50,
+                                            fontFamily: 'quicksand',
                                           ),
-                                        );
-                                        //inputTimeSelect();
-                                      });
-                                    },
+                                        ),
+                                      ),
+                                      FlatButton(
+                                        color: Colors.black,
+                                        textColor: Colors.white,
+                                        child: Text(
+                                          'Escolher data',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: MediaQuery.of(context).size.height/60,
+                                            fontFamily: 'quicksand',
+                                          ),
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                            side: BorderSide(
+                                                color: Colors.black,
+                                                width: 1,
+                                                style: BorderStyle.solid
+                                            ),
+                                            borderRadius: BorderRadius.circular(40)
+                                        ),
+                                        onPressed: () {
+                                          setState(() {
+                                            _presentDatePicker();
+                                          });
+                                        },
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: FlatButton(
-                              color: Colors.black,
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                    color: Colors.black,
-                                    width: 1,
-                                    style: BorderStyle.solid
-                                ),
-                                borderRadius: BorderRadius.circular(40),
-                              ),
-                              child: Text(
-                                "Marcar atendimento",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: MediaQuery.of(context).size.height/50,
-                                  fontFamily: 'quicksand',
-                                  shadows: <Shadow>[
-                                    Shadow(
-                                      offset: Offset(1.0, 1.0),
-                                      blurRadius: 3.0,
-                                      color: Color.fromARGB(255, 0, 0, 0),
-                                    ),
-                                    Shadow(
-                                      offset: Offset(2.0, 1.0),
-                                      blurRadius: 8.0,
-                                      color: Color.fromARGB(255, 0, 0, 0),
-                                    ),
-                                  ],
                                 ),
                               ),
-                              onPressed: () {
-                                setState(() {
-                                  if(dataString == '' || dataString == null || dataString.isEmpty) {
-                                    Fluttertoast.showToast(
-                                      msg: 'Você deve escolher uma data.',
-                                      toastLength: Toast.LENGTH_SHORT,
-                                      timeInSecForIosWeb: 5,
-                                    );
-                                    return;
-                                  }
+                              ListTile(
+                                leading: Icon(Icons.alarm, color: Colors.white),
+                                title: Container(
+                                  height: 40,
+                                  child: Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                        child: Text(
+                                          horaSelecionada == null
+                                              ? 'Hora da consulta'
+                                              : '$horaSelecionada',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: MediaQuery.of(context).size.height/50,
+                                            fontFamily: 'quicksand',
+                                          ),
+                                        ),
+                                      ),
+                                      FlatButton(
+                                        color: Colors.black,
+                                        textColor: Colors.white,
+                                        child: Text(
+                                          'Escolher hora',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: MediaQuery.of(context).size.height/60,
+                                            fontFamily: 'quicksand',
+                                          ),
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                            side: BorderSide(
+                                                color: Colors.black,
+                                                width: 1,
+                                                style: BorderStyle.solid
+                                            ),
+                                            borderRadius: BorderRadius.circular(40)
+                                        ),
+                                        onPressed: () {
+                                          setState(() {
+                                            Navigator.of(context).push(
+                                              showPicker(
+                                                accentColor: Theme.of(context).accentColor,
+                                                blurredBackground: true,
+                                                cancelText: 'cancelar',
+                                                okText: 'Escolher',
+                                                unselectedColor: Colors.grey,
+                                                context: context,
+                                                value: _time,
+                                                onChange: onTimeChanged,
+                                                is24HrFormat: true,
+                                                onChangeDateTime: (DateTime dateTime) {
+                                                  //print(dateTime);
+                                                },
+                                              ),
+                                            );
+                                            //inputTimeSelect();
+                                          });
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: FlatButton(
+                                  color: Colors.black,
+                                  shape: RoundedRectangleBorder(
+                                    side: BorderSide(
+                                        color: Colors.black,
+                                        width: 1,
+                                        style: BorderStyle.solid
+                                    ),
+                                    borderRadius: BorderRadius.circular(40),
+                                  ),
+                                  child: Text(
+                                    "Marcar atendimento",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: MediaQuery.of(context).size.height/50,
+                                      fontFamily: 'quicksand',
+                                      shadows: <Shadow>[
+                                        Shadow(
+                                          offset: Offset(1.0, 1.0),
+                                          blurRadius: 3.0,
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                        ),
+                                        Shadow(
+                                          offset: Offset(2.0, 1.0),
+                                          blurRadius: 8.0,
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      if(dataString == '' || dataString == null || dataString.isEmpty) {
+                                        Fluttertoast.showToast(
+                                          msg: 'Você deve escolher uma data.',
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          timeInSecForIosWeb: 5,
+                                        );
+                                        return;
+                                      }
 
-                                  if(horaSelecionada == '' || horaSelecionada == null || horaSelecionada.isEmpty) {
-                                    Fluttertoast.showToast(
-                                      msg: 'Você deve escolher um horário.',
-                                      toastLength: Toast.LENGTH_SHORT,
-                                      timeInSecForIosWeb: 5,
-                                    );
-                                    return;
-                                  }
+                                      if(horaSelecionada == '' || horaSelecionada == null || horaSelecionada.isEmpty) {
+                                        Fluttertoast.showToast(
+                                          msg: 'Você deve escolher um horário.',
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          timeInSecForIosWeb: 5,
+                                        );
+                                        return;
+                                      }
 
-                                  if (formKey.currentState.validate()) {
-                                    formKey.currentState.save();
-                                    Paciente paciente = new Paciente(
-                                        _nomeController.text.toString(),
-                                        tel,
-                                        _emailController.text.toString(),
-                                        dataString, horaSelecionada, "Anotações sobre o atendimento de ${_nomeController.text.toString()} no dia $dataString às $horaSelecionada\n\n", false);
+                                      if (formKey.currentState.validate()) {
+                                        formKey.currentState.save();
+                                        Paciente paciente = new Paciente(
+                                            _nomeController.text.toString(),
+                                            tel,
+                                            _emailController.text.toString(),
+                                            dataString, horaSelecionada, "Anotações sobre o atendimento de ${_nomeController.text.toString()} no dia $dataString às $horaSelecionada\n\n", false);
 
-                                    validar(paciente);
-                                  }
-                                });
-                              },
-                            ),
+                                        validar(paciente);
+                                      }
+                                    });
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ),
-                  ]
-              ),
+                        ),
+                      ]
+                  ),
+                ),
+              ],
             ),
           ),
         )
@@ -515,7 +533,6 @@ class _AgendarState extends State<Agendar> {
   }
 
   void remover(String id, int index) {
-    //String indice = index.toString();
     setState(() {
       listaPacientes.removeAt(index);
       //listaPacientes.remove(paciente);
