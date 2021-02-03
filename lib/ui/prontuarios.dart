@@ -96,7 +96,7 @@ class _ProntuariosState extends State<Prontuarios> {
               centerTitle: true,
               title: Text('Prontuários',
                 style: TextStyle(
-                    fontFamily: 'nanumgothic'
+                    fontFamily: 'quicksand'
                 ),
               ),
             ),
@@ -117,8 +117,8 @@ class _ProntuariosState extends State<Prontuarios> {
                       Text('Nenhum atendimento marcado.',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            fontSize: 18.0,
-                            fontFamily: 'nanumgothic',
+                            fontSize: MediaQuery.of(context).size.height/50,
+                            fontFamily: 'quicksand',
                             fontWeight: FontWeight.w500,
                             color: Colors.white
                         ),
@@ -161,7 +161,7 @@ class _ProntuariosState extends State<Prontuarios> {
                                   child: Text('${listaAnotacoes[posicao].nome.substring(0,1)}',
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontFamily: 'nanumgothic',
+                                      fontFamily: 'quicksand',
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
@@ -170,7 +170,7 @@ class _ProntuariosState extends State<Prontuarios> {
                                 'Prontuário de ${listaAnotacoes[posicao].nome}',
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontFamily: 'nanumgothic',
+                                  fontFamily: 'quicksand',
                                 ),
                               ),
                               trailing: Row(

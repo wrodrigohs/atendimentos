@@ -9,6 +9,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 final FirebaseDatabase db = FirebaseDatabase.instance;
@@ -100,7 +101,7 @@ class _ConsultasState extends State<Consultas> {
             centerTitle: true,
             title: Text('Atendimentos de hoje',
                 style: TextStyle(
-                  fontFamily: 'nanumgothic'
+                    fontFamily: 'quicksand'
                 )
             ),
           ),
@@ -112,137 +113,127 @@ class _ConsultasState extends State<Consultas> {
               ),
             ),
             width: double.infinity,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                listaBuscado.isEmpty ?
-                Column(
-                  children: <Widget>[
-                    SizedBox(
-                      height: distancia,
-                    ),
-                    Text('Nenhum atendimento marcado para hoje.',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 18.0,
-                          fontFamily: 'nanumgothic',
-                          fontWeight: FontWeight.w200,
-                          color: Colors.white
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                        height: 200,
-                        child: Image.asset(
-                            'assets/images/triste.png',
-                            fit: BoxFit.cover,
-                            color: Colors.white
-                        )
-                    ),
-                  ],
-                )
-                    :
-                SizedBox(
-                  height: distancia,
-                ),
-                Flexible(
-                  child: ListView.builder(
-                      itemCount: listaBuscado.length,
-                      itemBuilder: (BuildContext context, int posicao) {
-                        String id = listaBuscado[posicao].primaryKey;
-                        return Card(
-                          elevation: 4,
-                          margin: EdgeInsets.all(4),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: ListTile(
-                            onTap: () {
-                              launchWhatsApp(phone: '${listaBuscado[posicao].telefone}', message: 'Oi, ${listaBuscado[posicao].nome}, entro em contato para tratar da sua consulta de ${DateFormat.d().format(data)}/${DateFormat.M().format(data)}/${DateFormat.y().format(data)}.');
-                            },
-                            leading: CircleAvatar(
-                                child: Text('${listaBuscado[posicao].nome.substring(0,1)}',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'notosans',
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                backgroundColor: Colors.purpleAccent),
-                            title: Text(
-                              '${listaBuscado[posicao].nome}',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: 'notosans',
-                              ),
-                            ),
-                            subtitle: Text(
-                              '${DateFormat.d().format(data)}/${DateFormat.M().format(data)}/${DateFormat.y().format(data)} às ${listaBuscado[posicao].hora}',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: 'notosans',
-                              ),
-                            ),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                IconButton(
-                                  icon: (listaDt[posicao].confirmado) ?
-                                  Icon(Icons.done_outline,
-                                      color: Colors.green)
-                                      :
-                                  Icon(Icons.done,
-                                      color: Colors.grey),
-                                  onPressed: () {
-                                    setState(() {
-                                      if (listaDt[posicao].confirmado == true) {
-                                        Fluttertoast.showToast(
-                                          msg:'Consulta confirmada',
-                                          toastLength: Toast.LENGTH_SHORT,
-                                          timeInSecForIosWeb: 5,
-                                        );
-                                        //envia mensagem ao paciente confirmando a consulta
-                                        launchWhatsApp(phone: '${listaDt[posicao].telefone}', message: 'Oi, ${listaDt[posicao].nome}, sua consulta de ${DateFormat.d().format(listaDt[posicao].data)}/${DateFormat.M().format(listaDt[posicao].data)}/${DateFormat.y().format(listaDt[posicao].data)} está confirmada.');
-                                      } else {
-                                        Fluttertoast.showToast(
-                                          msg:'Consulta não confirmada',
-                                          toastLength: Toast.LENGTH_SHORT,
-                                          timeInSecForIosWeb: 5,
-                                        );
-                                      }
-                                    });
-                                  },
-                                ),
-                                IconButton(
-                                  icon: Icon(Icons.edit),
-                                  color: Colors.green,
-                                  onPressed: () {
-                                    Paciente pacienteEdicao = new Paciente(listaBuscado[posicao].nome, listaBuscado[posicao].telefone,
-                                        listaBuscado[posicao].email, formatarData(listaBuscado[posicao].data), listaBuscado[posicao].hora,
-                                        listaBuscado[posicao].anotacao, listaBuscado[posicao].confirmado);
-                                    //Navigator.push(context, MaterialPageRoute(builder: (context) => Edicao(paciente: pacienteEdicao)));
-                                  }, //=> deleteTx(transactions[index].id),
-                                ),
-                                IconButton(
-                                  icon: Icon(Icons.delete),
-                                  color: Theme.of(context).errorColor,
-                                  onPressed: () {
-                                    _showDialog(
-                                        context, listaBuscado[posicao], posicao);
-                                    //remover(id, posicao);
-                                  }, //=> deleteTx(transactions[index].id),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      }
+            child: listaBuscado.isEmpty ?
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Text('Nenhum atendimento marcado para hoje',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.height/50,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'quicksand',
                   ),
                 ),
+                Lottie.asset(
+                  'assets/images/sad.json',
+                  animate: true,
+                  repeat: true,
+                  reverse: true,
+                  width: 200,
+                  height: 200,
+                  fit: BoxFit.fill,
+                ),
               ],
+            )
+                :
+            Flexible(
+              child: ListView.builder(
+                  itemCount: listaBuscado.length,
+                  itemBuilder: (BuildContext context, int posicao) {
+                    String id = listaBuscado[posicao].primaryKey;
+                    return Card(
+                      elevation: 4,
+                      margin: EdgeInsets.all(4),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: ListTile(
+                        onTap: () {
+                          launchWhatsApp(phone: '${listaBuscado[posicao].telefone}', message: 'Oi, ${listaBuscado[posicao].nome}, entro em contato para tratar da sua consulta de ${DateFormat.d().format(data)}/${DateFormat.M().format(data)}/${DateFormat.y().format(data)}.');
+                        },
+                        leading: CircleAvatar(
+                            child: Text('${listaBuscado[posicao].nome.substring(0,1)}',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'quicksand',
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            backgroundColor: Colors.purpleAccent),
+                        title: Text(
+                          '${listaBuscado[posicao].nome}',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontFamily: 'quicksand',
+                          ),
+                        ),
+                        subtitle: Text(
+                          '${DateFormat.d().format(data)}/${DateFormat.M().format(data)}/${DateFormat.y().format(data)} às ${listaBuscado[posicao].hora}',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontFamily: 'quicksand',
+                          ),
+                        ),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            IconButton(
+                              icon: (listaDt[posicao].confirmado) ?
+                              Icon(Icons.done_outline,
+                                  color: Colors.green)
+                                  :
+                              Icon(Icons.done,
+                                  color: Colors.grey),
+                              onPressed: () {
+                                setState(() {
+                                  if (listaDt[posicao].confirmado == true) {
+                                    Fluttertoast.showToast(
+                                      msg:'Consulta confirmada',
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      timeInSecForIosWeb: 5,
+                                    );
+                                    //envia mensagem ao paciente confirmando a consulta
+                                    launchWhatsApp(phone: '${listaDt[posicao].telefone}', message: 'Oi, ${listaDt[posicao].nome}, sua consulta de ${DateFormat.d().format(listaDt[posicao].data)}/${DateFormat.M().format(listaDt[posicao].data)}/${DateFormat.y().format(listaDt[posicao].data)} está confirmada.');
+                                  } else {
+                                    Fluttertoast.showToast(
+                                      msg:'Consulta não confirmada',
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      timeInSecForIosWeb: 5,
+                                    );
+                                  }
+                                });
+                              },
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.edit),
+                              color: Colors.green,
+                              onPressed: () {
+                                Paciente pacienteEdicao = new Paciente(listaBuscado[posicao].nome, listaBuscado[posicao].telefone,
+                                    listaBuscado[posicao].email, formatarData(listaBuscado[posicao].data), listaBuscado[posicao].hora,
+                                    listaBuscado[posicao].anotacao, listaBuscado[posicao].confirmado);
+                                //Navigator.push(context, MaterialPageRoute(builder: (context) => Edicao(paciente: pacienteEdicao)));
+                              }, //=> deleteTx(transactions[index].id),
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.delete),
+                              color: Theme.of(context).errorColor,
+                              onPressed: () {
+                                _showDialog(
+                                    context, listaBuscado[posicao], posicao);
+                                //remover(id, posicao);
+                              }, //=> deleteTx(transactions[index].id),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }
+              ),
             ),
+
           ),
         ),
       ],

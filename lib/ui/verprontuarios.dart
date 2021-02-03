@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:atendimentos/model/profissional.dart';
+import 'package:atendimentos/ui/anotar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:atendimentos/model/paciente.dart';
@@ -68,15 +69,36 @@ class _VerProntuariosState extends State<VerProntuarios> {
       }
     }
 
-    /*for(int i = 0; i < listaAnotacoes.length; i++) {
+    for(int i = 0; i < listaAnotacoes.length; i++) {
       for(int j = i + 1; j < listaAnotacoes.length; j++) {
         if (equalsIgnoreCase(listaAnotacoes[i].data, listaAnotacoes[j].data) &&
             (equalsIgnoreCase(listaAnotacoes[i].hora, listaAnotacoes[j].hora)) &&
             (equalsIgnoreCase(listaAnotacoes[i].nome, listaAnotacoes[j].nome))) {
-          listaAnotacoes.removeAt(i);
+          listaAnotacoes.removeAt(j);
         }
       }
-    }*/
+    }
+
+    for(int i = 0; i < listaAnotacoes.length; i++) {
+      for(int j = i + 1; j < listaAnotacoes.length; j++) {
+        if (equalsIgnoreCase(listaAnotacoes[i].data, listaAnotacoes[j].data) &&
+            (equalsIgnoreCase(listaAnotacoes[i].hora, listaAnotacoes[j].hora)) &&
+            (equalsIgnoreCase(listaAnotacoes[i].nome, listaAnotacoes[j].nome))) {
+          listaAnotacoes.removeAt(j);
+        }
+      }
+    }
+
+    for(int i = 0; i < listaAnotacoes.length; i++) {
+      for(int j = i + 1; j < listaAnotacoes.length; j++) {
+        if (equalsIgnoreCase(listaAnotacoes[i].data, listaAnotacoes[j].data) &&
+            (equalsIgnoreCase(listaAnotacoes[i].hora, listaAnotacoes[j].hora)) &&
+            (equalsIgnoreCase(listaAnotacoes[i].nome, listaAnotacoes[j].nome))) {
+          listaAnotacoes.removeAt(j);
+        }
+      }
+    }
+
 
     return Scaffold(
       body: Stack(
@@ -91,7 +113,7 @@ class _VerProntuariosState extends State<VerProntuarios> {
               title: Text("Prontuário de ${widget.paciente.nome}",
                 style: TextStyle(
                   color: Colors.white,
-                  fontFamily: 'nanumgothic',
+                  fontFamily: 'quicksand',
                 ),
               ),
               iconTheme: IconThemeData(
@@ -105,7 +127,7 @@ class _VerProntuariosState extends State<VerProntuarios> {
                   fit: BoxFit.cover,
                 ),
               ),
-              width: double.infinity,
+              width: MediaQuery.of(context).size.width,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
@@ -113,8 +135,8 @@ class _VerProntuariosState extends State<VerProntuarios> {
                     children: <Widget>[
                       Text('Não há consultas marcadas.',
                         style: TextStyle(
-                            fontSize: 17.0,
-                            fontFamily: 'notosans',
+                            fontSize: MediaQuery.of(context).size.height/50,
+                            fontFamily: 'quicksand',
                             fontWeight: FontWeight.w500,
                             color: Colors.white
                         ),
@@ -155,18 +177,33 @@ class _VerProntuariosState extends State<VerProntuarios> {
                               title: Text('Consulta de',
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontFamily: 'nanumgothic',
+                                  fontFamily: 'quicksand',
                                 ),
                               ),
                               subtitle: Text('${listaAnotacoes[posicao].data} às ${listaAnotacoes[posicao].hora}',
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontFamily: 'nanumgothic',
+                                  fontFamily: 'quicksand',
                                 ),
                               ),
                               trailing: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
+                                  CircleAvatar(
+                                    child: IconButton(
+                                      icon: Icon(Icons.edit),
+                                      color: Colors.green.shade900,
+                                      onPressed: () {
+                                        Navigator.push(context, MaterialPageRoute(builder:
+                                          (context) => Anotar(paciente: listaAnotacoes[posicao], profissional: widget.profissional)));
+                                        //Navigator.of(context).pop();
+                                      },
+                                    ),
+                                    backgroundColor: Colors.white,
+                                  ),
+                                  SizedBox(
+                                    width: 3.0,
+                                  ),
                                   CircleAvatar(
                                     child: IconButton(
                                       icon: Icon(Icons.picture_as_pdf),
@@ -175,7 +212,7 @@ class _VerProntuariosState extends State<VerProntuarios> {
                                         reportView(context, listaAnotacoes[posicao]);
                                         //Navigator.push(context, MaterialPageRoute(builder:
                                         //  (context) => reportView(context, listaAnotacoes[posicao])));
-                                        //Navigator.of(context).pop();
+                                        Navigator.of(context).pop();
                                       },
                                     ),
                                     backgroundColor: Colors.white,

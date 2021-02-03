@@ -10,6 +10,8 @@ import 'package:flutter/services.dart';
 import 'package:liquid_ui/liquid_ui.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 import 'package:atendimentos/sign_in.dart';
+import 'package:lottie/lottie.dart';
+import 'dart:ui' as ui;
 //import 'package:sticky_headers/sticky_headers/widget.dart';
 
 final FirebaseDatabase db = FirebaseDatabase.instance;
@@ -22,7 +24,7 @@ class FirstScreen extends StatefulWidget {
 
 class _FirstScreenState extends State<FirstScreen> {
 
-  Profissional profissional = new Profissional(name, "", email, "", usuario, false);
+  Profissional profissional = new Profissional(name, "", email, "", usuario, imageUrl, "", "", false);
   List<Paciente> listaPacientes = List();
   List<Profissional> listaProfissional = List();
   DatabaseReference dbPacientes;
@@ -46,7 +48,8 @@ class _FirstScreenState extends State<FirstScreen> {
     dbProfissional.once().then((DataSnapshot snapshot) {
       Map<dynamic, dynamic> values = snapshot.value;
       Profissional prof = new Profissional(values['nome'], values['telefone'],
-          values['email'], values['areaAtuacao'], values['usuario'], values['assinante']);
+          values['email'], values['areaAtuacao'], values['usuario'],
+          values['imageURL'], values['facebook'], values['instagram'], values['assinante']);
       if(prof.nome != null) {
         listaProfissional.add(prof);
       }
@@ -78,10 +81,6 @@ class _FirstScreenState extends State<FirstScreen> {
         presente = true;
       }
     }
-
-    /*for(int i = 0; i < 6; i++) {
-      listaPacientes.add(profissional);
-    }*/
 
     return SideMenu(
       key: _endSideMenuKey,
@@ -115,7 +114,7 @@ class _FirstScreenState extends State<FirstScreen> {
                   ),
                   title: Text('Atendimentos',
                     style: TextStyle(
-                      fontFamily: 'nanumgothic'
+                        fontFamily: 'quicksand'
                     ),
                   ),
                 ),
@@ -126,133 +125,179 @@ class _FirstScreenState extends State<FirstScreen> {
                       fit: BoxFit.cover,
                     ),
                   ),
-                  child: Center(
-                      child: presente == false ?
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            '\nCadastre-se para ter acesso aos recursos do aplicativo.',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 17.0,
-                              shadows: <Shadow>[
-                                Shadow(
-                                  offset: Offset(1.0, 1.0),
-                                  blurRadius: 3.0,
-                                  color: Color.fromARGB(255, 0, 0, 0),
-                                ),
-                                Shadow(
-                                  offset: Offset(2.0, 1.0),
-                                  blurRadius: 8.0,
-                                  color: Color.fromARGB(255, 0, 0, 0),
-                                ),
-                              ],
-                            ),
-                          ),
-                          FlatButton(
-                            color: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                color: Colors.black,
-                                width: 1,
-                                style: BorderStyle.solid
-                              ),
-                            borderRadius: BorderRadius.circular(40)
-                          ),
-                            onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) => Cadastro(profissional: profissional)),
-                              );
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                              child: Container(
-                                color: Colors.white,
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    //Image(image: AssetImage("assets/images/google_logo.png"), height: 35.0),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 0),
-                                      child: Text(
-                                        'Cadastre-se',
-                                        style: TextStyle(
-                                          fontSize: 15,
-                                          color: Colors.black,
-                                        ),
+                  child: Stack(
+                      fit: StackFit.expand,
+                      children: <Widget>[
+                  Container(
+                  height: MediaQuery.of(context).size.height/1,
+                  width: MediaQuery.of(context).size.width/1,
+                  decoration: new BoxDecoration(color: Colors.black.withOpacity(0.0)),
+                  child: new BackdropFilter(
+                    filter: new ui.ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+                    child: new Container(
+                      decoration: new BoxDecoration(color: Colors.transparent.withOpacity(0.1)),
+                    ),
+                  ),
+                ),
+                        Center(
+                            child: presente == false ?
+                            //Cadastro()
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  '\nCadastre-se para ter acesso aos recursos do aplicativo.',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: MediaQuery.of(context).size.height/50,
+                                    fontFamily: 'quicksand',
+                                    shadows: <Shadow>[
+                                      Shadow(
+                                        offset: Offset(1.0, 1.0),
+                                        blurRadius: 3.0,
+                                        color: Color.fromARGB(255, 0, 0, 0),
                                       ),
-                                    )
+                                      Shadow(
+                                        offset: Offset(2.0, 1.0),
+                                        blurRadius: 8.0,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                FlatButton(
+                                  color: Colors.black,
+                                  shape: RoundedRectangleBorder(
+                                    side: BorderSide(
+                                        color: Colors.black,
+                                        width: 1,
+                                        style: BorderStyle.solid
+                                    ),
+                                    borderRadius: BorderRadius.circular(40),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.push(context, MaterialPageRoute(
+                                        builder: (context) => Cadastro(profissional: profissional)),
+                                    );
+                                  },
+                                  child: Text(
+                                    "Cadastre-se",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: MediaQuery.of(context).size.height/50,
+                                      fontFamily: 'quicksand',
+                                      shadows: <Shadow>[
+                                        Shadow(
+                                          offset: Offset(1.0, 1.0),
+                                          blurRadius: 3.0,
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                        ),
+                                        Shadow(
+                                          offset: Offset(2.0, 1.0),
+                                          blurRadius: 8.0,
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              ],
+                            )
+                                :
+                            listaPacientes.length <= 0 ?
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Text('Nenhum atendimento marcado',
+                                      style: TextStyle(
+                                        fontSize: MediaQuery.of(context).size.height/50,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                        fontFamily: 'quicksand',
+                                      ),
+                                    ),
+                                    Center(
+                                      child: Lottie.asset(
+                                        'assets/images/sad.json',
+                                        animate: true,
+                                        repeat: true,
+                                        reverse: true,
+                                        width: 200,
+                                        height: 200,
+                                        fit: BoxFit.fill,
+                                      ),
+                                    ),
                                   ],
                                 ),
-                              ),
-                            ),
-                          )
-                        ],
-                      )
-                          :
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Flexible(
-                            child: ListView.builder(
-                                itemCount: listaPacientes.length,
-                                itemBuilder: (BuildContext context, int posicao) {
-                                  return Card(
-                                    shadowColor: Color(0xFF333366),
-                                    elevation: 4,
-                                    color: Colors.transparent,
-                                    margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(16),
-                                      side: BorderSide(width: 0.5, color: new Color(0xFF333366)),
-                                    ),
-                                    child: ListTile(
-                                      onTap: () {},
-                                      leading: CircleAvatar(
-                                          child: Text(
-                                            '${listaPacientes[posicao].nome.substring(0, 1).toUpperCase()}',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontFamily: 'nanumgothic',
-                                              fontWeight: FontWeight.w700,
+                              ],
+                            )
+                                :
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Flexible(
+                                  child: ListView.builder(
+                                      itemCount: listaPacientes.length,
+                                      itemBuilder: (BuildContext context, int posicao) {
+                                        return Card(
+                                          shadowColor: Color(0xFF333366),
+                                          elevation: 4,
+                                          color: Colors.transparent,
+                                          margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(16),
+                                            side: BorderSide(width: 0.5, color: new Color(0xFF333366)),
+                                          ),
+                                          child: ListTile(
+                                            onTap: () {},
+                                            leading: CircleAvatar(
+                                                child: Text(
+                                                  '${listaPacientes[posicao].nome.substring(0, 1).toUpperCase()}',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontFamily: 'quicksand',
+                                                    fontWeight: FontWeight.w700,
+                                                  ),
+                                                ),
+                                                backgroundColor: Colors.black),
+                                            title: Text(
+                                              '${listaPacientes[posicao].nome}',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontFamily: 'quicksand',
+                                                fontWeight: FontWeight.w300,
+                                              ),
+                                            ),
+                                            subtitle: Text(
+                                              '${listaPacientes[posicao].data} às ${listaPacientes[posicao].hora}',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontFamily: 'quicksand',
+                                                fontWeight: FontWeight.w100,
+                                              ),
                                             ),
                                           ),
-                                          backgroundColor: Colors.black),
-                                      title: Text(
-                                        '${listaPacientes[posicao].nome}',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontFamily: 'nanumgothic',
-                                          fontWeight: FontWeight.w300,
-                                        ),
-                                      ),
-                                      subtitle: Text(
-                                        '${listaPacientes[posicao].data} às ${listaPacientes[posicao].hora}',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontFamily: 'nanumgothic',
-                                          fontWeight: FontWeight.w100,
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                }),
-                          ),
-                          //profissional.assinante == false ?
-                          /*Text(
+                                        );
+                                      }),
+                                ),
+                                //profissional.assinante == false ?
+                                /*Text(
                             '\nAQUI SERÁ O CARD PARA ASSINATURA',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 17.0,
+                              fontSize: MediaQuery.of(context).size.height/50,
                               shadows: <Shadow>[
                                 Shadow(
                                   offset: Offset(1.0, 1.0),
@@ -300,8 +345,10 @@ class _FirstScreenState extends State<FirstScreen> {
                               ),
                             ),
                           )*/
-                        ],
-                      )
+                              ],
+                            )
+                        ),
+                  ],
                   ),
                 ),
               ),
@@ -345,7 +392,11 @@ class _FirstScreenState extends State<FirstScreen> {
                 SizedBox(height: 16.0),
                 LText(
                   "\l.lead{Bem-vindo(a)},\n\l.lead.bold{$name}",
-                  baseStyle: TextStyle(color: Colors.white),
+                  baseStyle: TextStyle(
+                    color: Colors.white,
+                    fontSize: MediaQuery.of(context).size.height/55,
+                    fontFamily: 'quicksand',
+                  ),
                 ),
                 SizedBox(height: 20.0),
               ],
@@ -359,7 +410,8 @@ class _FirstScreenState extends State<FirstScreen> {
             leading: Icon(Icons.home, size: 20.0, color: Colors.white),
             title: Text("Atendimentos de hoje",
               style: TextStyle(
-                  fontSize: 13.0
+                fontSize: MediaQuery.of(context).size.height/55,
+                fontFamily: 'quicksand',
               ),
             ),
             textColor: Colors.white,
@@ -371,7 +423,12 @@ class _FirstScreenState extends State<FirstScreen> {
               Navigator.push(context, MaterialPageRoute(builder: (context) => Agendar(profissional: profissional)));
             },
             leading: Icon(Icons.add_circle, size: 20.0, color: Colors.white),
-            title: Text("Agendar atendimento"),
+            title: Text("Agendar atendimento",
+              style: TextStyle(
+                fontSize: MediaQuery.of(context).size.height/55,
+                fontFamily: 'quicksand',
+              ),
+            ),
             textColor: Colors.white,
             dense: true,
           ),
@@ -382,7 +439,12 @@ class _FirstScreenState extends State<FirstScreen> {
             },
             leading:
             Icon(Icons.assignment, size: 20.0, color: Colors.white),
-            title: Text("Anotações/Prontuários"),
+            title: Text("Anotações/Prontuários",
+              style: TextStyle(
+                fontSize: MediaQuery.of(context).size.height/55,
+                fontFamily: 'quicksand',
+              ),
+            ),
             textColor: Colors.white,
             dense: true,
           ),
@@ -394,7 +456,12 @@ class _FirstScreenState extends State<FirstScreen> {
               Navigator.of(context).pop();
             },
             leading: Icon(Icons.exit_to_app, size: 20.0, color: Colors.white),
-            title: Text("Sair"),
+            title: Text("Sair",
+              style: TextStyle(
+                fontSize: MediaQuery.of(context).size.height/55,
+                fontFamily: 'quicksand',
+              ),
+            ),
             textColor: Colors.white,
             dense: true,
           ),

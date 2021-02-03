@@ -7,9 +7,12 @@ class Profissional {
   String email;
   String areaAtuacao;
   String usuario;
+  String imageURL;
+  String facebook;
+  String instagram;
   bool assinante;
 
-  Profissional(this.nome, this.telefone, this.email, this.areaAtuacao, this.usuario, this.assinante);
+  Profissional(this.nome, this.telefone, this.email, this.areaAtuacao, this.usuario, this.imageURL, this.facebook, this.instagram, this.assinante);
 
   Profissional.fromSnapshot(DataSnapshot snapshot) :
         primaryKey = snapshot.key,
@@ -18,6 +21,9 @@ class Profissional {
         email = snapshot.value['email'],
         areaAtuacao = snapshot.value['areaAtuacao'],
         usuario = snapshot.value['usuario'],
+        imageURL = snapshot.value['imageURL'],
+        facebook = snapshot.value['facebook'],
+        instagram = snapshot.value['instagram'],
         assinante = snapshot.value['assinante'];
 
   toJson() {
@@ -27,6 +33,9 @@ class Profissional {
       "email" : email,
       "areaAtuacao" : areaAtuacao,
       "usuario" : usuario,
+      "imageURL" : imageURL,
+      "facebook" : facebook,
+      "instagram" : instagram,
       "assinante" : assinante
     };
   }

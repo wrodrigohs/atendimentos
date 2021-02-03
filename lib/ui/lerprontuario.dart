@@ -42,7 +42,7 @@ class LerProntuario extends StatelessWidget {
         title: Text("${paciente.nome}",
           style: TextStyle(
               color: Colors.white,
-              fontFamily: 'notosans',
+              fontFamily: 'quicksand',
               fontWeight: FontWeight.bold
           ),
         ),
@@ -67,8 +67,8 @@ class LerProntuario extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Text('$anotacao',
                 style: TextStyle(
-                    fontSize: 15.0,
-                    fontFamily: 'notosans',
+                    fontSize: MediaQuery.of(context).size.height/50,
+                    fontFamily: 'quicksand',
                     color: Colors.white
                 ),
               ),/*Linkify(
@@ -82,8 +82,8 @@ class LerProntuario extends StatelessWidget {
                 text: '\n${paciente.anotacao}',
                 //textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: 15.0,
-                    fontFamily: 'notosans',
+                    fontSize: MediaQuery.of(context).size.height/50,
+                    fontFamily: 'quicksand',
                     color: Colors.white
                 ),
                 linkStyle: TextStyle(
@@ -119,8 +119,8 @@ class LerProntuario extends StatelessWidget {
                       "ATENÇÃO",
                       style: TextStyle(
                           color: Colors.black,
-                          fontSize: 18.0,
-                          fontFamily: 'notosans'
+                          fontSize: MediaQuery.of(context).size.height/50,
+                          fontFamily: 'quicksand'
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -143,7 +143,7 @@ class LerProntuario extends StatelessWidget {
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Colors.black,
-                                fontFamily: 'notosans'
+                                fontFamily: 'quicksand'
                             ),
                           ),
                         ),

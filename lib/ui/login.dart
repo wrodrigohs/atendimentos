@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui' as ui;
 
 import 'package:apple_sign_in/apple_sign_in.dart';
 import 'package:atendimentos/ui/firstscreen.dart';
@@ -28,28 +29,24 @@ class _LoginPageState extends State<LoginPage> {
             fit: BoxFit.cover,
           ),
         ),
-        child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Platform.isIOS ?
-              Container(
-                height: MediaQuery.of(context).size.height/15,
-                width: MediaQuery.of(context).size.width/1.5,
-                child: AppleSignInButton(
-                  //style: ButtonStyle.black,
-                  type: ButtonType.continueButton,
-                  onPressed: () {
-                    //initiateSignInWithApple();
-                  },
+        child: Stack(
+          fit: StackFit.expand,
+          children: <Widget>[
+            Container(
+              height: MediaQuery.of(context).size.height/1,
+              width: MediaQuery.of(context).size.width/1,
+              decoration: new BoxDecoration(color: Colors.black.withOpacity(0.2)),
+              child: new BackdropFilter(
+                filter: new ui.ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+                child: new Container(
+                  decoration: new BoxDecoration(color: Colors.grey.withOpacity(0.2)),
                 ),
-              )
-                  :
-              //FlutterLogo(size: 150),
-              _signInButton(),
-            ],
-          ),
+              ),
+            ),
+            Center(
+              child: _signInButton(),
+            ),
+          ],
         ),
       ),
     );
@@ -64,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
               width: 1,
               style: BorderStyle.solid
           ),
-      borderRadius: BorderRadius.circular(40)
+          borderRadius: BorderRadius.circular(40)
       ),
       onPressed: () {
         signInWithGoogle().then((result) {
@@ -87,13 +84,14 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Image(image: AssetImage("assets/images/google_logo.png"), height: 35.0),
+              Image(image: AssetImage("assets/images/google_logo.png"), height: 25.0),
               Padding(
                 padding: const EdgeInsets.only(left: 10),
                 child: Text(
                   'Login com Google',
                   style: TextStyle(
                     fontSize: 15,
+                    fontFamily: 'quicksand',
                     color: Colors.black,
                   ),
                 ),

@@ -88,9 +88,9 @@ class _AgendarState extends State<Agendar> {
             elevation: 0.0,
             centerTitle: true,
             title: Text('Agendar atendimento',
-                style: TextStyle(
-                fontFamily: 'nanumgothic',
-            ),
+              style: TextStyle(
+                fontFamily: 'quicksand',
+              ),
             ),
           ),
           body: Container(
@@ -118,8 +118,9 @@ class _AgendarState extends State<Agendar> {
                               leading: Icon(Icons.account_box, color: Colors.white),
                               title: TextFormField(
                                 style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'nanumgothic',
+                                  color: Colors.white,
+                                  fontFamily: 'quicksand',
+                                  fontSize: MediaQuery.of(context).size.height/50,
                                 ),
                                 controller: _nomeController,
                                 onSaved: (nome) => paciente.nome = nome,
@@ -142,9 +143,9 @@ class _AgendarState extends State<Agendar> {
                                     new BorderSide(color: Colors.white, width: 2.0),
                                   ),
                                   hintText: "Nome e sobrenome",
-                                  hintStyle: TextStyle(color: Colors.white, fontFamily: 'nanumgothic', ),
+                                  hintStyle: TextStyle(color: Colors.white, fontFamily: 'quicksand', fontSize: MediaQuery.of(context).size.height/50,),
                                   labelText: "Nome",
-                                  labelStyle: TextStyle(color: Colors.white, fontFamily: 'nanumgothic', ),
+                                  labelStyle: TextStyle(color: Colors.white, fontFamily: 'quicksand', fontSize: MediaQuery.of(context).size.height/50,),
                                   errorBorder: OutlineInputBorder(
                                     borderSide:
                                     const BorderSide(color: Colors.red, width: 3.0),
@@ -154,52 +155,14 @@ class _AgendarState extends State<Agendar> {
                               ),
                             ),
                           ),
-                          /*ListTile(
-                            leading: Icon(Icons.phone, color: Colors.white),
-                            title: TextFormField(
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'nanumgothic',
-                              ),
-                              controller: _telefoneController,
-                              onSaved: (tel) => paciente.telefone = tel,
-                              //validator: (nome) => nome.length < 3 ? "Deve ter ao menos 3 caracteres." : null,
-                              cursorColor: Colors.white,
-                              onFieldSubmitted: (_) {
-                                setState(() {
-                                  paciente.telefone = _telefoneController.text.toString();
-                                });
-                              },
-                              decoration: InputDecoration(
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                  const BorderSide(color: Colors.white, width: 3.0),
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                                enabledBorder: new OutlineInputBorder(
-                                  borderRadius: new BorderRadius.circular(8.0),
-                                  borderSide:
-                                  new BorderSide(color: Colors.white, width: 2.0),
-                                ),
-                                hintText: "+xx xx xxxxx xxxx",
-                                hintStyle: TextStyle(color: Colors.white, fontFamily: 'nanumgothic', ),
-                                labelText: "WhatsApp/Telefone",
-                                labelStyle: TextStyle(color: Colors.white, fontFamily: 'nanumgothic', ),
-                                errorBorder: OutlineInputBorder(
-                                  borderSide:
-                                  const BorderSide(color: Colors.red, width: 3.0),
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                              ),
-                            ),
-                          ),*/
                           ListTile(
                             leading: Icon(Icons.phone, color: Colors.white),
                             title: InternationalPhoneNumberInput(
                               //maxLength: 15,
                               textStyle: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'nanumgothic',
+                                color: Colors.white,
+                                fontFamily: 'quicksand',
+                                fontSize: MediaQuery.of(context).size.height/50,
                               ),
                               textFieldController: _telefoneController,
                               //autoValidate: false,
@@ -218,15 +181,15 @@ class _AgendarState extends State<Agendar> {
                                 ),
                                 hintText: "xx xxxxx xxxx",
                                 hintStyle: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'nanumgothic',
-                                    
+                                  color: Colors.white,
+                                  fontFamily: 'quicksand',
+                                  fontSize: MediaQuery.of(context).size.height/50,
                                 ),
                                 labelText: "WhatsApp/Telefone",
                                 labelStyle: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'nanumgothic',
-                                    
+                                  color: Colors.white,
+                                  fontFamily: 'quicksand',
+                                  fontSize: MediaQuery.of(context).size.height/50,
                                 ),
                                 errorBorder: OutlineInputBorder(
                                   borderSide:
@@ -245,9 +208,9 @@ class _AgendarState extends State<Agendar> {
                             leading: Icon(Icons.alternate_email, color: Colors.white),
                             title: TextFormField(
                               style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'nanumgothic',
-                                  
+                                color: Colors.white,
+                                fontFamily: 'quicksand',
+                                fontSize: MediaQuery.of(context).size.height/50,
                               ),
                               controller: _emailController,
                               onSaved: (email) => paciente.email = email,
@@ -272,15 +235,15 @@ class _AgendarState extends State<Agendar> {
                                 ),
                                 hintText: "Digite seu e-mail",
                                 hintStyle: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'nanumgothic',
-                                    
+                                  color: Colors.white,
+                                  fontSize: MediaQuery.of(context).size.height/50,
+                                  fontFamily: 'quicksand',
                                 ),
                                 labelText: "E-mail",
                                 labelStyle: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'nanumgothic',
-                                    
+                                  color: Colors.white,
+                                  fontSize: MediaQuery.of(context).size.height/50,
+                                  fontFamily: 'quicksand',
                                 ),
                                 errorBorder: OutlineInputBorder(
                                   borderSide:
@@ -305,9 +268,9 @@ class _AgendarState extends State<Agendar> {
                                           _dataEscolhida)}/${DateFormat.y().format(
                                           _dataEscolhida)}',
                                       style: TextStyle(
-                                          color: Colors.white,
-                                          fontFamily: 'nanumgothic',
-                                          
+                                        color: Colors.white,
+                                        fontSize: MediaQuery.of(context).size.height/50,
+                                        fontFamily: 'quicksand',
                                       ),
                                     ),
                                   ),
@@ -317,9 +280,9 @@ class _AgendarState extends State<Agendar> {
                                     child: Text(
                                       'Escolher data',
                                       style: TextStyle(
-                                          color: Colors.white,
-                                          fontFamily: 'nanumgothic',
-                                          
+                                        color: Colors.white,
+                                        fontSize: MediaQuery.of(context).size.height/60,
+                                        fontFamily: 'quicksand',
                                       ),
                                     ),
                                     shape: RoundedRectangleBorder(
@@ -352,9 +315,9 @@ class _AgendarState extends State<Agendar> {
                                           ? 'Hora da consulta'
                                           : '$horaSelecionada',
                                       style: TextStyle(
-                                          color: Colors.white,
-                                          fontFamily: 'nanumgothic',
-                                          
+                                        color: Colors.white,
+                                        fontSize: MediaQuery.of(context).size.height/50,
+                                        fontFamily: 'quicksand',
                                       ),
                                     ),
                                   ),
@@ -364,9 +327,9 @@ class _AgendarState extends State<Agendar> {
                                     child: Text(
                                       'Escolher hora',
                                       style: TextStyle(
-                                          color: Colors.white,
-                                          fontFamily: 'nanumgothic',
-                                          
+                                        color: Colors.white,
+                                        fontSize: MediaQuery.of(context).size.height/60,
+                                        fontFamily: 'quicksand',
                                       ),
                                     ),
                                     shape: RoundedRectangleBorder(
@@ -407,18 +370,34 @@ class _AgendarState extends State<Agendar> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: FlatButton(
-                              color: Colors.white,
+                              color: Colors.black,
                               shape: RoundedRectangleBorder(
-                                  side: BorderSide(
-                                      color: Colors.black,
-                                      width: 1,
-                                      style: BorderStyle.solid
-                                  ),
-                                  borderRadius: BorderRadius.circular(40)
+                                side: BorderSide(
+                                    color: Colors.black,
+                                    width: 1,
+                                    style: BorderStyle.solid
+                                ),
+                                borderRadius: BorderRadius.circular(40),
                               ),
                               child: Text(
                                 "Marcar atendimento",
-                                style: TextStyle(color: Colors.black),
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: MediaQuery.of(context).size.height/50,
+                                  fontFamily: 'quicksand',
+                                  shadows: <Shadow>[
+                                    Shadow(
+                                      offset: Offset(1.0, 1.0),
+                                      blurRadius: 3.0,
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                    ),
+                                    Shadow(
+                                      offset: Offset(2.0, 1.0),
+                                      blurRadius: 8.0,
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                    ),
+                                  ],
+                                ),
                               ),
                               onPressed: () {
                                 setState(() {
@@ -742,7 +721,7 @@ class _AgendarState extends State<Agendar> {
                           child: Text(
                             'OK',
                             style: TextStyle(
-                              fontFamily: 'nanumgothic',
+                              fontFamily: 'quicksand',
                             ),
                           ),
                           onPressed: () {
