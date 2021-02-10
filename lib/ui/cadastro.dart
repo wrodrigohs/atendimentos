@@ -2,7 +2,6 @@ import 'package:atendimentos/model/profissional.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'dart:ui' as ui;
@@ -20,9 +19,10 @@ class Cadastro extends StatefulWidget {
 class _CadastroState extends State<Cadastro> {
   Profissional profissional;
   DatabaseReference dbReference;
+  List<Profissional> listaProfissional = List();
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  List<Profissional> listaProfissional = List();
+
   final TextEditingController _nomeController = TextEditingController();
   final TextEditingController _telefoneController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -34,10 +34,9 @@ class _CadastroState extends State<Cadastro> {
   String paisOrigem = 'BR';
   String facebook;
   String instagram;
+  String tel;
   //PhoneNumber numero = PhoneNumber(isoCode: 'BR');
   //var maskTextInputFormatter = MaskTextInputFormatter(mask: "xxxxxxxxxxx", filter: {"x": RegExp(r'[0-9]')});
-
-  TimeOfDay _time = TimeOfDay.now();
 
   @override
   void initState() {
@@ -52,11 +51,12 @@ class _CadastroState extends State<Cadastro> {
     _facebookController.text = "https://www.facebook.com/";
     _instagramController.text = "https://www.instagram.com/";
     //paciente = new Paciente("", "", "", "", "", "", false);
-    dbReference = db.reference().child('${widget.profissional.usuario}');
+
+    dbReference = db.reference().child('atendimentos');
     dbReference.onChildAdded.listen(_gravar);
     dbReference.onChildChanged.listen(_update);
     dbReference.once().then((DataSnapshot snapshot) {
-      Map<dynamic, dynamic> values = snapshot.value;
+      //Map<dynamic, dynamic> values = snapshot.value;
       /*Paciente paciente = new Paciente(
           values['nome'], values['telefone'], values['email'],
           values['data'], values['hora'], values['anotacao'], values['confirmado']);
@@ -92,7 +92,7 @@ class _CadastroState extends State<Cadastro> {
           body: Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/images/homebg.jpg"),
+                image: AssetImage("assets/images/ceu.jpg"),
                 fit: BoxFit.cover,
               ),
             ),
@@ -287,8 +287,7 @@ class _CadastroState extends State<Cadastro> {
                                 countries: ['BR'],//, 'PT', 'US', 'GB-NIR', 'ES', 'GB'],
                                 locale: 'BR',
                                 onInputChanged: (phone) {
-                                  profissional.telefone = '${phone.dialCode.toString()}' +
-                                      '${_telefoneController.text}';
+                                  tel = '${phone.dialCode.toString()}' + '${_telefoneController.text}';
                                 },
                               ),
                             ),
@@ -675,7 +674,7 @@ class _CadastroState extends State<Cadastro> {
                                       formKey.currentState.save();
                                       Profissional pro = new Profissional(
                                           profissional.nome,
-                                          profissional.telefone,
+                                          tel,
                                           profissional.email,
                                           profissional.areaAtuacao,
                                           profissional.usuario,

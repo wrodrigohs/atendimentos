@@ -1,10 +1,8 @@
 import 'package:atendimentos/model/paciente.dart';
 import 'package:atendimentos/model/profissional.dart';
-import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
@@ -25,9 +23,12 @@ class _AgendarState extends State<Agendar> {
   Paciente paciente;
   DatabaseReference dbReference;
   DateTime _dataEscolhida;
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   List<Paciente> listaPacientes = List();
-  final _nomeController = TextEditingController();
+
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  final TextEditingController _nomeController = TextEditingController();
   TextEditingController _telefoneController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
 
@@ -55,7 +56,7 @@ class _AgendarState extends State<Agendar> {
     }
 
     paciente = new Paciente("", "", "", "", "", "", false);
-    dbReference = db.reference().child('${widget.profissional.usuario}/pacientes');
+    dbReference = db.reference().child('atendimentos/${widget.profissional.usuario}/pacientes');
     dbReference.onChildAdded.listen(_gravar);
     dbReference.onChildChanged.listen(_update);
     dbReference.once().then((DataSnapshot snapshot) {
@@ -80,6 +81,7 @@ class _AgendarState extends State<Agendar> {
     double distancia = AppBar().preferredSize.height + 40;
 
     return Scaffold(
+      key: _scaffoldKey,
       body: Stack(children: <Widget>[
         Scaffold(
           extendBodyBehindAppBar: true,
@@ -142,7 +144,7 @@ class _AgendarState extends State<Agendar> {
                                     onSaved: (nome) => paciente.nome = nome,
                                     validator: (nome) => nome.length < 3 ? "Deve ter ao menos 3 caracteres." : null,
                                     cursorColor: Colors.white,
-                                    keyboardType: TextInputType.name,
+                                    keyboardType: TextInputType.text,
                                     onFieldSubmitted: (_) {
                                       setState(() {
                                         paciente.nome = _nomeController.text.toString();
@@ -160,9 +162,17 @@ class _AgendarState extends State<Agendar> {
                                         new BorderSide(color: Colors.white, width: 2.0),
                                       ),
                                       hintText: "Nome e sobrenome",
-                                      hintStyle: TextStyle(color: Colors.white, fontFamily: 'quicksand', fontSize: MediaQuery.of(context).size.height/50,),
+                                      hintStyle: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'quicksand',
+                                        fontSize: MediaQuery.of(context).size.height/50,
+                                      ),
                                       labelText: "Nome",
-                                      labelStyle: TextStyle(color: Colors.white, fontFamily: 'quicksand', fontSize: MediaQuery.of(context).size.height/50,),
+                                      labelStyle: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'quicksand',
+                                        fontSize: MediaQuery.of(context).size.height/50,
+                                      ),
                                       errorBorder: OutlineInputBorder(
                                         borderSide:
                                         const BorderSide(color: Colors.red, width: 3.0),
@@ -286,8 +296,8 @@ class _AgendarState extends State<Agendar> {
                                               _dataEscolhida)}',
                                           style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: MediaQuery.of(context).size.height/50,
                                             fontFamily: 'quicksand',
+                                            fontSize: MediaQuery.of(context).size.height/50,
                                           ),
                                         ),
                                       ),
@@ -298,8 +308,8 @@ class _AgendarState extends State<Agendar> {
                                           'Escolher data',
                                           style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: MediaQuery.of(context).size.height/60,
                                             fontFamily: 'quicksand',
+                                            fontSize: MediaQuery.of(context).size.height/60,
                                           ),
                                         ),
                                         shape: RoundedRectangleBorder(
@@ -333,8 +343,8 @@ class _AgendarState extends State<Agendar> {
                                               : '$horaSelecionada',
                                           style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: MediaQuery.of(context).size.height/50,
                                             fontFamily: 'quicksand',
+                                            fontSize: MediaQuery.of(context).size.height/50,
                                           ),
                                         ),
                                       ),
@@ -345,8 +355,8 @@ class _AgendarState extends State<Agendar> {
                                           'Escolher hora',
                                           style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: MediaQuery.of(context).size.height/60,
                                             fontFamily: 'quicksand',
+                                            fontSize: MediaQuery.of(context).size.height/60,
                                           ),
                                         ),
                                         shape: RoundedRectangleBorder(
@@ -359,7 +369,28 @@ class _AgendarState extends State<Agendar> {
                                         ),
                                         onPressed: () {
                                           setState(() {
-                                            Navigator.of(context).push(
+                                            if(dataString == '' || dataString == null || dataString.isEmpty) {
+                                              WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
+                                                  SnackBar(
+                                                    duration: Duration(seconds: 2),
+                                                    content: Text('Você deve escolher uma data antes',
+                                                      textAlign: TextAlign.center,
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontFamily: 'quicksand',
+                                                        fontSize: MediaQuery.of(context).size.height/50,
+                                                      ),
+                                                    ),
+                                                    backgroundColor: Colors.black,
+                                                    behavior: SnackBarBehavior.floating,
+                                                  )
+                                              )
+                                              );
+                                              return;
+                                            }
+                                            _showDialog(context, dataString);
+                                            //verHorasDisponiveis();
+                                            /*Navigator.of(context).push(
                                               showPicker(
                                                 accentColor: Theme.of(context).accentColor,
                                                 blurredBackground: true,
@@ -374,7 +405,7 @@ class _AgendarState extends State<Agendar> {
                                                   //print(dateTime);
                                                 },
                                               ),
-                                            );
+                                            );*/
                                             //inputTimeSelect();
                                           });
                                         },
@@ -418,19 +449,41 @@ class _AgendarState extends State<Agendar> {
                                   onPressed: () {
                                     setState(() {
                                       if(dataString == '' || dataString == null || dataString.isEmpty) {
-                                        Fluttertoast.showToast(
-                                          msg: 'Você deve escolher uma data.',
-                                          toastLength: Toast.LENGTH_SHORT,
-                                          timeInSecForIosWeb: 5,
+                                        WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
+                                            SnackBar(
+                                              duration: Duration(seconds: 2),
+                                              content: Text('Você deve escolher uma data antes',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontFamily: 'quicksand',
+                                                  fontSize: MediaQuery.of(context).size.height/50,
+                                                ),
+                                              ),
+                                              backgroundColor: Colors.black,
+                                              behavior: SnackBarBehavior.floating,
+                                            )
+                                        )
                                         );
                                         return;
                                       }
 
                                       if(horaSelecionada == '' || horaSelecionada == null || horaSelecionada.isEmpty) {
-                                        Fluttertoast.showToast(
-                                          msg: 'Você deve escolher um horário.',
-                                          toastLength: Toast.LENGTH_SHORT,
-                                          timeInSecForIosWeb: 5,
+                                        WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
+                                            SnackBar(
+                                              duration: Duration(seconds: 2),
+                                              content: Text('Você deve escolher um horário',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontFamily: 'quicksand',
+                                                  fontSize: MediaQuery.of(context).size.height/50,
+                                                ),
+                                              ),
+                                              backgroundColor: Colors.black,
+                                              behavior: SnackBarBehavior.floating,
+                                            )
+                                        )
                                         );
                                         return;
                                       }
@@ -441,9 +494,11 @@ class _AgendarState extends State<Agendar> {
                                             _nomeController.text.toString(),
                                             tel,
                                             _emailController.text.toString(),
-                                            dataString, horaSelecionada, "Anotações sobre o atendimento de ${_nomeController.text.toString()} no dia $dataString às $horaSelecionada\n\n", false);
+                                            dataString, horaSelecionada,
+                                            "Anotações sobre o atendimento de ${_nomeController.text.toString()} no dia $dataString às $horaSelecionada\n\n",
+                                            false);
 
-                                        validar(paciente);
+                                        _submit(paciente);
                                       }
                                     });
                                   },
@@ -482,8 +537,6 @@ class _AgendarState extends State<Agendar> {
   }
 
   void updatePaciente(Paciente paciente) {
-    //Toggle completed
-    //paciente.completed = !paciente.completed;
     if (paciente != null) {
       dbReference.child(paciente.primaryKey).set(paciente.toJson());
     }
@@ -493,9 +546,7 @@ class _AgendarState extends State<Agendar> {
     final FormState form = formKey.currentState;
     if (form.validate()) {
       form.save();
-      //form.reset();
 
-      //Paciente paciente = new Paciente(_nomeController.text.toString(), dia, mes, ano, dropdownValue);
       listaPacientes.add(paciente);
       //cria novo paciente a cada push
       dbReference.push().set(paciente.toJson());
@@ -507,29 +558,24 @@ class _AgendarState extends State<Agendar> {
     _dataEscolhida = null;
     horaSelecionada = null;
 
-    Fluttertoast.showToast(
-      msg: 'Consulta marcada.',
-      toastLength: Toast.LENGTH_SHORT,
-      timeInSecForIosWeb: 5,
+    WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          duration: Duration(seconds: 2),
+          content: Text('Consulta marcada.',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'quicksand',
+              fontSize: MediaQuery.of(context).size.height/50,
+            ),
+          ),
+          backgroundColor: Colors.black,
+          behavior: SnackBarBehavior.floating,
+        )
+    )
     );
 
-    /*Navigator.push(context, MaterialPageRoute(builder: (context) =>
-        Consultas(paciente: paciente)));*/
     Navigator.of(context).pop();
-  }
-
-  void validar(Paciente paciente) {
-    for(int i = 0; i < listaPacientes.length; i++) {
-      if (((paciente.data) == (listaPacientes[i].data)) && ((paciente.hora) == (listaPacientes[i].hora))) {
-        Fluttertoast.showToast(
-          msg: 'Horário já escolhido. Por favor selecione outro.',
-          toastLength: Toast.LENGTH_SHORT,
-          timeInSecForIosWeb: 5,
-        );
-        return;
-      }
-    }
-    _submit(paciente);
   }
 
   void remover(String id, int index) {
@@ -612,9 +658,9 @@ class _AgendarState extends State<Agendar> {
       builder: (BuildContext context, Widget child) {
         return Theme(
           data: ThemeData.light().copyWith(
-            primaryColor: const Color(0xFF3B4E61),
-            accentColor: const Color(0xFF3B4E61),
-            colorScheme: ColorScheme.light(primary: const Color(0xFF3B4E61)),
+            primaryColor: const Color(0xFF333366),
+            accentColor: const Color(0xFF333366),
+            colorScheme: ColorScheme.light(primary: const Color(0xFF333366)),
             buttonTheme: ButtonThemeData(
                 textTheme: ButtonTextTheme.primary
             ),
@@ -636,44 +682,6 @@ class _AgendarState extends State<Agendar> {
     //return formattedDate;
   }
 
-  /*void _presentDatePicker() {
-    DateTime now = DateTime.now();
-    DateTime currentTime = new DateTime(now.year);
-    DateTime nextYear = new DateTime(now.year + 2);
-    showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now().subtract(Duration(days: 1)),
-      lastDate: nextYear,
-      selectableDayPredicate: (DateTime val) =>
-      val.weekday == 6 || val.weekday == 7 ? false : true,
-      builder: (BuildContext context, Widget child) {
-        return Theme(
-          data: ThemeData.light().copyWith(
-              //primarySwatch: const Color(0xFF000000),//OK/Cancel button text color
-              primaryColor: const Color(0xFF3B4E61), //Head background
-              accentColor: const Color(0xFF3B4E61),
-              buttonColor: const Color(0xFFFF0000),
-              backgroundColor: const Color(0xFFAA00DE) //selection color
-              //dialogBackgroundColor: Colors.white,//Background color
-              ),
-          child: child,
-        );
-      },
-    ).then((pickedDate) {
-      if (pickedDate == null) {
-        return;
-      }
-      setState(() {
-        _dataEscolhida = pickedDate;
-        String formattedDate = DateFormat('dd-MM-yyyy').format(_dataEscolhida);
-        dataString = dateFormat.format(_dataEscolhida);
-        return dataString;
-      });
-    });
-    //return formattedDate;
-  }*/
-
   String validateEmail(String value) {
     Pattern pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
@@ -684,71 +692,110 @@ class _AgendarState extends State<Agendar> {
       return null;
   }
 
-  void _showDialog(BuildContext context, Paciente paciente) async {
+  void _showDialog(BuildContext context, String dataString) async {
+    List<String> horas = ['08:00h', '08:30h', '09:00h', '09:30h', '10:00h', '10:30h', '11:00h', '11:30h',
+      '12:00h', '12:30h', '13:00h', '13:30h', '14:00h', '14:30h', '15:00h', '15:30h',
+      '16:00h', '16:30h', '17:00h', '17:30h', '18:00h', '18:30h', '19:00h', '19:30h', '20:00h'];
+    if(listaPacientes.isNotEmpty) {
+      for (int i = 0; i < listaPacientes.length; i++) {
+        if (((listaPacientes[i].data) == dataString)) {
+          if(horas.contains(listaPacientes[i].hora)) {
+            horas.remove('${listaPacientes[i].hora}');
+          }
+        }
+      }
+    }
+
     await showDialog<String>(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(32.0))),
+                borderRadius: BorderRadius.all(Radius.circular(10.0))),
             contentPadding: EdgeInsets.all(8.0),
-            content: Container(
+            content: SingleChildScrollView(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  InkWell(
-                    child: Text(
-                      "ATENÇÃO",
-                      style: TextStyle(color: Colors.black,
-                          fontSize: 18.0),
-                      textAlign: TextAlign.center,
+                  Container(
+                    height: MediaQuery.of(context).size.height/4,
+                    width: MediaQuery.of(context).size.width/3.5,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: horas.length,
+                      itemBuilder: (BuildContext context, int posicao) {
+                        return ListTile(
+                            title: FlatButton(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                  side: BorderSide(
+                                      color: Colors.black,
+                                      width: 1,
+                                      style: BorderStyle.solid
+                                  ),
+                                  borderRadius: BorderRadius.circular(10)
+                              ),
+                              child: Text('${horas[posicao]}',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'quicksand'
+                                ),
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  horaSelecionada = horas[posicao];
+
+                                  WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
+                                      SnackBar(
+                                        duration: Duration(seconds: 1),
+                                        content: Text('Escolheu ${horas[posicao]}',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontFamily: 'quicksand',
+                                            fontSize: MediaQuery.of(context).size.height/50,
+                                          ),
+                                        ),
+                                        backgroundColor: Colors.black,
+                                        behavior: SnackBarBehavior.floating,
+                                      )
+                                  )
+                                  );
+                                });
+                              },
+                            )
+                        );
+                      },
                     ),
-                  ),
-                  SizedBox(
-                    height: 5.0,
                   ),
                   Divider(
                     color: Colors.black,
-                    height: 4.0,
+                    height: 1.0,
                   ),
-                  Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text(
-                            "${paciente.nome},\nsua consulta de ${paciente
-                                .data} às ${paciente
-                                .hora} só será CONFIRMADA após o envio do comprovante de pagamento.",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                            ),
-                          ),
+                  FlatButton(
+                    shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                            color: Colors.black,
+                            width: 1,
+                            style: BorderStyle.solid
                         ),
-                        FlatButton(
-                          color: Colors.black,
-                          textColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          child: Text(
-                            'OK',
-                            style: TextStyle(
-                              fontFamily: 'quicksand',
-                            ),
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              Navigator.of(context).pop();
-                            });
-                          },
-                        ),
-                      ]
-                  ),
+                        borderRadius: BorderRadius.circular(10)
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        Navigator.of(context).pop();
+                      });
+                    },
+                    color: Colors.black,
+                    child: Text('OK',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'quicksand'
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),

@@ -6,7 +6,6 @@ import 'package:atendimentos/ui/anotar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:atendimentos/model/paciente.dart';
-import 'package:atendimentos/ui/lerprontuario.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -14,7 +13,6 @@ import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as w;
-import 'package:share/share.dart';
 import 'package:open_file/open_file.dart' as open_file;
 
 final FirebaseDatabase db = FirebaseDatabase.instance;
@@ -43,7 +41,7 @@ class _VerProntuariosState extends State<VerProntuarios> {
     }
 
     paciente = new Paciente("", "", "", "", "", "", false);
-    dbReference = db.reference().child('${widget.profissional.usuario}/pacientes');
+    dbReference = db.reference().child('atendimentos/${widget.profissional.usuario}/pacientes');
     dbReference.onChildAdded.listen(_gravar);
     dbReference.onChildChanged.listen(_update);
     dbReference.once().then((DataSnapshot snapshot) {
@@ -193,12 +191,14 @@ class _VerProntuariosState extends State<VerProntuarios> {
                                   title: Text('Consulta de',
                                     style: TextStyle(
                                       color: Colors.white,
+                                      fontSize: MediaQuery.of(context).size.height/55,
                                       fontFamily: 'quicksand',
                                     ),
                                   ),
                                   subtitle: Text('${listaAnotacoes[posicao].data} às ${listaAnotacoes[posicao].hora}',
                                     style: TextStyle(
                                       color: Colors.white,
+                                      fontSize: MediaQuery.of(context).size.height/55,
                                       fontFamily: 'quicksand',
                                     ),
                                   ),

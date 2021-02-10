@@ -7,7 +7,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -39,7 +38,7 @@ class _BuscaState extends State<Busca> {
     }
 
     paciente = new Paciente("", "", "", "", "", "", false);
-    dbReference = db.reference().child('${widget.profissional.usuario}/pacientes');
+    dbReference = db.reference().child('atendimentos/${widget.profissional.usuario}/pacientes');
     dbReference.onChildAdded.listen(_gravar);
     dbReference.onChildChanged.listen(_update);
     dbReference.once().then((DataSnapshot snapshot) {
@@ -190,7 +189,6 @@ class _BuscaState extends State<Busca> {
                         child: ListView.builder(
                             itemCount: listaBuscado.length,
                             itemBuilder: (BuildContext context, int posicao) {
-                              String id = listaBuscado[posicao].primaryKey;
                               return Card(
                                 shadowColor: Color(0xFF333366),
                                 elevation: 4,

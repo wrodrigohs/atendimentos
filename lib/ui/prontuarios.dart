@@ -1,14 +1,13 @@
-import 'dart:collection';
 import 'dart:ui' as ui;
 
 import 'package:atendimentos/model/paciente.dart';
 import 'package:atendimentos/model/profissional.dart';
-import "package:collection/collection.dart";
 import 'package:atendimentos/ui/verprontuarios.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:lottie/lottie.dart';
 
 final FirebaseDatabase db = FirebaseDatabase.instance;
 
@@ -37,7 +36,7 @@ class _ProntuariosState extends State<Prontuarios> {
     }
 
     paciente = new Paciente("", "", "", "", "", "", false);
-    dbReference = db.reference().child('${widget.profissional.usuario}/pacientes');
+    dbReference = db.reference().child('atendimentos/${widget.profissional.usuario}/pacientes');
     dbReference.onChildAdded.listen(_gravar);
     dbReference.onChildChanged.listen(_update);
     dbReference.once().then((DataSnapshot snapshot) {
@@ -84,6 +83,8 @@ class _ProntuariosState extends State<Prontuarios> {
 
     listaAnotacoes.sort((a, b) => ((a.nome).compareTo(b.nome)));
 
+    double distancia = AppBar().preferredSize.height + 40;
+
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -129,25 +130,35 @@ class _ProntuariosState extends State<Prontuarios> {
                       listaAnotacoes.isEmpty ?
                       Column(
                         children: <Widget>[
-                          Text('Nenhum atendimento marcado.',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: MediaQuery.of(context).size.height/50,
-                                fontFamily: 'quicksand',
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white
-                            ),
-                          ),
                           SizedBox(
-                            height: 20,
+                            height: distancia,
                           ),
-                          Container(
-                              height: 200,
-                              child: Image.asset(
-                                'assets/images/triste.png',
-                                fit: BoxFit.cover,
-                                color: Colors.white,
-                              )
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Text('Nenhum atendimento marcado.',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: MediaQuery.of(context).size.height/50,
+                                    fontFamily: 'quicksand',
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Lottie.asset(
+                                'assets/images/sad.json',
+                                animate: true,
+                                repeat: true,
+                                reverse: true,
+                                width: 200,
+                                height: 200,
+                                fit: BoxFit.fill,
+                              ),
+                            ],
                           ),
                         ],
                       )
@@ -156,7 +167,6 @@ class _ProntuariosState extends State<Prontuarios> {
                         child: ListView.builder(
                             itemCount: listaAnotacoes.length,
                             itemBuilder: (BuildContext context, int posicao) {
-                              String id = listaAnotacoes[posicao].primaryKey;
                               return Card(
                                 shadowColor: Color(0xFF333366),
                                 elevation: 4,

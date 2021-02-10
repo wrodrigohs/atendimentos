@@ -12,7 +12,8 @@ class Profissional {
   String instagram;
   bool assinante;
 
-  Profissional(this.nome, this.telefone, this.email, this.areaAtuacao, this.usuario, this.imageURL, this.facebook, this.instagram, this.assinante);
+  Profissional(this.nome, this.telefone, this.email, this.areaAtuacao,
+      this.usuario, this.imageURL, this.facebook, this.instagram, this.assinante);
 
   Profissional.fromSnapshot(DataSnapshot snapshot) :
         primaryKey = snapshot.key,

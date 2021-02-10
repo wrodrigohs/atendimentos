@@ -1,3 +1,5 @@
+
+
 import 'dart:io';
 
 import 'package:atendimentos/model/datapaciente.dart';
@@ -42,7 +44,7 @@ class _ConsultasState extends State<Consultas> {
     }
 
     paciente = new Paciente("", "", "", "", "", "", false);
-    dbReference = db.reference().child('${widget.profissional.usuario}/pacientes');
+    dbReference = db.reference().child('atendimentos/${widget.profissional.usuario}/pacientes');
     dbReference.onChildAdded.listen(_gravar);
     dbReference.onChildChanged.listen(_update);
     dbReference.once().then((DataSnapshot snapshot) {
@@ -92,7 +94,8 @@ class _ConsultasState extends State<Consultas> {
     double distancia = AppBar().preferredSize.height + 40;
 
     return Scaffold(
-      body: Stack(children: <Widget>[
+      body: Stack(
+        children: <Widget>[
         Scaffold(
           extendBodyBehindAppBar: true,
           backgroundColor: Colors.transparent,
@@ -114,6 +117,7 @@ class _ConsultasState extends State<Consultas> {
               ),
             ),
             width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
             child: Stack(
                 fit: StackFit.expand,
                 children: <Widget>[
@@ -330,11 +334,8 @@ class _ConsultasState extends State<Consultas> {
           paciente.email, formatarData(paciente.data), paciente.hora,
           paciente.anotacao, paciente.confirmado);
       listaDt.removeAt(index);
-      listaDt.remove(paciente);
       listaBuscado.removeAt(index);
-      listaBuscado.remove(paciente);
       listaPacientes.removeAt(index);
-      listaPacientes.remove(pac);
       dbReference.child(id).remove().then((_) {
       });
     });

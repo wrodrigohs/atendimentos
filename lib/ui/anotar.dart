@@ -34,12 +34,11 @@ class _AnotarState extends State<Anotar> {
 
     for(int i = 0; i < listaPacientes.length; i++) {
       listaPacientes.removeAt(i);
-      listaPacientes.remove(listaPacientes[i]);
     }
 
     _anotacaoController.text = widget.paciente.anotacao;
 
-    dbReference = db.reference().child('${widget.profissional.usuario}/pacientes');
+    dbReference = db.reference().child('atendimentos/${widget.profissional.usuario}/pacientes');
     dbReference.onChildChanged.listen(_update);
     dbReference.once().then((DataSnapshot snapshot) {
       Map<dynamic, dynamic> values = snapshot.value;

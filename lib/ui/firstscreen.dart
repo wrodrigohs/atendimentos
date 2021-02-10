@@ -4,18 +4,19 @@ import 'package:atendimentos/ui/busca.dart';
 import 'package:atendimentos/ui/cadastro.dart';
 import 'package:atendimentos/model/profissional.dart';
 import 'package:atendimentos/ui/consultas.dart';
+import 'package:atendimentos/ui/edicao.dart';
 import 'package:atendimentos/ui/historico.dart';
 import 'package:atendimentos/ui/prontuarios.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:liquid_ui/liquid_ui.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 import 'package:atendimentos/sign_in.dart';
 import 'package:lottie/lottie.dart';
 import 'dart:ui' as ui;
-//import 'package:sticky_headers/sticky_headers/widget.dart';
 
 final FirebaseDatabase db = FirebaseDatabase.instance;
 final FirebaseDatabase db2 = FirebaseDatabase.instance;
@@ -49,7 +50,7 @@ class _FirstScreenState extends State<FirstScreen> {
       listaPacientes.removeAt(i);
     }
 
-    dbProfissional = db2.reference().child('${profissional.usuario}');
+    dbProfissional = db2.reference().child('atendimentos');
     dbProfissional.onChildAdded.listen(_gravarProfissional);
     dbProfissional.onChildChanged.listen(_updateProfissional);
     dbProfissional.once().then((DataSnapshot snapshot) {
@@ -62,7 +63,7 @@ class _FirstScreenState extends State<FirstScreen> {
       }
     });
 
-    dbPacientes = db.reference().child('${profissional.usuario}/pacientes');
+    dbPacientes = db.reference().child('atendimentos/${profissional.usuario}/pacientes');
     dbPacientes.onChildAdded.listen(_gravar);
     dbPacientes.onChildChanged.listen(_update);
     dbPacientes.once().then((DataSnapshot snapshot) {
@@ -90,6 +91,7 @@ class _FirstScreenState extends State<FirstScreen> {
     }
 
     listaPacientes.sort((a, b) => (((converterData(a.data)).compareTo(converterData(b.data)))));
+    double distancia = AppBar().preferredSize.height + 40;
 
     return SideMenu(
       key: _endSideMenuKey,
@@ -227,31 +229,87 @@ class _FirstScreenState extends State<FirstScreen> {
                               :
                           listaPacientes.length <= 0 ?
                           Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             mainAxisSize: MainAxisSize.max,
                             children: [
+                              SizedBox(
+                                height: distancia,
+                              ),
                               Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
                                   Text('Nenhum atendimento marcado',
                                     style: TextStyle(
-                                      fontSize: MediaQuery.of(context).size.height/50,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: 'quicksand',
+                                        inherit: false,
+                                        fontSize: MediaQuery.of(context).size.height/45,
+                                        fontFamily: 'quicksand',
+                                        color: Colors.white,
+                                        shadows: [
+                                          Shadow( // bottomLeft
+                                              offset: Offset(-0.5, -0.5),
+                                              color: Colors.black
+                                          ),
+                                          Shadow( // bottomRight
+                                              offset: Offset(0.5, -0.5),
+                                              color: Colors.black
+                                          ),
+                                          Shadow( // topRight
+                                              offset: Offset(0.5, 0.5),
+                                              color: Colors.black
+                                          ),
+                                          Shadow( // topLeft
+                                              offset: Offset(-0.5, 0.5),
+                                              color: Colors.black
+                                          ),
+                                        ]
                                     ),
                                   ),
-                                  Center(
-                                    child: Lottie.asset(
-                                      'assets/images/sad.json',
-                                      animate: true,
-                                      repeat: true,
-                                      reverse: true,
-                                      width: 200,
-                                      height: 200,
-                                      fit: BoxFit.fill,
-                                    ),
+                                  Lottie.asset(
+                                    'assets/images/sad.json',
+                                    animate: true,
+                                    repeat: true,
+                                    reverse: true,
+                                    width: 200,
+                                    height: 200,
+                                    fit: BoxFit.fill,
+                                  ),
+                                  FlatButton(
+                                      color: Colors.black,
+                                      shape: RoundedRectangleBorder(
+                                        side: BorderSide(
+                                            color: Colors.black,
+                                            width: 1,
+                                            style: BorderStyle.solid
+                                        ),
+                                        borderRadius: BorderRadius.circular(40),
+                                      ),
+                                      child: Text(
+                                        "Marcar atendimento",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: MediaQuery.of(context).size.height/50,
+                                          fontFamily: 'quicksand',
+                                          shadows: <Shadow>[
+                                            Shadow(
+                                              offset: Offset(1.0, 1.0),
+                                              blurRadius: 3.0,
+                                              color: Color.fromARGB(255, 0, 0, 0),
+                                            ),
+                                            Shadow(
+                                              offset: Offset(2.0, 1.0),
+                                              blurRadius: 8.0,
+                                              color: Color.fromARGB(255, 0, 0, 0),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          Navigator.push(context, MaterialPageRoute(builder:
+                                              (context) => Agendar(profissional: profissional)));
+                                        });
+                                      }
                                   ),
                                 ],
                               ),
@@ -296,6 +354,7 @@ class _FirstScreenState extends State<FirstScreen> {
                                               color: Colors.white,
                                               fontFamily: 'quicksand',
                                               fontWeight: FontWeight.w300,
+                                              fontSize: MediaQuery.of(context).size.height/50,
                                             ),
                                           ),
                                           subtitle: Text(
@@ -304,6 +363,7 @@ class _FirstScreenState extends State<FirstScreen> {
                                               color: Colors.white,
                                               fontFamily: 'quicksand',
                                               fontWeight: FontWeight.w100,
+                                              fontSize: MediaQuery.of(context).size.height/55,
                                             ),
                                           ),
                                           trailing: Row(
@@ -314,8 +374,8 @@ class _FirstScreenState extends State<FirstScreen> {
                                                   icon: Icon(Icons.edit),
                                                   color: Colors.green,
                                                   onPressed: () {
-                                                    //Navigator.push(context, MaterialPageRoute(builder:
-                                                    //  (context) => Anotar(paciente: listaAnotacoes[posicao], profissional: widget.profissional)));
+                                                    Navigator.push(context, MaterialPageRoute(builder:
+                                                        (context) => Edicao(paciente: listaPacientes[posicao], profissional: profissional)));
                                                     //Navigator.of(context).pop();
                                                   },
                                                 ),
@@ -409,6 +469,11 @@ class _FirstScreenState extends State<FirstScreen> {
             backgroundColor: Colors.black,
             onPressed: () {
               signOutGoogle();
+              Fluttertoast.showToast(
+                msg:'Logout efetuado com sucesso.',
+                toastLength: Toast.LENGTH_SHORT,
+                timeInSecForIosWeb: 5,
+              );
               Navigator.of(context).pop();
               //Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) {return LoginPage();}), ModalRoute.withName('/'));
               //Navigator.pushReplacementNamed(context, "logout");
@@ -502,6 +567,11 @@ class _FirstScreenState extends State<FirstScreen> {
             backgroundColor: Colors.transparent,
             onTap: () {
               signOutGoogle();
+              Fluttertoast.showToast(
+                msg:'Logout efetuado com sucesso.',
+                toastLength: Toast.LENGTH_SHORT,
+                timeInSecForIosWeb: 5,
+              );
               Navigator.of(context).pop();
             },
             leading: Icon(Icons.exit_to_app, size: 20.0, color: Colors.white),
@@ -776,11 +846,11 @@ class _FirstScreenState extends State<FirstScreen> {
                                   ),
                                   child: Text(
                                     'Buscar',
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontFamily: 'quicksand',
-                                          fontSize: MediaQuery.of(context).size.height/50
-                                      ),
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'quicksand',
+                                        fontSize: MediaQuery.of(context).size.height/50
+                                    ),
                                   ),
                                   onPressed: () {
                                     setState(() {
@@ -789,7 +859,7 @@ class _FirstScreenState extends State<FirstScreen> {
                                       Navigator.of(context).pop();
                                       Navigator.push(context, MaterialPageRoute(
                                           builder: (context) => Busca(nomeBuscado: nomeBuscado,
-                                            profissional: profissional)),
+                                              profissional: profissional)),
                                       );
                                       //_presentDatePicker();
                                     });

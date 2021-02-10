@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       ],
       supportedLocales: [const Locale('pt', 'BR')],
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Clínica online',
       routes: {
         "/logout": (_) => LoginPage(),
       },
