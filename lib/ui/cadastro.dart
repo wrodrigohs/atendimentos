@@ -92,7 +92,7 @@ class _CadastroState extends State<Cadastro> {
           body: Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/images/ceu.jpg"),
+                image: AssetImage("assets/images/imglogin.jpg"),
                 fit: BoxFit.cover,
               ),
             ),

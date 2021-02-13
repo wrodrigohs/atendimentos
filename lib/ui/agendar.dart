@@ -99,7 +99,7 @@ class _AgendarState extends State<Agendar> {
           body: Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/images/ceu.jpg"),
+                image: AssetImage("assets/images/imglogin.jpg"),
                 fit: BoxFit.cover,
               ),
             ),
@@ -657,12 +657,12 @@ class _AgendarState extends State<Agendar> {
       selectableDayPredicate: (DateTime val) => val.weekday == 6 || val.weekday == 7 ? false : true, //exclui sábado e domingo
       builder: (BuildContext context, Widget child) {
         return Theme(
-          data: ThemeData.light().copyWith(
-            primaryColor: const Color(0xFF333366),
-            accentColor: const Color(0xFF333366),
-            colorScheme: ColorScheme.light(primary: const Color(0xFF333366)),
+          data: ThemeData.dark().copyWith(
+            //primaryColor: Color(0xFFFFFFFF),
+            //accentColor: Color(0xFFFFFFFF),
+            colorScheme: ColorScheme.dark(primary: Color(0xFFFFFFFF)),
             buttonTheme: ButtonThemeData(
-                textTheme: ButtonTextTheme.primary
+              textTheme: ButtonTextTheme.primary,
             ),
           ),
           child: child,
@@ -719,6 +719,21 @@ class _AgendarState extends State<Agendar> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
+                  InkWell(
+                    child: Text(
+                      "Horários disponíveis",
+                      style: TextStyle(
+                          color: Colors.red,
+                          fontSize: MediaQuery.of(context).size.height/50,
+                          fontFamily: 'quicksand'
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  Divider(
+                    color: Colors.black,
+                    height: 1.0,
+                  ),
                   Container(
                     height: MediaQuery.of(context).size.height/4,
                     width: MediaQuery.of(context).size.width/3.5,

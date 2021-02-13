@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:atendimentos/model/paciente.dart';
 import 'package:atendimentos/ui/agendar.dart';
 import 'package:atendimentos/ui/busca.dart';
@@ -5,7 +7,6 @@ import 'package:atendimentos/ui/cadastro.dart';
 import 'package:atendimentos/model/profissional.dart';
 import 'package:atendimentos/ui/consultas.dart';
 import 'package:atendimentos/ui/edicao.dart';
-import 'package:atendimentos/ui/historico.dart';
 import 'package:atendimentos/ui/prontuarios.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ import 'package:intl/intl.dart';
 import 'package:liquid_ui/liquid_ui.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 import 'package:atendimentos/sign_in.dart';
+import 'package:atendimentos/auth_service.dart';
 import 'package:lottie/lottie.dart';
 import 'dart:ui' as ui;
 
@@ -22,6 +24,11 @@ final FirebaseDatabase db = FirebaseDatabase.instance;
 final FirebaseDatabase db2 = FirebaseDatabase.instance;
 
 class FirstScreen extends StatefulWidget {
+
+  Profissional profissional;
+
+  FirstScreen({Key key, this.profissional}) : super(key: key);
+
   @override
   _FirstScreenState createState() => _FirstScreenState();
 }
@@ -37,6 +44,7 @@ class _FirstScreenState extends State<FirstScreen> {
   DateFormat dateFormat = DateFormat('dd/MM/yyyy', 'pt_Br');
   String nomeBuscado;
   final TextEditingController _nomeController = TextEditingController();
+  AuthService auth = new AuthService();
 
   final GlobalKey<SideMenuState> _sideMenuKey = GlobalKey<SideMenuState>();
   final GlobalKey<SideMenuState> _endSideMenuKey = GlobalKey<SideMenuState>();
@@ -45,6 +53,10 @@ class _FirstScreenState extends State<FirstScreen> {
   @override
   void initState() {
     super.initState();
+
+    if(widget.profissional != null) {
+      profissional = widget.profissional;
+    }
 
     for (int i = 0; i < listaPacientes.length; i++) {
       listaPacientes.removeAt(i);
@@ -91,6 +103,7 @@ class _FirstScreenState extends State<FirstScreen> {
     }
 
     listaPacientes.sort((a, b) => (((converterData(a.data)).compareTo(converterData(b.data)))));
+//    listaPacientes.sort((a, b) => (((a.hora).compareTo(b.hora))));
     double distancia = AppBar().preferredSize.height + 40;
 
     return SideMenu(
@@ -133,7 +146,7 @@ class _FirstScreenState extends State<FirstScreen> {
                         }
                     ),
                   ],
-                  title: Text('Atendimentos',
+                  title: Text('Meu consultório online',
                     style: TextStyle(
                         fontFamily: 'quicksand'
                     ),
@@ -142,7 +155,7 @@ class _FirstScreenState extends State<FirstScreen> {
                 body: new Container(
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage("assets/images/ceu.jpg"),
+                      image: AssetImage("assets/images/imglogin.jpg"),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -328,13 +341,13 @@ class _FirstScreenState extends State<FirstScreen> {
                                     itemCount: listaPacientes.length,
                                     itemBuilder: (BuildContext context, int posicao) {
                                       return Card(
-                                        shadowColor: Color(0xFF333366),
-                                        elevation: 4,
+                                        shadowColor: Color(0xFFd6d0c1),
+                                        elevation: 0.1,
                                         color: Colors.transparent,
                                         margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(16),
-                                          side: BorderSide(width: 0.5, color: new Color(0xFF333366)),
+                                          side: BorderSide(width: 0.5, color: new Color(0x00000000)),
                                         ),
                                         child: ListTile(
                                           onTap: () {},
@@ -468,6 +481,9 @@ class _FirstScreenState extends State<FirstScreen> {
             elevation: 16,
             backgroundColor: Colors.black,
             onPressed: () {
+              //if(Platform.isIOS) {
+                auth.signOut();
+              //}
               signOutGoogle();
               Fluttertoast.showToast(
                 msg:'Logout efetuado com sucesso.',
@@ -496,13 +512,13 @@ class _FirstScreenState extends State<FirstScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CircleAvatar(
-                  backgroundImage: NetworkImage(
+                /*CircleAvatar(
+                  backgroundImage: imageUrl == null ? Text('${profissional.nome.substring(0, 1).toUpperCase()}') : NetworkImage(
                     imageUrl,
                   ),
                   radius: 30,
                   backgroundColor: Colors.transparent,
-                ),
+                ),*/
                 SizedBox(height: 16.0),
                 LText(
                   "\l.lead{Bem-vindo(a)},\n\l.lead.bold{$name}",

@@ -49,8 +49,11 @@ class _EdicaoState extends State<Edicao> {
 
     confirmar = widget.paciente.confirmado;
     _anotacaoController.text = widget.paciente.anotacao;
+    dataString = widget.paciente.data;
+    horaSelecionada = widget.paciente.hora;
 
     dbReference = db.reference().child('atendimentos/${widget.profissional.usuario}/pacientes');
+    dbReference.onChildAdded.listen(_gravar);
     dbReference.onChildChanged.listen(_update);
     dbReference.once().then((DataSnapshot snapshot) {
       Map<dynamic, dynamic> values = snapshot.value;
@@ -59,7 +62,7 @@ class _EdicaoState extends State<Edicao> {
           values['confirmado']);
       listaPacientes.add(paciente);
     });
-    listaPacientes.add(widget.paciente);
+    //listaPacientes.add(widget.paciente);
   }
 
   @override
@@ -96,7 +99,7 @@ class _EdicaoState extends State<Edicao> {
             body: Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage("assets/images/ceu.jpg"),
+                  image: AssetImage("assets/images/imglogin.jpg"),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -207,7 +210,7 @@ class _EdicaoState extends State<Edicao> {
                                     ),
                                     onPressed: () {
                                       setState(() {
-                                        _presentDatePicker(widget.paciente);
+                                        _presentDatePicker();
                                       });
                                     },
                                   ),
@@ -418,6 +421,12 @@ class _EdicaoState extends State<Edicao> {
     );
   }
 
+  void _gravar(Event event) {
+    setState(() {
+      listaPacientes.add(Paciente.fromSnapshot(event.snapshot));
+    });
+  }
+
   void _update(Event event) {
     var oldEntry = listaPacientes.singleWhere((entry) {
       return entry.primaryKey == event.snapshot.key;
@@ -456,7 +465,7 @@ class _EdicaoState extends State<Edicao> {
       '16:00h', '16:30h', '17:00h', '17:30h', '18:00h', '18:30h', '19:00h', '19:30h', '20:00h'];
     if(listaPacientes.isNotEmpty) {
       for (int i = 0; i < listaPacientes.length; i++) {
-        if (((listaPacientes[i].data) == dataString)) {
+        if (((listaPacientes[i].data) == widget.paciente.data)) {
           if(horas.contains(listaPacientes[i].hora)) {
             horas.remove('${listaPacientes[i].hora}');
           }
@@ -576,26 +585,25 @@ class _EdicaoState extends State<Edicao> {
         });
   }
 
-  void _presentDatePicker(Paciente paciente) {
+  void _presentDatePicker() {
     DateTime now = DateTime.now();
     DateTime currentTime = new DateTime(now.year);
     DateTime nextYear = new DateTime(now.year + 2);
     showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
-      firstDate: currentTime,
+      initialDate: DateTime.now(),//now.weekday == 6 || now.weekday == 7 ? now.add(new Duration(days: 2)) : now,//|| now.weekday == 7 ? false : true,//checarFDS(), //initialvalue NÃO pode ser sábado ou domingo porque
+      //CONFLITA com o selectableDayPredicate e causa erro
+      firstDate: DateTime.now().subtract(new Duration(days: 0)),
       lastDate: nextYear,
-      cancelText: 'CANCELAR',
-      confirmText: 'OK',
-      initialEntryMode: DatePickerEntryMode.calendar,
+      //selectableDayPredicate: (DateTime val) => val.weekday == 6 || val.weekday == 7 ? false : true, //exclui sábado e domingo
       builder: (BuildContext context, Widget child) {
         return Theme(
-          data: ThemeData.light().copyWith(
-            primaryColor: const Color(0xFF333366),
-            accentColor: const Color(0xFF333366),
-            colorScheme: ColorScheme.light(primary: const Color(0xFF333366)),
+          data: ThemeData.dark().copyWith(
+            //primaryColor: Color(0xFFFFFFFF),
+            //accentColor: Color(0xFFFFFFFF),
+            colorScheme: ColorScheme.dark(primary: Color(0xFFFFFFFF)),
             buttonTheme: ButtonThemeData(
-                textTheme: ButtonTextTheme.primary
+              textTheme: ButtonTextTheme.primary,
             ),
           ),
           child: child,
@@ -603,8 +611,7 @@ class _EdicaoState extends State<Edicao> {
       },
     ).then((pickedDate) {
       if (pickedDate == null) {
-        dataString = paciente.data;
-        return dataString;
+        return;
       } else {
         setState(() {
           _dataEscolhida = pickedDate;

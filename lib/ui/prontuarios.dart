@@ -104,7 +104,7 @@ class _ProntuariosState extends State<Prontuarios> {
             body: new Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage("assets/images/ceu.jpg"),
+                  image: AssetImage("assets/images/imglogin.jpg"),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -168,13 +168,13 @@ class _ProntuariosState extends State<Prontuarios> {
                             itemCount: listaAnotacoes.length,
                             itemBuilder: (BuildContext context, int posicao) {
                               return Card(
-                                shadowColor: Color(0xFF333366),
-                                elevation: 4,
+                                shadowColor: Color(0xFFd6d0c1),
+                                elevation: 0.1,
                                 color: Colors.transparent,
                                 margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(16),
-                                  side: BorderSide(width: 0.5, color: new Color(0xFF333366)),
+                                  side: BorderSide(width: 0.5, color: new Color(0x00000000)),
                                 ),
                                 child: ListTile(
                                   onTap: () {

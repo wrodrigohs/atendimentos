@@ -112,7 +112,7 @@ class _ConsultasState extends State<Consultas> {
           body: Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/images/ceu.jpg"),
+                image: AssetImage("assets/images/imglogin.jpg"),
                 fit: BoxFit.cover,
               ),
             ),
@@ -185,10 +185,13 @@ class _ConsultasState extends State<Consultas> {
                         itemBuilder: (BuildContext context, int posicao) {
                           String id = listaBuscado[posicao].primaryKey;
                           return Card(
-                            elevation: 4,
-                            margin: EdgeInsets.all(4),
+                            shadowColor: Color(0xFFd6d0c1),
+                            elevation: 0.1,
+                            color: Colors.transparent,
+                            margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(16),
+                              side: BorderSide(width: 0.5, color: new Color(0x00000000)),
                             ),
                             child: ListTile(
                               onTap: () {

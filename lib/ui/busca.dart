@@ -3,6 +3,7 @@ import 'dart:ui' as ui;
 
 import 'package:atendimentos/model/paciente.dart';
 import 'package:atendimentos/model/profissional.dart';
+import 'package:atendimentos/ui/edicao.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -68,7 +69,9 @@ class _BuscaState extends State<Busca> {
 
     for(int i = 0; i < listaBuscado.length; i++) {
       for(int j = i + 1; j < listaBuscado.length; j++) {
-        if ((equalsIgnoreCase(listaBuscado[i].nome, listaBuscado[j].nome))) {
+        if ((equalsIgnoreCase(listaBuscado[i].nome, listaBuscado[j].nome)) &&
+            (equalsIgnoreCase(listaBuscado[i].data, listaBuscado[j].data)) &&
+            (equalsIgnoreCase(listaBuscado[i].hora, listaBuscado[j].hora))) {
           listaBuscado.removeAt(j);
         }
       }
@@ -76,7 +79,9 @@ class _BuscaState extends State<Busca> {
 
     for(int i = 0; i < listaBuscado.length; i++) {
       for(int j = i + 1; j < listaBuscado.length; j++) {
-        if ((equalsIgnoreCase(listaBuscado[i].nome, listaBuscado[j].nome))) {
+        if ((equalsIgnoreCase(listaBuscado[i].nome, listaBuscado[j].nome)) &&
+            (equalsIgnoreCase(listaBuscado[i].data, listaBuscado[j].data)) &&
+            (equalsIgnoreCase(listaBuscado[i].hora, listaBuscado[j].hora))) {
           listaBuscado.removeAt(j);
         }
       }
@@ -84,7 +89,9 @@ class _BuscaState extends State<Busca> {
 
     for(int i = 0; i < listaBuscado.length; i++) {
       for(int j = i + 1; j < listaBuscado.length; j++) {
-        if ((equalsIgnoreCase(listaBuscado[i].nome, listaBuscado[j].nome))) {
+        if ((equalsIgnoreCase(listaBuscado[i].nome, listaBuscado[j].nome)) &&
+            (equalsIgnoreCase(listaBuscado[i].data, listaBuscado[j].data)) &&
+            (equalsIgnoreCase(listaBuscado[i].hora, listaBuscado[j].hora))) {
           listaBuscado.removeAt(j);
         }
       }
@@ -115,7 +122,7 @@ class _BuscaState extends State<Busca> {
             body: Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage("assets/images/ceu.jpg"),
+                  image: AssetImage("assets/images/imglogin.jpg"),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -190,13 +197,13 @@ class _BuscaState extends State<Busca> {
                             itemCount: listaBuscado.length,
                             itemBuilder: (BuildContext context, int posicao) {
                               return Card(
-                                shadowColor: Color(0xFF333366),
-                                elevation: 4,
+                                shadowColor: Color(0xFFd6d0c1),
+                                elevation: 0.1,
                                 color: Colors.transparent,
                                 margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(16),
-                                  side: BorderSide(width: 0.5, color: new Color(0xFF333366)),
+                                  side: BorderSide(width: 0.5, color: new Color(0x00000000)),
                                 ),
                                 child: ListTile(
                                   onTap: () {
@@ -235,8 +242,8 @@ class _BuscaState extends State<Busca> {
                                           icon: Icon(Icons.edit),
                                           color: Colors.green,
                                           onPressed: () {
-                                            //Navigator.push(context, MaterialPageRoute( builder: (context) => Edicao(paciente: listaBuscado[posicao])));
-                                          },
+                                            Navigator.push(context, MaterialPageRoute(builder:
+                                                (context) => Edicao(paciente: listaPacientes[posicao], profissional: widget.profissional)));                                          },
                                         ),
                                         backgroundColor: Colors.white,
                                       ),

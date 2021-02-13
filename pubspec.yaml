@@ -48,11 +48,17 @@ dependencies:
   open_file: ^3.0.1
   pdf: ^1.11.2
   lottie: ^0.7.0+1
-  date_picker_timeline: ^1.2.1
+  flutter_launcher_icons: ^0.8.1
+  provider: ^4.3.2+2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/health-report.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -73,7 +79,8 @@ flutter:
     - assets/images/ceu.jpg
     - assets/images/triste.png
     - assets/images/sad.json
-  #   - images/a_dot_ham.jpeg
+    - assets/images/health-report.png
+    - assets/images/health.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

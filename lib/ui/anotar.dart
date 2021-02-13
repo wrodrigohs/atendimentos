@@ -81,7 +81,7 @@ class _AnotarState extends State<Anotar> {
             body: Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage("assets/images/ceu.jpg"),
+                  image: AssetImage("assets/images/imglogin.jpg"),
                   fit: BoxFit.cover,
                 ),
               ),
