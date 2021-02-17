@@ -520,8 +520,8 @@ class _FirstScreenState extends State<FirstScreen> {
                   backgroundColor: Colors.transparent,
                 ),*/
                 SizedBox(height: 16.0),
-                LText(
-                  "\l.lead{Bem-vindo(a)},\n\l.lead.bold{$name}",
+                LText(name != null ? "\l.lead{Bem-vindo(a)},\n\l.lead.bold{$name}" :
+                "\l.lead{Bem-vindo(a)}",
                   baseStyle: TextStyle(
                     color: Colors.white,
                     fontSize: MediaQuery.of(context).size.height/55,

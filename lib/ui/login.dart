@@ -7,6 +7,7 @@ import 'package:atendimentos/model/profissional.dart';
 import 'package:atendimentos/ui/firstscreen.dart';
 import 'package:atendimentos/sign_in.dart';
 import 'package:atendimentos/auth_service.dart';
+import 'package:atendimentos/ui/recuperar_senha.dart';
 import 'package:atendimentos/ui/registro.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -117,13 +118,13 @@ class _LoginPageState extends State<LoginPage> {
                     color: Colors.white,
                     boxShadow: [
                       BoxShadow(
-                          color: Colors.white,
-                          blurRadius: 1
+                        color: Colors.white,
+                        blurRadius: 1
                       )
                     ]
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(12),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -238,6 +239,9 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                               ),
                             ),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height/110,
+                            ),
                             Row(
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
@@ -253,7 +257,19 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                   onPressed: () async {
                                     if (_formKey.currentState.validate()) {
-                                      _signInWithEmailAndPassword();
+                                      _signInWithEmailAndPassword().then((result) {
+                                        if (result != null) {
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) {
+                                                return FirstScreen();
+                                              },
+                                            ),
+                                          );
+                                        }
+                                        _emailController.text = '';
+                                        _passwordController.text = '';
+                                      });
 //                                      _register();
                                     }
                                   },
@@ -327,23 +343,29 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ),*/
                             SizedBox(
-                              height: 5,
+                              height: MediaQuery.of(context).size.height/100,
                             ),
                             GestureDetector(
                               child: Text(
-                                'Não tem conta? Registre-se.',
+                                'Esqueceu sua senha? Clique aqui.',
                                 style: TextStyle(
-                                  fontSize: MediaQuery.of(context).size.height/55,
+                                  fontSize: MediaQuery.of(context).size.height/57,
                                   fontFamily: 'quicksand',
                                   color: Colors.black,
                                 ),
                               ),
                               onTap: () {
-                                print('Clicado');
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return RecuperarSenha();
+                                    },
+                                  ),
+                                );
                               },
                             ),
                             SizedBox(
-                              height: 10,
+                              height: MediaQuery.of(context).size.height/100,
                             ),
                             Align(
                               alignment: Alignment.bottomCenter,
@@ -411,9 +433,9 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Image(image: AssetImage("assets/images/google_logo.png"), height: 25.0),
+              Image(image: AssetImage("assets/images/google_logo.png"), height: MediaQuery.of(context).size.height/55),
               Padding(
-                padding: const EdgeInsets.only(left: 10),
+                padding: const EdgeInsets.only(left: 3),
                 child: Text(
                   'Login com Google',
                   style: TextStyle(
@@ -442,62 +464,51 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  void _signInWithEmailAndPassword() async {
-    final User user = (await _auth.signInWithEmailAndPassword(
+  Future<User> _signInWithEmailAndPassword() async {
+    String nome;
+    String email;
+    String imageUrl;
+    String usuario;
+
+    final UserCredential authResult = (await _auth.signInWithEmailAndPassword(
       email: _emailController.text,
       password: _passwordController.text,
-    )).user;
+    ));
 
-    String usuario;
-    usuario = _emailController.text.toString().substring(0, _emailController.text.toString().indexOf("@"));
-    if(usuario.contains('.') || usuario.contains('#') || usuario.contains('\$') ||
-        usuario.contains('[') || usuario.contains(']')) {
-      usuario = usuario.replaceAll('\.', '');
-      usuario = usuario.replaceAll('#', '');
-      usuario = usuario.replaceAll('\$', '');
-      usuario = usuario.replaceAll('[', '');
-      usuario = usuario.replaceAll(']', '');
-    }
+    final User user = authResult.user;
 
-    Profissional p1 = new Profissional(user.displayName, '', _emailController.text.toString(), '', usuario, user.photoURL, '', '', false);
     if (user != null) {
-      setState(() {
-        _success = true;
-        _userEmail = user.email;
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) {
-              return FirstScreen(profissional: p1);
-            },
-          ),
-        );
-        _emailController.text = '';
-        _passwordController.text = '';
-      });
-    } else {
-      setState(() {
-        _success = false;
-      });
+      assert(user.email != null);
+      //assert(user.displayName != null);
+      //assert(user.photoURL != null);
+
+      //name = user.displayName;
+      email = user.email;
+      //imageUrl = user.photoURL;
+
+      if (email.contains("@")) {
+        usuario = email.substring(0, email.indexOf("@"));
+        if (usuario.contains('.') || usuario.contains('#') ||
+            usuario.contains('\$') ||
+            usuario.contains('[') || usuario.contains(']')) {
+          usuario = usuario.replaceAll('\.', '');
+          usuario = usuario.replaceAll('#', '');
+          usuario = usuario.replaceAll('\$', '');
+          usuario = usuario.replaceAll('[', '');
+          usuario = usuario.replaceAll(']', '');
+        }
+      }
+
+      nome = '';
+      imageUrl = '';
+      print('$email acessou o sistema');
+      return user;
     }
   }
 
-  void _register() async {
-    final User user = (await
-    _auth.createUserWithEmailAndPassword(
-      email: _emailController.text,
-      password: _passwordController.text,
-    )
-    ).user;
-    if (user != null) {
-      setState(() {
-        _success = true;
-        _userEmail = user.email;
-      });
-    } else {
-      setState(() {
-        _success = false;
-      });
-    }
+  @override
+  Future<void> resetPassword(String email) async {
+    await _auth.sendPasswordResetEmail(email: email);
   }
 
   void _verSenha() {
