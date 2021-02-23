@@ -2,11 +2,10 @@ import 'dart:io';
 import 'dart:ui' as ui;
 
 import 'package:apple_sign_in/apple_sign_in.dart' as apple;
-import 'package:atendimentos/applesigninavailable.dart';
-import 'package:atendimentos/model/profissional.dart';
+import 'package:atendimentos/services/applesigninavailable.dart';
 import 'package:atendimentos/ui/firstscreen.dart';
-import 'package:atendimentos/sign_in.dart';
-import 'package:atendimentos/auth_service.dart';
+import 'package:atendimentos/services/sign_in.dart';
+import 'package:atendimentos/services/auth_service.dart';
 import 'package:atendimentos/ui/recuperar_senha.dart';
 import 'package:atendimentos/ui/registro.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -27,6 +26,7 @@ class _LoginPageState extends State<LoginPage> {
   bool _success;
   String _userEmail;
   bool _obscureText = true;
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -48,6 +48,7 @@ class _LoginPageState extends State<LoginPage> {
     Provider.of<AppleSignInAvailable>(context, listen: false);
 
     return Scaffold(
+      key: _scaffoldKey,
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -118,8 +119,8 @@ class _LoginPageState extends State<LoginPage> {
                     color: Colors.white,
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.white,
-                        blurRadius: 1
+                          color: Colors.white,
+                          blurRadius: 1
                       )
                     ]
                 ),
@@ -267,8 +268,8 @@ class _LoginPageState extends State<LoginPage> {
                                             ),
                                           );
                                         }
-                                        _emailController.text = '';
-                                        _passwordController.text = '';
+//                                        _emailController.text = '';
+//                                        _passwordController.text = '';
                                       });
 //                                      _register();
                                     }
@@ -305,9 +306,7 @@ class _LoginPageState extends State<LoginPage> {
                                       borderRadius: BorderRadius.circular(40)
                                   ),
                                   onPressed: () async {
-                                    _emailController.text = '';
-                                    _passwordController.text = '';
-                                    Navigator.of(context).push(
+                                    Navigator.of(context).pushReplacement(
                                       MaterialPageRoute(
                                         builder: (context) {
                                           return Registro();
@@ -335,13 +334,6 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                               ],
                             ),
-                            /*Container(
-                              alignment: Alignment.center,
-                              child: Text(_success == null ? ''
-                                  : (_success ? 'Cadastrado efetuado com sucesso ' + _userEmail
-                                  : 'Registration failed')
-                              ),
-                            ),*/
                             SizedBox(
                               height: MediaQuery.of(context).size.height/100,
                             ),
@@ -470,45 +462,102 @@ class _LoginPageState extends State<LoginPage> {
     String imageUrl;
     String usuario;
 
-    final UserCredential authResult = (await _auth.signInWithEmailAndPassword(
-      email: _emailController.text,
-      password: _passwordController.text,
-    ));
+    try {
+      final UserCredential authResult = (await _auth.signInWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      ));
 
-    final User user = authResult.user;
+      final User user = authResult.user;
 
-    if (user != null) {
-      assert(user.email != null);
-      //assert(user.displayName != null);
-      //assert(user.photoURL != null);
+      if (user != null) {
+        assert(user.email != null);
+        email = user.email;
 
-      //name = user.displayName;
-      email = user.email;
-      //imageUrl = user.photoURL;
-
-      if (email.contains("@")) {
-        usuario = email.substring(0, email.indexOf("@"));
-        if (usuario.contains('.') || usuario.contains('#') ||
-            usuario.contains('\$') ||
-            usuario.contains('[') || usuario.contains(']')) {
-          usuario = usuario.replaceAll('\.', '');
-          usuario = usuario.replaceAll('#', '');
-          usuario = usuario.replaceAll('\$', '');
-          usuario = usuario.replaceAll('[', '');
-          usuario = usuario.replaceAll(']', '');
+        if (email.contains("@")) {
+          usuario = email.substring(0, email.indexOf("@"));
+          if (usuario.contains('.') || usuario.contains('#') ||
+              usuario.contains('\$') ||
+              usuario.contains('[') || usuario.contains(']')) {
+            usuario = usuario.replaceAll('\.', '');
+            usuario = usuario.replaceAll('#', '');
+            usuario = usuario.replaceAll('\$', '');
+            usuario = usuario.replaceAll('[', '');
+            usuario = usuario.replaceAll(']', '');
+          }
         }
-      }
 
-      nome = '';
-      imageUrl = '';
-      print('$email acessou o sistema');
-      return user;
+        nome = '';
+        imageUrl = '';
+        _emailController.text = '';
+        _passwordController.text = '';
+        print('$email acessou o sistema');
+        return user;
+      }
+    } on FirebaseAuthException catch  (e) {
+      print('Failed with error code: ${e.code}');
+      print(e.message);
+      if(e.code == 'user-not-found') {
+        WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
+            SnackBar(
+              duration: Duration(seconds: 2),
+              content: Text('Email não cadastrado',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'quicksand',
+                  fontSize: MediaQuery.of(context).size.height/50,
+                ),
+              ),
+              backgroundColor: Colors.black,
+              behavior: SnackBarBehavior.floating,
+            )
+        ));
+      } else if (e.code == 'wrong-password') {
+        WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
+            SnackBar(
+              duration: Duration(seconds: 2),
+              content: Text('Senha incorreta',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'quicksand',
+                  fontSize: MediaQuery.of(context).size.height/50,
+                ),
+              ),
+              backgroundColor: Colors.black,
+              behavior: SnackBarBehavior.floating,
+            )
+        ));
+      }
     }
   }
 
+
   @override
   Future<void> resetPassword(String email) async {
-    await _auth.sendPasswordResetEmail(email: email);
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (ex) {
+      if(ex.code == 'ERROR_INVALID_EMAIL') {
+        WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
+            SnackBar(
+              duration: Duration(seconds: 2),
+              content: Text('Email não cadastrado',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'quicksand',
+                  fontSize: MediaQuery.of(context).size.height/50,
+                ),
+              ),
+              backgroundColor: Colors.black,
+              behavior: SnackBarBehavior.floating,
+            )
+        )
+        );
+      }
+    }
   }
 
   void _verSenha() {

@@ -16,6 +16,7 @@ class _RecuperarSenhaState extends State<RecuperarSenha> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   String _userEmail = '';
   bool emailValido;
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +27,7 @@ class _RecuperarSenhaState extends State<RecuperarSenha> {
     ]);
 
     return Scaffold(
+      key: _scaffoldKey,
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -173,13 +175,6 @@ class _RecuperarSenhaState extends State<RecuperarSenha> {
                           ],
                         ),
                       ),
-                      Text('Digite um email válido',
-                        style: TextStyle(
-                            color: emailValido == false ? Colors.transparent : Colors.red.shade900,
-                            fontSize: MediaQuery.of(context).size.height/60,
-                            fontFamily: 'quicksand'
-                        ),
-                      ),
                       FlatButton(
                         color: Colors.black,
                         shape: RoundedRectangleBorder(
@@ -193,12 +188,6 @@ class _RecuperarSenhaState extends State<RecuperarSenha> {
                         onPressed: () async {
                           if (_formKey.currentState.validate()) {
                             recuperarSenha(_emailController.text.toString());
-                            Fluttertoast.showToast(
-                              msg:'Email para redefinição de senha enviado',
-                              toastLength: Toast.LENGTH_SHORT,
-                              timeInSecForIosWeb: 5,
-                            );
-                            Navigator.of(context).pop();
                           }
                         },
                         child: Padding(
@@ -232,7 +221,39 @@ class _RecuperarSenhaState extends State<RecuperarSenha> {
 
   @override
   Future<void> recuperarSenha(String email) async {
-    await _auth.sendPasswordResetEmail(email: email);
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+      Fluttertoast.showToast(
+        msg:'Email para redefinição de senha enviado',
+        toastLength: Toast.LENGTH_SHORT,
+        timeInSecForIosWeb: 5,
+      );
+      Navigator.of(context).pop();
+    } on FirebaseAuthException catch  (e) {
+      print('Failed with error code: ${e.code}');
+      print(e.message);
+      if (e.code == 'user-not-found') {
+        WidgetsBinding.instance.addPostFrameCallback((_) =>
+            _scaffoldKey.currentState.showSnackBar(
+                SnackBar(
+                  duration: Duration(seconds: 2),
+                  content: Text('Email não cadastrado',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'quicksand',
+                      fontSize: MediaQuery
+                          .of(context)
+                          .size
+                          .height / 50,
+                    ),
+                  ),
+                  backgroundColor: Colors.black,
+                  behavior: SnackBarBehavior.floating,
+                )
+            ));
+      }
+    }
   }
 
   String validateEmail(String value) {

@@ -1,5 +1,5 @@
-import 'package:atendimentos/applesigninavailable.dart';
-import 'package:atendimentos/auth_service.dart';
+import 'package:atendimentos/services/applesigninavailable.dart';
+import 'package:atendimentos/services/auth_service.dart';
 import 'package:atendimentos/ui/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';

@@ -1,6 +1,6 @@
 import 'dart:ui' as ui;
 
-import 'package:atendimentos/applesigninavailable.dart';
+import 'package:atendimentos/services/applesigninavailable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,6 +22,7 @@ class _RegistroState extends State<Registro> {
   bool _success;
   String _userEmail;
   bool _obscureText = true;
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +36,7 @@ class _RegistroState extends State<Registro> {
     Provider.of<AppleSignInAvailable>(context, listen: false);
 
     return Scaffold(
+      key: _scaffoldKey,
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -176,6 +178,7 @@ class _RegistroState extends State<Registro> {
                                 fontFamily: 'quicksand',
                                 fontSize: MediaQuery.of(context).size.height/50,
                               ),
+                              enableInteractiveSelection: false,
                               controller: _passwordController,
                               obscureText: _obscureText,
                               //onSaved: (email) => paciente.email = email,
@@ -277,27 +280,53 @@ class _RegistroState extends State<Registro> {
   }
 
   void _register() async {
-    final User user = (await
-    _auth.createUserWithEmailAndPassword(
-      email: _emailController.text,
-      password: _passwordController.text,
-    )
-    ).user;
-    if (user != null) {
-      setState(() {
-        _success = true;
-        _userEmail = user.email;
-        Fluttertoast.showToast(
-          msg:'Registro efetuado com sucesso',
-          toastLength: Toast.LENGTH_SHORT,
-          timeInSecForIosWeb: 5,
-        );
-        Navigator.of(context).pop();
-      });
-    } else {
-      setState(() {
-        _success = false;
-      });
+    try {
+      final User user = (await
+      _auth.createUserWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      )
+      ).user;
+      if (user != null) {
+        setState(() {
+          _success = true;
+          _userEmail = user.email;
+          Fluttertoast.showToast(
+            msg: 'Registro efetuado com sucesso',
+            toastLength: Toast.LENGTH_SHORT,
+            timeInSecForIosWeb: 5,
+          );
+          Navigator.of(context).pop();
+        });
+      } else {
+        setState(() {
+          _success = false;
+        });
+      }
+    } on FirebaseAuthException catch(ex) {
+      print(ex.code);
+      print(ex.message);
+      if(ex.code == 'email-already-in-use') {
+        WidgetsBinding.instance.addPostFrameCallback((_) =>
+            _scaffoldKey.currentState.showSnackBar(
+                SnackBar(
+                  duration: Duration(seconds: 1),
+                  content: Text('Email já cadastrado',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'quicksand',
+                      fontSize: MediaQuery
+                          .of(context)
+                          .size
+                          .height / 50,
+                    ),
+                  ),
+                  backgroundColor: Colors.black,
+                  behavior: SnackBarBehavior.floating,
+                )
+            ));
+      }
     }
   }
 

@@ -140,10 +140,28 @@ class _ProntuariosState extends State<Prontuarios> {
                               Text('Nenhum atendimento marcado.',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontSize: MediaQuery.of(context).size.height/50,
+                                    inherit: false,
+                                    fontSize: MediaQuery.of(context).size.height/45,
                                     fontFamily: 'quicksand',
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white
+                                    color: Colors.white,
+                                    shadows: [
+                                      Shadow( // bottomLeft
+                                          offset: Offset(-0.5, -0.5),
+                                          color: Colors.black
+                                      ),
+                                      Shadow( // bottomRight
+                                          offset: Offset(0.5, -0.5),
+                                          color: Colors.black
+                                      ),
+                                      Shadow( // topRight
+                                          offset: Offset(0.5, 0.5),
+                                          color: Colors.black
+                                      ),
+                                      Shadow( // topLeft
+                                          offset: Offset(-0.5, 0.5),
+                                          color: Colors.black
+                                      ),
+                                    ]
                                 ),
                               ),
                               SizedBox(

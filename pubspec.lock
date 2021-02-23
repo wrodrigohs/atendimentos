@@ -427,6 +427,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.3.3"
+  purchases_flutter:
+    dependency: "direct main"
+    description:
+      name: purchases_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.4.3"
   qr:
     dependency: transitive
     description:
@@ -441,6 +448,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.5"
+  rflutter_alert:
+    dependency: "direct main"
+    description:
+      name: rflutter_alert
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.0"
   share:
     dependency: "direct main"
     description:

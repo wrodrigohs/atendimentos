@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:atendimentos/model/paciente.dart';
+import 'package:atendimentos/parental_gate.dart';
 import 'package:atendimentos/ui/agendar.dart';
 import 'package:atendimentos/ui/busca.dart';
 import 'package:atendimentos/ui/cadastro.dart';
@@ -8,16 +9,19 @@ import 'package:atendimentos/model/profissional.dart';
 import 'package:atendimentos/ui/consultas.dart';
 import 'package:atendimentos/ui/edicao.dart';
 import 'package:atendimentos/ui/prontuarios.dart';
+import 'package:atendimentos/upgrade.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:liquid_ui/liquid_ui.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
-import 'package:atendimentos/sign_in.dart';
-import 'package:atendimentos/auth_service.dart';
+import 'package:atendimentos/services/sign_in.dart';
+import 'package:atendimentos/services/auth_service.dart';
 import 'package:lottie/lottie.dart';
+import 'package:atendimentos/components.dart';
 import 'dart:ui' as ui;
 
 final FirebaseDatabase db = FirebaseDatabase.instance;
@@ -53,6 +57,7 @@ class _FirstScreenState extends State<FirstScreen> {
   @override
   void initState() {
     super.initState();
+    initPlatformState();
 
     if(widget.profissional != null) {
       profissional = widget.profissional;
@@ -174,7 +179,47 @@ class _FirstScreenState extends State<FirstScreen> {
                         ),
                       ),
                       Center(
-                          child: presente == false ?
+                          child: appData.isPro == false ?
+                          FlatButton(
+                            color: Colors.black,
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                  color: Colors.black,
+                                  width: 1,
+                                  style: BorderStyle.solid
+                              ),
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                            onPressed: () {
+                              if (appData.isPro) {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => UpgradeScreen(), settings: RouteSettings(name: 'Upgrade screen')));
+                              } else {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => ParentalGate(), settings: RouteSettings(name: 'Parental Gate')));
+                              }
+                            },
+                            child: Text(
+                              "Assine",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: MediaQuery.of(context).size.height/50,
+                                fontFamily: 'quicksand',
+                                shadows: <Shadow>[
+                                  Shadow(
+                                    offset: Offset(1.0, 1.0),
+                                    blurRadius: 3.0,
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                  ),
+                                  Shadow(
+                                    offset: Offset(2.0, 1.0),
+                                    blurRadius: 8.0,
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                          :
+                          presente == false ?
                           //Cadastro()
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -491,8 +536,6 @@ class _FirstScreenState extends State<FirstScreen> {
                 timeInSecForIosWeb: 5,
               );
               Navigator.of(context).pop();
-              //Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) {return LoginPage();}), ModalRoute.withName('/'));
-              //Navigator.pushReplacementNamed(context, "logout");
             },
           ),
         ),
@@ -637,6 +680,28 @@ class _FirstScreenState extends State<FirstScreen> {
       listaPacientes[listaPacientes.indexOf(oldEntry)] =
           Paciente.fromSnapshot(event.snapshot);
     });
+  }
+
+  Future<void> initPlatformState() async {
+    appData.isPro = false;
+
+    await Purchases.setDebugLogsEnabled(true);
+    await Purchases.setup("DJJaRnCSTAaKSZyiIGlanyjcHkalioBY");
+
+    PurchaserInfo purchaserInfo;
+    try {
+      purchaserInfo = await Purchases.getPurchaserInfo();
+      print(purchaserInfo.toString());
+      if (purchaserInfo.entitlements.all['VIP'] != null) {
+        appData.isPro = purchaserInfo.entitlements.all['VIP'].isActive;
+      } else {
+        appData.isPro = false;
+      }
+    } on PlatformException catch (e) {
+      print(e);
+    }
+
+    print('#### is user pro? ${appData.isPro}');
   }
 
   DateTime converterData(String strDate){

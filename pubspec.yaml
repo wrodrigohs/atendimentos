@@ -50,6 +50,8 @@ dependencies:
   lottie: ^0.7.0+1
   flutter_launcher_icons: ^0.8.1
   provider: ^4.3.2+2
+  rflutter_alert: ^1.0.3
+  purchases_flutter: ^1.1.1
 
 dev_dependencies:
   flutter_test:
