@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "100927655331",
+    "firebase_url": "https://atendimentos-e3d73-default-rtdb.firebaseio.com",
     "project_id": "atendimentos-e3d73",
     "storage_bucket": "atendimentos-e3d73.appspot.com"
   },
@@ -14,11 +15,64 @@
       },
       "oauth_client": [
         {
+          "client_id": "100927655331-05cjrdv07fhm1rvgdv76fgpuhmr2c18h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.aplicativoswr.atendimentos",
+            "certificate_hash": "52219be49b33280c9f49975db5f459fdd331f99a"
+          }
+        },
+        {
+          "client_id": "100927655331-0pib3a5ggpa7ulb65t71v0udb3e1qi3m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.aplicativoswr.atendimentos",
+            "certificate_hash": "98e71dabe257dd274ab8fb0556f856516def91f3"
+          }
+        },
+        {
           "client_id": "100927655331-bj18crhh9g7l2lpndh76d22deu1kc355.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "br.com.aplicativoswr.atendimentos",
             "certificate_hash": "6cd59f0e417d399155798ee3e4090d0b1f936b0d"
+          }
+        },
+        {
+          "client_id": "100927655331-qsmjihdp8sspd7ljep53h9aprlper58a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOG-lvgYa6PS9HJWjye09KcZDZGGqw5Vo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "100927655331-qsmjihdp8sspd7ljep53h9aprlper58a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:100927655331:android:2215ade181a8a1b74d5e16",
+        "android_client_info": {
+          "package_name": "br.com.aplicativoswr.clientes_atendimentos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "100927655331-qmj98u1h608stlmdtssc6d8kqkimgres.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.aplicativoswr.clientes_atendimentos",
+            "certificate_hash": "98e71dabe257dd274ab8fb0556f856516def91f3"
           }
         },
         {

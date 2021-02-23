@@ -187,13 +187,13 @@ class _ParentalGateState extends State<ParentalGate> {
                                 Padding(
                                   padding: const EdgeInsets.all(12.0),
                                   child: RaisedButton(
-                                      color: kColorAccent,
-                                      textColor: kColorText,
+                                      color: Colors.black,
+                                      textColor: Colors.white,
                                       shape: RoundedRectangleBorder(
                                         side: BorderSide(
-                                            color: Colors.transparent,
+                                            color: Colors.white,
                                             width: 1,
-                                            style: BorderStyle.none
+                                            style: BorderStyle.solid
                                         ),
                                         borderRadius: BorderRadius.circular(40),
                                       ),

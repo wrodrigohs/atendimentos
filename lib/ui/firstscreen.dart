@@ -8,8 +8,10 @@ import 'package:atendimentos/ui/cadastro.dart';
 import 'package:atendimentos/model/profissional.dart';
 import 'package:atendimentos/ui/consultas.dart';
 import 'package:atendimentos/ui/edicao.dart';
+import 'package:atendimentos/ui/login.dart';
 import 'package:atendimentos/ui/prontuarios.dart';
 import 'package:atendimentos/upgrade.dart';
+import 'package:atendimentos/upsell_screen.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -536,6 +538,7 @@ class _FirstScreenState extends State<FirstScreen> {
                 timeInSecForIosWeb: 5,
               );
               Navigator.of(context).pop();
+              Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
             },
           ),
         ),
@@ -574,6 +577,21 @@ class _FirstScreenState extends State<FirstScreen> {
                 SizedBox(height: 20.0),
               ],
             ),
+          ),
+          LListItem(
+            backgroundColor: Colors.transparent,
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => UpsellScreen()));
+            },
+            leading: Icon(Icons.monetization_on, size: 20.0, color: Colors.white),
+            title: Text("Assinatura",
+              style: TextStyle(
+                fontSize: MediaQuery.of(context).size.height/55,
+                fontFamily: 'quicksand',
+              ),
+            ),
+            textColor: Colors.white,
+            dense: true,
           ),
           LListItem(
             backgroundColor: Colors.transparent,
@@ -632,6 +650,7 @@ class _FirstScreenState extends State<FirstScreen> {
                 timeInSecForIosWeb: 5,
               );
               Navigator.of(context).pop();
+              Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
             },
             leading: Icon(Icons.exit_to_app, size: 20.0, color: Colors.white),
             title: Text("Sair",

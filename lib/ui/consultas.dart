@@ -202,54 +202,31 @@ class _ConsultasState extends State<Consultas> {
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontFamily: 'quicksand',
-                                      fontWeight: FontWeight.w600,
+                                      fontWeight: FontWeight.w700,
                                     ),
                                   ),
-                                  backgroundColor: Colors.purpleAccent),
+                                  backgroundColor: Colors.black),
                               title: Text(
                                 '${listaBuscado[posicao].nome}',
                                 style: TextStyle(
-                                  color: Colors.black,
+                                  color: Colors.white,
                                   fontFamily: 'quicksand',
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: MediaQuery.of(context).size.height/50,
                                 ),
                               ),
                               subtitle: Text(
                                 '${DateFormat.d().format(data)}/${DateFormat.M().format(data)}/${DateFormat.y().format(data)} às ${listaBuscado[posicao].hora}',
                                 style: TextStyle(
-                                  color: Colors.black,
+                                  color: Colors.white,
                                   fontFamily: 'quicksand',
+                                  fontWeight: FontWeight.w100,
+                                  fontSize: MediaQuery.of(context).size.height/55,
                                 ),
                               ),
                               trailing: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
-                                  IconButton(
-                                    icon: (listaDt[posicao].confirmado) ?
-                                    Icon(Icons.done_outline,
-                                        color: Colors.green)
-                                        :
-                                    Icon(Icons.done,
-                                        color: Colors.grey),
-                                    onPressed: () {
-                                      setState(() {
-                                        if (listaDt[posicao].confirmado == true) {
-                                          Fluttertoast.showToast(
-                                            msg:'Consulta confirmada',
-                                            toastLength: Toast.LENGTH_SHORT,
-                                            timeInSecForIosWeb: 5,
-                                          );
-                                          //envia mensagem ao paciente confirmando a consulta
-                                          launchWhatsApp(phone: '${listaDt[posicao].telefone}', message: 'Oi, ${listaDt[posicao].nome}, sua consulta de ${DateFormat.d().format(listaDt[posicao].data)}/${DateFormat.M().format(listaDt[posicao].data)}/${DateFormat.y().format(listaDt[posicao].data)} está confirmada.');
-                                        } else {
-                                          Fluttertoast.showToast(
-                                            msg:'Consulta não confirmada',
-                                            toastLength: Toast.LENGTH_SHORT,
-                                            timeInSecForIosWeb: 5,
-                                          );
-                                        }
-                                      });
-                                    },
-                                  ),
                                   IconButton(
                                     icon: Icon(Icons.edit),
                                     color: Colors.green,

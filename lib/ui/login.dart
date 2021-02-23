@@ -6,8 +6,6 @@ import 'package:atendimentos/services/applesigninavailable.dart';
 import 'package:atendimentos/ui/firstscreen.dart';
 import 'package:atendimentos/services/sign_in.dart';
 import 'package:atendimentos/services/auth_service.dart';
-import 'package:atendimentos/ui/recuperar_senha.dart';
-import 'package:atendimentos/ui/registro.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,21 +17,13 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  bool _success;
-  String _userEmail;
   bool _obscureText = true;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-
-    _emailController.text = '';
-    _passwordController.text = '';
   }
 
   @override
@@ -46,6 +36,8 @@ class _LoginPageState extends State<LoginPage> {
 
     final appleSignInAvailable =
     Provider.of<AppleSignInAvailable>(context, listen: false);
+
+    double distancia = AppBar().preferredSize.height + 10;
 
     return Scaffold(
       key: _scaffoldKey,
@@ -73,6 +65,9 @@ class _LoginPageState extends State<LoginPage> {
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
+                SizedBox(
+                  height: distancia,
+                ),
                 Container(
                   alignment: Alignment.center,
                   width: 100,
@@ -109,8 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ],
             ),
-            Center(
-              child: Container(
+              /*child: Container(
                 width: MediaQuery.of(context).size.width / 1.2,
                 height: MediaQuery.of(context).size.height / 2,
                 decoration: BoxDecoration(
@@ -123,13 +117,13 @@ class _LoginPageState extends State<LoginPage> {
                           blurRadius: 1
                       )
                     ]
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Form(
+                ),*/
+              Padding(
+                padding: const EdgeInsets.all(12),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    /*Form(
                         key: _formKey,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -358,35 +352,33 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             SizedBox(
                               height: MediaQuery.of(context).size.height/100,
-                            ),
-                            Align(
-                              alignment: Alignment.bottomCenter,
-                              child: _signInButton(),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Container(
-                                width: MediaQuery.of(context).size.width/2,
-                                child: (appleSignInAvailable.isAvailable) ?
-                                apple.AppleSignInButton(
-                                  cornerRadius: 40,
-                                  type: apple.ButtonType.signIn,
-                                  style: apple.ButtonStyle.whiteOutline,
-                                  onPressed: () {
-                                    _signInWithApple(context);
-                                  },
-                                )
-                                    : Container()
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                            ),*/
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: _signInButton(),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Container(
+                        width: MediaQuery.of(context).size.width/2,
+                        child: (appleSignInAvailable.isAvailable) ?
+                        apple.AppleSignInButton(
+                          cornerRadius: 40,
+                          type: apple.ButtonType.signIn,
+                          style: apple.ButtonStyle.whiteOutline,
+                          onPressed: () {
+                            _signInWithApple(context);
+                          },
+                        )
+                            : Container()
+                    ),
+                    SizedBox(
+                      height: distancia - 10,
+                    ),
+                  ],
                 ),
               ),
-            ),
           ],
         ),
       ),
@@ -407,13 +399,15 @@ class _LoginPageState extends State<LoginPage> {
       onPressed: () {
         signInWithGoogle().then((result) {
           if (result != null) {
-            Navigator.of(context).push(
+            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                FirstScreen()), (Route<dynamic> route) => false);
+            /*Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(
                 builder: (context) {
                   return FirstScreen();
                 },
               ),
-            );
+            );*/
           }
         });
       },
@@ -456,7 +450,7 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  Future<User> _signInWithEmailAndPassword() async {
+  /*Future<User> _signInWithEmailAndPassword() async {
     String nome;
     String email;
     String imageUrl;
@@ -574,12 +568,10 @@ class _LoginPageState extends State<LoginPage> {
       return 'Digite um e-mail válido.';
     else
       return null;
-  }
+  }*/
 
   @override
   void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
     super.dispose();
   }
 }
