@@ -54,45 +54,18 @@ class _FirstScreenState extends State<FirstScreen> {
 
   final GlobalKey<SideMenuState> _sideMenuKey = GlobalKey<SideMenuState>();
   final GlobalKey<SideMenuState> _endSideMenuKey = GlobalKey<SideMenuState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
     initPlatformState();
+    carregarInfos();
 
     if(widget.profissional != null) {
       profissional = widget.profissional;
     }
-
-    for (int i = 0; i < listaPacientes.length; i++) {
-      listaPacientes.removeAt(i);
-    }
-
-    dbProfissional = db2.reference().child('atendimentos');
-    dbProfissional.onChildAdded.listen(_gravarProfissional);
-    dbProfissional.onChildChanged.listen(_updateProfissional);
-    dbProfissional.once().then((DataSnapshot snapshot) {
-      Map<dynamic, dynamic> values = snapshot.value;
-      Profissional prof = new Profissional(values['nome'], values['telefone'],
-          values['email'], values['areaAtuacao'], values['usuario'],
-          values['imageURL'], values['facebook'], values['instagram'], values['assinante']);
-      if(prof.nome != null) {
-        listaProfissional.add(prof);
-      }
-    });
-
-    dbPacientes = db.reference().child('atendimentos/${profissional.usuario}/pacientes');
-    dbPacientes.onChildAdded.listen(_gravar);
-    dbPacientes.onChildChanged.listen(_update);
-    dbPacientes.once().then((DataSnapshot snapshot) {
-      Map<dynamic, dynamic> values = snapshot.value;
-      Paciente paciente = new Paciente(values['nome'], values['telefone'],
-          values['email'], values['data'], values['hora'], values['anotacao'], values['confirmado']);
-      if(paciente.nome != null) {
-        listaPacientes.add(paciente);
-      }
-    });
   }
 
   @override
@@ -106,6 +79,7 @@ class _FirstScreenState extends State<FirstScreen> {
     for(int i = 0; i < listaProfissional.length; i++) {
       if(listaProfissional[i].email == profissional.email) {
         presente = true;
+        break;
       }
     }
 
@@ -124,6 +98,7 @@ class _FirstScreenState extends State<FirstScreen> {
         menu: buildMenu(context),
         type: SideMenuType.slideNRotate,
         child: Scaffold(
+          key: _scaffoldKey,
           body: Stack(
             children: <Widget>[
               Scaffold(
@@ -136,26 +111,92 @@ class _FirstScreenState extends State<FirstScreen> {
                   leading: IconButton(
                     icon: Icon(Icons.menu),
                     onPressed: () {
-                      final _state = _sideMenuKey.currentState;
-                      if (_state.isOpened)
-                        _state.closeSideMenu();
-                      else
-                        _state.openSideMenu();
+                      if(appData.isPro == true) {
+                        final _state = _sideMenuKey.currentState;
+                        if (_state.isOpened) {
+                          _state.closeSideMenu();
+                        } else {
+                          _state.openSideMenu();
+                        }
+                      } else {
+                        WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
+                            SnackBar(
+                              action: SnackBarAction(
+                                label: 'OK',
+                                onPressed: () {
+                                  _scaffoldKey.currentState.hideCurrentSnackBar();
+                                },
+                              ),
+                              duration: Duration(seconds: 2),
+                              content: Text('Você deve ser assinante para ter acesso a todos os recursos do app.',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'quicksand',
+                                  fontSize: MediaQuery.of(context).size.height/55,
+                                ),
+                              ),
+                              backgroundColor: Colors.black,
+                              behavior: SnackBarBehavior.floating,
+                            )
+                        )
+                        );
+                      }
                     },
                   ),
                   actions: <Widget>[
+                    IconButton(
+                      icon: Icon(
+                        Icons.refresh,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          Navigator.pushReplacement(context, MaterialPageRoute(
+                              builder: (BuildContext context) => super.widget));
+                        });
+                      },
+                    ),
                     IconButton(
                         icon: Icon(Icons.search,
                           color: Colors.white,
                         ),
                         onPressed: () {
-                          dialogBusca(context);
+                          setState(() {
+                            if(appData.isPro == true) {
+                              dialogBusca(context);
+                            } else {
+                              WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
+                                  SnackBar(
+                                    action: SnackBarAction(
+                                      label: 'OK',
+                                      onPressed: () {
+                                        _scaffoldKey.currentState.hideCurrentSnackBar();
+                                      },
+                                    ),
+                                    duration: Duration(seconds: 2),
+                                    content: Text('Você deve ser assinante para ter acesso a todos os recursos do app.',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'quicksand',
+                                        fontSize: MediaQuery.of(context).size.height/55,
+                                      ),
+                                    ),
+                                    backgroundColor: Colors.black,
+                                    behavior: SnackBarBehavior.floating,
+                                  )
+                              )
+                              );
+                            }
+                          });
                         }
                     ),
                   ],
                   title: Text('Meu consultório online',
                     style: TextStyle(
-                        fontFamily: 'quicksand'
+                        fontFamily: 'quicksand',
+                        color: Colors.white
                     ),
                   ),
                 ),
@@ -182,46 +223,129 @@ class _FirstScreenState extends State<FirstScreen> {
                       ),
                       Center(
                           child: appData.isPro == false ?
-                          FlatButton(
-                            color: Colors.black,
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                  color: Colors.black,
-                                  width: 1,
-                                  style: BorderStyle.solid
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(18.0),
+                                child: Icon(
+                                  Icons.error,
+                                  color: Theme.of(context).errorColor,
+                                  size: MediaQuery.of(context).size.height/20,
+                                ),
                               ),
-                              borderRadius: BorderRadius.circular(40),
-                            ),
-                            onPressed: () {
-                              if (appData.isPro) {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => UpgradeScreen(), settings: RouteSettings(name: 'Upgrade screen')));
-                              } else {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => ParentalGate(), settings: RouteSettings(name: 'Parental Gate')));
-                              }
-                            },
-                            child: Text(
-                              "Assine",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: MediaQuery.of(context).size.height/50,
-                                fontFamily: 'quicksand',
-                                shadows: <Shadow>[
-                                  Shadow(
-                                    offset: Offset(1.0, 1.0),
-                                    blurRadius: 3.0,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                  ),
-                                  Shadow(
-                                    offset: Offset(2.0, 1.0),
-                                    blurRadius: 8.0,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                  ),
-                                ],
+                              Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: Text(
+                                    "Se você já é assinante, aguarde enquanto carregamos suas informações.",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: 'quicksand',
+                                      fontSize: MediaQuery.of(context).size.height/50,
+                                      shadows: <Shadow>[
+                                        Shadow(
+                                          offset: Offset(1.0, 1.0),
+                                          blurRadius: 3.0,
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                        ),
+                                        Shadow(
+                                          offset: Offset(2.0, 1.0),
+                                          blurRadius: 8.0,
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                        ),
+                                      ],
+                                    )
+                                ),
                               ),
-                            ),
+                              Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: Text(
+                                    "É necessário fazer sua assinatura para ter acesso a todos os recursos do aplicativo.",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: 'quicksand',
+                                      fontSize: MediaQuery.of(context).size.height/50,
+                                      shadows: <Shadow>[
+                                        Shadow(
+                                          offset: Offset(1.0, 1.0),
+                                          blurRadius: 3.0,
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                        ),
+                                        Shadow(
+                                          offset: Offset(2.0, 1.0),
+                                          blurRadius: 8.0,
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                        ),
+                                      ],
+                                    )
+                                ),
+                              ),
+                              FlatButton(
+                                color: Colors.black,
+                                shape: RoundedRectangleBorder(
+                                  side: BorderSide(
+                                      color: Colors.black,
+                                      width: 1,
+                                      style: BorderStyle.solid
+                                  ),
+                                  borderRadius: BorderRadius.circular(40),
+                                ),
+                                onPressed: () {
+                                  if (appData.isPro) {
+                                    WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
+                                        SnackBar(
+                                          action: SnackBarAction(
+                                            label: 'OK',
+                                            onPressed: () {
+                                              _scaffoldKey.currentState.hideCurrentSnackBar();
+                                            },
+                                          ),
+                                          duration: Duration(seconds: 4),
+                                          content: Text('Você já é assinante, aguarde enquanto carregamos suas informações.',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontFamily: 'quicksand',
+                                              fontSize: MediaQuery.of(context).size.height/50,
+                                            ),
+                                          ),
+                                          backgroundColor: Colors.black,
+                                          behavior: SnackBarBehavior.floating,
+                                        )
+                                    )
+                                    );
+                                    //Navigator.push(context, MaterialPageRoute(builder: (context) => UpgradeScreen(), settings: RouteSettings(name: 'Upgrade screen')));
+                                  } else {
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => ParentalGate(), settings: RouteSettings(name: 'Parental Gate')));
+                                  }
+                                },
+                                child: Text(
+                                  "Assine",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: MediaQuery.of(context).size.height/50,
+                                    fontFamily: 'quicksand',
+                                    shadows: <Shadow>[
+                                      Shadow(
+                                        offset: Offset(1.0, 1.0),
+                                        blurRadius: 3.0,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                      Shadow(
+                                        offset: Offset(2.0, 1.0),
+                                        blurRadius: 8.0,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            ],
                           )
-                          :
-                          presente == false ?
+                              :
+                          appData.isPro == true && presente == false ?
                           //Cadastro()
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -529,7 +653,7 @@ class _FirstScreenState extends State<FirstScreen> {
             backgroundColor: Colors.black,
             onPressed: () {
               //if(Platform.isIOS) {
-                auth.signOut();
+              auth.signOut();
               //}
               signOutGoogle();
               Fluttertoast.showToast(
@@ -698,6 +822,37 @@ class _FirstScreenState extends State<FirstScreen> {
     setState(() {
       listaPacientes[listaPacientes.indexOf(oldEntry)] =
           Paciente.fromSnapshot(event.snapshot);
+    });
+  }
+
+  Future<void> carregarInfos() async {
+    for (int i = 0; i < listaPacientes.length; i++) {
+      listaPacientes.removeAt(i);
+    }
+
+    dbProfissional = db2.reference().child('atendimentos');
+    dbProfissional.onChildAdded.listen(_gravarProfissional);
+    dbProfissional.onChildChanged.listen(_updateProfissional);
+    dbProfissional.once().then((DataSnapshot snapshot) {
+      Map<dynamic, dynamic> values = snapshot.value;
+      Profissional prof = new Profissional(values['nome'], values['telefone'],
+          values['email'], values['areaAtuacao'], values['usuario'],
+          values['imageURL'], values['facebook'], values['instagram'], values['assinante']);
+      if(prof.nome != null) {
+        listaProfissional.add(prof);
+      }
+    });
+
+    dbPacientes = db.reference().child('atendimentos/${profissional.usuario}/pacientes');
+    dbPacientes.onChildAdded.listen(_gravar);
+    dbPacientes.onChildChanged.listen(_update);
+    dbPacientes.once().then((DataSnapshot snapshot) {
+      Map<dynamic, dynamic> values = snapshot.value;
+      Paciente paciente = new Paciente(values['nome'], values['telefone'],
+          values['email'], values['data'], values['hora'], values['anotacao'], values['confirmado']);
+      if(paciente.nome != null) {
+        listaPacientes.add(paciente);
+      }
     });
   }
 

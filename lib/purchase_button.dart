@@ -21,8 +21,7 @@ class _PurchaseButtonState extends State<PurchaseButton> {
     return Padding(
       padding: const EdgeInsets.only(left: 20.0, right: 20.0),
       child: Container(
-        color: kColorPrimaryLight,
-        width: double.infinity,
+        width: MediaQuery.of(context).size.width,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -44,7 +43,7 @@ class _PurchaseButtonState extends State<PurchaseButton> {
                         context: context,
                         style: kWelcomeAlertStyle,
                         image: Image.asset(
-                          "assets/images/avatar_demo.png",
+                          "assets/images/health.png",
                           height: 150,
                         ),
                         title: "Parabéns!",
@@ -54,8 +53,24 @@ class _PurchaseButtonState extends State<PurchaseButton> {
                               padding: const EdgeInsets.only(top: 20.0, right: 8.0, left: 8.0, bottom: 20.0),
                               child: Text(
                                 'Excelente! Agora você tem acesso a todo o conteúdo do aplicativo.',
-                                textAlign: TextAlign.center,
-                                style: kSendButtonTextStyle,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'quicksand',
+                                    fontSize: MediaQuery.of(context).size.height/50,
+                                    shadows: <Shadow>[
+                                      Shadow(
+                                        offset: Offset(1.0, 1.0),
+                                        blurRadius: 3.0,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                      Shadow(
+                                        offset: Offset(2.0, 1.0),
+                                        blurRadius: 8.0,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                    ],
+                                  )
                               ),
                             )
                           ],
@@ -64,8 +79,25 @@ class _PurchaseButtonState extends State<PurchaseButton> {
                           DialogButton(
                             radius: BorderRadius.circular(10),
                             child: Text(
-                              "Ótimo",
-                              style: kSendButtonTextStyle,
+                              "OK",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'quicksand',
+                                  fontSize: MediaQuery.of(context).size.height/50,
+                                  shadows: <Shadow>[
+                                    Shadow(
+                                      offset: Offset(1.0, 1.0),
+                                      blurRadius: 3.0,
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                    ),
+                                    Shadow(
+                                      offset: Offset(2.0, 1.0),
+                                      blurRadius: 8.0,
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                    ),
+                                  ],
+                                )
                             ),
                             onPressed: () {
                               Navigator.of(context, rootNavigator: true).pop();
@@ -83,7 +115,7 @@ class _PurchaseButtonState extends State<PurchaseButton> {
                         context: context,
                         style: kWelcomeAlertStyle,
                         image: Image.asset(
-                          "assets/images/avatar_demo.png",
+                          "assets/images/health.png",
                           height: 150,
                         ),
                         title: "Erro",
@@ -92,9 +124,25 @@ class _PurchaseButtonState extends State<PurchaseButton> {
                             Padding(
                               padding: const EdgeInsets.only(top: 20.0, right: 8.0, left: 8.0, bottom: 20.0),
                               child: Text(
-                                'There was an error. Please try again later',
-                                textAlign: TextAlign.center,
-                                style: kSendButtonTextStyle,
+                                'Houve um erro. Tente novamente mais tarde.',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'quicksand',
+                                    fontSize: MediaQuery.of(context).size.height/50,
+                                    shadows: <Shadow>[
+                                      Shadow(
+                                        offset: Offset(1.0, 1.0),
+                                        blurRadius: 3.0,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                      Shadow(
+                                        offset: Offset(2.0, 1.0),
+                                        blurRadius: 8.0,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                    ],
+                                  )
                               ),
                             )
                           ],
@@ -103,8 +151,25 @@ class _PurchaseButtonState extends State<PurchaseButton> {
                           DialogButton(
                             radius: BorderRadius.circular(10),
                             child: Text(
-                              "COOL",
-                              style: kSendButtonTextStyle,
+                              "OK",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'quicksand',
+                                  fontSize: MediaQuery.of(context).size.height/50,
+                                  shadows: <Shadow>[
+                                    Shadow(
+                                      offset: Offset(1.0, 1.0),
+                                      blurRadius: 3.0,
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                    ),
+                                    Shadow(
+                                      offset: Offset(2.0, 1.0),
+                                      blurRadius: 8.0,
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                    ),
+                                  ],
+                                )
                             ),
                             onPressed: () {
                               Navigator.of(context, rootNavigator: true).pop();
@@ -128,18 +193,34 @@ class _PurchaseButtonState extends State<PurchaseButton> {
                       context: context,
                       style: kWelcomeAlertStyle,
                       image: Image.asset(
-                        "assets/images/avatar_demo.png",
+                        "assets/images/health.png",
                         height: 150,
                       ),
-                      title: "Error",
+                      title: "Erro",
                       content: Column(
                         children: <Widget>[
                           Padding(
                             padding: const EdgeInsets.only(top: 20.0, right: 8.0, left: 8.0, bottom: 20.0),
                             child: Text(
-                              'There was an error. Please try again later',
-                              textAlign: TextAlign.center,
-                              style: kSendButtonTextStyle,
+                              'Houve um erro. Tente novamente mais tarde.',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'quicksand',
+                                  fontSize: MediaQuery.of(context).size.height/50,
+                                  shadows: <Shadow>[
+                                    Shadow(
+                                      offset: Offset(1.0, 1.0),
+                                      blurRadius: 3.0,
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                    ),
+                                    Shadow(
+                                      offset: Offset(2.0, 1.0),
+                                      blurRadius: 8.0,
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                    ),
+                                  ],
+                                )
                             ),
                           )
                         ],
@@ -148,7 +229,7 @@ class _PurchaseButtonState extends State<PurchaseButton> {
                         DialogButton(
                           radius: BorderRadius.circular(10),
                           child: Text(
-                            "COOL",
+                            "OK!",
                             style: kSendButtonTextStyle,
                           ),
                           onPressed: () {
@@ -178,8 +259,12 @@ class _PurchaseButtonState extends State<PurchaseButton> {
                   ),
                   padding: const EdgeInsets.all(10.0),
                   child: Text(
-                    'Comprar ${widget.package.product.title}\n${widget.package.product.priceString}',
-                    style: TextStyle(fontSize: MediaQuery.of(context).size.height/50, fontFamily: 'quicksand'),
+                    'Assinar ${widget.package.product.title}\n${widget.package.product.priceString}',
+                    style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.height/50,
+                        fontFamily: 'quicksand',
+                        color: Colors.white
+                    ),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -190,7 +275,11 @@ class _PurchaseButtonState extends State<PurchaseButton> {
               child: Text(
                 '${widget.package.product.description}',
                 textAlign: TextAlign.center,
-                style: kSendButtonTextStyle.copyWith(fontSize: MediaQuery.of(context).size.height/60, fontFamily: 'quicksand'),
+                style: kSendButtonTextStyle.copyWith(
+                    fontSize: MediaQuery.of(context).size.height/60,
+                    fontFamily: 'quicksand',
+                    color: Colors.white
+                ),
               ),
             )
           ],

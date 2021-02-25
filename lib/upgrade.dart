@@ -18,6 +18,7 @@ class UpgradeScreen extends StatefulWidget {
 
 class _UpgradeScreenState extends State<UpgradeScreen> {
   Offerings _offerings;
+  String erro;
 
   @override
   void initState() {
@@ -31,6 +32,7 @@ class _UpgradeScreenState extends State<UpgradeScreen> {
       purchaserInfo = await Purchases.getPurchaserInfo();
     } on PlatformException catch (e) {
       print(e);
+      erro = e.code.toString();
     }
 
     Offerings offerings;
@@ -38,6 +40,79 @@ class _UpgradeScreenState extends State<UpgradeScreen> {
       offerings = await Purchases.getOfferings();
     } on PlatformException catch (e) {
       print(e);
+      if(e.code == 'BILLING_UNAVAILABLE') {
+        Alert(
+          context: context,
+          style: kWelcomeAlertStyle,
+          image: Image.asset(
+            "assets/images/health.png",
+            height: 150,
+          ),
+          title: "Parabéns!",
+          content: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(top: 20.0, right: 8.0, left: 8.0, bottom: 20.0),
+                child: Text(
+                    'Sua compra foi ressarcida com sucesso!',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'quicksand',
+                      fontSize: MediaQuery.of(context).size.height/50,
+                      shadows: <Shadow>[
+                        Shadow(
+                          offset: Offset(1.0, 1.0),
+                          blurRadius: 3.0,
+                          color: Color.fromARGB(255, 0, 0, 0),
+                        ),
+                        Shadow(
+                          offset: Offset(2.0, 1.0),
+                          blurRadius: 8.0,
+                          color: Color.fromARGB(255, 0, 0, 0),
+                        ),
+                      ],
+                    )
+                ),
+              )
+            ],
+          ),
+          buttons: [
+            DialogButton(
+              radius: BorderRadius.circular(10),
+              child: Text(
+                  "OK",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'quicksand',
+                    fontSize: MediaQuery.of(context).size.height/40,
+                    shadows: <Shadow>[
+                      Shadow(
+                        offset: Offset(1.0, 1.0),
+                        blurRadius: 3.0,
+                        color: Color.fromARGB(255, 0, 0, 0),
+                      ),
+                      Shadow(
+                        offset: Offset(2.0, 1.0),
+                        blurRadius: 8.0,
+                        color: Color.fromARGB(255, 0, 0, 0),
+                      ),
+                    ],
+                  )
+              ),
+              onPressed: () {
+                Navigator.of(context, rootNavigator: true).pop();
+                Navigator.of(context, rootNavigator: true).pop();
+                Navigator.of(context, rootNavigator: true).pop();
+              },
+              width: 127,
+              color: kColorAccent,
+              height: 52,
+            ),
+          ],
+        ).show();
+      }
     }
     if (!mounted) return;
 
