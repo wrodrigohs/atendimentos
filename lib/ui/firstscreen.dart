@@ -3,12 +3,14 @@ import 'dart:io';
 import 'package:atendimentos/model/paciente.dart';
 import 'package:atendimentos/parental_gate.dart';
 import 'package:atendimentos/ui/agendar.dart';
+import 'package:atendimentos/ui/assinatura.dart';
 import 'package:atendimentos/ui/busca.dart';
 import 'package:atendimentos/ui/cadastro.dart';
 import 'package:atendimentos/model/profissional.dart';
 import 'package:atendimentos/ui/consultas.dart';
 import 'package:atendimentos/ui/edicao.dart';
 import 'package:atendimentos/ui/login.dart';
+import 'package:atendimentos/ui/politica.dart';
 import 'package:atendimentos/ui/prontuarios.dart';
 import 'package:atendimentos/upgrade.dart';
 import 'package:atendimentos/upsell_screen.dart';
@@ -146,18 +148,6 @@ class _FirstScreenState extends State<FirstScreen> {
                   ),
                   actions: <Widget>[
                     IconButton(
-                      icon: Icon(
-                        Icons.refresh,
-                        color: Colors.white,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          Navigator.pushReplacement(context, MaterialPageRoute(
-                              builder: (BuildContext context) => super.widget));
-                        });
-                      },
-                    ),
-                    IconButton(
                         icon: Icon(Icons.search,
                           color: Colors.white,
                         ),
@@ -237,31 +227,7 @@ class _FirstScreenState extends State<FirstScreen> {
                               Padding(
                                 padding: const EdgeInsets.all(12.0),
                                 child: Text(
-                                    "Se você já é assinante, aguarde enquanto carregamos suas informações.",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontFamily: 'quicksand',
-                                      fontSize: MediaQuery.of(context).size.height/50,
-                                      shadows: <Shadow>[
-                                        Shadow(
-                                          offset: Offset(1.0, 1.0),
-                                          blurRadius: 3.0,
-                                          color: Color.fromARGB(255, 0, 0, 0),
-                                        ),
-                                        Shadow(
-                                          offset: Offset(2.0, 1.0),
-                                          blurRadius: 8.0,
-                                          color: Color.fromARGB(255, 0, 0, 0),
-                                        ),
-                                      ],
-                                    )
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(12.0),
-                                child: Text(
-                                    "É necessário fazer sua assinatura para ter acesso a todos os recursos do aplicativo.",
+                                    "Se você já é assinante, clique no botão abaixo para carregar suas informações.",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color: Colors.white,
@@ -293,33 +259,65 @@ class _FirstScreenState extends State<FirstScreen> {
                                   borderRadius: BorderRadius.circular(40),
                                 ),
                                 onPressed: () {
-                                  if (appData.isPro) {
-                                    WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
-                                        SnackBar(
-                                          action: SnackBarAction(
-                                            label: 'OK',
-                                            onPressed: () {
-                                              _scaffoldKey.currentState.hideCurrentSnackBar();
-                                            },
-                                          ),
-                                          duration: Duration(seconds: 4),
-                                          content: Text('Você já é assinante, aguarde enquanto carregamos suas informações.',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontFamily: 'quicksand',
-                                              fontSize: MediaQuery.of(context).size.height/50,
-                                            ),
-                                          ),
-                                          backgroundColor: Colors.black,
-                                          behavior: SnackBarBehavior.floating,
-                                        )
+                                  Navigator.pushReplacement(context, MaterialPageRoute(
+                                      builder: (BuildContext context) => super.widget));                                },
+                                child: Text(
+                                  "Área do assinante",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: MediaQuery.of(context).size.height/50,
+                                    fontFamily: 'quicksand',
+                                    shadows: <Shadow>[
+                                      Shadow(
+                                        offset: Offset(1.0, 1.0),
+                                        blurRadius: 3.0,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                      Shadow(
+                                        offset: Offset(2.0, 1.0),
+                                        blurRadius: 8.0,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: Text(
+                                    "Se ainda não é assinante, faça sua assinatura para ter acesso a todos os recursos do aplicativo.",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: 'quicksand',
+                                      fontSize: MediaQuery.of(context).size.height/50,
+                                      shadows: <Shadow>[
+                                        Shadow(
+                                          offset: Offset(1.0, 1.0),
+                                          blurRadius: 3.0,
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                        ),
+                                        Shadow(
+                                          offset: Offset(2.0, 1.0),
+                                          blurRadius: 8.0,
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                        ),
+                                      ],
                                     )
-                                    );
-                                    //Navigator.push(context, MaterialPageRoute(builder: (context) => UpgradeScreen(), settings: RouteSettings(name: 'Upgrade screen')));
-                                  } else {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => ParentalGate(), settings: RouteSettings(name: 'Parental Gate')));
-                                  }
+                                ),
+                              ),
+                              FlatButton(
+                                color: Colors.black,
+                                shape: RoundedRectangleBorder(
+                                  side: BorderSide(
+                                      color: Colors.black,
+                                      width: 1,
+                                      style: BorderStyle.solid
+                                  ),
+                                  borderRadius: BorderRadius.circular(40),
+                                ),
+                                onPressed: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => ParentalGate(), settings: RouteSettings(name: 'Parental Gate')));
                                 },
                                 child: Text(
                                   "Assine",
@@ -702,10 +700,10 @@ class _FirstScreenState extends State<FirstScreen> {
               ],
             ),
           ),
-          LListItem(
+          /*LListItem(
             backgroundColor: Colors.transparent,
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => UpsellScreen()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Assinatura()));
             },
             leading: Icon(Icons.monetization_on, size: 20.0, color: Colors.white),
             title: Text("Assinatura",
@@ -716,7 +714,7 @@ class _FirstScreenState extends State<FirstScreen> {
             ),
             textColor: Colors.white,
             dense: true,
-          ),
+          ),*/
           LListItem(
             backgroundColor: Colors.transparent,
             onTap: () {
@@ -755,6 +753,22 @@ class _FirstScreenState extends State<FirstScreen> {
             leading:
             Icon(Icons.assignment, size: 20.0, color: Colors.white),
             title: Text("Anotações/Prontuários",
+              style: TextStyle(
+                fontSize: MediaQuery.of(context).size.height/55,
+                fontFamily: 'quicksand',
+              ),
+            ),
+            textColor: Colors.white,
+            dense: true,
+          ),
+          LListItem(
+            backgroundColor: Colors.transparent,
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => PoliticadePrivacidade()));
+            },
+            leading:
+            Icon(Icons.assignment, size: 20.0, color: Colors.white),
+            title: Text("Política de privacidade",
               style: TextStyle(
                 fontSize: MediaQuery.of(context).size.height/55,
                 fontFamily: 'quicksand',

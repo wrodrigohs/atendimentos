@@ -32,7 +32,6 @@ class _UpgradeScreenState extends State<UpgradeScreen> {
       purchaserInfo = await Purchases.getPurchaserInfo();
     } on PlatformException catch (e) {
       print(e);
-      erro = e.code.toString();
     }
 
     Offerings offerings;
@@ -48,13 +47,13 @@ class _UpgradeScreenState extends State<UpgradeScreen> {
             "assets/images/health.png",
             height: 150,
           ),
-          title: "Parabéns!",
+          title: "Erro!",
           content: Column(
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(top: 20.0, right: 8.0, left: 8.0, bottom: 20.0),
                 child: Text(
-                    'Sua compra foi ressarcida com sucesso!',
+                    'Verifique se o seu dispositivo permite fazer compras.',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,

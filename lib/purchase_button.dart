@@ -186,61 +186,114 @@ class _PurchaseButtonState extends State<PurchaseButton> {
                     var errorCode = PurchasesErrorHelper.getErrorCode(e);
                     if (errorCode == PurchasesErrorCode.purchaseCancelledError) {
                       print("User cancelled");
+                      Alert(
+                        context: context,
+                        style: kWelcomeAlertStyle,
+                        image: Icon(
+                          Icons.error,
+                          color: Theme.of(context).errorColor,
+                        ),
+                        title: "Erro",
+                        content: Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(top: 20.0, right: 8.0, left: 8.0, bottom: 20.0),
+                              child: Text(
+                                  'Compra cancelada pelo usuário.',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'quicksand',
+                                    fontSize: MediaQuery.of(context).size.height/50,
+                                    shadows: <Shadow>[
+                                      Shadow(
+                                        offset: Offset(1.0, 1.0),
+                                        blurRadius: 3.0,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                      Shadow(
+                                        offset: Offset(2.0, 1.0),
+                                        blurRadius: 8.0,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                    ],
+                                  )
+                              ),
+                            )
+                          ],
+                        ),
+                        buttons: [
+                          DialogButton(
+                            radius: BorderRadius.circular(10),
+                            child: Text(
+                              "OK!",
+                              style: kSendButtonTextStyle,
+                            ),
+                            onPressed: () {
+                              Navigator.of(context, rootNavigator: true).pop();
+                            },
+                            width: 127,
+                            color: kColorAccent,
+                            height: 52,
+                          ),
+                        ],
+                      ).show();
                     } else if (errorCode == PurchasesErrorCode.purchaseNotAllowedError) {
                       print("User not allowed to purchase");
-                    }
-                    Alert(
-                      context: context,
-                      style: kWelcomeAlertStyle,
-                      image: Image.asset(
-                        "assets/images/health.png",
-                        height: 150,
-                      ),
-                      title: "Erro",
-                      content: Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(top: 20.0, right: 8.0, left: 8.0, bottom: 20.0),
-                            child: Text(
-                              'Houve um erro. Tente novamente mais tarde.',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'quicksand',
-                                  fontSize: MediaQuery.of(context).size.height/50,
-                                  shadows: <Shadow>[
-                                    Shadow(
-                                      offset: Offset(1.0, 1.0),
-                                      blurRadius: 3.0,
-                                      color: Color.fromARGB(255, 0, 0, 0),
-                                    ),
-                                    Shadow(
-                                      offset: Offset(2.0, 1.0),
-                                      blurRadius: 8.0,
-                                      color: Color.fromARGB(255, 0, 0, 0),
-                                    ),
-                                  ],
-                                )
-                            ),
-                          )
-                        ],
-                      ),
-                      buttons: [
-                        DialogButton(
-                          radius: BorderRadius.circular(10),
-                          child: Text(
-                            "OK!",
-                            style: kSendButtonTextStyle,
-                          ),
-                          onPressed: () {
-                            Navigator.of(context, rootNavigator: true).pop();
-                          },
-                          width: 127,
-                          color: kColorAccent,
-                          height: 52,
+                      Alert(
+                        context: context,
+                        style: kWelcomeAlertStyle,
+                        image: Icon(
+                          Icons.error,
+                          color: Theme.of(context).errorColor,
                         ),
-                      ],
-                    ).show();
+                        title: "Erro",
+                        content: Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(top: 20.0, right: 8.0, left: 8.0, bottom: 20.0),
+                              child: Text(
+                                  'Por favor, verifique se seu dispositivo permite fazer compras e tente novamente.',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'quicksand',
+                                    fontSize: MediaQuery.of(context).size.height/50,
+                                    shadows: <Shadow>[
+                                      Shadow(
+                                        offset: Offset(1.0, 1.0),
+                                        blurRadius: 3.0,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                      Shadow(
+                                        offset: Offset(2.0, 1.0),
+                                        blurRadius: 8.0,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                    ],
+                                  )
+                              ),
+                            )
+                          ],
+                        ),
+                        buttons: [
+                          DialogButton(
+                            radius: BorderRadius.circular(10),
+                            child: Text(
+                              "OK!",
+                              style: kSendButtonTextStyle,
+                            ),
+                            onPressed: () {
+                              Navigator.of(context, rootNavigator: true).pop();
+                            },
+                            width: 127,
+                            color: kColorAccent,
+                            height: 52,
+                          ),
+                        ],
+                      ).show();
+                    }
+
                   }
                   return UpgradeScreen();
                 },

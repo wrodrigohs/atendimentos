@@ -1,5 +1,6 @@
 import 'package:atendimentos/components.dart';
 import 'package:atendimentos/purchase_button.dart';
+import 'package:atendimentos/ui/politica.dart';
 import 'package:atendimentos/upgrade.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,6 +19,7 @@ class UpsellScreen extends StatefulWidget {
 }
 
 class _UpsellScreenState extends State<UpsellScreen> {
+  bool politica = true;
   _launchURLWebsite(String zz) async {
     if (await canLaunch(zz)) {
       await launch(zz);
@@ -356,7 +358,10 @@ class _UpsellScreenState extends State<UpsellScreen> {
                                     padding: const EdgeInsets.all(18.0),
                                     child: GestureDetector(
                                       onTap: () {
-                                        _launchURLWebsite('https://google.com');
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    PoliticadePrivacidade()));
                                       },
                                       child: Text(
                                           'Política de privacidade (clique para ler)',
@@ -452,7 +457,7 @@ class _UpsellScreenState extends State<UpsellScreen> {
                         Padding(
                           padding: const EdgeInsets.all(12.0),
                           child: Text(
-                            "Houve um erro. Por favor, veja se seu dispositivo permite fazer compras e tente novamente.",
+                              "Houve um erro. Por favor, verifique se seu dispositivo permite fazer compras e tente novamente.",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: Colors.white,

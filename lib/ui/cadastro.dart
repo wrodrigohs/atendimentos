@@ -486,7 +486,7 @@ class _CadastroState extends State<Cadastro> {
                                 controller: _facebookController,
                                 onSaved: (face) => profissional.facebook = face,
                                 validator: (face) =>
-                                face.length < 26
+                                face.length < 25
                                     ? "Digite seu facebook."
                                     : null,
                                 cursorColor: Theme.of(context).accentColor,
@@ -573,7 +573,7 @@ class _CadastroState extends State<Cadastro> {
                                 controller: _instagramController,
                                 onSaved: (insta) => profissional.instagram = insta,
                                 validator: (insta) =>
-                                insta.length < 27
+                                insta.length < 26
                                     ? "Digite seu instagram."
                                     : null,
                                 cursorColor: Theme.of(context).accentColor,
@@ -592,7 +592,7 @@ class _CadastroState extends State<Cadastro> {
                                     borderRadius: new BorderRadius.circular(8.0),
                                     borderSide: BorderSide(color: Colors.white, width: 2.0),
                                   ),
-                                  hintText: "https://instagram.com/nomedeusuario",
+                                  hintText: "https://www.instagram.com/nomedeusuario",
                                   hintStyle: TextStyle(
                                     color: Colors.white,
                                     fontFamily: 'quicksand',
@@ -670,6 +670,15 @@ class _CadastroState extends State<Cadastro> {
                                 ),
                                 onPressed: () {
                                   setState(() {
+
+                                    if(profissional.facebook.length < 25) {
+                                      profissional.facebook = 'https://www.facebook.com/';
+                                    }
+
+                                    if(profissional.instagram.length < 26) {
+                                      profissional.instagram = 'https://www.instagram.com/';
+                                    }
+
                                     if (formKey.currentState.validate()) {
                                       formKey.currentState.save();
                                       Profissional pro = new Profissional(
