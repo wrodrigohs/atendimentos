@@ -12,8 +12,6 @@ import 'package:atendimentos/ui/edicao.dart';
 import 'package:atendimentos/ui/login.dart';
 import 'package:atendimentos/ui/politica.dart';
 import 'package:atendimentos/ui/prontuarios.dart';
-import 'package:atendimentos/upgrade.dart';
-import 'package:atendimentos/upsell_screen.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -500,7 +498,7 @@ class _FirstScreenState extends State<FirstScreen> {
                               :
                           Column(
                             mainAxisAlignment: MainAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.max,
+                            mainAxisSize: MainAxisSize.min,
                             children: [
                               SizedBox(
                                 height: 20,
@@ -551,6 +549,18 @@ class _FirstScreenState extends State<FirstScreen> {
                                           trailing: Row(
                                             mainAxisSize: MainAxisSize.min,
                                             children: <Widget>[
+                                              CircleAvatar(
+                                                backgroundColor: Colors.white,
+                                                child: IconButton(
+                                                  icon: Icon(Icons.calendar_today),
+                                                  color: Colors.black,
+                                                  onPressed: () {
+                                                    /*Navigator.push(context, MaterialPageRoute(builder:
+                                                        (context) => Edicao(paciente: listaPacientes[posicao], profissional: profissional)));*/
+                                                    //Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                              ),
                                               CircleAvatar(
                                                 child: IconButton(
                                                   icon: Icon(Icons.edit),
@@ -637,7 +647,7 @@ class _FirstScreenState extends State<FirstScreen> {
                             ),
                           )*/
                             ],
-                          )
+                          ),
                       ),
                     ],
                   ),

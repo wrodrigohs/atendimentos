@@ -40,6 +40,8 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<key>NSCalendarsUsageDescription</key>
+    <string>REASON_TO_USE_CALENDAR</string>
 	<false/>
 </dict>
 </plist>

@@ -1,12 +1,14 @@
 import 'package:atendimentos/model/paciente.dart';
 import 'package:atendimentos/model/profissional.dart';
+import 'package:device_calendar/device_calendar.dart' as calendar;
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'dart:ui' as ui;
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 final FirebaseDatabase db = FirebaseDatabase.instance;
 
@@ -38,8 +40,7 @@ class _AgendarState extends State<Agendar> {
   String paisOrigem = 'BR';
   String tel;
   PhoneNumber numero = PhoneNumber(isoCode: 'BR');
-  var maskTextInputFormatter = MaskTextInputFormatter(
-      mask: "xxxxxxxxxxx", filter: {"x": RegExp(r'[0-9]')});
+  //var maskTextInputFormatter = MaskTextInputFormatter(mask: "xxxxxxxxxxx", filter: {"x": RegExp(r'[0-9]')});
 
   @override
   void initState() {
@@ -517,6 +518,15 @@ class _AgendarState extends State<Agendar> {
       ],
       ),
     );
+  }
+  
+  DateTime datadoEvento(DateTime data, String horario) {
+    horario = horario.substring(0, horario.length - 1);
+    int hora = int.parse(horario.substring(0, 2));
+    int minuto = int.parse(horario.substring(horario.length-2, horario.length - 1));
+    DateTime datadoEvento = new DateTime(data.year, data.month, data.day, hora, minuto);
+    print('hora = $hora\nminuto = $minuto');
+    return datadoEvento;
   }
 
   void _gravar(Event event) {
