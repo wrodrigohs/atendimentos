@@ -6,7 +6,6 @@ import 'package:atendimentos/ui/recurringeventdialog.dart';
 import 'package:device_calendar/device_calendar.dart';
 import 'package:flutter/material.dart';
 
-
 class CalendarEventsPage extends StatefulWidget {
   final Calendar _calendar;
 

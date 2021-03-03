@@ -561,6 +561,9 @@ class _FirstScreenState extends State<FirstScreen> {
                                                   },
                                                 ),
                                               ),
+                                              SizedBox(
+                                                width: 3.0,
+                                              ),
                                               CircleAvatar(
                                                 child: IconButton(
                                                   icon: Icon(Icons.edit),
@@ -657,6 +660,7 @@ class _FirstScreenState extends State<FirstScreen> {
           ),
           floatingActionButton: FloatingActionButton(
             child: Icon(Icons.exit_to_app),
+            mini: true,
             elevation: 16,
             backgroundColor: Colors.black,
             onPressed: () {

@@ -4,7 +4,6 @@ import 'package:device_calendar/device_calendar.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 
-
 class CalendarsPage extends StatefulWidget {
   CalendarsPage({Key key}) : super(key: key);
 

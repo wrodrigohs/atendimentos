@@ -1,3 +1,4 @@
+import 'package:atendimentos/ui/datetimepicker.dart';
 import 'package:atendimentos/ui/eventatendee.dart';
 import 'package:atendimentos/ui/eventreminders.dart';
 import 'package:atendimentos/ui/recurringeventdialog.dart';
@@ -207,7 +208,7 @@ class _CalendarEventPageState extends State<CalendarEventPage> {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(10.0),
-                        /*child: DateTimePicker(
+                        child: DateTimePicker(
                           labelText: 'From',
                           enableTime: !_event.allDay,
                           selectedDate: _startDate,
@@ -225,12 +226,12 @@ class _CalendarEventPageState extends State<CalendarEventPage> {
                             },
                             );
                           },
-                        ),*/
+                        ),
                       ),
                       if (!_event.allDay) ... [
                         Padding(
                           padding: const EdgeInsets.all(10.0),
-                          /*child: DateTimePicker(
+                          child: DateTimePicker(
                             labelText: 'To',
                             selectedDate: _endDate,
                             selectedTime: _endTime,
@@ -252,7 +253,7 @@ class _CalendarEventPageState extends State<CalendarEventPage> {
                                 },
                               );
                             },
-                          ),*/
+                          ),
                         ),
                       ],
                       GestureDetector(
@@ -577,7 +578,7 @@ class _CalendarEventPageState extends State<CalendarEventPage> {
                         if (_recurrenceRuleEndType == RecurrenceRuleEndType.SpecifiedEndDate)
                           Padding(
                             padding: const EdgeInsets.all(10.0),
-                            /*child: DateTimePicker(
+                            child: DateTimePicker(
                               labelText: 'Date',
                               enableTime: false,
                               selectedDate: _recurrenceEndDate,
@@ -586,7 +587,7 @@ class _CalendarEventPageState extends State<CalendarEventPage> {
                                   _recurrenceEndDate = date;
                                 });
                               },
-                            ),*/
+                            ),
                           ),
                       ],
                     ],

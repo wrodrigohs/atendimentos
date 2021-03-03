@@ -1,14 +1,14 @@
 import 'package:atendimentos/model/paciente.dart';
 import 'package:atendimentos/model/profissional.dart';
+import 'package:atendimentos/ui/calendarios.dart';
 import 'package:device_calendar/device_calendar.dart' as calendar;
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'dart:ui' as ui;
-
-import 'package:shared_preferences/shared_preferences.dart';
 
 final FirebaseDatabase db = FirebaseDatabase.instance;
 
@@ -40,11 +40,19 @@ class _AgendarState extends State<Agendar> {
   String paisOrigem = 'BR';
   String tel;
   PhoneNumber numero = PhoneNumber(isoCode: 'BR');
-  //var maskTextInputFormatter = MaskTextInputFormatter(mask: "xxxxxxxxxxx", filter: {"x": RegExp(r'[0-9]')});
 
+  calendar.DeviceCalendarPlugin _deviceCalendarPlugin;
+  List<calendar.Calendar> calendarioCerto = List();
+  calendar.Calendar calendarioEscolhido;
+  List<calendar.Calendar> _calendars;
+
+  _AgendarState() {
+    _deviceCalendarPlugin = calendar.DeviceCalendarPlugin();
+  }
   @override
   void initState() {
     super.initState();
+    _retrieveCalendars();
 
     _nomeController.clear();
     _telefoneController.text = '';
@@ -449,42 +457,64 @@ class _AgendarState extends State<Agendar> {
                                   ),
                                   onPressed: () {
                                     setState(() {
-                                      if(dataString == '' || dataString == null || dataString.isEmpty) {
-                                        WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
-                                            SnackBar(
-                                              duration: Duration(seconds: 2),
-                                              content: Text('Você deve escolher uma data antes',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontFamily: 'quicksand',
-                                                  fontSize: MediaQuery.of(context).size.height/50,
-                                                ),
-                                              ),
-                                              backgroundColor: Colors.black,
-                                              behavior: SnackBarBehavior.floating,
+                                      if (dataString == '' ||
+                                          dataString == null ||
+                                          dataString.isEmpty) {
+                                        WidgetsBinding.instance
+                                            .addPostFrameCallback((_) =>
+                                            _scaffoldKey.currentState
+                                                .showSnackBar(
+                                                SnackBar(
+                                                  duration: Duration(
+                                                      seconds: 2),
+                                                  content: Text(
+                                                    'Você deve escolher uma data antes',
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontFamily: 'quicksand',
+                                                      fontSize: MediaQuery
+                                                          .of(context)
+                                                          .size
+                                                          .height / 50,
+                                                    ),
+                                                  ),
+                                                  backgroundColor: Colors.black,
+                                                  behavior: SnackBarBehavior
+                                                      .floating,
+                                                )
                                             )
-                                        )
                                         );
                                         return;
                                       }
 
-                                      if(horaSelecionada == '' || horaSelecionada == null || horaSelecionada.isEmpty) {
-                                        WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
-                                            SnackBar(
-                                              duration: Duration(seconds: 2),
-                                              content: Text('Você deve escolher um horário',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontFamily: 'quicksand',
-                                                  fontSize: MediaQuery.of(context).size.height/50,
-                                                ),
-                                              ),
-                                              backgroundColor: Colors.black,
-                                              behavior: SnackBarBehavior.floating,
+                                      if (horaSelecionada == '' ||
+                                          horaSelecionada == null ||
+                                          horaSelecionada.isEmpty) {
+                                        WidgetsBinding.instance
+                                            .addPostFrameCallback((_) =>
+                                            _scaffoldKey.currentState
+                                                .showSnackBar(
+                                                SnackBar(
+                                                  duration: Duration(
+                                                      seconds: 2),
+                                                  content: Text(
+                                                    'Você deve escolher um horário',
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontFamily: 'quicksand',
+                                                      fontSize: MediaQuery
+                                                          .of(context)
+                                                          .size
+                                                          .height / 50,
+                                                    ),
+                                                  ),
+                                                  backgroundColor: Colors.black,
+                                                  behavior: SnackBarBehavior
+                                                      .floating,
+                                                )
                                             )
-                                        )
                                         );
                                         return;
                                       }
@@ -495,10 +525,16 @@ class _AgendarState extends State<Agendar> {
                                             _nomeController.text.toString(),
                                             tel,
                                             _emailController.text.toString(),
-                                            dataString, horaSelecionada,
-                                            "Anotações sobre o atendimento de ${_nomeController.text.toString()} no dia $dataString às $horaSelecionada\n\n",
+                                            dataString,
+                                            horaSelecionada,
+                                            "Anotações sobre o atendimento de ${_nomeController
+                                                .text
+                                                .toString()} no dia $dataString às $horaSelecionada\n\n",
                                             false);
-
+                                        int hora = int.parse(horaSelecionada.substring(0, 2));
+                                        int minuto = int.parse(horaSelecionada.substring(horaSelecionada.length - 2, horaSelecionada.length - 1));
+                                        print('hora = $hora minuto = $minuto');
+                                        salvarnoCalendario(converterData(dataString), hora, minuto);
                                         _submit(paciente);
                                       }
                                     });
@@ -519,7 +555,33 @@ class _AgendarState extends State<Agendar> {
       ),
     );
   }
-  
+
+  void _retrieveCalendars() async {
+    try {
+      var permissionsGranted = await _deviceCalendarPlugin.hasPermissions();
+      if (permissionsGranted.isSuccess && !permissionsGranted.data) {
+        permissionsGranted = await _deviceCalendarPlugin.requestPermissions();
+        if (!permissionsGranted.isSuccess || !permissionsGranted.data) {
+          print('permissão não concedida');
+          return;
+        }
+      }
+
+      final calendarsResult = await _deviceCalendarPlugin.retrieveCalendars();
+      setState(() {
+        _calendars = calendarsResult?.data;
+        for(int i = 0; i < _calendars.length; i++) {
+          if(_calendars[i].name == widget.profissional.email) {
+            calendarioEscolhido = _calendars[i];
+          }
+        }
+
+      });
+    } on PlatformException catch (e) {
+      print(e);
+    }
+  }
+
   DateTime datadoEvento(DateTime data, String horario) {
     horario = horario.substring(0, horario.length - 1);
     int hora = int.parse(horario.substring(0, 2));
@@ -585,7 +647,11 @@ class _AgendarState extends State<Agendar> {
     )
     );
 
+//    print('hora = $hora minuto = $minuto');
     Navigator.of(context).pop();
+    /*Navigator.push(context, MaterialPageRoute(
+      builder: (context) => CalendarsPage(key: Key('calendarsPage'))//, profissional: widget.profissional,),
+    ));*/
   }
 
   void remover(String id, int index) {
@@ -838,5 +904,56 @@ class _AgendarState extends State<Agendar> {
     }
 
     return now;
+  }
+
+  DateTime converterData(String strDate){
+    DateTime data = dateFormat.parse(strDate);
+    return data;
+  }
+
+  void salvarnoCalendario(DateTime dataInicial, int hora, int minuto) async {
+    print('acessou o método');
+    print(calendarioEscolhido.id);
+    print(calendarioEscolhido.name);
+    calendar.Event event;
+    DateTime _startDate;
+    DateTime _endDate;
+    //List<calendar.Reminder> _reminders = List<calendar.Reminder>();
+
+    _startDate = new DateTime(dataInicial.year, dataInicial.month, dataInicial.day, hora, minuto);
+//    _startDate.add(new Duration(minutes: -30));
+    _endDate = new DateTime(dataInicial.year, dataInicial.month, dataInicial.day, hora + 1, minuto);
+
+    event = calendar.Event(calendarioEscolhido.id, title: 'Consulta com ${widget.profissional.nome}',
+        description: 'Consulta com ${widget.profissional.nome} no dia ${dataInicial.day}/${dataInicial.month}/${dataInicial.year} às $hora:$minuto',
+        start: _startDate, end: _endDate);
+
+    if (event == null) {
+      event = calendar.Event(calendarioEscolhido.id, title: 'Consulta',
+          description: 'Consulta com ${widget.profissional.nome} no dia ${dataInicial.day}/${dataInicial.month}/${dataInicial.year} às ${dataInicial.hour}:${dataInicial.minute}',
+          start: _startDate, end: _endDate);
+    } else {
+      /*_startDate = event.start;
+      _endDate = event.end;
+      if (event.reminders.isNotEmpty) {
+        _reminders.addAll(event.reminders);
+      }*/
+
+      var createEventResult =
+      await _deviceCalendarPlugin.createOrUpdateEvent(event);
+      if (createEventResult.isSuccess) {
+//        Navigator.pop(context, true);
+        print('Evento criado no calendário de ${calendarioEscolhido.name}');
+      } else {
+        print('não criou o evento no calendário de ${calendarioEscolhido.name}');
+//        showInSnackBar(createEventResult.errorMessages.join(' | '));
+      }
+
+      Fluttertoast.showToast(
+        msg:'Consulta salva no calendário do seu celular.',
+        toastLength: Toast.LENGTH_SHORT,
+        timeInSecForIosWeb: 5,
+      );
+    }
   }
 }
