@@ -533,7 +533,7 @@ class _AgendarState extends State<Agendar> {
                                             false);
                                         int hora = int.parse(horaSelecionada.substring(0, 2));
                                         int minuto = int.parse(horaSelecionada.substring(horaSelecionada.length - 2, horaSelecionada.length - 1));
-                                        print('hora = $hora minuto = $minuto');
+//                                        print('hora = $hora minuto = $minuto');
                                         salvarnoCalendario(converterData(dataString), hora, minuto);
                                         _submit(paciente);
                                       }
@@ -587,7 +587,6 @@ class _AgendarState extends State<Agendar> {
     int hora = int.parse(horario.substring(0, 2));
     int minuto = int.parse(horario.substring(horario.length-2, horario.length - 1));
     DateTime datadoEvento = new DateTime(data.year, data.month, data.day, hora, minuto);
-    print('hora = $hora\nminuto = $minuto');
     return datadoEvento;
   }
 
@@ -912,7 +911,6 @@ class _AgendarState extends State<Agendar> {
   }
 
   void salvarnoCalendario(DateTime dataInicial, int hora, int minuto) async {
-    print('acessou o método');
     print(calendarioEscolhido.id);
     print(calendarioEscolhido.name);
     calendar.Event event;
@@ -951,7 +949,7 @@ class _AgendarState extends State<Agendar> {
 
       Fluttertoast.showToast(
         msg:'Consulta salva no calendário do seu celular.',
-        toastLength: Toast.LENGTH_SHORT,
+        toastLength: Toast.LENGTH_LONG,
         timeInSecForIosWeb: 5,
       );
     }
