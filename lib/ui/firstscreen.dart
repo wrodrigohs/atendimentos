@@ -12,6 +12,7 @@ import 'package:atendimentos/ui/edicao.dart';
 import 'package:atendimentos/ui/login.dart';
 import 'package:atendimentos/ui/politica.dart';
 import 'package:atendimentos/ui/prontuarios.dart';
+import 'package:device_calendar/device_calendar.dart' as calendar;
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -57,11 +58,22 @@ class _FirstScreenState extends State<FirstScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
+  calendar.DeviceCalendarPlugin _deviceCalendarPlugin;
+  List<calendar.Calendar> calendarioCerto = List();
+  calendar.Calendar calendarioEscolhido;
+  List<calendar.Calendar> _calendars;
+  calendar.Event eventoApagado;
+
+  _FirstScreenState() {
+    _deviceCalendarPlugin = calendar.DeviceCalendarPlugin();
+  }
+
   @override
   void initState() {
     super.initState();
     initPlatformState();
     carregarInfos();
+    //_retrieveCalendars();
 
     if(widget.profissional != null) {
       profissional = widget.profissional;
@@ -84,7 +96,6 @@ class _FirstScreenState extends State<FirstScreen> {
     }
 
     listaPacientes.sort((a, b) => (((converterData(a.data)).compareTo(converterData(b.data)))));
-//    listaPacientes.sort((a, b) => (((a.hora).compareTo(b.hora))));
     double distancia = AppBar().preferredSize.height + 40;
 
     return SideMenu(
@@ -210,61 +221,27 @@ class _FirstScreenState extends State<FirstScreen> {
                         ),
                       ),
                       Center(
-                          child: appData.isPro == false ?
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(18.0),
-                                child: Icon(
-                                  Icons.error,
-                                  color: Theme.of(context).errorColor,
-                                  size: MediaQuery.of(context).size.height/20,
-                                ),
+                        child: appData.isPro == false ?
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(18.0),
+                              child: Icon(
+                                Icons.error,
+                                color: Theme.of(context).errorColor,
+                                size: MediaQuery.of(context).size.height/20,
                               ),
-                              Padding(
-                                padding: const EdgeInsets.all(12.0),
-                                child: Text(
-                                    "Se você já é assinante, clique no botão abaixo para carregar suas informações.",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontFamily: 'quicksand',
-                                      fontSize: MediaQuery.of(context).size.height/50,
-                                      shadows: <Shadow>[
-                                        Shadow(
-                                          offset: Offset(1.0, 1.0),
-                                          blurRadius: 3.0,
-                                          color: Color.fromARGB(255, 0, 0, 0),
-                                        ),
-                                        Shadow(
-                                          offset: Offset(2.0, 1.0),
-                                          blurRadius: 8.0,
-                                          color: Color.fromARGB(255, 0, 0, 0),
-                                        ),
-                                      ],
-                                    )
-                                ),
-                              ),
-                              FlatButton(
-                                color: Colors.black,
-                                shape: RoundedRectangleBorder(
-                                  side: BorderSide(
-                                      color: Colors.black,
-                                      width: 1,
-                                      style: BorderStyle.solid
-                                  ),
-                                  borderRadius: BorderRadius.circular(40),
-                                ),
-                                onPressed: () {
-                                  Navigator.pushReplacement(context, MaterialPageRoute(
-                                      builder: (BuildContext context) => super.widget));                                },
-                                child: Text(
-                                  "Área do assinante",
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Text(
+                                  "Se você já é assinante, clique no botão abaixo para carregar suas informações.",
+                                  textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: MediaQuery.of(context).size.height/50,
                                     fontFamily: 'quicksand',
+                                    fontSize: MediaQuery.of(context).size.height/50,
                                     shadows: <Shadow>[
                                       Shadow(
                                         offset: Offset(1.0, 1.0),
@@ -277,79 +254,24 @@ class _FirstScreenState extends State<FirstScreen> {
                                         color: Color.fromARGB(255, 0, 0, 0),
                                       ),
                                     ],
-                                  ),
-                                ),
+                                  )
                               ),
-                              Padding(
-                                padding: const EdgeInsets.all(12.0),
-                                child: Text(
-                                    "Se ainda não é assinante, faça sua assinatura para ter acesso a todos os recursos do aplicativo.",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontFamily: 'quicksand',
-                                      fontSize: MediaQuery.of(context).size.height/50,
-                                      shadows: <Shadow>[
-                                        Shadow(
-                                          offset: Offset(1.0, 1.0),
-                                          blurRadius: 3.0,
-                                          color: Color.fromARGB(255, 0, 0, 0),
-                                        ),
-                                        Shadow(
-                                          offset: Offset(2.0, 1.0),
-                                          blurRadius: 8.0,
-                                          color: Color.fromARGB(255, 0, 0, 0),
-                                        ),
-                                      ],
-                                    )
+                            ),
+                            FlatButton(
+                              color: Colors.black,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                    color: Colors.black,
+                                    width: 1,
+                                    style: BorderStyle.solid
                                 ),
+                                borderRadius: BorderRadius.circular(40),
                               ),
-                              FlatButton(
-                                color: Colors.black,
-                                shape: RoundedRectangleBorder(
-                                  side: BorderSide(
-                                      color: Colors.black,
-                                      width: 1,
-                                      style: BorderStyle.solid
-                                  ),
-                                  borderRadius: BorderRadius.circular(40),
-                                ),
-                                onPressed: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => ParentalGate(), settings: RouteSettings(name: 'Parental Gate')));
-                                },
-                                child: Text(
-                                  "Assine",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: MediaQuery.of(context).size.height/50,
-                                    fontFamily: 'quicksand',
-                                    shadows: <Shadow>[
-                                      Shadow(
-                                        offset: Offset(1.0, 1.0),
-                                        blurRadius: 3.0,
-                                        color: Color.fromARGB(255, 0, 0, 0),
-                                      ),
-                                      Shadow(
-                                        offset: Offset(2.0, 1.0),
-                                        blurRadius: 8.0,
-                                        color: Color.fromARGB(255, 0, 0, 0),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              )
-                            ],
-                          )
-                              :
-                          appData.isPro == true && presente == false ?
-                          //Cadastro()
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                '\nCadastre-se para ter acesso aos recursos do aplicativo.',
-                                textAlign: TextAlign.center,
+                              onPressed: () {
+                                Navigator.pushReplacement(context, MaterialPageRoute(
+                                    builder: (BuildContext context) => super.widget));                                },
+                              child: Text(
+                                "Área do assinante",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: MediaQuery.of(context).size.height/50,
@@ -368,27 +290,16 @@ class _FirstScreenState extends State<FirstScreen> {
                                   ],
                                 ),
                               ),
-                              FlatButton(
-                                color: Colors.black,
-                                shape: RoundedRectangleBorder(
-                                  side: BorderSide(
-                                      color: Colors.black,
-                                      width: 1,
-                                      style: BorderStyle.solid
-                                  ),
-                                  borderRadius: BorderRadius.circular(40),
-                                ),
-                                onPressed: () {
-                                  Navigator.push(context, MaterialPageRoute(
-                                      builder: (context) => Cadastro(profissional: profissional)),
-                                  );
-                                },
-                                child: Text(
-                                  "Cadastre-se",
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Text(
+                                  "Se ainda não é assinante, faça sua assinatura para ter acesso a todos os recursos do aplicativo.",
+                                  textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: MediaQuery.of(context).size.height/50,
                                     fontFamily: 'quicksand',
+                                    fontSize: MediaQuery.of(context).size.height/50,
                                     shadows: <Shadow>[
                                       Shadow(
                                         offset: Offset(1.0, 1.0),
@@ -401,202 +312,319 @@ class _FirstScreenState extends State<FirstScreen> {
                                         color: Color.fromARGB(255, 0, 0, 0),
                                       ),
                                     ],
-                                  ),
-                                ),
-                              )
-                            ],
-                          )
-                              :
-                          listaPacientes.length <= 0 ?
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              SizedBox(
-                                height: distancia,
+                                  )
                               ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Text('Nenhum atendimento marcado',
-                                    style: TextStyle(
-                                        inherit: false,
-                                        fontSize: MediaQuery.of(context).size.height/45,
-                                        fontFamily: 'quicksand',
-                                        color: Colors.white,
-                                        shadows: [
-                                          Shadow( // bottomLeft
-                                              offset: Offset(-0.5, -0.5),
-                                              color: Colors.black
-                                          ),
-                                          Shadow( // bottomRight
-                                              offset: Offset(0.5, -0.5),
-                                              color: Colors.black
-                                          ),
-                                          Shadow( // topRight
-                                              offset: Offset(0.5, 0.5),
-                                              color: Colors.black
-                                          ),
-                                          Shadow( // topLeft
-                                              offset: Offset(-0.5, 0.5),
-                                              color: Colors.black
-                                          ),
-                                        ]
+                            ),
+                            FlatButton(
+                              color: Colors.black,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                    color: Colors.black,
+                                    width: 1,
+                                    style: BorderStyle.solid
+                                ),
+                                borderRadius: BorderRadius.circular(40),
+                              ),
+                              onPressed: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => ParentalGate(), settings: RouteSettings(name: 'Parental Gate')));
+                              },
+                              child: Text(
+                                "Assine",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: MediaQuery.of(context).size.height/50,
+                                  fontFamily: 'quicksand',
+                                  shadows: <Shadow>[
+                                    Shadow(
+                                      offset: Offset(1.0, 1.0),
+                                      blurRadius: 3.0,
+                                      color: Color.fromARGB(255, 0, 0, 0),
                                     ),
+                                    Shadow(
+                                      offset: Offset(2.0, 1.0),
+                                      blurRadius: 8.0,
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
+                        )
+                            :
+                        appData.isPro == true && presente == false ?
+                        //Cadastro()
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              '\nCadastre-se para ter acesso aos recursos do aplicativo.',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: MediaQuery.of(context).size.height/50,
+                                fontFamily: 'quicksand',
+                                shadows: <Shadow>[
+                                  Shadow(
+                                    offset: Offset(1.0, 1.0),
+                                    blurRadius: 3.0,
+                                    color: Color.fromARGB(255, 0, 0, 0),
                                   ),
-                                  Lottie.asset(
-                                    'assets/images/sad.json',
-                                    animate: true,
-                                    repeat: true,
-                                    reverse: true,
-                                    width: 200,
-                                    height: 200,
-                                    fit: BoxFit.fill,
-                                  ),
-                                  FlatButton(
-                                      color: Colors.black,
-                                      shape: RoundedRectangleBorder(
-                                        side: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                            style: BorderStyle.solid
-                                        ),
-                                        borderRadius: BorderRadius.circular(40),
-                                      ),
-                                      child: Text(
-                                        "Marcar atendimento",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: MediaQuery.of(context).size.height/50,
-                                          fontFamily: 'quicksand',
-                                          shadows: <Shadow>[
-                                            Shadow(
-                                              offset: Offset(1.0, 1.0),
-                                              blurRadius: 3.0,
-                                              color: Color.fromARGB(255, 0, 0, 0),
-                                            ),
-                                            Shadow(
-                                              offset: Offset(2.0, 1.0),
-                                              blurRadius: 8.0,
-                                              color: Color.fromARGB(255, 0, 0, 0),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      onPressed: () {
-                                        setState(() {
-                                          Navigator.push(context, MaterialPageRoute(builder:
-                                              (context) => Agendar(profissional: profissional)));
-                                        });
-                                      }
+                                  Shadow(
+                                    offset: Offset(2.0, 1.0),
+                                    blurRadius: 8.0,
+                                    color: Color.fromARGB(255, 0, 0, 0),
                                   ),
                                 ],
                               ),
-                            ],
-                          )
-                              :
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              SizedBox(
-                                height: 20,
+                            ),
+                            FlatButton(
+                              color: Colors.black,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                    color: Colors.black,
+                                    width: 1,
+                                    style: BorderStyle.solid
+                                ),
+                                borderRadius: BorderRadius.circular(40),
                               ),
-                              Flexible(
-                                child: ListView.builder(
-                                    itemCount: listaPacientes.length,
-                                    itemBuilder: (BuildContext context, int posicao) {
-                                      return Card(
-                                        shadowColor: Color(0xFFd6d0c1),
-                                        elevation: 0.1,
-                                        color: Colors.transparent,
-                                        margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(16),
-                                          side: BorderSide(width: 0.5, color: new Color(0x00000000)),
+                              onPressed: () {
+                                Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) => Cadastro(profissional: profissional)),
+                                );
+                              },
+                              child: Text(
+                                "Cadastre-se",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: MediaQuery.of(context).size.height/50,
+                                  fontFamily: 'quicksand',
+                                  shadows: <Shadow>[
+                                    Shadow(
+                                      offset: Offset(1.0, 1.0),
+                                      blurRadius: 3.0,
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                    ),
+                                    Shadow(
+                                      offset: Offset(2.0, 1.0),
+                                      blurRadius: 8.0,
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
+                        )
+                            :
+                        listaPacientes.length <= 0 ?
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            SizedBox(
+                              height: distancia,
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Text('Nenhum atendimento marcado',
+                                  style: TextStyle(
+                                      inherit: false,
+                                      fontSize: MediaQuery.of(context).size.height/45,
+                                      fontFamily: 'quicksand',
+                                      color: Colors.white,
+                                      shadows: [
+                                        Shadow( // bottomLeft
+                                            offset: Offset(-0.5, -0.5),
+                                            color: Colors.black
                                         ),
-                                        child: ListTile(
-                                          onTap: () {},
-                                          leading: CircleAvatar(
-                                              child: Text(
-                                                '${listaPacientes[posicao].nome.substring(0, 1).toUpperCase()}',
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontFamily: 'quicksand',
-                                                  fontWeight: FontWeight.w700,
-                                                ),
+                                        Shadow( // bottomRight
+                                            offset: Offset(0.5, -0.5),
+                                            color: Colors.black
+                                        ),
+                                        Shadow( // topRight
+                                            offset: Offset(0.5, 0.5),
+                                            color: Colors.black
+                                        ),
+                                        Shadow( // topLeft
+                                            offset: Offset(-0.5, 0.5),
+                                            color: Colors.black
+                                        ),
+                                      ]
+                                  ),
+                                ),
+                                Lottie.asset(
+                                  'assets/images/sad.json',
+                                  animate: true,
+                                  repeat: true,
+                                  reverse: true,
+                                  width: 200,
+                                  height: 200,
+                                  fit: BoxFit.fill,
+                                ),
+                                FlatButton(
+                                    color: Colors.black,
+                                    shape: RoundedRectangleBorder(
+                                      side: BorderSide(
+                                          color: Colors.black,
+                                          width: 1,
+                                          style: BorderStyle.solid
+                                      ),
+                                      borderRadius: BorderRadius.circular(40),
+                                    ),
+                                    child: Text(
+                                      "Marcar atendimento",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: MediaQuery.of(context).size.height/50,
+                                        fontFamily: 'quicksand',
+                                        shadows: <Shadow>[
+                                          Shadow(
+                                            offset: Offset(1.0, 1.0),
+                                            blurRadius: 3.0,
+                                            color: Color.fromARGB(255, 0, 0, 0),
+                                          ),
+                                          Shadow(
+                                            offset: Offset(2.0, 1.0),
+                                            blurRadius: 8.0,
+                                            color: Color.fromARGB(255, 0, 0, 0),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        Navigator.push(context, MaterialPageRoute(builder:
+                                            (context) => Agendar(profissional: profissional)));
+                                      });
+                                    }
+                                ),
+                              ],
+                            ),
+                          ],
+                        )
+                            :
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Flexible(
+                              child: ListView.builder(
+                                  itemCount: listaPacientes.length,
+                                  itemBuilder: (BuildContext context, int posicao) {
+                                    return Card(
+                                      shadowColor: Color(0xFFd6d0c1),
+                                      elevation: 0.1,
+                                      color: Colors.transparent,
+                                      margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                        side: BorderSide(width: 0.5, color: new Color(0x00000000)),
+                                      ),
+                                      child: ListTile(
+                                        onTap: () {},
+                                        leading: CircleAvatar(
+                                            child: Text(
+                                              '${listaPacientes[posicao].nome.substring(0, 1).toUpperCase()}',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontFamily: 'quicksand',
+                                                fontWeight: FontWeight.w700,
                                               ),
-                                              backgroundColor: Colors.black),
-                                          title: Text(
-                                            '${listaPacientes[posicao].nome}',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontFamily: 'quicksand',
-                                              fontWeight: FontWeight.w300,
-                                              fontSize: MediaQuery.of(context).size.height/50,
                                             ),
+                                            backgroundColor: Colors.black),
+                                        title: Text(
+                                          '${listaPacientes[posicao].nome}',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontFamily: 'quicksand',
+                                            fontWeight: FontWeight.w300,
+                                            fontSize: MediaQuery.of(context).size.height/50,
                                           ),
-                                          subtitle: Text(
-                                            '${listaPacientes[posicao].data} às ${listaPacientes[posicao].hora}',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontFamily: 'quicksand',
-                                              fontWeight: FontWeight.w100,
-                                              fontSize: MediaQuery.of(context).size.height/55,
-                                            ),
+                                        ),
+                                        subtitle: Text(
+                                          '${listaPacientes[posicao].data} às ${listaPacientes[posicao].hora}',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontFamily: 'quicksand',
+                                            fontWeight: FontWeight.w100,
+                                            fontSize: MediaQuery.of(context).size.height/55,
                                           ),
-                                          trailing: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: <Widget>[
-                                              CircleAvatar(
+                                        ),
+                                        trailing: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                            listaPacientes[posicao].confirmado == false ?
+                                            Visibility(
+                                              visible: true,
+                                              child: CircleAvatar(
                                                 backgroundColor: Colors.white,
                                                 child: IconButton(
                                                   icon: Icon(Icons.calendar_today),
                                                   color: Colors.black,
                                                   onPressed: () {
-                                                    /*Navigator.push(context, MaterialPageRoute(builder:
-                                                        (context) => Edicao(paciente: listaPacientes[posicao], profissional: profissional)));*/
-                                                    //Navigator.of(context).pop();
+                                                    _retrieveCalendars(listaPacientes[posicao]);
                                                   },
                                                 ),
                                               ),
-                                              SizedBox(
-                                                width: 3.0,
-                                              ),
-                                              CircleAvatar(
-                                                child: IconButton(
-                                                  icon: Icon(Icons.edit),
-                                                  color: Colors.green,
-                                                  onPressed: () {
-                                                    Navigator.push(context, MaterialPageRoute(builder:
-                                                        (context) => Edicao(paciente: listaPacientes[posicao], profissional: profissional)));
-                                                    //Navigator.of(context).pop();
-                                                  },
-                                                ),
+                                            )
+                                                :
+                                            Visibility(
+                                              visible: false,
+                                              child: CircleAvatar(
                                                 backgroundColor: Colors.white,
-                                              ),
-                                              SizedBox(
-                                                width: 3.0,
-                                              ),
-                                              CircleAvatar(
                                                 child: IconButton(
-                                                  icon: Icon(Icons.delete_forever),
-                                                  color: Theme.of(context).errorColor,
+                                                  icon: Icon(Icons.calendar_today),
+                                                  color: Colors.black,
                                                   onPressed: () {
-                                                    _showDialog(context, listaPacientes[posicao], posicao);
+                                                    _retrieveCalendars(listaPacientes[posicao]);
                                                   },
                                                 ),
-                                                backgroundColor: Colors.white,
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                            SizedBox(
+                                              width: 3.0,
+                                            ),
+                                            CircleAvatar(
+                                              child: IconButton(
+                                                icon: Icon(Icons.edit),
+                                                color: Colors.green,
+                                                onPressed: () {
+                                                  Navigator.push(context, MaterialPageRoute(builder:
+                                                      (context) => Edicao(paciente: listaPacientes[posicao], profissional: profissional)));
+                                                  //Navigator.of(context).pop();
+                                                },
+                                              ),
+                                              backgroundColor: Colors.white,
+                                            ),
+                                            SizedBox(
+                                              width: 3.0,
+                                            ),
+                                            CircleAvatar(
+                                              child: IconButton(
+                                                icon: Icon(Icons.delete_forever),
+                                                color: Theme.of(context).errorColor,
+                                                onPressed: () async {
+                                                  _showDialog(context, listaPacientes[posicao], posicao);
+                                                  //await _deviceCalendarPlugin.deleteEvent(_calendar.id, event.eventId);
+                                                },
+                                              ),
+                                              backgroundColor: Colors.white,
+                                            ),
+                                          ],
                                         ),
-                                      );
-                                    }),
-                              ),
-                              //profissional.assinante == false ?
-                              /*Text(
+                                      ),
+                                    );
+                                  }),
+                            ),
+                            //profissional.assinante == false ?
+                            /*Text(
                             '\nAQUI SERÁ O CARD PARA ASSINATURA',
                             textAlign: TextAlign.center,
                             style: TextStyle(
@@ -649,8 +677,8 @@ class _FirstScreenState extends State<FirstScreen> {
                               ),
                             ),
                           )*/
-                            ],
-                          ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -904,6 +932,100 @@ class _FirstScreenState extends State<FirstScreen> {
     }
 
     print('#### is user pro? ${appData.isPro}');
+  }
+
+  void _retrieveCalendars(Paciente paciente) async {
+    try {
+      var permissionsGranted = await _deviceCalendarPlugin.hasPermissions();
+      if (permissionsGranted.isSuccess && !permissionsGranted.data) {
+        permissionsGranted = await _deviceCalendarPlugin.requestPermissions();
+        if (!permissionsGranted.isSuccess || !permissionsGranted.data) {
+          print('permissão não concedida');
+          return;
+        }
+      }
+
+      final calendarsResult = await _deviceCalendarPlugin.retrieveCalendars();
+      setState(() {
+        _calendars = calendarsResult?.data;
+        for(int i = 0; i < _calendars.length; i++) {
+          if(_calendars[i].name == profissional.email) {
+            calendarioEscolhido = _calendars[i];
+          }
+        }
+
+        for(int i = 0; i < listaPacientes.length; i++) {
+          int hora = int.parse(listaPacientes[i].hora.substring(0, 2));
+          int minuto = int.parse(listaPacientes[i].hora.substring(listaPacientes[i].hora.length-2, listaPacientes[i].hora.length - 1));
+          salvarnoCalendario(paciente, calendarioEscolhido, converterData(listaPacientes[i].data), hora, minuto);
+        }
+      });
+    } on PlatformException catch (e) {
+      print(e);
+    }
+  }
+
+  DateTime datadoEvento(DateTime data, String horario) {
+    horario = horario.substring(0, horario.length - 1);
+    int hora = int.parse(horario.substring(0, 2));
+    int minuto = int.parse(horario.substring(horario.length-2, horario.length - 1));
+    DateTime datadoEvento = new DateTime(data.year, data.month, data.day, hora, minuto);
+    return datadoEvento;
+  }
+
+  void salvarnoCalendario(Paciente paciente, calendar.Calendar calendario, DateTime dataInicial, int hora, int minuto) async {
+    calendar.Event event;
+    DateTime _startDate;
+    DateTime _endDate;
+
+    _startDate = new DateTime(dataInicial.year, dataInicial.month, dataInicial.day, hora, minuto);
+    _endDate = new DateTime(dataInicial.year, dataInicial.month, dataInicial.day, hora + 1, minuto);
+
+    event = calendar.Event(calendario.id, title: 'Consulta com ${profissional.nome}',
+        description: 'Consulta com ${profissional.nome} no dia ${dataInicial.day}/${dataInicial.month}/${dataInicial.year} às $hora:$minuto',
+        start: _startDate, end: _endDate);
+
+    /*setState(() {
+      = event;
+    });*/
+
+    if (event == null) {
+      event = calendar.Event(calendario.id, title: 'Consulta com ${profissional.nome}',
+          description: 'Consulta com ${profissional.nome} no dia ${dataInicial.day}/${dataInicial.month}/${dataInicial.year} às $hora:$minuto',
+          start: _startDate, end: _endDate);
+    } else {
+      var createEventResult =
+      await _deviceCalendarPlugin.createOrUpdateEvent(event);
+      if (createEventResult.isSuccess) {
+        setState(() {
+          paciente.confirmado = true;
+          atualizarPaciente(paciente);
+        });
+      } else {
+        print('não criou o evento no calendário de ${calendario.name}');
+//        showInSnackBar(createEventResult.errorMessages.join(' | '));
+      }
+
+      Fluttertoast.showToast(
+        msg:'Consulta salva no calendário do seu celular.',
+        toastLength: Toast.LENGTH_LONG,
+        timeInSecForIosWeb: 5,
+      );
+    }
+  }
+
+  void atualizarPaciente(Paciente paciente) async {
+    await dbPacientes.child(paciente.primaryKey).update({
+      "nome" : paciente.nome,
+      "telefone" : paciente.telefone,
+      "email" : paciente.email,
+      "data" : paciente.data,
+      "hora" : paciente.hora,
+      "anotacao" : paciente.anotacao,
+      "confirmado" : paciente.confirmado
+    }).then((_) {
+      //print('Transaction  committed.');
+    });
   }
 
   DateTime converterData(String strDate){

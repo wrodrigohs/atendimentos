@@ -49,6 +49,7 @@ class _AgendarState extends State<Agendar> {
   _AgendarState() {
     _deviceCalendarPlugin = calendar.DeviceCalendarPlugin();
   }
+
   @override
   void initState() {
     super.initState();
@@ -530,7 +531,7 @@ class _AgendarState extends State<Agendar> {
                                             "Anotações sobre o atendimento de ${_nomeController
                                                 .text
                                                 .toString()} no dia $dataString às $horaSelecionada\n\n",
-                                            false);
+                                            true);
                                         int hora = int.parse(horaSelecionada.substring(0, 2));
                                         int minuto = int.parse(horaSelecionada.substring(horaSelecionada.length - 2, horaSelecionada.length - 1));
 //                                        print('hora = $hora minuto = $minuto');
@@ -646,17 +647,12 @@ class _AgendarState extends State<Agendar> {
     )
     );
 
-//    print('hora = $hora minuto = $minuto');
     Navigator.of(context).pop();
-    /*Navigator.push(context, MaterialPageRoute(
-      builder: (context) => CalendarsPage(key: Key('calendarsPage'))//, profissional: widget.profissional,),
-    ));*/
   }
 
   void remover(String id, int index) {
     setState(() {
       listaPacientes.removeAt(index);
-      //listaPacientes.remove(paciente);
       dbReference.child(id).remove().then((_) {
       });
     });
@@ -916,10 +912,8 @@ class _AgendarState extends State<Agendar> {
     calendar.Event event;
     DateTime _startDate;
     DateTime _endDate;
-    //List<calendar.Reminder> _reminders = List<calendar.Reminder>();
 
     _startDate = new DateTime(dataInicial.year, dataInicial.month, dataInicial.day, hora, minuto);
-//    _startDate.add(new Duration(minutes: -30));
     _endDate = new DateTime(dataInicial.year, dataInicial.month, dataInicial.day, hora + 1, minuto);
 
     event = calendar.Event(calendarioEscolhido.id, title: 'Consulta com ${widget.profissional.nome}',
@@ -927,15 +921,10 @@ class _AgendarState extends State<Agendar> {
         start: _startDate, end: _endDate);
 
     if (event == null) {
-      event = calendar.Event(calendarioEscolhido.id, title: 'Consulta',
+      event = calendar.Event(calendarioEscolhido.id, title: 'Consulta com ${widget.profissional.nome}',
           description: 'Consulta com ${widget.profissional.nome} no dia ${dataInicial.day}/${dataInicial.month}/${dataInicial.year} às ${dataInicial.hour}:${dataInicial.minute}',
           start: _startDate, end: _endDate);
     } else {
-      /*_startDate = event.start;
-      _endDate = event.end;
-      if (event.reminders.isNotEmpty) {
-        _reminders.addAll(event.reminders);
-      }*/
 
       var createEventResult =
       await _deviceCalendarPlugin.createOrUpdateEvent(event);
