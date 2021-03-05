@@ -12,6 +12,7 @@ import 'package:atendimentos/ui/edicao.dart';
 import 'package:atendimentos/ui/login.dart';
 import 'package:atendimentos/ui/politica.dart';
 import 'package:atendimentos/ui/prontuarios.dart';
+import 'package:atendimentos/ui/ver_cadastro.dart';
 import 'package:device_calendar/device_calendar.dart' as calendar;
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +43,7 @@ class FirstScreen extends StatefulWidget {
 
 class _FirstScreenState extends State<FirstScreen> {
 
-  Profissional profissional = new Profissional(name, "", email, "", usuario, imageUrl, "", "", false);
+  Profissional profissional = new Profissional(name, "", email, "", usuario, imageUrl, "", "", "", false);
   List<Paciente> listaPacientes = List();
   List<Profissional> listaProfissional = List();
   DatabaseReference dbPacientes;
@@ -806,10 +807,26 @@ class _FirstScreenState extends State<FirstScreen> {
           LListItem(
             backgroundColor: Colors.transparent,
             onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => EditarCadastro(profissional: profissional,)));
+            },
+            leading:
+            Icon(Icons.wysiwyg, size: 20.0, color: Colors.white),
+            title: Text("Editar cadastro",
+              style: TextStyle(
+                fontSize: MediaQuery.of(context).size.height/55,
+                fontFamily: 'quicksand',
+              ),
+            ),
+            textColor: Colors.white,
+            dense: true,
+          ),
+          LListItem(
+            backgroundColor: Colors.transparent,
+            onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => PoliticadePrivacidade()));
             },
             leading:
-            Icon(Icons.assignment, size: 20.0, color: Colors.white),
+            Icon(Icons.description, size: 20.0, color: Colors.white),
             title: Text("Política de privacidade",
               style: TextStyle(
                 fontSize: MediaQuery.of(context).size.height/55,
@@ -893,7 +910,8 @@ class _FirstScreenState extends State<FirstScreen> {
       Map<dynamic, dynamic> values = snapshot.value;
       Profissional prof = new Profissional(values['nome'], values['telefone'],
           values['email'], values['areaAtuacao'], values['usuario'],
-          values['imageURL'], values['facebook'], values['instagram'], values['assinante']);
+          values['imageURL'], values['facebook'], values['instagram'],
+          values['num_conselho'], values['assinante']);
       if(prof.nome != null) {
         listaProfissional.add(prof);
       }
@@ -954,11 +972,10 @@ class _FirstScreenState extends State<FirstScreen> {
           }
         }
 
-        for(int i = 0; i < listaPacientes.length; i++) {
-          int hora = int.parse(listaPacientes[i].hora.substring(0, 2));
-          int minuto = int.parse(listaPacientes[i].hora.substring(listaPacientes[i].hora.length-2, listaPacientes[i].hora.length - 1));
-          salvarnoCalendario(paciente, calendarioEscolhido, converterData(listaPacientes[i].data), hora, minuto);
-        }
+        int hora = int.parse(paciente.hora.substring(0, 2));
+        int minuto = int.parse(paciente.hora.substring(paciente.hora.length-2, paciente.hora.length - 1));
+        salvarnoCalendario(paciente, calendarioEscolhido, converterData(paciente.data), hora, minuto);
+
       });
     } on PlatformException catch (e) {
       print(e);

@@ -10,10 +10,12 @@ class Profissional {
   String imageURL;
   String facebook;
   String instagram;
+  String num_conselho;
   bool assinante;
 
   Profissional(this.nome, this.telefone, this.email, this.areaAtuacao,
-      this.usuario, this.imageURL, this.facebook, this.instagram, this.assinante);
+      this.usuario, this.imageURL, this.facebook, this.instagram,
+      this.num_conselho, this.assinante);
 
   Profissional.fromSnapshot(DataSnapshot snapshot) :
         primaryKey = snapshot.key,
@@ -25,6 +27,7 @@ class Profissional {
         imageURL = snapshot.value['imageURL'],
         facebook = snapshot.value['facebook'],
         instagram = snapshot.value['instagram'],
+        num_conselho = snapshot.value['num_conselho'],
         assinante = snapshot.value['assinante'];
 
   toJson() {
@@ -37,6 +40,7 @@ class Profissional {
       "imageURL" : imageURL,
       "facebook" : facebook,
       "instagram" : instagram,
+      "num_conselho" : num_conselho,
       "assinante" : assinante
     };
   }

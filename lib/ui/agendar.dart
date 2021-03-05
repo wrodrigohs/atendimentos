@@ -399,24 +399,6 @@ class _AgendarState extends State<Agendar> {
                                               return;
                                             }
                                             _showDialog(context, dataString);
-                                            //verHorasDisponiveis();
-                                            /*Navigator.of(context).push(
-                                              showPicker(
-                                                accentColor: Theme.of(context).accentColor,
-                                                blurredBackground: true,
-                                                cancelText: 'cancelar',
-                                                okText: 'Escolher',
-                                                unselectedColor: Colors.grey,
-                                                context: context,
-                                                value: _time,
-                                                onChange: onTimeChanged,
-                                                is24HrFormat: true,
-                                                onChangeDateTime: (DateTime dateTime) {
-                                                  //print(dateTime);
-                                                },
-                                              ),
-                                            );*/
-                                            //inputTimeSelect();
                                           });
                                         },
                                       ),
@@ -708,12 +690,6 @@ class _AgendarState extends State<Agendar> {
     String formattedDate = DateFormat.Hm().format(dt);
     return formattedDate + 'h';
   }
-
-  /*void convertDateFromString(String strDate){
-    DateTime todayDate = DateTime.parse(strDate);
-    print(todayDate);
-    print(formatDate(todayDate, [yyyy, '/', mm, '/', dd, ' ', hh, ':', nn, ':', ss, ' ', am]));
-  }*/
 
   void _presentDatePicker() {
     DateTime now = DateTime.now();

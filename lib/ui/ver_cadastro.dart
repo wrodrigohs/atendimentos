@@ -10,16 +10,16 @@ import 'dart:ui' as ui;
 
 final FirebaseDatabase db = FirebaseDatabase.instance;
 
-class Cadastro extends StatefulWidget {
+class EditarCadastro extends StatefulWidget {
   Profissional profissional;
-  Cadastro({Key key, this.profissional}) : super(key: key);
+  EditarCadastro({Key key, this.profissional}) : super(key: key);
 
   @override
-  _CadastroState createState() => _CadastroState();
+  _EditarCadastroState createState() => _EditarCadastroState();
 }
 
-class _CadastroState extends State<Cadastro> {
-  Profissional profissional;
+class _EditarCadastroState extends State<EditarCadastro> {
+  Profissional prof = new Profissional('', '', '', '', '', '', '', '', '', false);
   DatabaseReference dbReference;
   List<Profissional> listaProfissional = List();
 
@@ -38,8 +38,6 @@ class _CadastroState extends State<Cadastro> {
   String facebook;
   String instagram;
   String tel;
-  //PhoneNumber numero = PhoneNumber(isoCode: 'BR');
-  //var maskTextInputFormatter = MaskTextInputFormatter(mask: "xxxxxxxxxxx", filter: {"x": RegExp(r'[0-9]')});
 
   @override
   void initState() {
@@ -49,21 +47,20 @@ class _CadastroState extends State<Cadastro> {
       listaProfissional.removeAt(i);
     }
 
-    _nomeController.text = widget.profissional.nome;
-    _emailController.text = widget.profissional.email;
-    _facebookController.text = "https://www.facebook.com/";
-    _instagramController.text = "https://www.instagram.com/";
-    //paciente = new Paciente("", "", "", "", "", "", false);
-
     dbReference = db.reference().child('atendimentos');
     dbReference.onChildAdded.listen(_gravar);
     dbReference.onChildChanged.listen(_update);
     dbReference.once().then((DataSnapshot snapshot) {
-      //Map<dynamic, dynamic> values = snapshot.value;
-      /*Paciente paciente = new Paciente(
+      Map<dynamic, dynamic> values = snapshot.value;
+      Profissional pro = new Profissional(
           values['nome'], values['telefone'], values['email'],
-          values['data'], values['hora'], values['anotacao'], values['confirmado']);
-      listaPacientes.add(paciente);*/
+          values['areaAtuacao'], values['usuario'], values['imageURL'],
+          values['facebook'], values['instagram'], values['num_conselho'],
+          values['confirmado']);
+      if(pro.nome == widget.profissional.nome) {
+        listaProfissional.add(pro);
+        return;
+      }
     });
   }
 
@@ -75,10 +72,44 @@ class _CadastroState extends State<Cadastro> {
       DeviceOrientation.portraitDown,
     ]);
 
-    Profissional profissional = new Profissional(widget.profissional.nome, "",
-        widget.profissional.email, "", widget.profissional.usuario,
-        widget.profissional.imageURL, "", "",
-        widget.profissional.num_conselho, widget.profissional.assinante);
+    for(int i = 0; i < listaProfissional.length; i++) {
+      for(int j = i + 1; j < listaProfissional.length; j++) {
+        if(listaProfissional[i].nome == listaProfissional[j].nome) {
+          listaProfissional.removeAt(j);
+        }
+      }
+    }
+
+    for(int i = 0; i < listaProfissional.length; i++) {
+      for(int j = i + 1; j < listaProfissional.length; j++) {
+        if(listaProfissional[i].nome == listaProfissional[j].nome) {
+          listaProfissional.removeAt(j);
+        }
+      }
+    }
+
+    for(int i = 0; i < listaProfissional.length; i++) {
+      for(int j = i + 1; j < listaProfissional.length; j++) {
+        if(listaProfissional[i].nome == listaProfissional[j].nome) {
+          listaProfissional.removeAt(j);
+        }
+      }
+    }
+
+    for(int i = 0; i < listaProfissional.length; i++) {
+      if(listaProfissional[i].nome == widget.profissional.nome) {
+        prof = listaProfissional[i];
+        break;
+      }
+    }
+
+    _nomeController.text = prof.nome;
+    _telefoneController.text = prof.telefone;
+    _emailController.text = prof.email;
+    _areaAtuacaoController.text = prof.areaAtuacao;
+    _facebookController.text = prof.facebook;
+    _instagramController.text = prof.instagram;
+    _num_conselhoController.text = prof.num_conselho;
 
     return Scaffold(
       body: Stack(children: <Widget>[
@@ -89,7 +120,7 @@ class _CadastroState extends State<Cadastro> {
             backgroundColor: Color(0x44000000),
             elevation: 0.0,
             centerTitle: true,
-            title: Text('Cadastro',
+            title: Text('Editar cadastro',
               style: TextStyle(
                 fontFamily: 'quicksand',
               ),
@@ -149,7 +180,7 @@ class _CadastroState extends State<Cadastro> {
                                     ],
                                   ),
                                   controller: _nomeController,
-                                  onSaved: (nome) => profissional.nome = nome,
+                                  onSaved: (nome) => prof.nome = nome,
                                   validator: (nome) =>
                                   nome.length < 3
                                       ? "Deve ter ao menos 3 caracteres."
@@ -157,7 +188,7 @@ class _CadastroState extends State<Cadastro> {
                                   cursorColor: Theme.of(context).accentColor,
                                   onFieldSubmitted: (_) {
                                     setState(() {
-                                      profissional.nome = _nomeController.text.toString();
+                                      prof.nome = _nomeController.text.toString();
                                     });
                                   },
                                   decoration: InputDecoration(
@@ -319,12 +350,12 @@ class _CadastroState extends State<Cadastro> {
                                   ],
                                 ),
                                 controller: _emailController,
-                                onSaved: (email) => profissional.email = email,
+                                onSaved: (email) => prof.email = email,
                                 validator: validateEmail,
                                 cursorColor: Theme.of(context).accentColor,
                                 onFieldSubmitted: (_) {
                                   setState(() {
-                                    profissional.email = _emailController.text.toString();
+                                    prof.email = _emailController.text.toString();
                                   });
                                 },
                                 keyboardType: TextInputType.emailAddress,
@@ -403,7 +434,7 @@ class _CadastroState extends State<Cadastro> {
                                   ],
                                 ),
                                 controller: _areaAtuacaoController,
-                                onSaved: (area) => profissional.areaAtuacao = area,
+                                onSaved: (area) => prof.areaAtuacao = area,
                                 validator: (area) =>
                                 area.length < 1
                                     ? "Não pode ficar em branco"
@@ -411,7 +442,7 @@ class _CadastroState extends State<Cadastro> {
                                 cursorColor: Theme.of(context).accentColor,
                                 onFieldSubmitted: (_) {
                                   setState(() {
-                                    profissional.areaAtuacao = _areaAtuacaoController.text.toString();
+                                    prof.areaAtuacao = _areaAtuacaoController.text.toString();
                                   });
                                 },
                                 keyboardType: TextInputType.name,
@@ -490,7 +521,7 @@ class _CadastroState extends State<Cadastro> {
                                   ],
                                 ),
                                 controller: _facebookController,
-                                onSaved: (face) => profissional.facebook = face,
+                                onSaved: (face) => prof.facebook = face,
                                 validator: (face) =>
                                 face.length < 25
                                     ? "Digite seu facebook."
@@ -498,7 +529,7 @@ class _CadastroState extends State<Cadastro> {
                                 cursorColor: Theme.of(context).accentColor,
                                 onFieldSubmitted: (_) {
                                   setState(() {
-                                    profissional.facebook = _facebookController.text.toString();
+                                    prof.facebook = _facebookController.text.toString();
                                   });
                                 },
                                 keyboardType: TextInputType.url,
@@ -577,7 +608,7 @@ class _CadastroState extends State<Cadastro> {
                                   ],
                                 ),
                                 controller: _instagramController,
-                                onSaved: (insta) => profissional.instagram = insta,
+                                onSaved: (insta) => prof.instagram = insta,
                                 validator: (insta) =>
                                 insta.length < 26
                                     ? "Digite seu instagram."
@@ -585,7 +616,7 @@ class _CadastroState extends State<Cadastro> {
                                 cursorColor: Theme.of(context).accentColor,
                                 onFieldSubmitted: (_) {
                                   setState(() {
-                                    profissional.instagram = _instagramController.text.toString();
+                                    prof.instagram = _instagramController.text.toString();
                                   });
                                 },
                                 keyboardType: TextInputType.url,
@@ -664,7 +695,7 @@ class _CadastroState extends State<Cadastro> {
                                   ],
                                 ),
                                 controller: _num_conselhoController,
-                                onSaved: (registro_profissional) => profissional.num_conselho
+                                onSaved: (registro_profissional) => prof.num_conselho
                                 = registro_profissional,
                                 validator: (registro_profissional) =>
                                 registro_profissional.length < 5
@@ -673,7 +704,7 @@ class _CadastroState extends State<Cadastro> {
                                 cursorColor: Theme.of(context).accentColor,
                                 onFieldSubmitted: (_) {
                                   setState(() {
-                                    profissional.num_conselho = _num_conselhoController.text.toString();
+                                    prof.num_conselho = _num_conselhoController.text.toString();
                                   });
                                 },
                                 keyboardType: TextInputType.url,
@@ -743,7 +774,7 @@ class _CadastroState extends State<Cadastro> {
                                   borderRadius: BorderRadius.circular(40),
                                 ),
                                 child: Text(
-                                  "Cadastrar",
+                                  "Atualizar cadastro",
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: MediaQuery.of(context).size.height/50,
@@ -765,29 +796,29 @@ class _CadastroState extends State<Cadastro> {
                                 onPressed: () {
                                   setState(() {
 
-                                    if(profissional.facebook.length < 25) {
-                                      profissional.facebook = 'https://www.facebook.com/';
+                                    if(prof.facebook.length < 25) {
+                                      prof.facebook = 'https://www.facebook.com/';
                                     }
 
-                                    if(profissional.instagram.length < 26) {
-                                      profissional.instagram = 'https://www.instagram.com/';
+                                    if(prof.instagram.length < 26) {
+                                      prof.instagram = 'https://www.instagram.com/';
                                     }
 
                                     if (formKey.currentState.validate()) {
                                       formKey.currentState.save();
                                       Profissional pro = new Profissional(
-                                          profissional.nome,
+                                          prof.nome,
                                           tel,
-                                          profissional.email,
-                                          profissional.areaAtuacao,
-                                          profissional.usuario,
-                                          profissional.imageURL,
-                                          profissional.facebook,
-                                          profissional.instagram,
-                                          profissional.num_conselho,
+                                          prof.email,
+                                          prof.areaAtuacao,
+                                          prof.usuario,
+                                          prof.imageURL,
+                                          prof.facebook,
+                                          prof.instagram,
+                                          prof.num_conselho,
                                           false);
 
-                                      _submit(pro);
+                                      atualizarProfissional(pro);
                                     }
                                   });
                                 },
@@ -824,6 +855,24 @@ class _CadastroState extends State<Cadastro> {
       listaProfissional[listaProfissional.indexOf(oldEntry)] =
           Profissional.fromSnapshot(event.snapshot);
     });
+  }
+
+  void atualizarProfissional(Profissional profissional) async {
+    await dbReference.child(widget.profissional.primaryKey).update({
+      "nome" : profissional.nome,
+      "telefone" : profissional.telefone,
+      "email" : profissional.email,
+      "areaAtuacao" : profissional.areaAtuacao,
+      "usuario" : profissional.usuario,
+      "imageURL" : profissional.imageURL,
+      "facebook" : profissional.facebook,
+      "instagram" : profissional.instagram,
+      "num_conselho" : profissional.num_conselho,
+      "assinante" : profissional.assinante
+    }).then((_) {
+      //print('Transaction  committed.');
+    });
+    Navigator.of(context).pop();
   }
 
   void _submit(Profissional profissional) async {
