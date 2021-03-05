@@ -34,9 +34,9 @@ class _PoliticadePrivacidadeState extends State<PoliticadePrivacidade> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(10.0),
                 child: RichText(
-                  textAlign: TextAlign.center,
+                  textAlign: TextAlign.justify,
                   text: TextSpan(
                     text: '\nPOLÍTICA DE PRIVACIDADE\n',
                     style: TextStyle(

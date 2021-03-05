@@ -998,7 +998,7 @@ class _FirstScreenState extends State<FirstScreen> {
     _startDate = new DateTime(dataInicial.year, dataInicial.month, dataInicial.day, hora, minuto);
     _endDate = new DateTime(dataInicial.year, dataInicial.month, dataInicial.day, hora + 1, minuto);
 
-    event = calendar.Event(calendario.id, title: 'Consulta com ${profissional.nome}',
+    event = calendar.Event(calendario.id, title: 'Consulta de ${paciente.nome}',
         description: 'Consulta com ${profissional.nome} no dia ${dataInicial.day}/${dataInicial.month}/${dataInicial.year} às $hora:$minuto',
         start: _startDate, end: _endDate);
 
@@ -1007,8 +1007,8 @@ class _FirstScreenState extends State<FirstScreen> {
     });*/
 
     if (event == null) {
-      event = calendar.Event(calendario.id, title: 'Consulta com ${profissional.nome}',
-          description: 'Consulta com ${profissional.nome} no dia ${dataInicial.day}/${dataInicial.month}/${dataInicial.year} às $hora:$minuto',
+      event = calendar.Event(calendario.id, title: 'Consulta de ${paciente.nome}',
+          description: 'Consulta de ${paciente.nome} no dia ${dataInicial.day}/${dataInicial.month}/${dataInicial.year} às $hora:$minuto',
           start: _startDate, end: _endDate);
     } else {
       var createEventResult =

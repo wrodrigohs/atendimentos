@@ -517,7 +517,7 @@ class _AgendarState extends State<Agendar> {
                                         int hora = int.parse(horaSelecionada.substring(0, 2));
                                         int minuto = int.parse(horaSelecionada.substring(horaSelecionada.length - 2, horaSelecionada.length - 1));
 //                                        print('hora = $hora minuto = $minuto');
-                                        salvarnoCalendario(converterData(dataString), hora, minuto);
+                                        salvarnoCalendario(converterData(dataString), hora, minuto, paciente);
                                         _submit(paciente);
                                       }
                                     });
@@ -882,7 +882,7 @@ class _AgendarState extends State<Agendar> {
     return data;
   }
 
-  void salvarnoCalendario(DateTime dataInicial, int hora, int minuto) async {
+  void salvarnoCalendario(DateTime dataInicial, int hora, int minuto, Paciente paciente) async {
     print(calendarioEscolhido.id);
     print(calendarioEscolhido.name);
     calendar.Event event;
@@ -892,13 +892,13 @@ class _AgendarState extends State<Agendar> {
     _startDate = new DateTime(dataInicial.year, dataInicial.month, dataInicial.day, hora, minuto);
     _endDate = new DateTime(dataInicial.year, dataInicial.month, dataInicial.day, hora + 1, minuto);
 
-    event = calendar.Event(calendarioEscolhido.id, title: 'Consulta com ${widget.profissional.nome}',
+    event = calendar.Event(calendarioEscolhido.id, title: 'Consulta de ${paciente.nome}',
         description: 'Consulta com ${widget.profissional.nome} no dia ${dataInicial.day}/${dataInicial.month}/${dataInicial.year} às $hora:$minuto',
         start: _startDate, end: _endDate);
 
     if (event == null) {
-      event = calendar.Event(calendarioEscolhido.id, title: 'Consulta com ${widget.profissional.nome}',
-          description: 'Consulta com ${widget.profissional.nome} no dia ${dataInicial.day}/${dataInicial.month}/${dataInicial.year} às ${dataInicial.hour}:${dataInicial.minute}',
+      event = calendar.Event(calendarioEscolhido.id, title: 'Consulta de ${paciente.nome}',
+          description: 'Consulta de ${paciente.nome} no dia ${dataInicial.day}/${dataInicial.month}/${dataInicial.year} às ${dataInicial.hour}:${dataInicial.minute}',
           start: _startDate, end: _endDate);
     } else {
 
