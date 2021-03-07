@@ -743,6 +743,7 @@ class _AgendarState extends State<Agendar> {
     List<String> horas = ['08:00h', '08:30h', '09:00h', '09:30h', '10:00h', '10:30h', '11:00h', '11:30h',
       '12:00h', '12:30h', '13:00h', '13:30h', '14:00h', '14:30h', '15:00h', '15:30h',
       '16:00h', '16:30h', '17:00h', '17:30h', '18:00h', '18:30h', '19:00h', '19:30h', '20:00h'];
+
     if(listaPacientes.isNotEmpty) {
       for (int i = 0; i < listaPacientes.length; i++) {
         if (((listaPacientes[i].data) == dataString)) {
@@ -756,113 +757,164 @@ class _AgendarState extends State<Agendar> {
     await showDialog<String>(
         context: context,
         builder: (BuildContext context) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10.0))),
-            contentPadding: EdgeInsets.all(8.0),
-            content: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  InkWell(
-                    child: Text(
-                      "Horários disponíveis",
-                      style: TextStyle(
-                          color: Colors.red,
-                          fontSize: MediaQuery.of(context).size.height/50,
-                          fontFamily: 'quicksand'
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Divider(
-                    color: Colors.black,
-                    height: 1.0,
-                  ),
-                  Container(
-                    height: MediaQuery.of(context).size.height/4,
-                    width: MediaQuery.of(context).size.width/3.5,
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: horas.length,
-                      itemBuilder: (BuildContext context, int posicao) {
-                        return ListTile(
-                            title: FlatButton(
-                              color: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                  side: BorderSide(
-                                      color: Colors.black,
-                                      width: 1,
-                                      style: BorderStyle.solid
-                                  ),
-                                  borderRadius: BorderRadius.circular(10)
-                              ),
-                              child: Text('${horas[posicao]}',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontFamily: 'quicksand'
-                                ),
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  horaSelecionada = horas[posicao];
-
-                                  WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
-                                      SnackBar(
-                                        duration: Duration(seconds: 1),
-                                        content: Text('Escolheu ${horas[posicao]}',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontFamily: 'quicksand',
-                                            fontSize: MediaQuery.of(context).size.height/50,
-                                          ),
-                                        ),
-                                        backgroundColor: Colors.black,
-                                        behavior: SnackBarBehavior.floating,
-                                      )
-                                  )
-                                  );
-                                });
-                              },
-                            )
-                        );
-                      },
-                    ),
-                  ),
-                  Divider(
-                    color: Colors.black,
-                    height: 1.0,
-                  ),
-                  FlatButton(
-                    shape: RoundedRectangleBorder(
-                        side: BorderSide(
-                            color: Colors.black,
-                            width: 1,
-                            style: BorderStyle.solid
+          return StatefulBuilder(
+            builder: (context, setState)
+            {
+              return AlertDialog(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                contentPadding: EdgeInsets.all(6.0),
+                content: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      InkWell(
+                        child: Text(
+                          "Horários disponíveis",
+                          style: TextStyle(
+                              color: Colors.red,
+                              fontSize: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .height / 50,
+                              fontFamily: 'quicksand'
+                          ),
+                          textAlign: TextAlign.center,
                         ),
-                        borderRadius: BorderRadius.circular(10)
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        Navigator.of(context).pop();
-                      });
-                    },
-                    color: Colors.black,
-                    child: Text('OK',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'quicksand'
                       ),
-                    ),
-                  )
-                ],
-              ),
-            ),
+                      Divider(
+                        color: Colors.black,
+                        height: 1.0,
+                      ),
+                      Container(
+                        height: MediaQuery
+                            .of(context)
+                            .size
+                            .height / 4,
+                        width: MediaQuery
+                            .of(context)
+                            .size
+                            .width,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: horas.length,
+                          itemBuilder: (BuildContext context, int posicao) {
+                            return horaSelecionada != horas[posicao] ?
+                            ListTile(
+                                title: FlatButton(
+                                  color: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                      side: BorderSide(
+                                          color: Colors.black,
+                                          width: 1,
+                                          style: BorderStyle.solid
+                                      ),
+                                      borderRadius: BorderRadius.circular(10)
+                                  ),
+                                  child: ListTile(
+                                    title: Text(
+                                      '${horas[posicao]}',
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontFamily: 'quicksand'
+                                      ),
+                                    ),
+                                    leading: Wrap(
+                                      spacing: 12, // space between two icons
+                                      children: <Widget>[
+                                        Icon(Icons.done_all,
+                                            color: Colors.transparent), // icon-2
+                                      ],
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      horaSelecionada = horas[posicao];
+                                      mudarHora(horas[posicao]);
+                                    });
+                                  },
+                                )
+                            )
+                                :
+                            ListTile(
+                                title: FlatButton(
+                                  color: Colors.black,
+                                  shape: RoundedRectangleBorder(
+                                      side: BorderSide(
+                                          color: Colors.black,
+                                          width: 1,
+                                          style: BorderStyle.solid
+                                      ),
+                                      borderRadius: BorderRadius.circular(10)
+                                  ),
+                                  child: ListTile(
+                                    title: Text(
+                                      '${horas[posicao]}',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: 'quicksand'
+                                      ),
+                                    ),
+                                    leading: Wrap(
+                                      spacing: 12, // space between two icons
+                                      children: <Widget>[
+                                        Icon(Icons.done_all,
+                                            color: Colors.green), // icon-2
+                                      ],
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      horaSelecionada = horas[posicao];
+                                      mudarHora(horas[posicao]);
+                                    });
+                                  },
+                                )
+                            );
+                          },
+                        ),
+                      ),
+                      Divider(
+                        color: Colors.black,
+                        height: 1.0,
+                      ),
+                      FlatButton(
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                color: Colors.black,
+                                width: 1,
+                                style: BorderStyle.solid
+                            ),
+                            borderRadius: BorderRadius.circular(10)
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            Navigator.of(context).pop();
+                          });
+                        },
+                        color: Colors.black,
+                        child: Text('OK',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'quicksand'
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              );
+            },
           );
         });
+  }
+
+  void mudarHora(String hora) {
+    setState(() {
+      horaSelecionada = hora;
+    });
   }
 
   DateTime checarFDS(DateTime now) {

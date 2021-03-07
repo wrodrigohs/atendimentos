@@ -123,36 +123,11 @@ class _FirstScreenState extends State<FirstScreen> {
                   leading: IconButton(
                     icon: Icon(Icons.menu),
                     onPressed: () {
-                      if(appData.isPro == true) {
-                        final _state = _sideMenuKey.currentState;
-                        if (_state.isOpened) {
-                          _state.closeSideMenu();
-                        } else {
-                          _state.openSideMenu();
-                        }
+                      final _state = _sideMenuKey.currentState;
+                      if (_state.isOpened) {
+                        _state.closeSideMenu();
                       } else {
-                        WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
-                            SnackBar(
-                              action: SnackBarAction(
-                                label: 'OK',
-                                onPressed: () {
-                                  _scaffoldKey.currentState.hideCurrentSnackBar();
-                                },
-                              ),
-                              duration: Duration(seconds: 2),
-                              content: Text('Você deve ser assinante para ter acesso a todos os recursos do app.',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'quicksand',
-                                  fontSize: MediaQuery.of(context).size.height/55,
-                                ),
-                              ),
-                              backgroundColor: Colors.black,
-                              behavior: SnackBarBehavior.floating,
-                            )
-                        )
-                        );
+                        _state.openSideMenu();
                       }
                     },
                   ),
@@ -166,27 +141,34 @@ class _FirstScreenState extends State<FirstScreen> {
                             if(appData.isPro == true) {
                               dialogBusca(context);
                             } else {
-                              WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
-                                  SnackBar(
-                                    action: SnackBarAction(
-                                      label: 'OK',
-                                      onPressed: () {
-                                        _scaffoldKey.currentState.hideCurrentSnackBar();
-                                      },
-                                    ),
-                                    duration: Duration(seconds: 2),
-                                    content: Text('Você deve ser assinante para ter acesso a todos os recursos do app.',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontFamily: 'quicksand',
-                                        fontSize: MediaQuery.of(context).size.height/55,
-                                      ),
-                                    ),
-                                    backgroundColor: Colors.black,
-                                    behavior: SnackBarBehavior.floating,
+                              WidgetsBinding.instance.addPostFrameCallback((
+                                  _) =>
+                                  _scaffoldKey.currentState.showSnackBar(
+                                      SnackBar(
+                                        action: SnackBarAction(
+                                          label: 'OK',
+                                          onPressed: () {
+                                            _scaffoldKey.currentState
+                                                .hideCurrentSnackBar();
+                                          },
+                                        ),
+                                        duration: Duration(seconds: 2),
+                                        content: Text(
+                                          'Você deve ser assinante para ter acesso a todos os recursos do app.',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontFamily: 'quicksand',
+                                            fontSize: MediaQuery
+                                                .of(context)
+                                                .size
+                                                .height / 55,
+                                          ),
+                                        ),
+                                        backgroundColor: Colors.black,
+                                        behavior: SnackBarBehavior.floating,
+                                      )
                                   )
-                              )
                               );
                             }
                           });
@@ -761,7 +743,32 @@ class _FirstScreenState extends State<FirstScreen> {
           LListItem(
             backgroundColor: Colors.transparent,
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => Consultas(profissional: profissional)));
+              if(appData.isPro == true) {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Consultas(profissional: profissional)));
+              } else {
+                WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
+                    SnackBar(
+                      action: SnackBarAction(
+                        label: 'OK',
+                        onPressed: () {
+                          _scaffoldKey.currentState.hideCurrentSnackBar();
+                        },
+                      ),
+                      duration: Duration(seconds: 2),
+                      content: Text('Você deve ser assinante para ter acesso a todos os recursos do app.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'quicksand',
+                          fontSize: MediaQuery.of(context).size.height/55,
+                        ),
+                      ),
+                      backgroundColor: Colors.black,
+                      behavior: SnackBarBehavior.floating,
+                    )
+                )
+                );
+              }
             },
             leading: Icon(Icons.home, size: 20.0, color: Colors.white),
             title: Text("Atendimentos de hoje",
@@ -776,7 +783,32 @@ class _FirstScreenState extends State<FirstScreen> {
           LListItem(
             backgroundColor: Colors.transparent,
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => Agendar(profissional: profissional)));
+              if(appData.isPro == true) {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Agendar(profissional: profissional)));
+              } else {
+                WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
+                    SnackBar(
+                      action: SnackBarAction(
+                        label: 'OK',
+                        onPressed: () {
+                          _scaffoldKey.currentState.hideCurrentSnackBar();
+                        },
+                      ),
+                      duration: Duration(seconds: 2),
+                      content: Text('Você deve ser assinante para ter acesso a todos os recursos do app.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'quicksand',
+                          fontSize: MediaQuery.of(context).size.height/55,
+                        ),
+                      ),
+                      backgroundColor: Colors.black,
+                      behavior: SnackBarBehavior.floating,
+                    )
+                )
+                );
+              }
             },
             leading: Icon(Icons.add_circle, size: 20.0, color: Colors.white),
             title: Text("Agendar atendimento",
@@ -791,7 +823,32 @@ class _FirstScreenState extends State<FirstScreen> {
           LListItem(
             backgroundColor: Colors.transparent,
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => Prontuarios(profissional: profissional)));
+              if(appData.isPro == true) {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Prontuarios(profissional: profissional)));
+              } else {
+                WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
+                    SnackBar(
+                      action: SnackBarAction(
+                        label: 'OK',
+                        onPressed: () {
+                          _scaffoldKey.currentState.hideCurrentSnackBar();
+                        },
+                      ),
+                      duration: Duration(seconds: 2),
+                      content: Text('Você deve ser assinante para ter acesso a todos os recursos do app.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'quicksand',
+                          fontSize: MediaQuery.of(context).size.height/55,
+                        ),
+                      ),
+                      backgroundColor: Colors.black,
+                      behavior: SnackBarBehavior.floating,
+                    )
+                )
+                );
+              }
             },
             leading:
             Icon(Icons.assignment, size: 20.0, color: Colors.white),
@@ -807,7 +864,32 @@ class _FirstScreenState extends State<FirstScreen> {
           LListItem(
             backgroundColor: Colors.transparent,
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => EditarCadastro(profissional: profissional,)));
+              if(appData.isPro == true) {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => EditarCadastro(profissional: profissional,)));
+              } else {
+                WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
+                    SnackBar(
+                      action: SnackBarAction(
+                        label: 'OK',
+                        onPressed: () {
+                          _scaffoldKey.currentState.hideCurrentSnackBar();
+                        },
+                      ),
+                      duration: Duration(seconds: 2),
+                      content: Text('Você deve ser assinante para ter acesso a todos os recursos do app.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'quicksand',
+                          fontSize: MediaQuery.of(context).size.height/55,
+                        ),
+                      ),
+                      backgroundColor: Colors.black,
+                      behavior: SnackBarBehavior.floating,
+                    )
+                )
+                );
+              }
             },
             leading:
             Icon(Icons.wysiwyg, size: 20.0, color: Colors.white),
@@ -823,7 +905,32 @@ class _FirstScreenState extends State<FirstScreen> {
           LListItem(
             backgroundColor: Colors.transparent,
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => PoliticadePrivacidade()));
+              if(appData.isPro == true) {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => PoliticadePrivacidade()));
+              } else {
+                WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
+                    SnackBar(
+                      action: SnackBarAction(
+                        label: 'OK',
+                        onPressed: () {
+                          _scaffoldKey.currentState.hideCurrentSnackBar();
+                        },
+                      ),
+                      duration: Duration(seconds: 2),
+                      content: Text('Você deve ser assinante para ter acesso a todos os recursos do app.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'quicksand',
+                          fontSize: MediaQuery.of(context).size.height/55,
+                        ),
+                      ),
+                      backgroundColor: Colors.black,
+                      behavior: SnackBarBehavior.floating,
+                    )
+                )
+                );
+              }
             },
             leading:
             Icon(Icons.description, size: 20.0, color: Colors.white),
