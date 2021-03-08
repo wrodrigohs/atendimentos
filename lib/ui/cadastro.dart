@@ -1065,6 +1065,8 @@ class _CadastroState extends State<Cadastro> {
                                   ),
                                   onPressed: () {
                                     setState(() {
+                                      print('posicao = $posicao diasEscolhidos = ${diasEscolhidos[posicao]}'
+                                          'diasdeTrabalho = ${diasdeTrabalho[posicao]}');
                                       mudarDia(posicao);
                                     });
                                   },
@@ -1099,6 +1101,8 @@ class _CadastroState extends State<Cadastro> {
                                   ),
                                   onPressed: () {
                                     setState(() {
+                                      print('posicao = $posicao diasEscolhidos = ${diasEscolhidos[posicao]} '
+                                          ' diasdeTrabalho = ${diasdeTrabalho[posicao]}');
                                       removerDia(posicao);
                                     });
                                   },
