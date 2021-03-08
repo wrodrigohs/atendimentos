@@ -288,7 +288,7 @@ class _VerProntuariosState extends State<VerProntuarios> {
   bool equalsIgnoreCase(String a, String b) =>
       (a == null && b == null) || (a != null && b != null && a.toLowerCase() == b.toLowerCase());
 
-  reportView(context, Paciente paciente) async {
+  reportView(contexto, Paciente paciente) async {
     final w.Document pdf = w.Document();
     pdf.addPage(w.MultiPage(
         pageFormat: PdfPageFormat.a4.copyWith(marginBottom: 0.5 * PdfPageFormat.cm),
@@ -312,7 +312,7 @@ class _VerProntuariosState extends State<VerProntuarios> {
           return w.Container(
             //alignment: w.Alignment.topRight,
               margin: const w.EdgeInsets.only(top: 1.0 * PdfPageFormat.cm),
-              child: w.Text('${widget.profissional.nome}\nPágina ${context.pageNumber}',
+              child: w.Text('${widget.profissional.nome}\n${widget.profissional.num_conselho}\nPágina ${context.pageNumber}',
                   style: w.Theme.of(context)
                       .defaultTextStyle
                       .copyWith(color: PdfColors.grey),
@@ -340,7 +340,7 @@ class _VerProntuariosState extends State<VerProntuarios> {
             text:
             '${paciente.anotacao}',
             style: w.TextStyle(
-                fontSize: 13.0
+                fontSize: MediaQuery.of(contexto).size.height/50,
             ),
             textAlign: w.TextAlign.justify,
           ),

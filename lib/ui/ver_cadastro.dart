@@ -19,7 +19,8 @@ class EditarCadastro extends StatefulWidget {
 }
 
 class _EditarCadastroState extends State<EditarCadastro> {
-  Profissional prof = new Profissional('', '', '', '', '', '', '', '', '', false);
+  Profissional prof = new Profissional('', '', '', '', '', '', '', '', '', false, false, false,
+      false, false, false, false, false);
   DatabaseReference dbReference;
   List<Profissional> listaProfissional = List();
 
@@ -56,7 +57,9 @@ class _EditarCadastroState extends State<EditarCadastro> {
           values['nome'], values['telefone'], values['email'],
           values['areaAtuacao'], values['usuario'], values['imageURL'],
           values['facebook'], values['instagram'], values['num_conselho'],
-          values['confirmado']);
+          snapshot.value['domingo'], snapshot.value['segunda'], snapshot.value['terca'],
+          snapshot.value['quarta'], snapshot.value['quinta'], snapshot.value['sexta'],
+          snapshot.value['sabado'], values['confirmado']);
       if(pro.nome == widget.profissional.nome) {
         listaProfissional.add(pro);
         return;
@@ -816,6 +819,13 @@ class _EditarCadastroState extends State<EditarCadastro> {
                                           prof.facebook,
                                           prof.instagram,
                                           prof.num_conselho,
+                                          prof.domingo,
+                                          prof.segunda,
+                                          prof.terca,
+                                          prof.quarta,
+                                          prof.quinta,
+                                          prof.sexta,
+                                          prof.sabado,
                                           false);
 
                                       atualizarProfissional(pro);

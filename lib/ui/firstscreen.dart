@@ -43,7 +43,8 @@ class FirstScreen extends StatefulWidget {
 
 class _FirstScreenState extends State<FirstScreen> {
 
-  Profissional profissional = new Profissional(name, "", email, "", usuario, imageUrl, "", "", "", false);
+  Profissional profissional = new Profissional(name, "", email, "", usuario, imageUrl, "", "", "",
+      false, false, false, false, false, false, false, false);
   List<Paciente> listaPacientes = List();
   List<Profissional> listaProfissional = List();
   DatabaseReference dbPacientes;
@@ -79,6 +80,10 @@ class _FirstScreenState extends State<FirstScreen> {
     if(widget.profissional != null) {
       profissional = widget.profissional;
     }
+
+    for (int i = 0; i < listaPacientes.length; i++) {
+      listaPacientes.removeAt(i);
+    }
   }
 
   @override
@@ -99,6 +104,7 @@ class _FirstScreenState extends State<FirstScreen> {
     listaPacientes.sort((a, b) => (((converterData(a.data)).compareTo(converterData(b.data)))));
     double distancia = AppBar().preferredSize.height + 40;
 
+    print('##### presente = $presente  ######');
     return SideMenu(
       key: _endSideMenuKey,
       inverse: true,
@@ -401,7 +407,7 @@ class _FirstScreenState extends State<FirstScreen> {
                           ],
                         )
                             :
-                        listaPacientes.length <= 0 ?
+                        presente == true && listaPacientes.length <= 0 ?
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           mainAxisSize: MainAxisSize.max,
@@ -1005,11 +1011,7 @@ class _FirstScreenState extends State<FirstScreen> {
     });
   }
 
-  Future<void> carregarInfos() async {
-    for (int i = 0; i < listaPacientes.length; i++) {
-      listaPacientes.removeAt(i);
-    }
-
+  void carregarInfos() {
     dbProfissional = db2.reference().child('atendimentos');
     dbProfissional.onChildAdded.listen(_gravarProfissional);
     dbProfissional.onChildChanged.listen(_updateProfissional);
@@ -1018,7 +1020,9 @@ class _FirstScreenState extends State<FirstScreen> {
       Profissional prof = new Profissional(values['nome'], values['telefone'],
           values['email'], values['areaAtuacao'], values['usuario'],
           values['imageURL'], values['facebook'], values['instagram'],
-          values['num_conselho'], values['assinante']);
+          values['num_conselho'], snapshot.value['domingo'], snapshot.value['segunda'],
+          snapshot.value['terca'], snapshot.value['quarta'], snapshot.value['quinta'],
+          snapshot.value['sexta'], snapshot.value['sabado'], values['assinante']);
       if(prof.nome != null) {
         listaProfissional.add(prof);
       }

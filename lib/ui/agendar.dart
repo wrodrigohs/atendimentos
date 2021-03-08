@@ -46,6 +46,8 @@ class _AgendarState extends State<Agendar> {
   calendar.Calendar calendarioEscolhido;
   List<calendar.Calendar> _calendars;
 
+  List<bool> dias = List();
+
   _AgendarState() {
     _deviceCalendarPlugin = calendar.DeviceCalendarPlugin();
   }
@@ -54,6 +56,14 @@ class _AgendarState extends State<Agendar> {
   void initState() {
     super.initState();
     _retrieveCalendars();
+
+    dias.add(widget.profissional.segunda);
+    dias.add(widget.profissional.terca);
+    dias.add(widget.profissional.quarta);
+    dias.add(widget.profissional.quinta);
+    dias.add(widget.profissional.sexta);
+    dias.add(widget.profissional.sabado);
+    dias.add(widget.profissional.domingo);
 
     _nomeController.clear();
     _telefoneController.text = '';
@@ -398,7 +408,7 @@ class _AgendarState extends State<Agendar> {
                                               );
                                               return;
                                             }
-                                            _showDialog(context, dataString);
+                                            //_showDialog(context, dataString);
                                           });
                                         },
                                       ),
@@ -697,11 +707,24 @@ class _AgendarState extends State<Agendar> {
     DateTime nextYear = new DateTime(now.year + 2);
     showDatePicker(
       context: context,
-      initialDate: checarFDS(now),//now.weekday == 6 || now.weekday == 7 ? now.add(new Duration(days: 2)) : now,//|| now.weekday == 7 ? false : true,//checarFDS(), //initialvalue NÃO pode ser sábado ou domingo porque
-      //CONFLITA com o selectableDayPredicate e causa erro
+      initialDate: dias[now.weekday - 1] == false ? now.add(Duration(days: 1)) : null,//checarDia(now),
       firstDate: DateTime.now().subtract(new Duration(days: 0)),
       lastDate: nextYear,
-      selectableDayPredicate: (DateTime val) => val.weekday == 6 || val.weekday == 7 ? false : true, //exclui sábado e domingo
+      selectableDayPredicate: (DateTime now) => dias[now.weekday - 1] == false ? false : true,/*(DateTime val) {
+        for (int i = 0; i < widget.profissional.dias.length; i++) {
+          if (widget.profissional.dias[i] == false) {
+            if (val.weekday == i) {
+              return false;
+            } else {
+              return true;
+            }
+          }
+        }
+        return false;
+      },*/
+      //_diasExcluidos(),
+//        val.weekday == 6 || val.weekday == 7 ? false : true,
+       //exclui sábado e domingo
       builder: (BuildContext context, Widget child) {
         return Theme(
           data: ThemeData.dark().copyWith(
@@ -739,8 +762,8 @@ class _AgendarState extends State<Agendar> {
       return null;
   }
 
-  void _showDialog(BuildContext context, String dataString) async {
-    List<String> horas = ['08:00h', '08:30h', '09:00h', '09:30h', '10:00h', '10:30h', '11:00h', '11:30h',
+  /*void _showDialog(BuildContext context, String dataString) async {
+    *//*List<String> horas = ['08:00h', '08:30h', '09:00h', '09:30h', '10:00h', '10:30h', '11:00h', '11:30h',
       '12:00h', '12:30h', '13:00h', '13:30h', '14:00h', '14:30h', '15:00h', '15:30h',
       '16:00h', '16:30h', '17:00h', '17:30h', '18:00h', '18:30h', '19:00h', '19:30h', '20:00h'];
 
@@ -752,7 +775,7 @@ class _AgendarState extends State<Agendar> {
           }
         }
       }
-    }
+    }*//*
 
     await showDialog<String>(
         context: context,
@@ -799,9 +822,9 @@ class _AgendarState extends State<Agendar> {
                             .width,
                         child: ListView.builder(
                           shrinkWrap: true,
-                          itemCount: horas.length,
+                          itemCount: widget.profissional.horarios.length,
                           itemBuilder: (BuildContext context, int posicao) {
-                            return horaSelecionada != horas[posicao] ?
+                            return horaSelecionada != widget.profissional.horarios[posicao] ?
                             ListTile(
                                 title: FlatButton(
                                   color: Colors.white,
@@ -815,7 +838,7 @@ class _AgendarState extends State<Agendar> {
                                   ),
                                   child: ListTile(
                                     title: Text(
-                                      '${horas[posicao]}',
+                                      '${widget.profissional.horarios[posicao]}',
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontFamily: 'quicksand'
@@ -831,8 +854,8 @@ class _AgendarState extends State<Agendar> {
                                   ),
                                   onPressed: () {
                                     setState(() {
-                                      horaSelecionada = horas[posicao];
-                                      mudarHora(horas[posicao]);
+                                      horaSelecionada = widget.profissional.horarios[posicao];
+                                      mudarHora(widget.profissional.horarios[posicao]);
                                     });
                                   },
                                 )
@@ -851,7 +874,7 @@ class _AgendarState extends State<Agendar> {
                                   ),
                                   child: ListTile(
                                     title: Text(
-                                      '${horas[posicao]}',
+                                      '${widget.profissional.horarios[posicao]}',
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontFamily: 'quicksand'
@@ -867,8 +890,8 @@ class _AgendarState extends State<Agendar> {
                                   ),
                                   onPressed: () {
                                     setState(() {
-                                      horaSelecionada = horas[posicao];
-                                      mudarHora(horas[posicao]);
+                                      horaSelecionada = widget.profissional.horarios[posicao];
+                                      mudarHora(widget.profissional.horarios[posicao]);
                                     });
                                   },
                                 )
@@ -909,7 +932,7 @@ class _AgendarState extends State<Agendar> {
             },
           );
         });
-  }
+  }*/
 
   void mudarHora(String hora) {
     setState(() {
@@ -917,17 +940,15 @@ class _AgendarState extends State<Agendar> {
     });
   }
 
-  DateTime checarFDS(DateTime now) {
-    if(now.weekday == 6) {
-      now = now.add(new Duration(days: 2));
+  /*DateTime checarDia(DateTime now) {
+    for(int i = 0; i < widget.profissional.dias.length; i++) {
+      while(now.weekday == i && widget.profissional.dias[i] == false) {
+        now = now.add(Duration(days: 1));
+        i++;
+      }
     }
-
-    if(now.weekday == 7) {
-      now = now.add(new Duration(days: 1));
-    }
-
     return now;
-  }
+  }*/
 
   DateTime converterData(String strDate){
     DateTime data = dateFormat.parse(strDate);
