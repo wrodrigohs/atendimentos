@@ -44,7 +44,9 @@ class FirstScreen extends StatefulWidget {
 class _FirstScreenState extends State<FirstScreen> {
 
   Profissional profissional = new Profissional(name, "", email, "", usuario, imageUrl, "", "", "",
-      false, false, false, false, false, false, false, false);
+      false, false, false, false, false, false, false, null, false);
+  Profissional pro = new Profissional('', "", '', "", '', '', "", "", "",
+      false, false, false, false, false, false, false, null, false);
   List<Paciente> listaPacientes = List();
   List<Profissional> listaProfissional = List();
   DatabaseReference dbPacientes;
@@ -96,7 +98,10 @@ class _FirstScreenState extends State<FirstScreen> {
 
     for(int i = 0; i < listaProfissional.length; i++) {
       if(listaProfissional[i].email == profissional.email) {
-        presente = true;
+        setState(() {
+          presente = true;
+          pro = listaProfissional[i];
+        });
         break;
       }
     }
@@ -487,7 +492,7 @@ class _FirstScreenState extends State<FirstScreen> {
                                     onPressed: () {
                                       setState(() {
                                         Navigator.push(context, MaterialPageRoute(builder:
-                                            (context) => Agendar(profissional: profissional)));
+                                            (context) => Agendar(profissional: pro)));
                                       });
                                     }
                                 ),
@@ -535,6 +540,24 @@ class _FirstScreenState extends State<FirstScreen> {
                                             fontFamily: 'quicksand',
                                             fontWeight: FontWeight.w300,
                                             fontSize: MediaQuery.of(context).size.height/50,
+                                            /*shadows: [
+                                                Shadow( // bottomLeft
+                                                    offset: Offset(-0.6, -0.6),
+                                                    color: Colors.black
+                                                ),
+                                                Shadow( // bottomRight
+                                                    offset: Offset(0.6, -0.6),
+                                                    color: Colors.black
+                                                ),
+                                                Shadow( // topRight
+                                                    offset: Offset(0.6, 0.6),
+                                                    color: Colors.black
+                                                ),
+                                                Shadow( // topLeft
+                                                    offset: Offset(-0.6, 0.6),
+                                                    color: Colors.black
+                                                ),
+                                              ]*/
                                           ),
                                         ),
                                         subtitle: Text(
@@ -544,6 +567,24 @@ class _FirstScreenState extends State<FirstScreen> {
                                             fontFamily: 'quicksand',
                                             fontWeight: FontWeight.w100,
                                             fontSize: MediaQuery.of(context).size.height/55,
+                                            /*shadows: [
+                                                Shadow( // bottomLeft
+                                                    offset: Offset(-0.6, -0.6),
+                                                    color: Colors.black
+                                                ),
+                                                Shadow( // bottomRight
+                                                    offset: Offset(0.6, -0.6),
+                                                    color: Colors.black
+                                                ),
+                                                Shadow( // topRight
+                                                    offset: Offset(0.6, 0.6),
+                                                    color: Colors.black
+                                                ),
+                                                Shadow( // topLeft
+                                                    offset: Offset(-0.6, 0.6),
+                                                    color: Colors.black
+                                                ),
+                                              ]*/
                                           ),
                                         ),
                                         trailing: Row(
@@ -612,60 +653,6 @@ class _FirstScreenState extends State<FirstScreen> {
                                     );
                                   }),
                             ),
-                            //profissional.assinante == false ?
-                            /*Text(
-                            '\nAQUI SERÁ O CARD PARA ASSINATURA',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: MediaQuery.of(context).size.height/50,
-                              shadows: <Shadow>[
-                                Shadow(
-                                  offset: Offset(1.0, 1.0),
-                                  blurRadius: 3.0,
-                                  color: Color.fromARGB(255, 0, 0, 0),
-                                ),
-                                Shadow(
-                                  offset: Offset(2.0, 1.0),
-                                  blurRadius: 8.0,
-                                  color: Color.fromARGB(255, 0, 0, 0),
-                                ),
-                              ],
-                            ),
-                          ),
-                          FlatButton(
-                            color: Colors.white,
-                            shape: RoundedRectangleBorder(side: BorderSide(
-                                color: Colors.black,
-                                width: 1,
-                                style: BorderStyle.solid
-                            ), borderRadius: BorderRadius.circular(40)),
-                            onPressed: () {
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                              child: Container(
-                                color: Colors.white,
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    //Image(image: AssetImage("assets/images/google_logo.png"), height: 35.0),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 0),
-                                      child: Text(
-                                        'Assinar',
-                                        style: TextStyle(
-                                          fontSize: 15,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          )*/
                           ],
                         ),
                       ),
@@ -711,13 +698,25 @@ class _FirstScreenState extends State<FirstScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                /*CircleAvatar(
-                  backgroundImage: imageUrl == null ? Text('${profissional.nome.substring(0, 1).toUpperCase()}') : NetworkImage(
-                    imageUrl,
-                  ),
-                  radius: 30,
+                pro.imageURL != null ?
+                CircleAvatar(
+                  backgroundImage: NetworkImage(imageUrl),
+                  radius: 45,
                   backgroundColor: Colors.transparent,
-                ),*/
+                )
+                :
+                CircleAvatar(
+                  child: Text('${pro.nome.substring(0, 1).toUpperCase()}',
+                    style: TextStyle(
+                        fontFamily: 'quicksand',
+                        fontSize: MediaQuery.of(context).size.height/40,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white
+                    ),
+                  ),
+                  radius: 45,
+                  backgroundColor: Colors.black,
+                ),
                 SizedBox(height: 16.0),
                 LText(name != null ? "\l.lead{Bem-vindo(a)},\n\l.lead.bold{$name}" :
                 "\l.lead{Bem-vindo(a)}",
@@ -750,7 +749,7 @@ class _FirstScreenState extends State<FirstScreen> {
             backgroundColor: Colors.transparent,
             onTap: () {
               if(appData.isPro == true) {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Consultas(profissional: profissional)));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Consultas(profissional: pro)));
               } else {
                 WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
                     SnackBar(
@@ -790,7 +789,7 @@ class _FirstScreenState extends State<FirstScreen> {
             backgroundColor: Colors.transparent,
             onTap: () {
               if(appData.isPro == true) {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Agendar(profissional: profissional)));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Agendar(profissional: pro)));
               } else {
                 WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
                     SnackBar(
@@ -830,7 +829,7 @@ class _FirstScreenState extends State<FirstScreen> {
             backgroundColor: Colors.transparent,
             onTap: () {
               if(appData.isPro == true) {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Prontuarios(profissional: profissional)));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Prontuarios(profissional: pro)));
               } else {
                 WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
                     SnackBar(
@@ -871,7 +870,7 @@ class _FirstScreenState extends State<FirstScreen> {
             backgroundColor: Colors.transparent,
             onTap: () {
               if(appData.isPro == true) {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => EditarCadastro(profissional: profissional,)));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => EditarCadastro(profissional: pro,)));
               } else {
                 WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
                     SnackBar(
@@ -1022,7 +1021,7 @@ class _FirstScreenState extends State<FirstScreen> {
           values['imageURL'], values['facebook'], values['instagram'],
           values['num_conselho'], snapshot.value['domingo'], snapshot.value['segunda'],
           snapshot.value['terca'], snapshot.value['quarta'], snapshot.value['quinta'],
-          snapshot.value['sexta'], snapshot.value['sabado'], values['assinante']);
+          snapshot.value['sexta'], snapshot.value['sabado'], values['horarios'], values['assinante']);
       if(prof.nome != null) {
         listaProfissional.add(prof);
       }

@@ -241,9 +241,9 @@ class _ConsultasState extends State<Consultas> {
                                     icon: Icon(Icons.delete),
                                     color: Theme.of(context).errorColor,
                                     onPressed: () {
-                                      _showDialog(
-                                          context, listaBuscado[posicao], posicao);
+                                      _showDialog(context, listaBuscado[posicao], posicao);
                                       //remover(id, posicao);
+                                    //  await _deviceCalendarPlugin.deleteEvent(_calendar.id, _event.eventId);
                                     }, //=> deleteTx(transactions[index].id),
                                   ),
                                 ],

@@ -18,12 +18,13 @@ class Profissional {
   bool quinta;
   bool sexta;
   bool sabado;
+  List<dynamic> horarios = List();
   bool assinante;
 
   Profissional(this.nome, this.telefone, this.email, this.areaAtuacao,
       this.usuario, this.imageURL, this.facebook, this.instagram,
       this.num_conselho, this.domingo, this.segunda, this.terca,
-      this.quarta, this.quinta, this.sexta, this.sabado, this.assinante);
+      this.quarta, this.quinta, this.sexta, this.sabado, this.horarios, this.assinante);
 
   Profissional.fromSnapshot(DataSnapshot snapshot) :
         primaryKey = snapshot.key,
@@ -43,6 +44,7 @@ class Profissional {
         quinta = snapshot.value['quinta'],
         sexta = snapshot.value['sexta'],
         sabado = snapshot.value['sabado'],
+        horarios = snapshot.value['horarios'],
         assinante = snapshot.value['assinante'];
 
   toJson() {
@@ -62,6 +64,8 @@ class Profissional {
       "quarta" : quarta,
       "quinta" : quinta,
       "sexta" : sexta,
+      "sabado" : sabado,
+      "horarios" : horarios,
       "assinante" : assinante
     };
   }

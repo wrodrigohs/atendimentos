@@ -20,7 +20,7 @@ class EditarCadastro extends StatefulWidget {
 
 class _EditarCadastroState extends State<EditarCadastro> {
   Profissional prof = new Profissional('', '', '', '', '', '', '', '', '', false, false, false,
-      false, false, false, false, false);
+      false, false, false, false, null, false);
   DatabaseReference dbReference;
   List<Profissional> listaProfissional = List();
 
@@ -39,6 +39,21 @@ class _EditarCadastroState extends State<EditarCadastro> {
   String facebook;
   String instagram;
   String tel;
+  List<bool> diasEscolhidos = List();
+  List<dynamic> horasEscolhidas = List();
+
+  bool domingo = false;
+  bool segunda = false;
+  bool terca = false;
+  bool quarta = false;
+  bool quinta = false;
+  bool sexta = false;
+  bool sabado = false;
+
+  List<String> horas = ['07:00h', '07:30h', '08:00h', '08:30h', '09:00h', '09:30h', '10:00h',
+    '10:30h', '11:00h', '11:30h', '12:00h', '12:30h', '13:00h', '13:30h', '14:00h', '14:30h',
+    '15:00h', '15:30h', '16:00h', '16:30h', '17:00h', '17:30h', '18:00h', '18:30h', '19:00h',
+    '19:30h', '20:00h', '20:30h', '21:00h', '21:30h', '22:00h'];
 
   @override
   void initState() {
@@ -47,6 +62,30 @@ class _EditarCadastroState extends State<EditarCadastro> {
     for(int i = 0; i < listaProfissional.length; i++) {
       listaProfissional.removeAt(i);
     }
+
+    diasEscolhidos.add(widget.profissional.domingo);
+    diasEscolhidos.add(widget.profissional.segunda);
+    diasEscolhidos.add(widget.profissional.terca);
+    diasEscolhidos.add(widget.profissional.quarta);
+    diasEscolhidos.add(widget.profissional.quinta);
+    diasEscolhidos.add(widget.profissional.sexta);
+    diasEscolhidos.add(widget.profissional.sabado);
+
+    for(int i = 0; i < widget.profissional.horarios.length; i++) {
+      if(!horasEscolhidas.contains(widget.profissional.horarios[i])) {
+        horasEscolhidas.add(widget.profissional.horarios[i]);
+      }
+    }
+
+    prof = widget.profissional;
+
+    _nomeController.text = widget.profissional.nome;
+    _telefoneController.text = widget.profissional.telefone.substring(3, widget.profissional.telefone.length);
+    _emailController.text = widget.profissional.email;
+    _areaAtuacaoController.text = widget.profissional.areaAtuacao;
+    _facebookController.text = widget.profissional.facebook;
+    _instagramController.text = widget.profissional.instagram;
+    _num_conselhoController.text = widget.profissional.num_conselho;
 
     dbReference = db.reference().child('atendimentos');
     dbReference.onChildAdded.listen(_gravar);
@@ -59,7 +98,7 @@ class _EditarCadastroState extends State<EditarCadastro> {
           values['facebook'], values['instagram'], values['num_conselho'],
           snapshot.value['domingo'], snapshot.value['segunda'], snapshot.value['terca'],
           snapshot.value['quarta'], snapshot.value['quinta'], snapshot.value['sexta'],
-          snapshot.value['sabado'], values['confirmado']);
+          snapshot.value['sabado'], values['horarios'], values['confirmado']);
       if(pro.nome == widget.profissional.nome) {
         listaProfissional.add(pro);
         return;
@@ -99,20 +138,12 @@ class _EditarCadastroState extends State<EditarCadastro> {
       }
     }
 
-    for(int i = 0; i < listaProfissional.length; i++) {
+    /*for(int i = 0; i < listaProfissional.length; i++) {
       if(listaProfissional[i].nome == widget.profissional.nome) {
         prof = listaProfissional[i];
         break;
       }
-    }
-
-    _nomeController.text = prof.nome;
-    _telefoneController.text = prof.telefone;
-    _emailController.text = prof.email;
-    _areaAtuacaoController.text = prof.areaAtuacao;
-    _facebookController.text = prof.facebook;
-    _instagramController.text = prof.instagram;
-    _num_conselhoController.text = prof.num_conselho;
+    }*/
 
     return Scaffold(
       body: Stack(children: <Widget>[
@@ -764,6 +795,103 @@ class _EditarCadastroState extends State<EditarCadastro> {
                                 ),
                               ),
                             ),
+                            ListTile(
+                              leading: Icon(Icons.today, color: Colors.white),
+                              title: Container(
+                                height: 40,
+                                child: Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: Text(
+                                        diasEscolhidos[0] == false && diasEscolhidos[1] == false
+                                            && diasEscolhidos[2] == false && diasEscolhidos[3] == false
+                                            && diasEscolhidos[4] == false && diasEscolhidos[5] == false
+                                            && diasEscolhidos[6] == false
+                                            ? 'Defina os dias'
+                                            : 'Dias definidos',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: 'quicksand',
+                                          fontSize: MediaQuery.of(context).size.height/50,
+                                        ),
+                                      ),
+                                    ),
+                                    FlatButton(
+                                      color: Colors.black,
+                                      textColor: Colors.white,
+                                      child: Text(
+                                        'Definir dias',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: 'quicksand',
+                                          fontSize: MediaQuery.of(context).size.height/60,
+                                        ),
+                                      ),
+                                      shape: RoundedRectangleBorder(
+                                          side: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                              style: BorderStyle.solid
+                                          ),
+                                          borderRadius: BorderRadius.circular(40)
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          _showDialog(context);
+                                        });
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            ListTile(
+                              leading: Icon(Icons.alarm_on, color: Colors.white),
+                              title: Container(
+                                height: 40,
+                                child: Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: Text(
+                                        horasEscolhidas.isEmpty
+                                            ? 'Defina seus horários'
+                                            : 'Horários definidos',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: 'quicksand',
+                                          fontSize: MediaQuery.of(context).size.height/50,
+                                        ),
+                                      ),
+                                    ),
+                                    FlatButton(
+                                      color: Colors.black,
+                                      textColor: Colors.white,
+                                      child: Text(
+                                        'Definir horários',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: 'quicksand',
+                                          fontSize: MediaQuery.of(context).size.height/60,
+                                        ),
+                                      ),
+                                      shape: RoundedRectangleBorder(
+                                          side: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                              style: BorderStyle.solid
+                                          ),
+                                          borderRadius: BorderRadius.circular(40)
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          _dialogHorarios(context);
+                                        });
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: FlatButton(
@@ -826,6 +954,7 @@ class _EditarCadastroState extends State<EditarCadastro> {
                                           prof.quinta,
                                           prof.sexta,
                                           prof.sabado,
+                                          horasEscolhidas,
                                           false);
 
                                       atualizarProfissional(pro);
@@ -842,7 +971,6 @@ class _EditarCadastroState extends State<EditarCadastro> {
                 ),
               ],
             ),
-
           ),
         ),
       ]
@@ -878,6 +1006,14 @@ class _EditarCadastroState extends State<EditarCadastro> {
       "facebook" : profissional.facebook,
       "instagram" : profissional.instagram,
       "num_conselho" : profissional.num_conselho,
+      "domingo" : profissional.domingo,
+      "segunda" : profissional.segunda,
+      "terca" : profissional.terca,
+      "quarta" : profissional.quarta,
+      "quinta" : profissional.quinta,
+      "sexta" : profissional.sexta,
+      "sabado" : profissional.sabado,
+      "horarios" : profissional.horarios,
       "assinante" : profissional.assinante
     }).then((_) {
       //print('Transaction  committed.');
@@ -912,5 +1048,386 @@ class _EditarCadastroState extends State<EditarCadastro> {
       return 'Digite um e-mail válido.';
     else
       return null;
+  }
+
+  void _showDialog(BuildContext context) async {
+    await showDialog<String>(
+        context: context,
+        builder: (BuildContext context) {
+          return StatefulBuilder(
+            builder: (context, setState)
+            {
+              return AlertDialog(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                contentPadding: EdgeInsets.all(6.0),
+                content: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      InkWell(
+                        child: Text(
+                          "Dias de trabalho",
+                          style: TextStyle(
+                              color: Colors.red,
+                              fontSize: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .height / 50,
+                              fontFamily: 'quicksand'
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      Divider(
+                        color: Colors.black,
+                        height: 1.0,
+                      ),
+                      Container(
+                        height: MediaQuery
+                            .of(context)
+                            .size
+                            .height / 4,
+                        width: MediaQuery
+                            .of(context)
+                            .size
+                            .width,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: diasEscolhidos.length,
+                          itemBuilder: (BuildContext context, int posicao) {
+                            return diasEscolhidos[posicao] == false ?
+                            ListTile(
+                                title: FlatButton(
+                                  color: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                      side: BorderSide(
+                                          color: Colors.black,
+                                          width: 1,
+                                          style: BorderStyle.solid
+                                      ),
+                                      borderRadius: BorderRadius.circular(10)
+                                  ),
+                                  child: ListTile(
+                                    title: Text(posicao == 0 ? 'Domingo' : posicao == 1 ?
+                                    'Segunda-feira' : posicao == 2 ? 'Terça-feira' :
+                                    posicao == 3 ? 'Quarta-feira' : posicao == 4 ? 'Quinta-feira' :
+                                    posicao == 5 ? 'Sexta-feira' : posicao == 6 ? 'Sábado' : '',
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontFamily: 'quicksand'
+                                      ),
+                                    ),
+                                    leading: Wrap(
+                                      spacing: 10, // space between two icons
+                                      children: <Widget>[
+                                        Icon(Icons.done_all,
+                                            color: Colors.transparent), // icon-2
+                                      ],
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      mudarDia(posicao);
+                                    });
+                                  },
+                                )
+                            )
+                                :
+                            ListTile(
+                                title: FlatButton(
+                                  color: Colors.black,
+                                  shape: RoundedRectangleBorder(
+                                      side: BorderSide(
+                                          color: Colors.black,
+                                          width: 1,
+                                          style: BorderStyle.solid
+                                      ),
+                                      borderRadius: BorderRadius.circular(10)
+                                  ),
+                                  child: ListTile(
+                                    title: Text(posicao == 0 ? 'Domingo' : posicao == 1 ?
+                                    'Segunda-feira' : posicao == 2 ? 'Terça-feira' :
+                                    posicao == 3 ? 'Quarta-feira' : posicao == 4 ? 'Quinta-feira' :
+                                    posicao == 5 ? 'Sexta-feira' : posicao == 6 ? 'Sábado' : '',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: 'quicksand'
+                                      ),
+                                    ),
+                                    leading: Wrap(
+                                      spacing: 12, // space between two icons
+                                      children: <Widget>[
+                                        Icon(Icons.done_all,
+                                            color: Colors.green), // icon-2
+                                      ],
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      removerDia(posicao);
+                                    });
+                                  },
+                                )
+                            );
+                          },
+                        ),
+                      ),
+                      Divider(
+                        color: Colors.black,
+                        height: 1.0,
+                      ),
+                      FlatButton(
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                color: Colors.black,
+                                width: 1,
+                                style: BorderStyle.solid
+                            ),
+                            borderRadius: BorderRadius.circular(10)
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            Navigator.of(context).pop();
+                          });
+                        },
+                        color: Colors.black,
+                        child: Text('OK',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'quicksand'
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
+        });
+  }
+
+  void _dialogHorarios(BuildContext context) async {
+    await showDialog<String>(
+        context: context,
+        builder: (BuildContext context) {
+          return StatefulBuilder(
+            builder: (context, setState)
+            {
+              return AlertDialog(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                contentPadding: EdgeInsets.all(6.0),
+                content: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      InkWell(
+                        child: Text(
+                          "Meus horários",
+                          style: TextStyle(
+                              color: Colors.red,
+                              fontSize: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .height / 50,
+                              fontFamily: 'quicksand'
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      Divider(
+                        color: Colors.black,
+                        height: 1.0,
+                      ),
+                      Container(
+                        height: MediaQuery
+                            .of(context)
+                            .size
+                            .height / 4,
+                        width: MediaQuery
+                            .of(context)
+                            .size
+                            .width,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: horas.length,
+                          itemBuilder: (BuildContext context, int posicao) {
+                            return !(horasEscolhidas.contains(horas[posicao])) ?
+                            ListTile(
+                                title: FlatButton(
+                                  color: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                      side: BorderSide(
+                                          color: Colors.black,
+                                          width: 1,
+                                          style: BorderStyle.solid
+                                      ),
+                                      borderRadius: BorderRadius.circular(10)
+                                  ),
+                                  child: ListTile(
+                                    title: Text('${horas[posicao]}',
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontFamily: 'quicksand'
+                                      ),
+                                    ),
+                                    leading: Wrap(
+                                      spacing: 12, // space between two icons
+                                      children: <Widget>[
+                                        Icon(Icons.done_all,
+                                            color: Colors.transparent), // icon-2
+                                      ],
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      definirHorario(horas[posicao]);
+                                    });
+                                  },
+                                )
+                            )
+                                :
+                            ListTile(
+                                title: FlatButton(
+                                  color: Colors.black,
+                                  shape: RoundedRectangleBorder(
+                                      side: BorderSide(
+                                          color: Colors.black,
+                                          width: 1,
+                                          style: BorderStyle.solid
+                                      ),
+                                      borderRadius: BorderRadius.circular(10)
+                                  ),
+                                  child: ListTile(
+                                    title: Text('${horas[posicao]}',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: 'quicksand'
+                                      ),
+                                    ),
+                                    leading: Wrap(
+                                      spacing: 12, // space between two icons
+                                      children: <Widget>[
+                                        Icon(Icons.done_all,
+                                            color: Colors.green), // icon-2
+                                      ],
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      removerHorario(horas[posicao]);
+                                    });
+                                  },
+                                )
+                            );
+                          },
+                        ),
+                      ),
+                      Divider(
+                        color: Colors.black,
+                        height: 1.0,
+                      ),
+                      FlatButton(
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                color: Colors.black,
+                                width: 1,
+                                style: BorderStyle.solid
+                            ),
+                            borderRadius: BorderRadius.circular(10)
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            Navigator.of(context).pop();
+                          });
+                        },
+                        color: Colors.black,
+                        child: Text('OK',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'quicksand'
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
+        });
+  }
+
+  void mudarDia(int posicao) {
+    setState(() {
+      diasEscolhidos[posicao] = true;
+      if(posicao == 0) {
+        prof.domingo = diasEscolhidos[posicao];
+      } else if (posicao == 1) {
+        prof.segunda = diasEscolhidos[posicao];
+      } else if (posicao == 2) {
+        prof.terca = diasEscolhidos[posicao];
+      } else if (posicao == 3) {
+        prof.quarta = diasEscolhidos[posicao];
+      } else if (posicao == 4) {
+        prof.quinta = diasEscolhidos[posicao];
+      } else if (posicao == 5) {
+        prof.sexta = diasEscolhidos[posicao];
+      } else if (posicao == 6) {
+        prof.sabado = diasEscolhidos[posicao];
+      }
+      /*switch(posicao) {
+        case 0: profissional.domingo = diasEscolhidos[posicao]; return;
+        case 1: profissional.segunda = diasEscolhidos[posicao]; return;
+        case 2: profissional.terca = diasEscolhidos[posicao]; return;
+        case 3: profissional.quarta = diasEscolhidos[posicao]; return;
+        case 4: profissional.quinta = diasEscolhidos[posicao]; return;
+        case 5: profissional.sexta = diasEscolhidos[posicao]; return;
+        case 6: profissional.sabado = diasEscolhidos[posicao]; return;
+        default: return;
+      }*/
+      print('$domingo $segunda $terca $quarta $quinta $sexta ${prof.sabado}');
+    });
+  }
+
+  void removerDia(int posicao) {
+    setState(() {
+      diasEscolhidos[posicao] = false;
+      if(posicao == 0) {
+        prof.domingo = diasEscolhidos[posicao];
+      } else if (posicao == 1) {
+        prof.segunda = diasEscolhidos[posicao];
+      } else if (posicao == 2) {
+        prof.terca = diasEscolhidos[posicao];
+      } else if (posicao == 3) {
+        prof.quarta = diasEscolhidos[posicao];
+      } else if (posicao == 4) {
+        prof.quinta = diasEscolhidos[posicao];
+      } else if (posicao == 5) {
+        prof.sexta = diasEscolhidos[posicao];
+      } else if (posicao == 6) {
+        prof.sabado = diasEscolhidos[posicao];
+      }
+      print('${diasEscolhidos[posicao]}');
+    });
+  }
+
+
+  void definirHorario(String horario) {
+    if(!horasEscolhidas.contains(horario)) {
+      horasEscolhidas.add(horario);
+    }
+  }
+
+  void removerHorario(String horario) {
+    if(horasEscolhidas.contains(horario)) {
+      horasEscolhidas.remove(horario);
+    }
   }
 }

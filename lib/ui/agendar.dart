@@ -1,6 +1,5 @@
 import 'package:atendimentos/model/paciente.dart';
 import 'package:atendimentos/model/profissional.dart';
-import 'package:atendimentos/ui/calendarios.dart';
 import 'package:device_calendar/device_calendar.dart' as calendar;
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -408,7 +407,7 @@ class _AgendarState extends State<Agendar> {
                                               );
                                               return;
                                             }
-                                            //_showDialog(context, dataString);
+                                            _dialogHorarios(context);
                                           });
                                         },
                                       ),
@@ -707,11 +706,20 @@ class _AgendarState extends State<Agendar> {
     DateTime nextYear = new DateTime(now.year + 2);
     showDatePicker(
       context: context,
-      initialDate: dias[now.weekday - 1] == false ? now.add(Duration(days: 1)) : null,//checarDia(now),
+      initialDate: dias[now.weekday - 1] == false ? now.add(Duration(days: 1)) : now,//checarDia(now),
       firstDate: DateTime.now().subtract(new Duration(days: 0)),
       lastDate: nextYear,
-      selectableDayPredicate: (DateTime now) => dias[now.weekday - 1] == false ? false : true,/*(DateTime val) {
-        for (int i = 0; i < widget.profissional.dias.length; i++) {
+      selectableDayPredicate: (now) => dias[now.weekday - 1] == false ? false : true,/*(DateTime val) {
+        val = DateTime.now();
+        for(int i = 0; i < dias.length; i++) {
+          if(dias[i] == false) {
+            return false;
+          } else {
+            return true;
+          }
+        }*/
+      // return true;
+      /*for (int i = 0; i < widget.profissional.dias.length; i++) {
           if (widget.profissional.dias[i] == false) {
             if (val.weekday == i) {
               return false;
@@ -719,18 +727,17 @@ class _AgendarState extends State<Agendar> {
               return true;
             }
           }
-        }
-        return false;
-      },*/
+        }*/
+      //},
       //_diasExcluidos(),
 //        val.weekday == 6 || val.weekday == 7 ? false : true,
-       //exclui sábado e domingo
+      //exclui sábado e domingo
       builder: (BuildContext context, Widget child) {
         return Theme(
-          data: ThemeData.dark().copyWith(
-            //primaryColor: Color(0xFFFFFFFF),
-            //accentColor: Color(0xFFFFFFFF),
-            colorScheme: ColorScheme.dark(primary: Color(0xFFFFFFFF)),
+          data: ThemeData.light().copyWith(
+            primaryColor: Color(0xFF000000),
+            accentColor: Color(0xFF000000),
+            colorScheme: ColorScheme.light(primary: Color(0xFF000000)),
             buttonTheme: ButtonThemeData(
               textTheme: ButtonTextTheme.primary,
             ),
@@ -762,8 +769,175 @@ class _AgendarState extends State<Agendar> {
       return null;
   }
 
-  /*void _showDialog(BuildContext context, String dataString) async {
-    *//*List<String> horas = ['08:00h', '08:30h', '09:00h', '09:30h', '10:00h', '10:30h', '11:00h', '11:30h',
+  void _dialogHorarios(BuildContext context) async {
+    await showDialog<String>(
+        context: context,
+        builder: (BuildContext context) {
+          return StatefulBuilder(
+            builder: (context, setState)
+            {
+              return AlertDialog(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                contentPadding: EdgeInsets.all(6.0),
+                content: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      InkWell(
+                        child: Text(
+                          "Meus horários",
+                          style: TextStyle(
+                              color: Colors.red,
+                              fontSize: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .height / 50,
+                              fontFamily: 'quicksand'
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      Divider(
+                        color: Colors.black,
+                        height: 1.0,
+                      ),
+                      Container(
+                        height: MediaQuery
+                            .of(context)
+                            .size
+                            .height / 4,
+                        width: MediaQuery
+                            .of(context)
+                            .size
+                            .width,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: widget.profissional.horarios.length,
+                          itemBuilder: (BuildContext context, int posicao) {
+                            return horaSelecionada != (widget.profissional.horarios[posicao]) ?
+                            ListTile(
+                                title: FlatButton(
+                                  color: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                      side: BorderSide(
+                                          color: Colors.black,
+                                          width: 1,
+                                          style: BorderStyle.solid
+                                      ),
+                                      borderRadius: BorderRadius.circular(10)
+                                  ),
+                                  child: ListTile(
+                                    title: Text('${widget.profissional.horarios[posicao]}',
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontFamily: 'quicksand'
+                                      ),
+                                    ),
+                                    leading: Wrap(
+                                      spacing: 12, // space between two icons
+                                      children: <Widget>[
+                                        Icon(Icons.done_all,
+                                            color: Colors.transparent), // icon-2
+                                      ],
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      definirHorario(widget.profissional.horarios[posicao]);
+                                    });
+                                  },
+                                )
+                            )
+                                :
+                            ListTile(
+                                title: FlatButton(
+                                  color: Colors.black,
+                                  shape: RoundedRectangleBorder(
+                                      side: BorderSide(
+                                          color: Colors.black,
+                                          width: 1,
+                                          style: BorderStyle.solid
+                                      ),
+                                      borderRadius: BorderRadius.circular(10)
+                                  ),
+                                  child: ListTile(
+                                    title: Text('${widget.profissional.horarios[posicao]}',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: 'quicksand'
+                                      ),
+                                    ),
+                                    leading: Wrap(
+                                      spacing: 12, // space between two icons
+                                      children: <Widget>[
+                                        Icon(Icons.done_all,
+                                            color: Colors.green), // icon-2
+                                      ],
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      definirHorario(widget.profissional.horarios[posicao]);
+                                    });
+                                  },
+                                )
+                            );
+                          },
+                        ),
+                      ),
+                      Divider(
+                        color: Colors.black,
+                        height: 1.0,
+                      ),
+                      FlatButton(
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                color: Colors.black,
+                                width: 1,
+                                style: BorderStyle.solid
+                            ),
+                            borderRadius: BorderRadius.circular(10)
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            Navigator.of(context).pop();
+                          });
+                        },
+                        color: Colors.black,
+                        child: Text('OK',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'quicksand'
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
+        });
+  }
+
+  void definirHorario(String horario) {
+    setState(() {
+      horaSelecionada = horario;
+    });
+  }
+
+
+/*void removerHorario(String horario) {
+    setState(() {
+      horaSelecionada = horario;
+    });
+}*/
+
+/*void _showDialog(BuildContext context, String dataString) async {
+    List<String> horas = ['08:00h', '08:30h', '09:00h', '09:30h', '10:00h', '10:30h', '11:00h', '11:30h',
       '12:00h', '12:30h', '13:00h', '13:30h', '14:00h', '14:30h', '15:00h', '15:30h',
       '16:00h', '16:30h', '17:00h', '17:30h', '18:00h', '18:30h', '19:00h', '19:30h', '20:00h'];
 
@@ -775,7 +949,7 @@ class _AgendarState extends State<Agendar> {
           }
         }
       }
-    }*//*
+    }
 
     await showDialog<String>(
         context: context,
@@ -934,13 +1108,13 @@ class _AgendarState extends State<Agendar> {
         });
   }*/
 
-  void mudarHora(String hora) {
-    setState(() {
-      horaSelecionada = hora;
-    });
-  }
+void mudarHora(String hora) {
+  setState(() {
+    horaSelecionada = hora;
+  });
+}
 
-  /*DateTime checarDia(DateTime now) {
+/*DateTime checarDia(DateTime now) {
     for(int i = 0; i < widget.profissional.dias.length; i++) {
       while(now.weekday == i && widget.profissional.dias[i] == false) {
         now = now.add(Duration(days: 1));
@@ -950,46 +1124,46 @@ class _AgendarState extends State<Agendar> {
     return now;
   }*/
 
-  DateTime converterData(String strDate){
-    DateTime data = dateFormat.parse(strDate);
-    return data;
-  }
+DateTime converterData(String strDate){
+  DateTime data = dateFormat.parse(strDate);
+  return data;
+}
 
-  void salvarnoCalendario(DateTime dataInicial, int hora, int minuto, Paciente paciente) async {
-    print(calendarioEscolhido.id);
-    print(calendarioEscolhido.name);
-    calendar.Event event;
-    DateTime _startDate;
-    DateTime _endDate;
+void salvarnoCalendario(DateTime dataInicial, int hora, int minuto, Paciente paciente) async {
+  print(calendarioEscolhido.id);
+  print(calendarioEscolhido.name);
+  calendar.Event event;
+  DateTime _startDate;
+  DateTime _endDate;
 
-    _startDate = new DateTime(dataInicial.year, dataInicial.month, dataInicial.day, hora, minuto);
-    _endDate = new DateTime(dataInicial.year, dataInicial.month, dataInicial.day, hora + 1, minuto);
+  _startDate = new DateTime(dataInicial.year, dataInicial.month, dataInicial.day, hora, minuto);
+  _endDate = new DateTime(dataInicial.year, dataInicial.month, dataInicial.day, hora + 1, minuto);
 
+  event = calendar.Event(calendarioEscolhido.id, title: 'Consulta de ${paciente.nome}',
+      description: 'Consulta com ${widget.profissional.nome} no dia ${dataInicial.day}/${dataInicial.month}/${dataInicial.year} às $hora:$minuto',
+      start: _startDate, end: _endDate);
+
+  if (event == null) {
     event = calendar.Event(calendarioEscolhido.id, title: 'Consulta de ${paciente.nome}',
-        description: 'Consulta com ${widget.profissional.nome} no dia ${dataInicial.day}/${dataInicial.month}/${dataInicial.year} às $hora:$minuto',
+        description: 'Consulta de ${paciente.nome} no dia ${dataInicial.day}/${dataInicial.month}/${dataInicial.year} às ${dataInicial.hour}:${dataInicial.minute}',
         start: _startDate, end: _endDate);
+  } else {
 
-    if (event == null) {
-      event = calendar.Event(calendarioEscolhido.id, title: 'Consulta de ${paciente.nome}',
-          description: 'Consulta de ${paciente.nome} no dia ${dataInicial.day}/${dataInicial.month}/${dataInicial.year} às ${dataInicial.hour}:${dataInicial.minute}',
-          start: _startDate, end: _endDate);
-    } else {
-
-      var createEventResult =
-      await _deviceCalendarPlugin.createOrUpdateEvent(event);
-      if (createEventResult.isSuccess) {
+    var createEventResult =
+    await _deviceCalendarPlugin.createOrUpdateEvent(event);
+    if (createEventResult.isSuccess) {
 //        Navigator.pop(context, true);
-        print('Evento criado no calendário de ${calendarioEscolhido.name}');
-      } else {
-        print('não criou o evento no calendário de ${calendarioEscolhido.name}');
+      print('Evento criado no calendário de ${calendarioEscolhido.name}');
+    } else {
+      print('não criou o evento no calendário de ${calendarioEscolhido.name}');
 //        showInSnackBar(createEventResult.errorMessages.join(' | '));
-      }
-
-      Fluttertoast.showToast(
-        msg:'Consulta salva no calendário do seu celular.',
-        toastLength: Toast.LENGTH_LONG,
-        timeInSecForIosWeb: 5,
-      );
     }
+
+    Fluttertoast.showToast(
+      msg:'Consulta salva no calendário do seu celular.',
+      toastLength: Toast.LENGTH_LONG,
+      timeInSecForIosWeb: 5,
+    );
   }
+}
 }
