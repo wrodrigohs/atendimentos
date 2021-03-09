@@ -31,8 +31,8 @@ class _CadastroState extends State<Cadastro> {
   final TextEditingController _facebookController = TextEditingController();
   final TextEditingController _num_conselhoController = TextEditingController();
 
-  List<String> diasdeTrabalho = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira',
-  'Sexta-feira', 'Sábado'];
+  /*List<String> diasdeTrabalho = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira',
+    'Sexta-feira', 'Sábado'];*/
   List<bool> diasEscolhidos = List();
 
   List<String> horas = ['07:00h', '07:30h', '08:00h', '08:30h', '09:00h', '09:30h', '10:00h',
@@ -770,7 +770,10 @@ class _CadastroState extends State<Cadastro> {
                                   children: <Widget>[
                                     Expanded(
                                       child: Text(
-                                        diasEscolhidos.isEmpty
+                                        diasEscolhidos[0] == false && diasEscolhidos[1] == false
+                                            && diasEscolhidos[2] == false && diasEscolhidos[3] == false
+                                            && diasEscolhidos[4] == false && diasEscolhidos[5] == false
+                                            && diasEscolhidos[6] == false
                                             ? 'Defina os dias'
                                             : 'Dias definidos',
                                         style: TextStyle(
@@ -817,7 +820,10 @@ class _CadastroState extends State<Cadastro> {
                                   children: <Widget>[
                                     Expanded(
                                       child: Text(
-                                        diasdeTrabalho.isEmpty
+                                        diasEscolhidos[0] == false && diasEscolhidos[1] == false
+                                        && diasEscolhidos[2] == false && diasEscolhidos[3] == false
+                                        && diasEscolhidos[4] == false && diasEscolhidos[5] == false
+                                        && diasEscolhidos[6] == false
                                             ? 'Defina seus horários'
                                             : 'Horários definidos',
                                         style: TextStyle(
@@ -1034,7 +1040,7 @@ class _CadastroState extends State<Cadastro> {
                             .width,
                         child: ListView.builder(
                           shrinkWrap: true,
-                          itemCount: diasdeTrabalho.length,
+                          itemCount: diasEscolhidos.length,
                           itemBuilder: (BuildContext context, int posicao) {
                             return diasEscolhidos[posicao] == false ?
                             ListTile(
@@ -1049,7 +1055,10 @@ class _CadastroState extends State<Cadastro> {
                                       borderRadius: BorderRadius.circular(10)
                                   ),
                                   child: ListTile(
-                                    title: Text('${diasdeTrabalho[posicao]}',
+                                    title: Text(posicao == 0 ? 'Domingo' : posicao == 1 ?
+                                    'Segunda-feira' : posicao == 2 ? 'Terça-feira' :
+                                    posicao == 3 ? 'Quarta-feira' : posicao == 4 ? 'Quinta-feira' :
+                                    posicao == 5 ? 'Sexta-feira' : posicao == 6 ? 'Sábado' : '',
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontFamily: 'quicksand'
@@ -1065,8 +1074,9 @@ class _CadastroState extends State<Cadastro> {
                                   ),
                                   onPressed: () {
                                     setState(() {
-                                      print('posicao = $posicao diasEscolhidos = ${diasEscolhidos[posicao]}'
-                                          'diasdeTrabalho = ${diasdeTrabalho[posicao]}');
+                                      /*print('posicao = $posicao diasEscolhidos = ${diasEscolhidos[posicao]}'
+                                          'diasdeTrabalho = ${diasdeTrabalho[posicao]}');*/
+                                      //diasEscolhidos[posicao] = true;
                                       mudarDia(posicao);
                                     });
                                   },
@@ -1085,7 +1095,10 @@ class _CadastroState extends State<Cadastro> {
                                       borderRadius: BorderRadius.circular(10)
                                   ),
                                   child: ListTile(
-                                    title: Text('${diasdeTrabalho[posicao]}',
+                                    title: Text(posicao == 0 ? 'Domingo' : posicao == 1 ?
+                                    'Segunda-feira' : posicao == 2 ? 'Terça-feira' :
+                                    posicao == 3 ? 'Quarta-feira' : posicao == 4 ? 'Quinta-feira' :
+                                    posicao == 5 ? 'Sexta-feira' : posicao == 6 ? 'Sábado' : '',
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontFamily: 'quicksand'
@@ -1101,8 +1114,8 @@ class _CadastroState extends State<Cadastro> {
                                   ),
                                   onPressed: () {
                                     setState(() {
-                                      print('posicao = $posicao diasEscolhidos = ${diasEscolhidos[posicao]} '
-                                          ' diasdeTrabalho = ${diasdeTrabalho[posicao]}');
+                                      /*print('posicao = $posicao diasEscolhidos = ${diasEscolhidos[posicao]} '
+                                          ' diasdeTrabalho = ${diasdeTrabalho[posicao]}');*/
                                       removerDia(posicao);
                                     });
                                   },
@@ -1241,7 +1254,10 @@ class _CadastroState extends State<Cadastro> {
                                       borderRadius: BorderRadius.circular(10)
                                   ),
                                   child: ListTile(
-                                    title: Text('${horas[posicao]}',
+                                    title: Text(posicao == 0 ? 'Domingo' : posicao == 1 ?
+                                    'Segunda-feira' : posicao == 2 ? 'Terça-feira' :
+                                    posicao == 3 ? 'Quarta-feira' : posicao == 4 ? 'Quinta-feira' :
+                                    posicao == 5 ? 'Sexta-feira' : posicao == 6 ? 'Sábado' : '',
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontFamily: 'quicksand'
@@ -1301,7 +1317,11 @@ class _CadastroState extends State<Cadastro> {
   }
 
   void mudarDia(int posicao) {
-    if(posicao == 0 && (!diasEscolhidos.contains(domingo))) {
+    setState(() {
+      diasEscolhidos[posicao] = !diasEscolhidos[posicao];
+      print('${diasEscolhidos[posicao]}');
+    });
+    /*if(posicao == 0 && (!diasEscolhidos.contains(domingo))) {
       domingo = true;
       diasEscolhidos.add(domingo);
     } else if(posicao == 1 && (!diasEscolhidos.contains(segunda))){
@@ -1322,32 +1342,14 @@ class _CadastroState extends State<Cadastro> {
     } else if(posicao == 6 && (!diasEscolhidos.contains(sabado))){
       sabado = true;
       diasEscolhidos.add(sabado);
-    }
+    }*/
   }
 
   void removerDia(int posicao) {
-    if(posicao == 0 && (diasEscolhidos.contains(domingo))) {
-      domingo = false;
-      diasEscolhidos.remove(domingo);
-    } else if(posicao == 1 && (diasEscolhidos.contains(segunda))){
-      segunda = false;
-      diasEscolhidos.remove(segunda);
-    } else if(posicao == 2 && (diasEscolhidos.contains(terca))){
-      terca = false;
-      diasEscolhidos.remove(terca);
-    } else if(posicao == 3 && (diasEscolhidos.contains(quarta))){
-      quarta = false;
-      diasEscolhidos.remove(quarta);
-    } else if(posicao == 4 && (diasEscolhidos.contains(quinta))){
-      quinta = false;
-      diasEscolhidos.remove(quinta);
-    } else if(posicao == 5 && (diasEscolhidos.contains(sexta))){
-      sexta = false;
-      diasEscolhidos.remove(sexta);
-    } else if(posicao == 6 && (diasEscolhidos.contains(sabado))){
-      sabado = false;
-      diasEscolhidos.remove(sabado);
-    }
+    setState(() {
+      diasEscolhidos[posicao] = false;
+      print('${diasEscolhidos[posicao]}');
+    });
   }
 
 
