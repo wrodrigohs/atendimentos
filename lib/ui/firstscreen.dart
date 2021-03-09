@@ -45,7 +45,7 @@ class _FirstScreenState extends State<FirstScreen> {
 
   Profissional profissional = new Profissional(name, "", email, "", usuario, imageUrl, "", "", "",
       false, false, false, false, false, false, false, null, false);
-  Profissional pro = new Profissional('', "", '', "", '', '', "", "", "",
+  Profissional pro = new Profissional('', '', '', '', '', '', '', '', '',
       false, false, false, false, false, false, false, null, false);
   List<Paciente> listaPacientes = List();
   List<Profissional> listaProfissional = List();

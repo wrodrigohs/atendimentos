@@ -56,13 +56,13 @@ class _AgendarState extends State<Agendar> {
     super.initState();
     _retrieveCalendars();
 
+    dias.add(widget.profissional.domingo);
     dias.add(widget.profissional.segunda);
     dias.add(widget.profissional.terca);
     dias.add(widget.profissional.quarta);
     dias.add(widget.profissional.quinta);
     dias.add(widget.profissional.sexta);
     dias.add(widget.profissional.sabado);
-    dias.add(widget.profissional.domingo);
 
     _nomeController.clear();
     _telefoneController.text = '';
@@ -83,7 +83,9 @@ class _AgendarState extends State<Agendar> {
       Paciente paciente = new Paciente(
           values['nome'], values['telefone'], values['email'],
           values['data'], values['hora'], values['anotacao'], values['confirmado']);
-      listaPacientes.add(paciente);
+      if(paciente.nome != null && paciente != null) {
+        listaPacientes.add(paciente);
+      }
     });
   }
 
@@ -770,6 +772,7 @@ class _AgendarState extends State<Agendar> {
   }
 
   void _dialogHorarios(BuildContext context) async {
+    widget.profissional.horarios.sort((a, b) => (a.compareTo(b)));
     await showDialog<String>(
         context: context,
         builder: (BuildContext context) {
