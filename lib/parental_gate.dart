@@ -225,7 +225,7 @@ class _ParentalGateState extends State<ParentalGate> {
                                           myController.text = '';
                                         });
                                         if (answer == solution) {
-                                          Navigator.push(
+                                          Navigator.pushReplacement(
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) => UpgradeScreen(),

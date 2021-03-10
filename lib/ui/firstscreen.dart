@@ -320,7 +320,32 @@ class _FirstScreenState extends State<FirstScreen> {
                                 borderRadius: BorderRadius.circular(40),
                               ),
                               onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => ParentalGate(), settings: RouteSettings(name: 'Parental Gate')));
+                                if(appData.isPro == false) {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => ParentalGate(), settings: RouteSettings(name: 'Parental Gate')));
+                                } else {
+                                  WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
+                                      SnackBar(
+                                        action: SnackBarAction(
+                                          label: 'OK',
+                                          onPressed: () {
+                                            _scaffoldKey.currentState.hideCurrentSnackBar();
+                                          },
+                                        ),
+                                        duration: Duration(seconds: 2),
+                                        content: Text('Você já é assinante.',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontFamily: 'quicksand',
+                                            fontSize: MediaQuery.of(context).size.height/55,
+                                          ),
+                                        ),
+                                        backgroundColor: Colors.black,
+                                        behavior: SnackBarBehavior.floating,
+                                      )
+                                  )
+                                  );
+                                }
                               },
                               child: Text(
                                 "Assine",

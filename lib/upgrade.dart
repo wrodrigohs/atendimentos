@@ -1,9 +1,10 @@
-import 'package:atendimentos/proscreen.dart';
+import 'package:atendimentos/ui/firstscreen.dart';
 import 'package:atendimentos/upsell_screen.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'components.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -142,7 +143,12 @@ class _UpgradeScreenState extends State<UpgradeScreen> {
         appData.isPro = false;
       }
       if (appData.isPro) {
-        return ProScreen();
+        Fluttertoast.showToast(
+          msg:'Você já é assinante.',
+          toastLength: Toast.LENGTH_SHORT,
+          timeInSecForIosWeb: 5,
+        );
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => FirstScreen()));
       } else {
         return UpsellScreen(
           offerings: _offerings,
