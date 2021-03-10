@@ -409,7 +409,7 @@ class _AgendarState extends State<Agendar> {
                                               );
                                               return;
                                             }
-                                            _dialogHorarios(context);
+                                            _dialogHorarios(context, dataString);
                                           });
                                         },
                                       ),
@@ -771,8 +771,20 @@ class _AgendarState extends State<Agendar> {
       return null;
   }
 
-  void _dialogHorarios(BuildContext context) async {
-    widget.profissional.horarios.sort((a, b) => (a.compareTo(b)));
+  void _dialogHorarios(BuildContext context, String data) async {
+    List<String> listaHorarios = List();
+    for(int i = 0; i < widget.profissional.horarios.length; i++) {
+      listaHorarios.add(widget.profissional.horarios[i]);
+    }
+
+    listaHorarios.sort((a, b) => (a.compareTo(b)));
+
+    for(int i = 0; i < listaPacientes.length; i++) {
+      if(listaPacientes[i].data == data && listaHorarios.contains(listaPacientes[i].hora)) {
+        listaHorarios.remove(listaPacientes[i].hora);
+      }
+    }
+
     await showDialog<String>(
         context: context,
         builder: (BuildContext context) {
@@ -818,9 +830,9 @@ class _AgendarState extends State<Agendar> {
                             .width,
                         child: ListView.builder(
                           shrinkWrap: true,
-                          itemCount: widget.profissional.horarios.length,
+                          itemCount: listaHorarios.length,
                           itemBuilder: (BuildContext context, int posicao) {
-                            return horaSelecionada != (widget.profissional.horarios[posicao]) ?
+                            return horaSelecionada != (listaHorarios[posicao]) ?
                             ListTile(
                                 title: FlatButton(
                                   color: Colors.white,
@@ -833,7 +845,7 @@ class _AgendarState extends State<Agendar> {
                                       borderRadius: BorderRadius.circular(10)
                                   ),
                                   child: ListTile(
-                                    title: Text('${widget.profissional.horarios[posicao]}',
+                                    title: Text('${listaHorarios[posicao]}',
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontFamily: 'quicksand'
@@ -849,7 +861,7 @@ class _AgendarState extends State<Agendar> {
                                   ),
                                   onPressed: () {
                                     setState(() {
-                                      definirHorario(widget.profissional.horarios[posicao]);
+                                      definirHorario(listaHorarios[posicao]);
                                     });
                                   },
                                 )
@@ -867,7 +879,7 @@ class _AgendarState extends State<Agendar> {
                                       borderRadius: BorderRadius.circular(10)
                                   ),
                                   child: ListTile(
-                                    title: Text('${widget.profissional.horarios[posicao]}',
+                                    title: Text('${listaHorarios[posicao]}',
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontFamily: 'quicksand'
@@ -883,7 +895,7 @@ class _AgendarState extends State<Agendar> {
                                   ),
                                   onPressed: () {
                                     setState(() {
-                                      definirHorario(widget.profissional.horarios[posicao]);
+                                      definirHorario(listaHorarios[posicao]);
                                     });
                                   },
                                 )

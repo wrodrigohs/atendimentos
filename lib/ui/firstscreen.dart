@@ -215,7 +215,7 @@ class _FirstScreenState extends State<FirstScreen> {
                         ),
                       ),
                       Center(
-                        child: appData.isPro == false ?
+                        child: appData.isPro == false  && presente == false ?
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -412,7 +412,7 @@ class _FirstScreenState extends State<FirstScreen> {
                           ],
                         )
                             :
-                        presente == true && listaPacientes.length <= 0 ?
+                        appData.isPro == true && presente == true && listaPacientes.length <= 0 ?
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           mainAxisSize: MainAxisSize.max,
