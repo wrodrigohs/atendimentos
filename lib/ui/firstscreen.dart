@@ -28,6 +28,8 @@ import 'package:lottie/lottie.dart';
 import 'package:atendimentos/components.dart';
 import 'dart:ui' as ui;
 
+import 'package:url_launcher/url_launcher.dart';
+
 final FirebaseDatabase db = FirebaseDatabase.instance;
 final FirebaseDatabase db2 = FirebaseDatabase.instance;
 
@@ -56,6 +58,7 @@ class _FirstScreenState extends State<FirstScreen> {
   String nomeBuscado;
   final TextEditingController _nomeController = TextEditingController();
   AuthService auth = new AuthService();
+  bool isPro = true;
 
   final GlobalKey<SideMenuState> _sideMenuKey = GlobalKey<SideMenuState>();
   final GlobalKey<SideMenuState> _endSideMenuKey = GlobalKey<SideMenuState>();
@@ -109,7 +112,6 @@ class _FirstScreenState extends State<FirstScreen> {
     listaPacientes.sort((a, b) => (((converterData(a.data)).compareTo(converterData(b.data)))));
     double distancia = AppBar().preferredSize.height + 40;
 
-    print('##### presente = $presente  ######');
     return SideMenu(
       key: _endSideMenuKey,
       inverse: true,
@@ -215,7 +217,8 @@ class _FirstScreenState extends State<FirstScreen> {
                         ),
                       ),
                       Center(
-                        child: appData.isPro == false ?
+                        child: isPro == false ?
+                        //child: appData.isPro == false ?
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -263,7 +266,8 @@ class _FirstScreenState extends State<FirstScreen> {
                               ),
                               onPressed: () {
                                 Navigator.pushReplacement(context, MaterialPageRoute(
-                                    builder: (BuildContext context) => super.widget));                                },
+                                    builder: (BuildContext context) => super.widget));
+                              },
                               child: Text(
                                 "Área do assinante",
                                 style: TextStyle(
@@ -346,8 +350,8 @@ class _FirstScreenState extends State<FirstScreen> {
                           ],
                         )
                             :
-                        appData.isPro == true && presente == false ?
-                        //Cadastro()
+                        // appData.isPro == true && presente == false ?
+                        isPro == true && presente == false ?
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -522,7 +526,13 @@ class _FirstScreenState extends State<FirstScreen> {
                                         side: BorderSide(width: 0.5, color: new Color(0x00000000)),
                                       ),
                                       child: ListTile(
-                                        onTap: () {},
+                                        onTap: () {
+                                          String phone = '${listaPacientes[posicao].telefone}';
+                                          String message = 'Olá, ${listaPacientes[posicao].nome}, '
+                                              'entro em contato para tratar da sua consulta de ${listaPacientes[posicao].data}'
+                                              'às ${listaPacientes[posicao].hora}.';
+                                          launchWhatsApp(phone: phone, message: message);
+                                        },
                                         leading: CircleAvatar(
                                             child: Text(
                                               '${listaPacientes[posicao].nome.substring(0, 1).toUpperCase()}',
@@ -540,24 +550,6 @@ class _FirstScreenState extends State<FirstScreen> {
                                             fontFamily: 'quicksand',
                                             fontWeight: FontWeight.w300,
                                             fontSize: MediaQuery.of(context).size.height/50,
-                                            /*shadows: [
-                                                Shadow( // bottomLeft
-                                                    offset: Offset(-0.6, -0.6),
-                                                    color: Colors.black
-                                                ),
-                                                Shadow( // bottomRight
-                                                    offset: Offset(0.6, -0.6),
-                                                    color: Colors.black
-                                                ),
-                                                Shadow( // topRight
-                                                    offset: Offset(0.6, 0.6),
-                                                    color: Colors.black
-                                                ),
-                                                Shadow( // topLeft
-                                                    offset: Offset(-0.6, 0.6),
-                                                    color: Colors.black
-                                                ),
-                                              ]*/
                                           ),
                                         ),
                                         subtitle: Text(
@@ -567,24 +559,6 @@ class _FirstScreenState extends State<FirstScreen> {
                                             fontFamily: 'quicksand',
                                             fontWeight: FontWeight.w100,
                                             fontSize: MediaQuery.of(context).size.height/55,
-                                            /*shadows: [
-                                                Shadow( // bottomLeft
-                                                    offset: Offset(-0.6, -0.6),
-                                                    color: Colors.black
-                                                ),
-                                                Shadow( // bottomRight
-                                                    offset: Offset(0.6, -0.6),
-                                                    color: Colors.black
-                                                ),
-                                                Shadow( // topRight
-                                                    offset: Offset(0.6, 0.6),
-                                                    color: Colors.black
-                                                ),
-                                                Shadow( // topLeft
-                                                    offset: Offset(-0.6, 0.6),
-                                                    color: Colors.black
-                                                ),
-                                              ]*/
                                           ),
                                         ),
                                         trailing: Row(
@@ -667,6 +641,12 @@ class _FirstScreenState extends State<FirstScreen> {
             mini: true,
             elevation: 16,
             backgroundColor: Colors.black,
+            shape: CircleBorder(
+              side: BorderSide(
+                color: Colors.white,
+                width: 1.0
+              )
+            ),
             onPressed: () {
               //if(Platform.isIOS) {
               auth.signOut();
@@ -704,7 +684,7 @@ class _FirstScreenState extends State<FirstScreen> {
                   radius: 45,
                   backgroundColor: Colors.transparent,
                 )
-                :
+                    :
                 CircleAvatar(
                   child: Text('${pro.nome.substring(0, 1).toUpperCase()}',
                     style: TextStyle(
@@ -788,7 +768,8 @@ class _FirstScreenState extends State<FirstScreen> {
           LListItem(
             backgroundColor: Colors.transparent,
             onTap: () {
-              if(appData.isPro == true) {
+              if(isPro == true) {
+              // if(appData.isPro == true) {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => Agendar(profissional: pro)));
               } else {
                 WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
@@ -1408,5 +1389,36 @@ class _FirstScreenState extends State<FirstScreen> {
           );
         }
     );
+  }
+
+  void launchWhatsApp({@required String phone, @required String message}) async {
+    String url() {
+      if (Platform.isIOS) {
+        return "whatsapp://wa.me/$phone/?text=${Uri.parse(message)}";
+      } else if (Platform.isAndroid){
+        return "whatsapp://send?phone=$phone&text=${Uri.parse(message)}";
+      } else {
+        setState(() async {
+          var url = 'https://wa.me/$phone?text=$message';
+          if (await canLaunch(url)) {
+            await launch(
+              url,
+              universalLinksOnly: false,
+            );
+          } else {
+            launch("sms://${phone}");
+            throw 'Houve um erro';
+          }
+          //Navigator.of(context).pop();
+        });
+        return "";
+      }
+    }
+
+    if (await canLaunch(url())) {
+      await launch(url());
+    } else {
+      launch("sms://${phone}");
+    }
   }
 }
