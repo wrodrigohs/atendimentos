@@ -2093,57 +2093,6 @@ class _AgendarState extends State<Agendar> {
     });
   }
 
-  String onTimeChanged(TimeOfDay newTime) {
-    setState(() {
-      _time = newTime;
-      horaSelecionada = formatTimeOfDay(_time);
-      return horaSelecionada;
-    });
-  }
-
-  void inputTimeSelect() async {
-    TimeOfDay picked = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
-      builder: (BuildContext context, Widget child) {
-        return Theme(
-          data: ThemeData.light().copyWith(
-            colorScheme: ColorScheme.light(
-              // change the border color
-              primary: Colors.blueGrey,
-              // change the text color
-              onSurface: Colors.blueGrey,
-            ),
-            // button colors
-            buttonTheme: ButtonThemeData(
-              colorScheme: ColorScheme.light(
-                primary: Colors.blueGrey,
-              ),
-            ),
-          ),
-          child: child,
-        );
-      },
-      // ignore: missing_return
-    ).then((picked) {
-      if (picked == null) {
-        return;
-      }
-      setState(() {
-        horaSelecionada = formatTimeOfDay(picked);
-        return horaSelecionada;
-      });
-    });
-  }
-
-  String formatTimeOfDay(TimeOfDay tod) {
-    final now = new DateTime.now();
-    final dt = DateTime(now.year, now.month, now.day, tod.hour, tod.minute);
-    //final format = DateFormat.jm();  //"6:00 AM"
-    String formattedDate = DateFormat.Hm().format(dt);
-    return formattedDate + 'h';
-  }
-
   void _presentDatePicker() {
     DateTime now = DateTime.now();
     DateTime currentTime = new DateTime(now.year);
@@ -2153,29 +2102,7 @@ class _AgendarState extends State<Agendar> {
       initialDate: dias[now.weekday - 1] == false ? now.add(Duration(days: 1)) : now,//checarDia(now),
       firstDate: DateTime.now().subtract(new Duration(days: 0)),
       lastDate: nextYear,
-      selectableDayPredicate: (now) => dias[now.weekday - 1] == false ? false : true,/*(DateTime val) {
-        val = DateTime.now();
-        for(int i = 0; i < dias.length; i++) {
-          if(dias[i] == false) {
-            return false;
-          } else {
-            return true;
-          }
-        }*/
-      // return true;
-      /*for (int i = 0; i < widget.profissional.dias.length; i++) {
-          if (widget.profissional.dias[i] == false) {
-            if (val.weekday == i) {
-              return false;
-            } else {
-              return true;
-            }
-          }
-        }*/
-      //},
-      //_diasExcluidos(),
-//        val.weekday == 6 || val.weekday == 7 ? false : true,
-      //exclui sábado e domingo
+      selectableDayPredicate: (now) => dias[now.weekday - 1] == false ? false : true,
       builder: (BuildContext context, Widget child) {
         return Theme(
           data: ThemeData.light().copyWith(
