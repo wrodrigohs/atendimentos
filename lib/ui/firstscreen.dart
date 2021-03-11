@@ -217,8 +217,8 @@ class _FirstScreenState extends State<FirstScreen> {
                         ),
                       ),
                       Center(
-                        //child: isPro == false ?
-                        child: appData.isPro == false ?
+                        child: isPro == false ?
+                        // child: appData.isPro == false ?
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -265,8 +265,33 @@ class _FirstScreenState extends State<FirstScreen> {
                                 borderRadius: BorderRadius.circular(40),
                               ),
                               onPressed: () {
-                                Navigator.pushReplacement(context, MaterialPageRoute(
+                                if(appData.isPro == false) {
+                                  WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
+                                      SnackBar(
+                                        action: SnackBarAction(
+                                          label: 'OK',
+                                          onPressed: () {
+                                            _scaffoldKey.currentState.hideCurrentSnackBar();
+                                          },
+                                        ),
+                                        duration: Duration(seconds: 2),
+                                        content: Text('Você deve ser assinante para ter acesso a todos os recursos do app.',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontFamily: 'quicksand',
+                                            fontSize: MediaQuery.of(context).size.height/55,
+                                          ),
+                                        ),
+                                        backgroundColor: Colors.black,
+                                        behavior: SnackBarBehavior.floating,
+                                      )
+                                  )
+                                  );
+                                } else {
+                                  Navigator.pushReplacement(context, MaterialPageRoute(
                                     builder: (BuildContext context) => super.widget));
+                                }
                               },
                               child: Text(
                                 "Área do assinante",
@@ -350,8 +375,8 @@ class _FirstScreenState extends State<FirstScreen> {
                           ],
                         )
                             :
-                        appData.isPro == true && presente == false ?
-                        //isPro == true && presente == false ?
+                        // appData.isPro == true && presente == false ?
+                        isPro == true && presente == false ?
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -710,21 +735,6 @@ class _FirstScreenState extends State<FirstScreen> {
               ],
             ),
           ),
-          /*LListItem(
-            backgroundColor: Colors.transparent,
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => Assinatura()));
-            },
-            leading: Icon(Icons.monetization_on, size: 20.0, color: Colors.white),
-            title: Text("Assinatura",
-              style: TextStyle(
-                fontSize: MediaQuery.of(context).size.height/55,
-                fontFamily: 'quicksand',
-              ),
-            ),
-            textColor: Colors.white,
-            dense: true,
-          ),*/
           LListItem(
             backgroundColor: Colors.transparent,
             onTap: () {

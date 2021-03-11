@@ -43,7 +43,7 @@ class _AgendarState extends State<Agendar> {
   String horaSelecionada = null;
   String paisOrigem = 'BR';
   String tel;
-  String sexo;
+  String sexo = 'Feminino';
   PhoneNumber numero = PhoneNumber(isoCode: 'BR');
 
   String objetivo;
@@ -633,7 +633,7 @@ class _AgendarState extends State<Agendar> {
                                           ),
                                         ),
                                         Radio(
-                                          value: 0,
+                                          value: 'Feminino',
                                           activeColor: Colors.cyanAccent,
                                           groupValue: sexo,
                                           onChanged: (val) {
@@ -669,7 +669,7 @@ class _AgendarState extends State<Agendar> {
                                           ),
                                         ),
                                         Radio(
-                                          value: 1,
+                                          value: 'Masculino',
                                           groupValue: sexo,
                                           activeColor: Colors.cyanAccent,
                                           onChanged: (val) {
