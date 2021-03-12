@@ -901,32 +901,7 @@ class _FirstScreenState extends State<FirstScreen> {
           LListItem(
             backgroundColor: Colors.transparent,
             onTap: () {
-              if(appData.isPro == true) {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => PoliticadePrivacidade()));
-              } else {
-                WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
-                    SnackBar(
-                      action: SnackBarAction(
-                        label: 'OK',
-                        onPressed: () {
-                          _scaffoldKey.currentState.hideCurrentSnackBar();
-                        },
-                      ),
-                      duration: Duration(seconds: 2),
-                      content: Text('Você deve ser assinante para ter acesso a todos os recursos do app.',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'quicksand',
-                          fontSize: MediaQuery.of(context).size.height/55,
-                        ),
-                      ),
-                      backgroundColor: Colors.black,
-                      behavior: SnackBarBehavior.floating,
-                    )
-                )
-                );
-              }
+              Navigator.push(context, MaterialPageRoute(builder: (context) => PoliticadePrivacidade()));
             },
             leading:
             Icon(Icons.description, size: 20.0, color: Colors.white),
