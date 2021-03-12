@@ -74,13 +74,13 @@ class _AgendarState extends State<Agendar> {
     super.initState();
     _retrieveCalendars();
 
-    dias.add(widget.profissional.domingo);
     dias.add(widget.profissional.segunda);
     dias.add(widget.profissional.terca);
     dias.add(widget.profissional.quarta);
     dias.add(widget.profissional.quinta);
     dias.add(widget.profissional.sexta);
     dias.add(widget.profissional.sabado);
+    dias.add(widget.profissional.domingo);
 
     _nomeController.clear();
     _telefoneController.text = '';

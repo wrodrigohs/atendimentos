@@ -217,8 +217,8 @@ class _FirstScreenState extends State<FirstScreen> {
                         ),
                       ),
                       Center(
-                        child: isPro == false ?
-                        // child: appData.isPro == false ?
+                        //child: isPro == false ?
+                        child: appData.isPro == false ?
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -375,8 +375,8 @@ class _FirstScreenState extends State<FirstScreen> {
                           ],
                         )
                             :
-                        // appData.isPro == true && presente == false ?
-                        isPro == true && presente == false ?
+                         appData.isPro == true && presente == false ?
+//                        isPro == true && presente == false ?
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
