@@ -43,7 +43,7 @@ class _AnotarState extends State<Anotar> {
     dbReference.once().then((DataSnapshot snapshot) {
       Map<dynamic, dynamic> values = snapshot.value;
       Paciente paciente = new Paciente(
-          values['nome'], values['telefone'], values['email'],
+          values['nome'], values['telefone'], values['email'], values['imageURL'],
           values['data'], values['hora'], values['anotacao'], values['confirmado'],
           values['objetivo'], values['vegetariano'], values['bebidaAlcoolica'],
           values['fumante'], values['sedentario'], values['patologia'],
@@ -240,7 +240,7 @@ class _AnotarState extends State<Anotar> {
                                 anotacao = _anotacaoController.text.toString();
 
                                 Paciente pacienteAtualizado = new Paciente(widget.paciente.nome, widget.paciente.telefone,
-                                    widget.paciente.email, widget.paciente.data, widget.paciente.hora,
+                                    widget.paciente.email, widget.paciente.imageURL, widget.paciente.data, widget.paciente.hora,
                                   anotacao, widget.paciente.confirmado, widget.paciente.objetivo,
                                   widget.paciente.vegetariano, widget.paciente.bebidaAlcoolica,
                                   widget.paciente.fumante, widget.paciente.sedentario,

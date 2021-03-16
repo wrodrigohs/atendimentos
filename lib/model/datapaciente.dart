@@ -1,3 +1,4 @@
+/*
 import 'package:firebase_database/firebase_database.dart';
 
 class DataPaciente {
@@ -28,3 +29,4 @@ class DataPaciente {
       this.patologia, this.nomePatologia, this.medicamentos, this.nomeMedicamentos,
       this.alergia, this.nomeAlergia, this.sexo, this.estadoCivil);
 }
+*/

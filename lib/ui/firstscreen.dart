@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:atendimentos/model/paciente.dart';
 import 'package:atendimentos/parental_gate.dart';
 import 'package:atendimentos/ui/agendar.dart';
-import 'package:atendimentos/ui/assinatura.dart';
 import 'package:atendimentos/ui/busca.dart';
 import 'package:atendimentos/ui/cadastro.dart';
 import 'package:atendimentos/model/profissional.dart';
@@ -151,7 +150,8 @@ class _FirstScreenState extends State<FirstScreen> {
                         ),
                         onPressed: () {
                           setState(() {
-                            if(appData.isPro == true) {
+                            // if(appData.isPro == true) {
+                            if(isPro == true) {
                               dialogBusca(context);
                             } else {
                               WidgetsBinding.instance.addPostFrameCallback((
@@ -217,8 +217,8 @@ class _FirstScreenState extends State<FirstScreen> {
                         ),
                       ),
                       Center(
-                        //child: isPro == false ?
-                        child: appData.isPro == false && presente == false ?
+                        child: isPro == false ?
+                        // child: appData.isPro == false && presente == false ?
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -381,7 +381,59 @@ class _FirstScreenState extends State<FirstScreen> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             SizedBox(
-                              height: 20,
+                              height: distancia,
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width / 3,
+                              height: MediaQuery.of(context).size.height / 20,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.transparent,
+                                  ),
+                                  borderRadius: BorderRadius.all(Radius.circular(50)),
+                                gradient: LinearGradient(
+                                  colors: <Color>[
+                                    Color(0xFF0D47A1),
+                                    Color(0xFF1976D2),
+                                    Color(0xFF42A5F5),
+                                  ],
+                                ),
+                              ),
+                              padding: const EdgeInsets.all(10.0),
+                              child: FlatButton(
+                                color: Colors.transparent,
+                                shape: RoundedRectangleBorder(
+                                  side: BorderSide(
+                                      color: Colors.transparent,
+                                      width: 1,
+                                      style: BorderStyle.solid
+                                  ),
+                                  borderRadius: BorderRadius.circular(40),
+                                ),
+                                onPressed: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => ParentalGate(), settings: RouteSettings(name: 'Parental Gate')));
+                                },
+                                child: Text(
+                                  "Assine",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: MediaQuery.of(context).size.height/50,
+                                    fontFamily: 'quicksand',
+                                    shadows: <Shadow>[
+                                      Shadow(
+                                        offset: Offset(1.0, 1.0),
+                                        blurRadius: 3.0,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                      Shadow(
+                                        offset: Offset(2.0, 1.0),
+                                        blurRadius: 8.0,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
                             ),
                             Flexible(
                               child: ListView.builder(
@@ -404,7 +456,12 @@ class _FirstScreenState extends State<FirstScreen> {
                                               'às ${listaPacientes[posicao].hora}.';
                                           launchWhatsApp(phone: phone, message: message);
                                         },
-                                        leading: CircleAvatar(
+                                        leading: listaPacientes[posicao].imageURL != null ?
+                                        CircleAvatar(
+                                          backgroundImage: NetworkImage(listaPacientes[posicao].imageURL),
+                                        )
+                                            :
+                                        CircleAvatar(
                                             child: Text(
                                               '${listaPacientes[posicao].nome.substring(0, 1).toUpperCase()}',
                                               style: TextStyle(
@@ -413,7 +470,8 @@ class _FirstScreenState extends State<FirstScreen> {
                                                 fontWeight: FontWeight.w700,
                                               ),
                                             ),
-                                            backgroundColor: Colors.black),
+                                            backgroundColor: Colors.black
+                                        ),
                                         title: Text(
                                           '${listaPacientes[posicao].nome}',
                                           style: TextStyle(
@@ -581,8 +639,8 @@ class _FirstScreenState extends State<FirstScreen> {
                           ],
                         )
                             :
-                        appData.isPro == true && presente == false ?
-//                        isPro == true && presente == false ?
+                        // appData.isPro == true && presente == false ?
+                        isPro == true && presente == false ?
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -764,7 +822,12 @@ class _FirstScreenState extends State<FirstScreen> {
                                               'às ${listaPacientes[posicao].hora}.';
                                           launchWhatsApp(phone: phone, message: message);
                                         },
-                                        leading: CircleAvatar(
+                                        leading: listaPacientes[posicao].imageURL != null ?
+                                        CircleAvatar(
+                                          backgroundImage: NetworkImage(imageUrl),
+                                        )
+                                            :
+                                        CircleAvatar(
                                             child: Text(
                                               '${listaPacientes[posicao].nome.substring(0, 1).toUpperCase()}',
                                               style: TextStyle(
@@ -773,7 +836,8 @@ class _FirstScreenState extends State<FirstScreen> {
                                                 fontWeight: FontWeight.w700,
                                               ),
                                             ),
-                                            backgroundColor: Colors.black),
+                                            backgroundColor: Colors.black
+                                        ),
                                         title: Text(
                                           '${listaPacientes[posicao].nome}',
                                           style: TextStyle(
@@ -1205,7 +1269,7 @@ class _FirstScreenState extends State<FirstScreen> {
     dbPacientes.once().then((DataSnapshot snapshot) {
       Map<dynamic, dynamic> values = snapshot.value;
       Paciente paciente = new Paciente(
-          values['nome'], values['telefone'], values['email'],
+          values['nome'], values['telefone'], values['email'], values['imageURL'],
           values['data'], values['hora'], values['anotacao'], values['confirmado'],
           values['objetivo'], values['vegetariano'], values['bebidaAlcoolica'],
           values['fumante'], values['sedentario'], values['patologia'],

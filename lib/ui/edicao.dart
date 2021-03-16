@@ -58,7 +58,7 @@ class _EdicaoState extends State<Edicao> {
     dbReference.once().then((DataSnapshot snapshot) {
       Map<dynamic, dynamic> values = snapshot.value;
       Paciente paciente = new Paciente(
-          values['nome'], values['telefone'], values['email'],
+          values['nome'], values['telefone'], values['email'], values['imageURL'],
           values['data'], values['hora'], values['anotacao'], values['confirmado'],
           values['objetivo'], values['vegetariano'], values['bebidaAlcoolica'],
           values['fumante'], values['sedentario'], values['patologia'],
@@ -719,6 +719,7 @@ class _EdicaoState extends State<Edicao> {
                                     widget.paciente.nome,
                                     widget.paciente.telefone,
                                     widget.paciente.email,
+                                    widget.paciente.imageURL,
                                     dataString,
                                     horaSelecionada,
                                     anotacao,

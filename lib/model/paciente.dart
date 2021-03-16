@@ -5,6 +5,7 @@ class Paciente {
   String nome;
   String telefone;
   String email;
+  String imageURL;
   String data;
   String hora;
   String anotacao;
@@ -23,7 +24,7 @@ class Paciente {
   String sexo;
   String estadoCivil;
 
-  Paciente(this.nome, this.telefone, this.email, this.data, this.hora, this.anotacao, this.confirmado,
+  Paciente(this.nome, this.telefone, this.email, this.imageURL, this.data, this.hora, this.anotacao, this.confirmado,
   this.objetivo, this.vegetariano, this.bebidaAlcoolica, this.fumante, this.sedentario,
     this.patologia, this.nomePatologia, this.medicamentos, this.nomeMedicamentos,
     this.alergia, this.nomeAlergia, this.sexo, this.estadoCivil);
@@ -33,6 +34,7 @@ class Paciente {
       nome = snapshot.value['nome'],
       telefone = snapshot.value['telefone'],
       email = snapshot.value['email'],
+      imageURL = snapshot.value['imageURL'],
       data = snapshot.value['data'],
       hora = snapshot.value['hora'],
       anotacao = snapshot.value['anotacao'],
@@ -56,6 +58,7 @@ class Paciente {
       "nome" : nome,
       "telefone" : telefone,
       "email" : email,
+      "imageURL" : imageURL,
       "data" : data,
       "hora" : hora,
       "anotacao" : anotacao,

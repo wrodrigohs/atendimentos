@@ -1,5 +1,3 @@
-
-
 import 'dart:io';
 
 import 'package:atendimentos/model/datapaciente.dart';
@@ -30,27 +28,31 @@ class Consultas extends StatefulWidget {
 class _ConsultasState extends State<Consultas> {
   Paciente paciente;
   DatabaseReference dbReference;
-  List<DataPaciente> listaDt = List();
+  // List<DataPaciente> listaDt = List();
   List<Paciente> listaPacientes = List();
-  List<DataPaciente> listaBuscado = List();
+  List<Paciente> listaBuscado = List();
   DateFormat dateFormat = DateFormat('dd/MM/yyyy', 'pt_Br');
 
   @override
   void initState() {
     super.initState();
 
-    for (int i = 0; i < listaDt.length; i++) {
+    /*for (int i = 0; i < listaDt.length; i++) {
       listaDt.removeAt(i);
+    }*/
+
+    for (int i = 0; i < listaPacientes.length; i++) {
+      listaPacientes.removeAt(i);
     }
 
-    paciente = new Paciente("", "", "", "", "", "", false, "", false, false, false, false, false, "", false, "", false, "", "", "");
+    paciente = new Paciente("", "", "", "", "", "", "", false, "", false, false, false, false, false, "", false, "", false, "", "", "");
     dbReference = db.reference().child('atendimentos/${widget.profissional.usuario}/pacientes');
     dbReference.onChildAdded.listen(_gravar);
     dbReference.onChildChanged.listen(_update);
     dbReference.once().then((DataSnapshot snapshot) {
       Map<dynamic, dynamic> values = snapshot.value;
       Paciente paciente = new Paciente(
-          values['nome'], values['telefone'], values['email'],
+          values['nome'], values['telefone'], values['email'], values['imageURL'],
           values['data'], values['hora'], values['anotacao'], values['confirmado'],
           values['objetivo'], values['vegetariano'], values['bebidaAlcoolica'],
           values['fumante'], values['sedentario'], values['patologia'],
@@ -66,7 +68,7 @@ class _ConsultasState extends State<Consultas> {
   @override
   Widget build(BuildContext context) {
 
-    for (int i = 0; i < listaDt.length; i++) {
+    /*for (int i = 0; i < listaDt.length; i++) {
       DataPaciente dt_pac = new DataPaciente(listaPacientes[i].primaryKey, listaPacientes[i].nome, listaPacientes[i].telefone,
           listaPacientes[i].email, converterData(listaPacientes[i].data), listaPacientes[i].hora,
           listaPacientes[i].anotacao, listaPacientes[i].confirmado, listaPacientes[i].objetivo,
@@ -91,7 +93,7 @@ class _ConsultasState extends State<Consultas> {
           listaPacientes[i].alergia, listaPacientes[i].nomeAlergia,
           listaPacientes[i].sexo, listaPacientes[i].estadoCivil);
       listaDt.add(dt_pac);
-    }
+    }*/
 
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -102,9 +104,9 @@ class _ConsultasState extends State<Consultas> {
     String d1 = formatarData(hoje);
     DateTime data = converterData(d1);
 
-    for(int i = 0; i < listaDt.length; i++) {
-      if((listaDt[i].data).compareTo(data) == 0) {
-        listaBuscado.add(listaDt[i]);
+    for(int i = 0; i < listaPacientes.length; i++) {
+      if(equalsIgnoreCase(listaPacientes[i].data, d1) == true) {
+        listaBuscado.add(listaPacientes[i]);
       }
     }
 
@@ -250,7 +252,7 @@ class _ConsultasState extends State<Consultas> {
                                     color: Colors.green,
                                     onPressed: () {
                                       Paciente pacienteEdicao = new Paciente(listaBuscado[posicao].nome, listaBuscado[posicao].telefone,
-                                          listaBuscado[posicao].email, formatarData(listaBuscado[posicao].data), listaBuscado[posicao].hora,
+                                          listaBuscado[posicao].email, listaBuscado[posicao].imageURL, listaBuscado[posicao].data, listaBuscado[posicao].hora,
                                           listaBuscado[posicao].anotacao, listaBuscado[posicao].confirmado,
                                           listaBuscado[posicao].objetivo,
                                           listaBuscado[posicao].vegetariano, listaBuscado[posicao].bebidaAlcoolica,
@@ -260,7 +262,7 @@ class _ConsultasState extends State<Consultas> {
                                           listaBuscado[posicao].alergia, listaBuscado[posicao].nomeAlergia,
                                           listaBuscado[posicao].sexo, listaBuscado[posicao].estadoCivil);
                                       //Navigator.push(context, MaterialPageRoute(builder: (context) => Edicao(paciente: pacienteEdicao)));
-                                    }, //=> deleteTx(transactions[index].id),
+                                    },
                                   ),
                                   IconButton(
                                     icon: Icon(Icons.delete),
@@ -333,10 +335,10 @@ class _ConsultasState extends State<Consultas> {
     });
   }
 
-  void remover(String id, int index, DataPaciente paciente) {
+  void remover(String id, int index, Paciente paciente) {
     setState(() {
       Paciente pac = new Paciente(paciente.nome, paciente.telefone,
-          paciente.email, formatarData(paciente.data), paciente.hora,
+          paciente.email, paciente.imageURL, paciente.data, paciente.hora,
           paciente.anotacao, paciente.confirmado, paciente.objetivo,
           paciente.vegetariano, paciente.bebidaAlcoolica,
           paciente.fumante, paciente.sedentario,
@@ -344,7 +346,6 @@ class _ConsultasState extends State<Consultas> {
           paciente.medicamentos, paciente.nomeMedicamentos,
           paciente.alergia, paciente.nomeAlergia,
           paciente.sexo, paciente.estadoCivil);
-      listaDt.removeAt(index);
       listaBuscado.removeAt(index);
       listaPacientes.removeAt(index);
       dbReference.child(id).remove().then((_) {
@@ -352,7 +353,7 @@ class _ConsultasState extends State<Consultas> {
     });
   }
 
-  void _showDialog(BuildContext context, DataPaciente paciente, int posicao) async {
+  void _showDialog(BuildContext context, Paciente paciente, int posicao) async {
     await showDialog<String>(
         context: context,
         builder: (BuildContext context) {
@@ -388,7 +389,7 @@ class _ConsultasState extends State<Consultas> {
                         Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Text(
-                            "Tem certeza que deseja APAGAR a consulta de ${paciente.nome} no dia ${DateFormat.d().format(paciente.data)}/${DateFormat.M().format(paciente.data)}/${DateFormat.y().format(paciente.data)} às ${paciente.hora}?",
+                            "Tem certeza que deseja APAGAR a consulta de ${paciente.nome} no dia ${paciente.data} às ${paciente.hora}?",
                             textAlign: TextAlign.center,
                             style: TextStyle(color: Colors.black),
                           ),

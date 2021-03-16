@@ -35,14 +35,14 @@ class _ProntuariosState extends State<Prontuarios> {
       listaPacientes.removeAt(i);
     }
 
-    paciente = new Paciente("", "", "", "", "", "", false, "", false, false, false, false, false, "", false, "", false, "", "", "");
+    paciente = new Paciente("", "", "", "", "", "", "", false, "", false, false, false, false, false, "", false, "", false, "", "", "");
     dbReference = db.reference().child('atendimentos/${widget.profissional.usuario}/pacientes');
     dbReference.onChildAdded.listen(_gravar);
     dbReference.onChildChanged.listen(_update);
     dbReference.once().then((DataSnapshot snapshot) {
       Map<dynamic, dynamic> values = snapshot.value;
       Paciente paciente = new Paciente(
-          values['nome'], values['telefone'], values['email'],
+          values['nome'], values['telefone'], values['email'], values['imageURL'],
           values['data'], values['hora'], values['anotacao'], values['confirmado'],
           values['objetivo'], values['vegetariano'], values['bebidaAlcoolica'],
           values['fumante'], values['sedentario'], values['patologia'],

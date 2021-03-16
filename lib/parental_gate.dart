@@ -103,8 +103,8 @@ class _ParentalGateState extends State<ParentalGate> {
                                   height: 40.0,
                                 ),
                                 Text(
-                                  'Responda corretamente à pergunta abaixo para continuar.',
-                                  textAlign: TextAlign.center,
+                                    'Responda corretamente à pergunta abaixo para continuar.',
+                                    textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontFamily: 'quicksand',
@@ -132,8 +132,8 @@ class _ParentalGateState extends State<ParentalGate> {
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text(
-                                        'Quanto é ${firstNumber.toString()} + ${secondNumber.toString()}?',
-                                        textAlign: TextAlign.center,
+                                          'Quanto é ${firstNumber.toString()} + ${secondNumber.toString()}?',
+                                          textAlign: TextAlign.center,
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontFamily: 'quicksand',
@@ -186,7 +186,109 @@ class _ParentalGateState extends State<ParentalGate> {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(12.0),
-                                  child: RaisedButton(
+                                  child: Container(
+                                      width: MediaQuery.of(context).size.width / 3,
+                                      height: MediaQuery.of(context).size.height / 20,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: Colors.transparent,
+                                        ),
+                                        borderRadius: BorderRadius.all(Radius.circular(50)),
+                                        gradient: LinearGradient(
+                                          colors: <Color>[
+                                            Color(0xFF0D47A1),
+                                            Color(0xFF1976D2),
+                                            Color(0xFF42A5F5),
+                                          ],
+                                        ),
+                                      ),
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: FlatButton(
+                                        color: Colors.transparent,
+                                        shape: RoundedRectangleBorder(
+                                          side: BorderSide(
+                                              color: Colors.transparent,
+                                              width: 1,
+                                              style: BorderStyle.solid
+                                          ),
+                                          borderRadius: BorderRadius.circular(40),
+                                        ),
+                                        onPressed: () {
+                                          setState(() {
+                                            myController.text = '';
+                                          });
+                                          if (answer == solution) {
+                                            Navigator.pushReplacement(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) => UpgradeScreen(),
+                                                  settings: RouteSettings(name: 'Upgrade screen'),
+                                                ));
+                                          } else {
+                                            Alert(
+                                              context: context,
+                                              style: kWelcomeAlertStyle,
+                                              image: Image.asset(
+                                                'assets/images/health.png',
+                                                width: 120,
+                                                height: 120,
+                                                fit: BoxFit.fill,
+                                              ),
+                                              title: "Erro",
+                                              content: Column(
+                                                children: <Widget>[
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(top: 20.0, right: 8.0, left: 8.0, bottom: 20.0),
+                                                    child: Text(
+                                                      'Resposta incorreta. Tente novamente.',
+                                                      textAlign: TextAlign.center,
+                                                      style: kSendButtonTextStyle.copyWith(fontSize: 19, color: kColorText),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                              buttons: [
+                                                DialogButton(
+                                                  radius: BorderRadius.circular(10),
+                                                  child: Text(
+                                                    "OK!",
+                                                    style: kSendButtonTextStyle,
+                                                  ),
+                                                  onPressed: () {
+                                                    Navigator.of(context, rootNavigator: true).pop();
+                                                    solvePuzzle();
+                                                  },
+                                                  width: 127,
+                                                  color: kColorAccent,
+                                                  height: 52,
+                                                ),
+                                              ],
+                                            ).show();
+                                          }
+                                        },
+                                        child: Text(
+                                          "Confirmar",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: MediaQuery.of(context).size.height/50,
+                                            fontFamily: 'quicksand',
+                                            shadows: <Shadow>[
+                                              Shadow(
+                                                offset: Offset(1.0, 1.0),
+                                                blurRadius: 3.0,
+                                                color: Color.fromARGB(255, 0, 0, 0),
+                                              ),
+                                              Shadow(
+                                                offset: Offset(2.0, 1.0),
+                                                blurRadius: 8.0,
+                                                color: Color.fromARGB(255, 0, 0, 0),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      )
+                                  ),
+                                  /*RaisedButton(
                                       color: Colors.black,
                                       textColor: Colors.white,
                                       shape: RoundedRectangleBorder(
@@ -220,7 +322,7 @@ class _ParentalGateState extends State<ParentalGate> {
                                             ),
                                         ),
                                       ),
-                                      onPressed: () {
+                                  onPressed: () {
                                         setState(() {
                                           myController.text = '';
                                         });
@@ -272,8 +374,9 @@ class _ParentalGateState extends State<ParentalGate> {
                                             ],
                                           ).show();
                                         }
-                                      }),
+                                      }*/
                                 ),
+                                //),
                               ],
                             ),
                           ),
