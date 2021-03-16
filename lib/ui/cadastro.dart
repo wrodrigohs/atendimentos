@@ -79,7 +79,6 @@ class _CadastroState extends State<Cadastro> {
     _emailController.text = widget.profissional.email;
     _facebookController.text = "https://www.facebook.com/";
     _instagramController.text = "https://www.instagram.com/";
-    //paciente = new Paciente("", "", "", "", "", "", false);
 
     dbReference = db.reference().child('atendimentos');
     dbReference.onChildAdded.listen(_gravar);
@@ -1063,9 +1062,6 @@ class _CadastroState extends State<Cadastro> {
                                   ),
                                   onPressed: () {
                                     setState(() {
-                                      /*print('posicao = $posicao diasEscolhidos = ${diasEscolhidos[posicao]}'
-                                          'diasdeTrabalho = ${diasdeTrabalho[posicao]}');*/
-                                      //diasEscolhidos[posicao] = true;
                                       mudarDia(posicao);
                                     });
                                   },
@@ -1103,8 +1099,6 @@ class _CadastroState extends State<Cadastro> {
                                   ),
                                   onPressed: () {
                                     setState(() {
-                                      /*print('posicao = $posicao diasEscolhidos = ${diasEscolhidos[posicao]} '
-                                          ' diasdeTrabalho = ${diasdeTrabalho[posicao]}');*/
                                       removerDia(posicao);
                                     });
                                   },
