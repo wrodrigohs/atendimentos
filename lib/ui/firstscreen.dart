@@ -218,7 +218,7 @@ class _FirstScreenState extends State<FirstScreen> {
                       ),
                       Center(
                         //child: isPro == false ?
-                        child: appData.isPro == false ?
+                        child: appData.isPro == false && presente == false ?
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -290,7 +290,7 @@ class _FirstScreenState extends State<FirstScreen> {
                                   );
                                 } else {
                                   Navigator.pushReplacement(context, MaterialPageRoute(
-                                    builder: (BuildContext context) => super.widget));
+                                      builder: (BuildContext context) => super.widget));
                                 }
                               },
                               child: Text(
@@ -375,7 +375,213 @@ class _FirstScreenState extends State<FirstScreen> {
                           ],
                         )
                             :
-                         appData.isPro == true && presente == false ?
+                        appData.isPro == false && presente == true ?
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Flexible(
+                              child: ListView.builder(
+                                  itemCount: listaPacientes.length,
+                                  itemBuilder: (BuildContext context, int posicao) {
+                                    return Card(
+                                      shadowColor: Color(0xFFd6d0c1),
+                                      elevation: 0.1,
+                                      color: Colors.transparent,
+                                      margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                        side: BorderSide(width: 0.5, color: new Color(0x00000000)),
+                                      ),
+                                      child: ListTile(
+                                        onTap: () {
+                                          String phone = '${listaPacientes[posicao].telefone}';
+                                          String message = 'Olá, ${listaPacientes[posicao].nome}, '
+                                              'entro em contato para tratar da sua consulta de ${listaPacientes[posicao].data}'
+                                              'às ${listaPacientes[posicao].hora}.';
+                                          launchWhatsApp(phone: phone, message: message);
+                                        },
+                                        leading: CircleAvatar(
+                                            child: Text(
+                                              '${listaPacientes[posicao].nome.substring(0, 1).toUpperCase()}',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontFamily: 'quicksand',
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                            backgroundColor: Colors.black),
+                                        title: Text(
+                                          '${listaPacientes[posicao].nome}',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontFamily: 'quicksand',
+                                            fontWeight: FontWeight.w300,
+                                            fontSize: MediaQuery.of(context).size.height/50,
+                                          ),
+                                        ),
+                                        subtitle: Text(
+                                          '${listaPacientes[posicao].data} às ${listaPacientes[posicao].hora}',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontFamily: 'quicksand',
+                                            fontWeight: FontWeight.w100,
+                                            fontSize: MediaQuery.of(context).size.height/55,
+                                          ),
+                                        ),
+                                        trailing: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                            listaPacientes[posicao].confirmado == false ?
+                                            Visibility(
+                                              visible: true,
+                                              child: CircleAvatar(
+                                                backgroundColor: Colors.white,
+                                                child: IconButton(
+                                                  icon: Icon(Icons.calendar_today),
+                                                  color: Colors.black,
+                                                  onPressed: () {
+                                                    if(appData.isPro == false) {
+                                                      WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
+                                                          SnackBar(
+                                                            action: SnackBarAction(
+                                                              label: 'OK',
+                                                              onPressed: () {
+                                                                _scaffoldKey.currentState.hideCurrentSnackBar();
+                                                              },
+                                                            ),
+                                                            duration: Duration(seconds: 2),
+                                                            content: Text('Você deve ser assinante para ter acesso a todos os recursos do app.',
+                                                              textAlign: TextAlign.center,
+                                                              style: TextStyle(
+                                                                color: Colors.white,
+                                                                fontFamily: 'quicksand',
+                                                                fontSize: MediaQuery.of(context).size.height/55,
+                                                              ),
+                                                            ),
+                                                            backgroundColor: Colors.black,
+                                                            behavior: SnackBarBehavior.floating,
+                                                          )
+                                                      )
+                                                      );
+                                                    } else {
+                                                      _retrieveCalendars(listaPacientes[posicao]);
+                                                    }
+                                                  },
+                                                ),
+                                              ),
+                                            )
+                                                :
+                                            Visibility(
+                                              visible: false,
+                                              child: CircleAvatar(
+                                                backgroundColor: Colors.white,
+                                                child: IconButton(
+                                                  icon: Icon(Icons.calendar_today),
+                                                  color: Colors.black,
+                                                  onPressed: () {
+                                                    _retrieveCalendars(listaPacientes[posicao]);
+                                                  },
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 3.0,
+                                            ),
+                                            CircleAvatar(
+                                              child: IconButton(
+                                                icon: Icon(Icons.edit),
+                                                color: Colors.green,
+                                                onPressed: () {
+                                                  if(appData.isPro == false) {
+                                                    WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
+                                                        SnackBar(
+                                                          action: SnackBarAction(
+                                                            label: 'OK',
+                                                            onPressed: () {
+                                                              _scaffoldKey.currentState.hideCurrentSnackBar();
+                                                            },
+                                                          ),
+                                                          duration: Duration(seconds: 2),
+                                                          content: Text('Você deve ser assinante para ter acesso a todos os recursos do app.',
+                                                            textAlign: TextAlign.center,
+                                                            style: TextStyle(
+                                                              color: Colors.white,
+                                                              fontFamily: 'quicksand',
+                                                              fontSize: MediaQuery.of(context).size.height/55,
+                                                            ),
+                                                          ),
+                                                          backgroundColor: Colors.black,
+                                                          behavior: SnackBarBehavior.floating,
+                                                        )
+                                                    )
+                                                    );
+                                                  } else {
+                                                    Navigator.push(context,
+                                                        MaterialPageRoute(
+                                                            builder:
+                                                                (context) =>
+                                                                Edicao(
+                                                                    paciente: listaPacientes[posicao],
+                                                                    profissional: pro)));
+                                                  }//Navigator.of(context).pop();
+                                                },
+                                              ),
+                                              backgroundColor: Colors.white,
+                                            ),
+                                            SizedBox(
+                                              width: 3.0,
+                                            ),
+                                            CircleAvatar(
+                                              child: IconButton(
+                                                icon: Icon(Icons.delete_forever),
+                                                color: Theme.of(context).errorColor,
+                                                onPressed: () async {
+                                                  if(appData.isPro == false) {
+                                                    WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
+                                                        SnackBar(
+                                                          action: SnackBarAction(
+                                                            label: 'OK',
+                                                            onPressed: () {
+                                                              _scaffoldKey.currentState.hideCurrentSnackBar();
+                                                            },
+                                                          ),
+                                                          duration: Duration(seconds: 2),
+                                                          content: Text('Você deve ser assinante para ter acesso a todos os recursos do app.',
+                                                            textAlign: TextAlign.center,
+                                                            style: TextStyle(
+                                                              color: Colors.white,
+                                                              fontFamily: 'quicksand',
+                                                              fontSize: MediaQuery.of(context).size.height/55,
+                                                            ),
+                                                          ),
+                                                          backgroundColor: Colors.black,
+                                                          behavior: SnackBarBehavior.floating,
+                                                        )
+                                                    )
+                                                    );
+                                                  } else {
+                                                    _showDialog(context,
+                                                        listaPacientes[posicao],
+                                                        posicao);
+                                                  }//await _deviceCalendarPlugin.deleteEvent(_calendar.id, event.eventId);
+                                                },
+                                              ),
+                                              backgroundColor: Colors.white,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  }),
+                            ),
+                          ],
+                        )
+                            :
+                        appData.isPro == true && presente == false ?
 //                        isPro == true && presente == false ?
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -667,10 +873,10 @@ class _FirstScreenState extends State<FirstScreen> {
             elevation: 16,
             backgroundColor: Colors.black,
             shape: CircleBorder(
-              side: BorderSide(
-                color: Colors.white,
-                width: 1.0
-              )
+                side: BorderSide(
+                    color: Colors.white,
+                    width: 1.0
+                )
             ),
             onPressed: () {
               //if(Platform.isIOS) {
@@ -779,7 +985,7 @@ class _FirstScreenState extends State<FirstScreen> {
             backgroundColor: Colors.transparent,
             onTap: () {
               if(isPro == true) {
-              // if(appData.isPro == true) {
+                // if(appData.isPro == true) {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => Agendar(profissional: pro)));
               } else {
                 WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
