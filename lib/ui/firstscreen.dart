@@ -824,7 +824,7 @@ class _FirstScreenState extends State<FirstScreen> {
                                         },
                                         leading: listaPacientes[posicao].imageURL != null ?
                                         CircleAvatar(
-                                          backgroundImage: NetworkImage(imageUrl),
+                                          backgroundImage: NetworkImage(listaPacientes[posicao].imageURL),
                                         )
                                             :
                                         CircleAvatar(
