@@ -14,7 +14,8 @@ final FirebaseDatabase db = FirebaseDatabase.instance;
 class Agendar extends StatefulWidget {
   Paciente paciente;
   Profissional profissional;
-  Agendar({Key key, this.paciente, this.profissional}) : super(key: key);
+  String tipo;
+  Agendar({Key key, this.paciente, this.profissional, this.tipo}) : super(key: key);
 
   @override
   _AgendarState createState() => _AgendarState();
@@ -88,6 +89,11 @@ class _AgendarState extends State<Agendar> {
     _dataEscolhida = null;
     horaSelecionada = null;
 
+    if(widget.tipo == 'paciente') {
+      _nomeController.text = widget.paciente.nome;
+      _emailController.text = widget.paciente.email;
+    }
+
     for(int i = 0; i < listaPacientes.length; i++) {
       listaPacientes.removeAt(i);
     }
@@ -111,8 +117,6 @@ class _AgendarState extends State<Agendar> {
       }
     });
   }
-
-  TimeOfDay _time = TimeOfDay.now();
 
   @override
   Widget build(BuildContext context) {
@@ -163,6 +167,7 @@ class _AgendarState extends State<Agendar> {
                     ),
                   ),
                 ),
+                widget.tipo == 'profissional' ?
                 SingleChildScrollView(
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -1930,7 +1935,7 @@ class _AgendarState extends State<Agendar> {
                                             _nomeController.text.toString(),
                                             tel,
                                             _emailController.text.toString(),
-                                            "",
+                                            '',
                                             dataString,
                                             horaSelecionada,
                                             "Anotações sobre o atendimento de ${_nomeController.text.toString()} no dia $dataString às $horaSelecionada\n\n",
@@ -1959,7 +1964,1830 @@ class _AgendarState extends State<Agendar> {
                                             _nomeController.text.toString(),
                                             tel,
                                             _emailController.text.toString(),
-                                            "",
+                                            '',
+                                            dataString,
+                                            horaSelecionada,
+                                            "Anotações sobre o atendimento de ${_nomeController
+                                                .text
+                                                .toString()} no dia $dataString às $horaSelecionada\n\n",
+                                            true, "", false, false, false, false, false,
+                                            "", false, "", false, "", "", "");
+
+                                        int hora = int.parse(horaSelecionada.substring(0, 2));
+                                        int minuto = int.parse(horaSelecionada.substring(horaSelecionada.length - 2, horaSelecionada.length - 1));
+//                                        print('hora = $hora minuto = $minuto');
+                                        salvarnoCalendario(converterData(dataString), hora, minuto, paciente);
+                                        _submit(paciente);
+                                      }
+
+                                    }
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ]
+                  ),
+                )
+                    :
+                SingleChildScrollView(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        SizedBox(
+                          height: distancia,
+                        ),
+                        Form(
+                          key: formKey,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ListTile(
+                                  // leading: Icon(Icons.account_box, color: Colors.white),
+                                  title: TextFormField(
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'quicksand',
+                                        fontSize: MediaQuery.of(context).size.height/50,
+                                        shadows: [
+                                          Shadow( // bottomLeft
+                                              offset: Offset(-0.5, -0.5),
+                                              color: Colors.black
+                                          ),
+                                          Shadow( // bottomRight
+                                              offset: Offset(0.5, -0.5),
+                                              color: Colors.black
+                                          ),
+                                          Shadow( // topRight
+                                              offset: Offset(0.5, 0.5),
+                                              color: Colors.black
+                                          ),
+                                          Shadow( // topLeft
+                                              offset: Offset(-0.5, 0.5),
+                                              color: Colors.black
+                                          ),
+                                        ]
+                                    ),
+                                    controller: _nomeController,
+                                    onSaved: (nome) => paciente.nome = nome,
+                                    validator: (nome) => nome.length < 3 ? "Deve ter ao menos 3 caracteres." : null,
+                                    cursorColor: Colors.white,
+                                    keyboardType: TextInputType.text,
+                                    onFieldSubmitted: (_) {
+                                      setState(() {
+                                        paciente.nome = _nomeController.text.toString();
+                                      });
+                                    },
+                                    decoration: InputDecoration(
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide:
+                                        const BorderSide(color: Colors.white, width: 3.0),
+                                        borderRadius: BorderRadius.circular(8.0),
+                                      ),
+                                      enabledBorder: new OutlineInputBorder(
+                                        borderRadius: new BorderRadius.circular(8.0),
+                                        borderSide:
+                                        new BorderSide(color: Colors.white, width: 2.0),
+                                      ),
+                                      hintText: "Nome e sobrenome",
+                                      hintStyle: TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: 'quicksand',
+                                          fontSize: MediaQuery.of(context).size.height/50,
+                                          shadows: [
+                                            Shadow( // bottomLeft
+                                                offset: Offset(-0.5, -0.5),
+                                                color: Colors.black
+                                            ),
+                                            Shadow( // bottomRight
+                                                offset: Offset(0.5, -0.5),
+                                                color: Colors.black
+                                            ),
+                                            Shadow( // topRight
+                                                offset: Offset(0.5, 0.5),
+                                                color: Colors.black
+                                            ),
+                                            Shadow( // topLeft
+                                                offset: Offset(-0.5, 0.5),
+                                                color: Colors.black
+                                            ),
+                                          ]
+                                      ),
+                                      labelText: "Nome",
+                                      labelStyle: TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: 'quicksand',
+                                          fontSize: MediaQuery.of(context).size.height/50,
+                                          shadows: [
+                                            Shadow( // bottomLeft
+                                                offset: Offset(-0.5, -0.5),
+                                                color: Colors.black
+                                            ),
+                                            Shadow( // bottomRight
+                                                offset: Offset(0.5, -0.5),
+                                                color: Colors.black
+                                            ),
+                                            Shadow( // topRight
+                                                offset: Offset(0.5, 0.5),
+                                                color: Colors.black
+                                            ),
+                                            Shadow( // topLeft
+                                                offset: Offset(-0.5, 0.5),
+                                                color: Colors.black
+                                            ),
+                                          ]
+                                      ),
+                                      errorBorder: OutlineInputBorder(
+                                        borderSide:
+                                        const BorderSide(color: Colors.red, width: 3.0),
+                                        borderRadius: BorderRadius.circular(8.0),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ListTile(
+                                  // leading: Icon(Icons.phone, color: Colors.white),
+                                  title: InternationalPhoneNumberInput(
+                                    //maxLength: 15,
+                                    textStyle: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'quicksand',
+                                        fontSize: MediaQuery.of(context).size.height/50,
+                                        shadows: [
+                                          Shadow( // bottomLeft
+                                              offset: Offset(-0.5, -0.5),
+                                              color: Colors.black
+                                          ),
+                                          Shadow( // bottomRight
+                                              offset: Offset(0.5, -0.5),
+                                              color: Colors.black
+                                          ),
+                                          Shadow( // topRight
+                                              offset: Offset(0.5, 0.5),
+                                              color: Colors.black
+                                          ),
+                                          Shadow( // topLeft
+                                              offset: Offset(-0.5, 0.5),
+                                              color: Colors.black
+                                          ),
+                                        ]
+                                    ),
+                                    textFieldController: _telefoneController,
+                                    //autoValidate: false,
+                                    //onInputValidated: (value) => validarTelefone(tel),
+                                    //errorMessage: 'Número fora do padrão',
+                                    inputDecoration: InputDecoration(
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide:
+                                        const BorderSide(color: Colors.white, width: 3.0),
+                                        borderRadius: BorderRadius.circular(8.0),
+                                      ),
+                                      enabledBorder: new OutlineInputBorder(
+                                        borderRadius: new BorderRadius.circular(8.0),
+                                        borderSide:
+                                        new BorderSide(color: Colors.white, width: 2.0),
+                                      ),
+                                      hintText: "xx xxxxx xxxx",
+                                      hintStyle: TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: 'quicksand',
+                                          fontSize: MediaQuery.of(context).size.height/50,
+                                          shadows: [
+                                            Shadow( // bottomLeft
+                                                offset: Offset(-0.5, -0.5),
+                                                color: Colors.black
+                                            ),
+                                            Shadow( // bottomRight
+                                                offset: Offset(0.5, -0.5),
+                                                color: Colors.black
+                                            ),
+                                            Shadow( // topRight
+                                                offset: Offset(0.5, 0.5),
+                                                color: Colors.black
+                                            ),
+                                            Shadow( // topLeft
+                                                offset: Offset(-0.5, 0.5),
+                                                color: Colors.black
+                                            ),
+                                          ]
+                                      ),
+                                      labelText: "WhatsApp/Telefone",
+                                      labelStyle: TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: 'quicksand',
+                                          fontSize: MediaQuery.of(context).size.height/50,
+                                          shadows: [
+                                            Shadow( // bottomLeft
+                                                offset: Offset(-0.5, -0.5),
+                                                color: Colors.black
+                                            ),
+                                            Shadow( // bottomRight
+                                                offset: Offset(0.5, -0.5),
+                                                color: Colors.black
+                                            ),
+                                            Shadow( // topRight
+                                                offset: Offset(0.5, 0.5),
+                                                color: Colors.black
+                                            ),
+                                            Shadow( // topLeft
+                                                offset: Offset(-0.5, 0.5),
+                                                color: Colors.black
+                                            ),
+                                          ]
+                                      ),
+                                      errorBorder: OutlineInputBorder(
+                                        borderSide:
+                                        const BorderSide(color: Colors.red, width: 3.0),
+                                        borderRadius: BorderRadius.circular(8.0),
+                                      ),
+                                    ),
+                                    locale: 'BR',
+                                    countries: ['BR'],
+                                    onInputChanged: (phone) {
+                                      tel = '${phone.dialCode.toString()}' + '${_telefoneController.text}';
+                                    },
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ListTile(
+                                  // leading: Icon(Icons.alternate_email, color: Colors.white),
+                                  title: TextFormField(
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'quicksand',
+                                        fontSize: MediaQuery.of(context).size.height/50,
+                                        shadows: [
+                                          Shadow( // bottomLeft
+                                              offset: Offset(-0.5, -0.5),
+                                              color: Colors.black
+                                          ),
+                                          Shadow( // bottomRight
+                                              offset: Offset(0.5, -0.5),
+                                              color: Colors.black
+                                          ),
+                                          Shadow( // topRight
+                                              offset: Offset(0.5, 0.5),
+                                              color: Colors.black
+                                          ),
+                                          Shadow( // topLeft
+                                              offset: Offset(-0.5, 0.5),
+                                              color: Colors.black
+                                          ),
+                                        ]
+                                    ),
+                                    controller: _emailController,
+                                    onSaved: (email) => paciente.email = email,
+                                    validator: validateEmail,
+                                    cursorColor: Colors.white,
+                                    onFieldSubmitted: (_) {
+                                      setState(() {
+                                        paciente.email = _emailController.text.toString();
+                                      });
+                                    },
+                                    keyboardType: TextInputType.emailAddress,
+                                    decoration: InputDecoration(
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide:
+                                        const BorderSide(color: Colors.white, width: 3.0),
+                                        borderRadius: BorderRadius.circular(8.0),
+                                      ),
+                                      enabledBorder: new OutlineInputBorder(
+                                        borderRadius: new BorderRadius.circular(8.0),
+                                        borderSide:
+                                        new BorderSide(color: Colors.white, width: 2.0),
+                                      ),
+                                      hintText: "Digite seu e-mail",
+                                      hintStyle: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: MediaQuery.of(context).size.height/50,
+                                          fontFamily: 'quicksand',
+                                          shadows: [
+                                            Shadow( // bottomLeft
+                                                offset: Offset(-0.5, -0.5),
+                                                color: Colors.black
+                                            ),
+                                            Shadow( // bottomRight
+                                                offset: Offset(0.5, -0.5),
+                                                color: Colors.black
+                                            ),
+                                            Shadow( // topRight
+                                                offset: Offset(0.5, 0.5),
+                                                color: Colors.black
+                                            ),
+                                            Shadow( // topLeft
+                                                offset: Offset(-0.5, 0.5),
+                                                color: Colors.black
+                                            ),
+                                          ]
+                                      ),
+                                      labelText: "E-mail",
+                                      labelStyle: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: MediaQuery.of(context).size.height/50,
+                                          fontFamily: 'quicksand',
+                                          shadows: [
+                                            Shadow( // bottomLeft
+                                                offset: Offset(-0.5, -0.5),
+                                                color: Colors.black
+                                            ),
+                                            Shadow( // bottomRight
+                                                offset: Offset(0.5, -0.5),
+                                                color: Colors.black
+                                            ),
+                                            Shadow( // topRight
+                                                offset: Offset(0.5, 0.5),
+                                                color: Colors.black
+                                            ),
+                                            Shadow( // topLeft
+                                                offset: Offset(-0.5, 0.5),
+                                                color: Colors.black
+                                            ),
+                                          ]
+                                      ),
+                                      errorBorder: OutlineInputBorder(
+                                        borderSide:
+                                        const BorderSide(color: Colors.red, width: 3.0),
+                                        borderRadius: BorderRadius.circular(8.0),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ListTile(
+                                  // leading: Icon(Icons.account_box, color: Colors.white),
+                                  title: TextFormField(
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'quicksand',
+                                        fontSize: MediaQuery.of(context).size.height/50,
+                                        shadows: [
+                                          Shadow( // bottomLeft
+                                              offset: Offset(-0.5, -0.5),
+                                              color: Colors.black
+                                          ),
+                                          Shadow( // bottomRight
+                                              offset: Offset(0.5, -0.5),
+                                              color: Colors.black
+                                          ),
+                                          Shadow( // topRight
+                                              offset: Offset(0.5, 0.5),
+                                              color: Colors.black
+                                          ),
+                                          Shadow( // topLeft
+                                              offset: Offset(-0.5, 0.5),
+                                              color: Colors.black
+                                          ),
+                                        ]
+                                    ),
+                                    controller: _estadoCivilController,
+                                    onSaved: (estadoCivil) => paciente.estadoCivil = estadoCivil,
+                                    validator: (estadoCivil) => estadoCivil.length < 3 ? "Não pode ficar em branco." : null,
+                                    cursorColor: Colors.white,
+                                    keyboardType: TextInputType.text,
+                                    onFieldSubmitted: (_) {
+                                      setState(() {
+                                        paciente.estadoCivil = _estadoCivilController.text.toString();
+                                      });
+                                    },
+                                    decoration: InputDecoration(
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide:
+                                        const BorderSide(color: Colors.white, width: 3.0),
+                                        borderRadius: BorderRadius.circular(8.0),
+                                      ),
+                                      enabledBorder: new OutlineInputBorder(
+                                        borderRadius: new BorderRadius.circular(8.0),
+                                        borderSide:
+                                        new BorderSide(color: Colors.white, width: 2.0),
+                                      ),
+                                      hintText: "Estado civil",
+                                      hintStyle: TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: 'quicksand',
+                                          fontSize: MediaQuery.of(context).size.height/50,
+                                          shadows: [
+                                            Shadow( // bottomLeft
+                                                offset: Offset(-0.5, -0.5),
+                                                color: Colors.black
+                                            ),
+                                            Shadow( // bottomRight
+                                                offset: Offset(0.5, -0.5),
+                                                color: Colors.black
+                                            ),
+                                            Shadow( // topRight
+                                                offset: Offset(0.5, 0.5),
+                                                color: Colors.black
+                                            ),
+                                            Shadow( // topLeft
+                                                offset: Offset(-0.5, 0.5),
+                                                color: Colors.black
+                                            ),
+                                          ]
+                                      ),
+                                      labelText: "Estado civil",
+                                      labelStyle: TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: 'quicksand',
+                                          fontSize: MediaQuery.of(context).size.height/50,
+                                          shadows: [
+                                            Shadow( // bottomLeft
+                                                offset: Offset(-0.5, -0.5),
+                                                color: Colors.black
+                                            ),
+                                            Shadow( // bottomRight
+                                                offset: Offset(0.5, -0.5),
+                                                color: Colors.black
+                                            ),
+                                            Shadow( // topRight
+                                                offset: Offset(0.5, 0.5),
+                                                color: Colors.black
+                                            ),
+                                            Shadow( // topLeft
+                                                offset: Offset(-0.5, 0.5),
+                                                color: Colors.black
+                                            ),
+                                          ]
+                                      ),
+                                      errorBorder: OutlineInputBorder(
+                                        borderSide:
+                                        const BorderSide(color: Colors.red, width: 3.0),
+                                        borderRadius: BorderRadius.circular(8.0),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ListTile(
+                                  title: SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Text('Sexo: ',
+                                          style: new TextStyle(
+                                              fontSize: MediaQuery.of(context).size.height/55,
+                                              color: Colors.white,
+                                              fontFamily: 'quicksand',
+                                              shadows: [
+                                                Shadow( // bottomLeft
+                                                    offset: Offset(-0.5, -0.5),
+                                                    color: Colors.black
+                                                ),
+                                                Shadow( // bottomRight
+                                                    offset: Offset(0.5, -0.5),
+                                                    color: Colors.black
+                                                ),
+                                                Shadow( // topRight
+                                                    offset: Offset(0.5, 0.5),
+                                                    color: Colors.black
+                                                ),
+                                                Shadow( // topLeft
+                                                    offset: Offset(-0.5, 0.5),
+                                                    color: Colors.black
+                                                ),
+                                              ]
+                                          ),
+                                        ),
+                                        Radio(
+                                          value: 'Feminino',
+                                          activeColor: Colors.cyanAccent,
+                                          groupValue: sexo,
+                                          onChanged: (val) {
+                                            setState(() {
+                                              sexo = 'Feminino';
+                                            });
+                                          },
+                                        ),
+                                        Text(
+                                          'Feminino',
+                                          style: new TextStyle(
+                                              fontSize: MediaQuery.of(context).size.height/55,
+                                              color: Colors.white,
+                                              fontFamily: 'quicksand',
+                                              shadows: [
+                                                Shadow( // bottomLeft
+                                                    offset: Offset(-0.5, -0.5),
+                                                    color: Colors.black
+                                                ),
+                                                Shadow( // bottomRight
+                                                    offset: Offset(0.5, -0.5),
+                                                    color: Colors.black
+                                                ),
+                                                Shadow( // topRight
+                                                    offset: Offset(0.5, 0.5),
+                                                    color: Colors.black
+                                                ),
+                                                Shadow( // topLeft
+                                                    offset: Offset(-0.5, 0.5),
+                                                    color: Colors.black
+                                                ),
+                                              ]
+                                          ),
+                                        ),
+                                        Radio(
+                                          value: 'Masculino',
+                                          groupValue: sexo,
+                                          activeColor: Colors.cyanAccent,
+                                          onChanged: (val) {
+                                            setState(() {
+                                              sexo = 'Masculino';
+                                            });
+                                          },
+                                        ),
+                                        Text(
+                                          'Masculino',
+                                          style: new TextStyle(
+                                              fontSize: MediaQuery.of(context).size.height/55,
+                                              color: Colors.white,
+                                              fontFamily: 'quicksand',
+                                              shadows: [
+                                                Shadow( // bottomLeft
+                                                    offset: Offset(-0.5, -0.5),
+                                                    color: Colors.black
+                                                ),
+                                                Shadow( // bottomRight
+                                                    offset: Offset(0.5, -0.5),
+                                                    color: Colors.black
+                                                ),
+                                                Shadow( // topRight
+                                                    offset: Offset(0.5, 0.5),
+                                                    color: Colors.black
+                                                ),
+                                                Shadow( // topLeft
+                                                    offset: Offset(-0.5, 0.5),
+                                                    color: Colors.black
+                                                ),
+                                              ]
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              equalsIgnoreCase(widget.profissional.areaAtuacao, 'nutrição') ?
+                              Visibility(
+                                visible: true,
+                                child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: ListTile(
+                                          // leading: Icon(Icons.adjust, color: Colors.white),
+                                          title: TextFormField(
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontFamily: 'quicksand',
+                                                fontSize: MediaQuery.of(context).size.height/50,
+                                                shadows: [
+                                                  Shadow( // bottomLeft
+                                                      offset: Offset(-0.5, -0.5),
+                                                      color: Colors.black
+                                                  ),
+                                                  Shadow( // bottomRight
+                                                      offset: Offset(0.5, -0.5),
+                                                      color: Colors.black
+                                                  ),
+                                                  Shadow( // topRight
+                                                      offset: Offset(0.5, 0.5),
+                                                      color: Colors.black
+                                                  ),
+                                                  Shadow( // topLeft
+                                                      offset: Offset(-0.5, 0.5),
+                                                      color: Colors.black
+                                                  ),
+                                                ]
+                                            ),
+                                            controller: _objetivoController,
+                                            onSaved: (objetivo) => paciente.objetivo = objetivo,
+                                            validator: (objetivo) => objetivo.length < 3 ? "Não pode ficar em branco." : null,
+                                            cursorColor: Colors.white,
+                                            onFieldSubmitted: (_) {
+                                              setState(() {
+                                                paciente.objetivo = _objetivoController.text.toString();
+                                              });
+                                            },
+                                            keyboardType: TextInputType.text,
+                                            decoration: InputDecoration(
+                                              focusedBorder: OutlineInputBorder(
+                                                borderSide:
+                                                const BorderSide(color: Colors.white, width: 3.0),
+                                                borderRadius: BorderRadius.circular(8.0),
+                                              ),
+                                              enabledBorder: new OutlineInputBorder(
+                                                borderRadius: new BorderRadius.circular(8.0),
+                                                borderSide:
+                                                new BorderSide(color: Colors.white, width: 2.0),
+                                              ),
+                                              hintText: "Digite seu objetivo",
+                                              hintStyle: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: MediaQuery.of(context).size.height/50,
+                                                  fontFamily: 'quicksand',
+                                                  shadows: [
+                                                    Shadow( // bottomLeft
+                                                        offset: Offset(-0.5, -0.5),
+                                                        color: Colors.black
+                                                    ),
+                                                    Shadow( // bottomRight
+                                                        offset: Offset(0.5, -0.5),
+                                                        color: Colors.black
+                                                    ),
+                                                    Shadow( // topRight
+                                                        offset: Offset(0.5, 0.5),
+                                                        color: Colors.black
+                                                    ),
+                                                    Shadow( // topLeft
+                                                        offset: Offset(-0.5, 0.5),
+                                                        color: Colors.black
+                                                    ),
+                                                  ]
+                                              ),
+                                              labelText: "Objetivo",
+                                              labelStyle: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: MediaQuery.of(context).size.height/50,
+                                                  fontFamily: 'quicksand',
+                                                  shadows: [
+                                                    Shadow( // bottomLeft
+                                                        offset: Offset(-0.5, -0.5),
+                                                        color: Colors.black
+                                                    ),
+                                                    Shadow( // bottomRight
+                                                        offset: Offset(0.5, -0.5),
+                                                        color: Colors.black
+                                                    ),
+                                                    Shadow( // topRight
+                                                        offset: Offset(0.5, 0.5),
+                                                        color: Colors.black
+                                                    ),
+                                                    Shadow( // topLeft
+                                                        offset: Offset(-0.5, 0.5),
+                                                        color: Colors.black
+                                                    ),
+                                                  ]
+                                              ),
+                                              errorBorder: OutlineInputBorder(
+                                                borderSide:
+                                                const BorderSide(color: Colors.red, width: 3.0),
+                                                borderRadius: BorderRadius.circular(8.0),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: CheckboxListTile(
+                                          checkColor: Colors.black,
+                                          activeColor: Colors.white,
+                                          selected: vegetariano ? true : false,
+                                          title: Text('É vegetariano/vegano?',
+                                            style: TextStyle(
+                                                fontFamily: 'quicksand',
+                                                color: Colors.white,
+                                                fontSize: MediaQuery.of(context).size.height/55,
+                                                shadows: [
+                                                  Shadow( // bottomLeft
+                                                      offset: Offset(-0.5, -0.5),
+                                                      color: Colors.black
+                                                  ),
+                                                  Shadow( // bottomRight
+                                                      offset: Offset(0.5, -0.5),
+                                                      color: Colors.black
+                                                  ),
+                                                  Shadow( // topRight
+                                                      offset: Offset(0.5, 0.5),
+                                                      color: Colors.black
+                                                  ),
+                                                  Shadow( // topLeft
+                                                      offset: Offset(-0.5, 0.5),
+                                                      color: Colors.black
+                                                  ),
+                                                ]
+                                            ),
+                                          ),
+                                          value: vegetariano,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              vegetariano = !vegetariano;
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: CheckboxListTile(
+                                          checkColor: bebidaAlcoolica ? Colors.black : Colors.white,
+                                          activeColor: bebidaAlcoolica ? Colors.white : Colors.white,
+                                          selected: bebidaAlcoolica ? true : false,
+                                          title: Text('Ingere bebida alcoólica?',
+                                            style: TextStyle(
+                                                fontFamily: 'quicksand',
+                                                color: Colors.white,
+                                                fontSize: MediaQuery.of(context).size.height/55,
+                                                shadows: [
+                                                  Shadow( // bottomLeft
+                                                      offset: Offset(-0.5, -0.5),
+                                                      color: Colors.black
+                                                  ),
+                                                  Shadow( // bottomRight
+                                                      offset: Offset(0.5, -0.5),
+                                                      color: Colors.black
+                                                  ),
+                                                  Shadow( // topRight
+                                                      offset: Offset(0.5, 0.5),
+                                                      color: Colors.black
+                                                  ),
+                                                  Shadow( // topLeft
+                                                      offset: Offset(-0.5, 0.5),
+                                                      color: Colors.black
+                                                  ),
+                                                ]
+                                            ),
+                                          ),
+                                          value: bebidaAlcoolica,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              bebidaAlcoolica = !bebidaAlcoolica;
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: CheckboxListTile(
+                                          checkColor: Colors.black,
+                                          activeColor: Colors.white,
+                                          selected: fumante ? true : false,
+                                          title: Text('Você fuma?',
+                                            style: TextStyle(
+                                                fontFamily: 'quicksand',
+                                                color: Colors.white,
+                                                fontSize: MediaQuery.of(context).size.height/55,
+                                                shadows: [
+                                                  Shadow( // bottomLeft
+                                                      offset: Offset(-0.5, -0.5),
+                                                      color: Colors.black
+                                                  ),
+                                                  Shadow( // bottomRight
+                                                      offset: Offset(0.5, -0.5),
+                                                      color: Colors.black
+                                                  ),
+                                                  Shadow( // topRight
+                                                      offset: Offset(0.5, 0.5),
+                                                      color: Colors.black
+                                                  ),
+                                                  Shadow( // topLeft
+                                                      offset: Offset(-0.5, 0.5),
+                                                      color: Colors.black
+                                                  ),
+                                                ]
+                                            ),
+                                          ),
+                                          value: fumante,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              fumante = !fumante;
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: CheckboxListTile(
+                                          checkColor: Colors.black,
+                                          activeColor: Colors.white,
+                                          selected: sedentario ? true : false,
+                                          title: Text('Pratica atividade física?',
+                                            style: TextStyle(
+                                                fontFamily: 'quicksand',
+                                                color: Colors.white,
+                                                fontSize: MediaQuery.of(context).size.height/55,
+                                                shadows: [
+                                                  Shadow( // bottomLeft
+                                                      offset: Offset(-0.5, -0.5),
+                                                      color: Colors.black
+                                                  ),
+                                                  Shadow( // bottomRight
+                                                      offset: Offset(0.5, -0.5),
+                                                      color: Colors.black
+                                                  ),
+                                                  Shadow( // topRight
+                                                      offset: Offset(0.5, 0.5),
+                                                      color: Colors.black
+                                                  ),
+                                                  Shadow( // topLeft
+                                                      offset: Offset(-0.5, 0.5),
+                                                      color: Colors.black
+                                                  ),
+                                                ]
+                                            ),
+                                          ),
+                                          value: sedentario,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              sedentario = !sedentario;
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: ListTile(
+                                          title: SingleChildScrollView(
+                                            scrollDirection: Axis.horizontal,
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: <Widget>[
+                                                Text('Tem alguma patologia?',
+                                                  style: new TextStyle(
+                                                      fontSize: MediaQuery.of(context).size.height/55,
+                                                      color: Colors.white,
+                                                      fontFamily: 'quicksand',
+                                                      shadows: [
+                                                        Shadow( // bottomLeft
+                                                            offset: Offset(-0.5, -0.5),
+                                                            color: Colors.black
+                                                        ),
+                                                        Shadow( // bottomRight
+                                                            offset: Offset(0.5, -0.5),
+                                                            color: Colors.black
+                                                        ),
+                                                        Shadow( // topRight
+                                                            offset: Offset(0.5, 0.5),
+                                                            color: Colors.black
+                                                        ),
+                                                        Shadow( // topLeft
+                                                            offset: Offset(-0.5, 0.5),
+                                                            color: Colors.black
+                                                        ),
+                                                      ]
+                                                  ),
+                                                ),
+                                                Radio(
+                                                  value: true,
+                                                  activeColor: Colors.cyanAccent,
+                                                  groupValue: patologia,
+                                                  onChanged: (val) {
+                                                    setState(() {
+                                                      patologia = true;
+                                                    });
+                                                  },
+                                                ),
+                                                Text(
+                                                  'Sim',
+                                                  style: new TextStyle(
+                                                      fontSize: MediaQuery.of(context).size.height/55,
+                                                      color: Colors.white,
+                                                      fontFamily: 'quicksand',
+                                                      shadows: [
+                                                        Shadow( // bottomLeft
+                                                            offset: Offset(-0.5, -0.5),
+                                                            color: Colors.black
+                                                        ),
+                                                        Shadow( // bottomRight
+                                                            offset: Offset(0.5, -0.5),
+                                                            color: Colors.black
+                                                        ),
+                                                        Shadow( // topRight
+                                                            offset: Offset(0.5, 0.5),
+                                                            color: Colors.black
+                                                        ),
+                                                        Shadow( // topLeft
+                                                            offset: Offset(-0.5, 0.5),
+                                                            color: Colors.black
+                                                        ),
+                                                      ]
+                                                  ),
+                                                ),
+                                                Radio(
+                                                  value: false,
+                                                  groupValue: patologia,
+                                                  activeColor: Colors.cyanAccent,
+                                                  onChanged: (val) {
+                                                    setState(() {
+                                                      patologia = false;
+                                                    });
+                                                  },
+                                                ),
+                                                Text(
+                                                  'Não',
+                                                  style: new TextStyle(
+                                                      fontSize: MediaQuery.of(context).size.height/55,
+                                                      color: Colors.white,
+                                                      fontFamily: 'quicksand',
+                                                      shadows: [
+                                                        Shadow( // bottomLeft
+                                                            offset: Offset(-0.5, -0.5),
+                                                            color: Colors.black
+                                                        ),
+                                                        Shadow( // bottomRight
+                                                            offset: Offset(0.5, -0.5),
+                                                            color: Colors.black
+                                                        ),
+                                                        Shadow( // topRight
+                                                            offset: Offset(0.5, 0.5),
+                                                            color: Colors.black
+                                                        ),
+                                                        Shadow( // topLeft
+                                                            offset: Offset(-0.5, 0.5),
+                                                            color: Colors.black
+                                                        ),
+                                                      ]
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      patologia == true ?
+                                      Visibility(
+                                        visible: true,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: ListTile(
+                                            // leading: Icon(Icons.adjust, color: Colors.white),
+                                            title: TextFormField(
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontFamily: 'quicksand',
+                                                  fontSize: MediaQuery.of(context).size.height/50,
+                                                  shadows: [
+                                                    Shadow( // bottomLeft
+                                                        offset: Offset(-0.5, -0.5),
+                                                        color: Colors.black
+                                                    ),
+                                                    Shadow( // bottomRight
+                                                        offset: Offset(0.5, -0.5),
+                                                        color: Colors.black
+                                                    ),
+                                                    Shadow( // topRight
+                                                        offset: Offset(0.5, 0.5),
+                                                        color: Colors.black
+                                                    ),
+                                                    Shadow( // topLeft
+                                                        offset: Offset(-0.5, 0.5),
+                                                        color: Colors.black
+                                                    ),
+                                                  ]
+                                              ),
+                                              controller: _patologiaController,
+                                              onSaved: (patologia) => paciente.nomePatologia = patologia,
+                                              validator: (patologia) => patologia.length < 3 ? "Não pode ficar em branco." : null,
+                                              cursorColor: Colors.white,
+                                              onFieldSubmitted: (_) {
+                                                setState(() {
+                                                  paciente.nomePatologia = _patologiaController.text.toString();
+                                                });
+                                              },
+                                              keyboardType: TextInputType.text,
+                                              decoration: InputDecoration(
+                                                focusedBorder: OutlineInputBorder(
+                                                  borderSide:
+                                                  const BorderSide(color: Colors.white, width: 3.0),
+                                                  borderRadius: BorderRadius.circular(8.0),
+                                                ),
+                                                enabledBorder: new OutlineInputBorder(
+                                                  borderRadius: new BorderRadius.circular(8.0),
+                                                  borderSide:
+                                                  new BorderSide(color: Colors.white, width: 2.0),
+                                                ),
+                                                hintText: "Digite sua(s) patologia(s)",
+                                                hintStyle: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: MediaQuery.of(context).size.height/50,
+                                                    fontFamily: 'quicksand',
+                                                    shadows: [
+                                                      Shadow( // bottomLeft
+                                                          offset: Offset(-0.5, -0.5),
+                                                          color: Colors.black
+                                                      ),
+                                                      Shadow( // bottomRight
+                                                          offset: Offset(0.5, -0.5),
+                                                          color: Colors.black
+                                                      ),
+                                                      Shadow( // topRight
+                                                          offset: Offset(0.5, 0.5),
+                                                          color: Colors.black
+                                                      ),
+                                                      Shadow( // topLeft
+                                                          offset: Offset(-0.5, 0.5),
+                                                          color: Colors.black
+                                                      ),
+                                                    ]
+                                                ),
+                                                labelText: "Patologia",
+                                                labelStyle: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: MediaQuery.of(context).size.height/50,
+                                                    fontFamily: 'quicksand',
+                                                    shadows: [
+                                                      Shadow( // bottomLeft
+                                                          offset: Offset(-0.5, -0.5),
+                                                          color: Colors.black
+                                                      ),
+                                                      Shadow( // bottomRight
+                                                          offset: Offset(0.5, -0.5),
+                                                          color: Colors.black
+                                                      ),
+                                                      Shadow( // topRight
+                                                          offset: Offset(0.5, 0.5),
+                                                          color: Colors.black
+                                                      ),
+                                                      Shadow( // topLeft
+                                                          offset: Offset(-0.5, 0.5),
+                                                          color: Colors.black
+                                                      ),
+                                                    ]
+                                                ),
+                                                errorBorder: OutlineInputBorder(
+                                                  borderSide:
+                                                  const BorderSide(color: Colors.red, width: 3.0),
+                                                  borderRadius: BorderRadius.circular(8.0),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                          :
+                                      Visibility(
+                                        visible: false,
+                                        child: Container(
+                                          height: 0,
+                                          width: 0,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: ListTile(
+                                          title: SingleChildScrollView(
+                                            scrollDirection: Axis.horizontal,
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: <Widget>[
+                                                Text('Faz uso de algum medicamento?',
+                                                  style: new TextStyle(
+                                                      fontSize: MediaQuery.of(context).size.height/55,
+                                                      color: Colors.white,
+                                                      fontFamily: 'quicksand',
+                                                      shadows: [
+                                                        Shadow( // bottomLeft
+                                                            offset: Offset(-0.5, -0.5),
+                                                            color: Colors.black
+                                                        ),
+                                                        Shadow( // bottomRight
+                                                            offset: Offset(0.5, -0.5),
+                                                            color: Colors.black
+                                                        ),
+                                                        Shadow( // topRight
+                                                            offset: Offset(0.5, 0.5),
+                                                            color: Colors.black
+                                                        ),
+                                                        Shadow( // topLeft
+                                                            offset: Offset(-0.5, 0.5),
+                                                            color: Colors.black
+                                                        ),
+                                                      ]
+                                                  ),
+                                                ),
+                                                Radio(
+                                                  value: true,
+                                                  activeColor: Colors.cyanAccent,
+                                                  groupValue: medicamento,
+                                                  onChanged: (val) {
+                                                    setState(() {
+                                                      medicamento = true;
+                                                    });
+                                                  },
+                                                ),
+                                                Text(
+                                                  'Sim',
+                                                  style: new TextStyle(
+                                                      fontSize: MediaQuery.of(context).size.height/55,
+                                                      color: Colors.white,
+                                                      fontFamily: 'quicksand',
+                                                      shadows: [
+                                                        Shadow( // bottomLeft
+                                                            offset: Offset(-0.5, -0.5),
+                                                            color: Colors.black
+                                                        ),
+                                                        Shadow( // bottomRight
+                                                            offset: Offset(0.5, -0.5),
+                                                            color: Colors.black
+                                                        ),
+                                                        Shadow( // topRight
+                                                            offset: Offset(0.5, 0.5),
+                                                            color: Colors.black
+                                                        ),
+                                                        Shadow( // topLeft
+                                                            offset: Offset(-0.5, 0.5),
+                                                            color: Colors.black
+                                                        ),
+                                                      ]
+                                                  ),
+                                                ),
+                                                Radio(
+                                                  value: false,
+                                                  groupValue: medicamento,
+                                                  activeColor: Colors.cyanAccent,
+                                                  onChanged: (val) {
+                                                    setState(() {
+                                                      medicamento = false;
+                                                    });
+                                                  },
+                                                ),
+                                                Text(
+                                                  'Não',
+                                                  style: new TextStyle(
+                                                      fontSize: MediaQuery.of(context).size.height/55,
+                                                      color: Colors.white,
+                                                      fontFamily: 'quicksand',
+                                                      shadows: [
+                                                        Shadow( // bottomLeft
+                                                            offset: Offset(-0.5, -0.5),
+                                                            color: Colors.black
+                                                        ),
+                                                        Shadow( // bottomRight
+                                                            offset: Offset(0.5, -0.5),
+                                                            color: Colors.black
+                                                        ),
+                                                        Shadow( // topRight
+                                                            offset: Offset(0.5, 0.5),
+                                                            color: Colors.black
+                                                        ),
+                                                        Shadow( // topLeft
+                                                            offset: Offset(-0.5, 0.5),
+                                                            color: Colors.black
+                                                        ),
+                                                      ]
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      medicamento == true ?
+                                      Visibility(
+                                        visible: true,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: ListTile(
+                                            // leading: Icon(Icons.adjust, color: Colors.white),
+                                            title: TextFormField(
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontFamily: 'quicksand',
+                                                  fontSize: MediaQuery.of(context).size.height/50,
+                                                  shadows: [
+                                                    Shadow( // bottomLeft
+                                                        offset: Offset(-0.5, -0.5),
+                                                        color: Colors.black
+                                                    ),
+                                                    Shadow( // bottomRight
+                                                        offset: Offset(0.5, -0.5),
+                                                        color: Colors.black
+                                                    ),
+                                                    Shadow( // topRight
+                                                        offset: Offset(0.5, 0.5),
+                                                        color: Colors.black
+                                                    ),
+                                                    Shadow( // topLeft
+                                                        offset: Offset(-0.5, 0.5),
+                                                        color: Colors.black
+                                                    ),
+                                                  ]
+                                              ),
+                                              controller: _medicamentoController,
+                                              onSaved: (nomeMedicamentos) => paciente.nomeMedicamentos = nomeMedicamentos,
+                                              validator: (nomeMedicamentos) => nomeMedicamentos.length < 3 ? "Não pode ficar em branco." : null,
+                                              cursorColor: Colors.white,
+                                              onFieldSubmitted: (_) {
+                                                setState(() {
+                                                  paciente.nomeMedicamentos = _medicamentoController.text.toString();
+                                                });
+                                              },
+                                              keyboardType: TextInputType.text,
+                                              decoration: InputDecoration(
+                                                focusedBorder: OutlineInputBorder(
+                                                  borderSide:
+                                                  const BorderSide(color: Colors.white, width: 3.0),
+                                                  borderRadius: BorderRadius.circular(8.0),
+                                                ),
+                                                enabledBorder: new OutlineInputBorder(
+                                                  borderRadius: new BorderRadius.circular(8.0),
+                                                  borderSide:
+                                                  new BorderSide(color: Colors.white, width: 2.0),
+                                                ),
+                                                hintText: "Digite seu(s) medicamento(s)",
+                                                hintStyle: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: MediaQuery.of(context).size.height/50,
+                                                    fontFamily: 'quicksand',
+                                                    shadows: [
+                                                      Shadow( // bottomLeft
+                                                          offset: Offset(-0.5, -0.5),
+                                                          color: Colors.black
+                                                      ),
+                                                      Shadow( // bottomRight
+                                                          offset: Offset(0.5, -0.5),
+                                                          color: Colors.black
+                                                      ),
+                                                      Shadow( // topRight
+                                                          offset: Offset(0.5, 0.5),
+                                                          color: Colors.black
+                                                      ),
+                                                      Shadow( // topLeft
+                                                          offset: Offset(-0.5, 0.5),
+                                                          color: Colors.black
+                                                      ),
+                                                    ]
+                                                ),
+                                                labelText: "Medicamento(s)",
+                                                labelStyle: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: MediaQuery.of(context).size.height/50,
+                                                    fontFamily: 'quicksand',
+                                                    shadows: [
+                                                      Shadow( // bottomLeft
+                                                          offset: Offset(-0.5, -0.5),
+                                                          color: Colors.black
+                                                      ),
+                                                      Shadow( // bottomRight
+                                                          offset: Offset(0.5, -0.5),
+                                                          color: Colors.black
+                                                      ),
+                                                      Shadow( // topRight
+                                                          offset: Offset(0.5, 0.5),
+                                                          color: Colors.black
+                                                      ),
+                                                      Shadow( // topLeft
+                                                          offset: Offset(-0.5, 0.5),
+                                                          color: Colors.black
+                                                      ),
+                                                    ]
+                                                ),
+                                                errorBorder: OutlineInputBorder(
+                                                  borderSide:
+                                                  const BorderSide(color: Colors.red, width: 3.0),
+                                                  borderRadius: BorderRadius.circular(8.0),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                          :
+                                      Visibility(
+                                        visible: false,
+                                        child: Container(
+                                          height: 0,
+                                          width: 0,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: ListTile(
+                                          title: SingleChildScrollView(
+                                            scrollDirection: Axis.horizontal,
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              children: <Widget>[
+                                                Text('Alguma alergia?',
+                                                  style: new TextStyle(
+                                                      fontSize: MediaQuery.of(context).size.height/55,
+                                                      color: Colors.white,
+                                                      fontFamily: 'quicksand',
+                                                      shadows: [
+                                                        Shadow( // bottomLeft
+                                                            offset: Offset(-0.5, -0.5),
+                                                            color: Colors.black
+                                                        ),
+                                                        Shadow( // bottomRight
+                                                            offset: Offset(0.5, -0.5),
+                                                            color: Colors.black
+                                                        ),
+                                                        Shadow( // topRight
+                                                            offset: Offset(0.5, 0.5),
+                                                            color: Colors.black
+                                                        ),
+                                                        Shadow( // topLeft
+                                                            offset: Offset(-0.5, 0.5),
+                                                            color: Colors.black
+                                                        ),
+                                                      ]
+                                                  ),
+                                                ),
+                                                Radio(
+                                                  value: true,
+                                                  activeColor: Colors.cyanAccent,
+                                                  groupValue: alergia,
+                                                  onChanged: (val) {
+                                                    setState(() {
+                                                      alergia = true;
+                                                    });
+                                                  },
+                                                ),
+                                                Text(
+                                                  'Sim',
+                                                  style: new TextStyle(
+                                                      fontSize: MediaQuery.of(context).size.height/55,
+                                                      color: Colors.white,
+                                                      fontFamily: 'quicksand',
+                                                      shadows: [
+                                                        Shadow( // bottomLeft
+                                                            offset: Offset(-0.5, -0.5),
+                                                            color: Colors.black
+                                                        ),
+                                                        Shadow( // bottomRight
+                                                            offset: Offset(0.5, -0.5),
+                                                            color: Colors.black
+                                                        ),
+                                                        Shadow( // topRight
+                                                            offset: Offset(0.5, 0.5),
+                                                            color: Colors.black
+                                                        ),
+                                                        Shadow( // topLeft
+                                                            offset: Offset(-0.5, 0.5),
+                                                            color: Colors.black
+                                                        ),
+                                                      ]
+                                                  ),
+                                                ),
+                                                Radio(
+                                                  value: false,
+                                                  groupValue: alergia,
+                                                  activeColor: Colors.cyanAccent,
+                                                  onChanged: (val) {
+                                                    setState(() {
+                                                      alergia = false;
+                                                    });
+                                                  },
+                                                ),
+                                                Text(
+                                                  'Não',
+                                                  style: new TextStyle(
+                                                      fontSize: MediaQuery.of(context).size.height/55,
+                                                      color: Colors.white,
+                                                      fontFamily: 'quicksand',
+                                                      shadows: [
+                                                        Shadow( // bottomLeft
+                                                            offset: Offset(-0.5, -0.5),
+                                                            color: Colors.black
+                                                        ),
+                                                        Shadow( // bottomRight
+                                                            offset: Offset(0.5, -0.5),
+                                                            color: Colors.black
+                                                        ),
+                                                        Shadow( // topRight
+                                                            offset: Offset(0.5, 0.5),
+                                                            color: Colors.black
+                                                        ),
+                                                        Shadow( // topLeft
+                                                            offset: Offset(-0.5, 0.5),
+                                                            color: Colors.black
+                                                        ),
+                                                      ]
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      alergia == true ?
+                                      Visibility(
+                                        visible: true,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: ListTile(
+                                            // leading: Icon(Icons.adjust, color: Colors.white),
+                                            title: TextFormField(
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontFamily: 'quicksand',
+                                                  fontSize: MediaQuery.of(context).size.height/50,
+                                                  shadows: [
+                                                    Shadow( // bottomLeft
+                                                        offset: Offset(-0.5, -0.5),
+                                                        color: Colors.black
+                                                    ),
+                                                    Shadow( // bottomRight
+                                                        offset: Offset(0.5, -0.5),
+                                                        color: Colors.black
+                                                    ),
+                                                    Shadow( // topRight
+                                                        offset: Offset(0.5, 0.5),
+                                                        color: Colors.black
+                                                    ),
+                                                    Shadow( // topLeft
+                                                        offset: Offset(-0.5, 0.5),
+                                                        color: Colors.black
+                                                    ),
+                                                  ]
+                                              ),
+                                              controller: _alergiaController,
+                                              onSaved: (nomeAlergia) => paciente.nomeAlergia = nomeAlergia,
+                                              validator: (nomeAlergia) => nomeAlergia.length < 3 ? "Não pode ficar em branco." : null,
+                                              cursorColor: Colors.white,
+                                              onFieldSubmitted: (_) {
+                                                setState(() {
+                                                  paciente.nomeAlergia = _alergiaController.text.toString();
+                                                });
+                                              },
+                                              keyboardType: TextInputType.text,
+                                              decoration: InputDecoration(
+                                                focusedBorder: OutlineInputBorder(
+                                                  borderSide:
+                                                  const BorderSide(color: Colors.white, width: 3.0),
+                                                  borderRadius: BorderRadius.circular(8.0),
+                                                ),
+                                                enabledBorder: new OutlineInputBorder(
+                                                  borderRadius: new BorderRadius.circular(8.0),
+                                                  borderSide:
+                                                  new BorderSide(color: Colors.white, width: 2.0),
+                                                ),
+                                                hintText: "Digite sua(s) alergia(s)",
+                                                hintStyle: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: MediaQuery.of(context).size.height/50,
+                                                    fontFamily: 'quicksand',
+                                                    shadows: [
+                                                      Shadow( // bottomLeft
+                                                          offset: Offset(-0.5, -0.5),
+                                                          color: Colors.black
+                                                      ),
+                                                      Shadow( // bottomRight
+                                                          offset: Offset(0.5, -0.5),
+                                                          color: Colors.black
+                                                      ),
+                                                      Shadow( // topRight
+                                                          offset: Offset(0.5, 0.5),
+                                                          color: Colors.black
+                                                      ),
+                                                      Shadow( // topLeft
+                                                          offset: Offset(-0.5, 0.5),
+                                                          color: Colors.black
+                                                      ),
+                                                    ]
+                                                ),
+                                                labelText: "Alergia(s)",
+                                                labelStyle: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: MediaQuery.of(context).size.height/50,
+                                                    fontFamily: 'quicksand',
+                                                    shadows: [
+                                                      Shadow( // bottomLeft
+                                                          offset: Offset(-0.5, -0.5),
+                                                          color: Colors.black
+                                                      ),
+                                                      Shadow( // bottomRight
+                                                          offset: Offset(0.5, -0.5),
+                                                          color: Colors.black
+                                                      ),
+                                                      Shadow( // topRight
+                                                          offset: Offset(0.5, 0.5),
+                                                          color: Colors.black
+                                                      ),
+                                                      Shadow( // topLeft
+                                                          offset: Offset(-0.5, 0.5),
+                                                          color: Colors.black
+                                                      ),
+                                                    ]
+                                                ),
+                                                errorBorder: OutlineInputBorder(
+                                                  borderSide:
+                                                  const BorderSide(color: Colors.red, width: 3.0),
+                                                  borderRadius: BorderRadius.circular(8.0),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                          :
+                                      Visibility(
+                                        visible: false,
+                                        child: Container(
+                                          height: 0,
+                                          width: 0,
+                                        ),
+                                      ),
+                                    ]
+                                ),
+                              )
+                                  :
+                              Visibility(
+                                visible: false,
+                                child: Container(
+                                  height: 0,
+                                  width: 0,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ListTile(
+                                  leading: Icon(Icons.date_range, color: Colors.white),
+                                  title: Container(
+                                    height: 40,
+                                    child: Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: Text(
+                                            _dataEscolhida == null
+                                                ? 'Data da consulta'
+                                                : '${DateFormat.d().format(
+                                                _dataEscolhida)}/${DateFormat.M().format(
+                                                _dataEscolhida)}/${DateFormat.y().format(
+                                                _dataEscolhida)}',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontFamily: 'quicksand',
+                                                fontSize: MediaQuery.of(context).size.height/50,
+                                                shadows: [
+                                                  Shadow( // bottomLeft
+                                                      offset: Offset(-0.5, -0.5),
+                                                      color: Colors.black
+                                                  ),
+                                                  Shadow( // bottomRight
+                                                      offset: Offset(0.5, -0.5),
+                                                      color: Colors.black
+                                                  ),
+                                                  Shadow( // topRight
+                                                      offset: Offset(0.5, 0.5),
+                                                      color: Colors.black
+                                                  ),
+                                                  Shadow( // topLeft
+                                                      offset: Offset(-0.5, 0.5),
+                                                      color: Colors.black
+                                                  ),
+                                                ]
+                                            ),
+                                          ),
+                                        ),
+                                        FlatButton(
+                                          color: Colors.black,
+                                          child: Text(
+                                            'Escolher data',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontFamily: 'quicksand',
+                                              fontSize: MediaQuery.of(context).size.height/60,
+                                            ),
+                                          ),
+                                          shape: RoundedRectangleBorder(
+                                              side: BorderSide(
+                                                  color: Colors.white,
+                                                  width: 1,
+                                                  style: BorderStyle.solid
+                                              ),
+                                              borderRadius: BorderRadius.circular(40)
+                                          ),
+                                          onPressed: () {
+                                            setState(() {
+                                              _presentDatePicker();
+                                            });
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ListTile(
+                                  leading: Icon(Icons.alarm, color: Colors.white),
+                                  title: Container(
+                                    height: 40,
+                                    child: Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: Text(
+                                            horaSelecionada == null
+                                                ? 'Hora da consulta'
+                                                : '$horaSelecionada',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontFamily: 'quicksand',
+                                                fontSize: MediaQuery.of(context).size.height/50,
+                                                shadows: [
+                                                  Shadow( // bottomLeft
+                                                      offset: Offset(-0.5, -0.5),
+                                                      color: Colors.black
+                                                  ),
+                                                  Shadow( // bottomRight
+                                                      offset: Offset(0.5, -0.5),
+                                                      color: Colors.black
+                                                  ),
+                                                  Shadow( // topRight
+                                                      offset: Offset(0.5, 0.5),
+                                                      color: Colors.black
+                                                  ),
+                                                  Shadow( // topLeft
+                                                      offset: Offset(-0.5, 0.5),
+                                                      color: Colors.black
+                                                  ),
+                                                ]
+                                            ),
+                                          ),
+                                        ),
+                                        FlatButton(
+                                          color: Colors.black,
+                                          child: Text(
+                                            'Escolher hora',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontFamily: 'quicksand',
+                                              fontSize: MediaQuery.of(context).size.height/60,
+                                            ),
+                                          ),
+                                          shape: RoundedRectangleBorder(
+                                              side: BorderSide(
+                                                  color: Colors.white,
+                                                  width: 1,
+                                                  style: BorderStyle.solid
+                                              ),
+                                              borderRadius: BorderRadius.circular(40)
+                                          ),
+                                          onPressed: () {
+                                            setState(() {
+                                              if(dataString == '' || dataString == null || dataString.isEmpty) {
+                                                WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
+                                                    SnackBar(
+                                                      duration: Duration(seconds: 2),
+                                                      content: Text('Você deve escolher uma data antes',
+                                                        textAlign: TextAlign.center,
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontFamily: 'quicksand',
+                                                          fontSize: MediaQuery.of(context).size.height/50,
+                                                        ),
+                                                      ),
+                                                      backgroundColor: Colors.black,
+                                                      behavior: SnackBarBehavior.floating,
+                                                    )
+                                                )
+                                                );
+                                                return;
+                                              }
+                                              _dialogHorarios(context, dataString);
+                                            });
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              FlatButton(
+                                color: Colors.black,
+                                shape: RoundedRectangleBorder(
+                                  side: BorderSide(
+                                      color: Colors.white,
+                                      width: 1,
+                                      style: BorderStyle.solid
+                                  ),
+                                  borderRadius: BorderRadius.circular(40),
+                                ),
+                                child: Text(
+                                  "Marcar atendimento",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: MediaQuery.of(context).size.height/50,
+                                    fontFamily: 'quicksand',
+                                    shadows: <Shadow>[
+                                      Shadow(
+                                        offset: Offset(1.0, 1.0),
+                                        blurRadius: 3.0,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                      Shadow(
+                                        offset: Offset(2.0, 1.0),
+                                        blurRadius: 8.0,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    if (dataString == '' ||
+                                        dataString == null ||
+                                        dataString.isEmpty) {
+                                      WidgetsBinding.instance
+                                          .addPostFrameCallback((_) =>
+                                          _scaffoldKey.currentState
+                                              .showSnackBar(
+                                              SnackBar(
+                                                duration: Duration(
+                                                    seconds: 2),
+                                                content: Text(
+                                                  'Você deve escolher uma data antes',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontFamily: 'quicksand',
+                                                    fontSize: MediaQuery
+                                                        .of(context)
+                                                        .size
+                                                        .height / 50,
+                                                  ),
+                                                ),
+                                                backgroundColor: Colors.black,
+                                                behavior: SnackBarBehavior
+                                                    .floating,
+                                              )
+                                          )
+                                      );
+                                      return;
+                                    }
+
+                                    if (horaSelecionada == '' ||
+                                        horaSelecionada == null ||
+                                        horaSelecionada.isEmpty) {
+                                      WidgetsBinding.instance
+                                          .addPostFrameCallback((_) =>
+                                          _scaffoldKey.currentState
+                                              .showSnackBar(
+                                              SnackBar(
+                                                duration: Duration(
+                                                    seconds: 2),
+                                                content: Text(
+                                                  'Você deve escolher um horário',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontFamily: 'quicksand',
+                                                    fontSize: MediaQuery
+                                                        .of(context)
+                                                        .size
+                                                        .height / 50,
+                                                  ),
+                                                ),
+                                                backgroundColor: Colors.black,
+                                                behavior: SnackBarBehavior
+                                                    .floating,
+                                              )
+                                          )
+                                      );
+                                      return;
+                                    }
+
+                                    if (formKey.currentState.validate()) {
+                                      formKey.currentState.save();
+                                      if(equalsIgnoreCase(widget.profissional.areaAtuacao, 'nutrição')) {
+                                        Paciente paciente = new Paciente(
+                                            _nomeController.text.toString(),
+                                            tel,
+                                            _emailController.text.toString(),
+                                            widget.paciente.imageURL,
+                                            dataString,
+                                            horaSelecionada,
+                                            "Anotações sobre o atendimento de ${_nomeController.text.toString()} no dia $dataString às $horaSelecionada\n\n",
+                                            true,
+                                            _objetivoController.text.toString(),
+                                            vegetariano,
+                                            bebidaAlcoolica,
+                                            fumante,
+                                            sedentario,
+                                            patologia,
+                                            _patologiaController.text.toString(),
+                                            medicamento,
+                                            _medicamentoController.text.toString(),
+                                            alergia,
+                                            _alergiaController.text.toString(),
+                                            sexo,
+                                            _estadoCivilController.text.toString()
+                                        );
+                                        int hora = int.parse(horaSelecionada.substring(0, 2));
+                                        int minuto = int.parse(horaSelecionada.substring(horaSelecionada.length - 2, horaSelecionada.length - 1));
+//                                        print('hora = $hora minuto = $minuto');
+                                        salvarnoCalendario(converterData(dataString), hora, minuto, paciente);
+                                        _submit(paciente);
+                                      } else {
+                                        Paciente paciente = new Paciente(
+                                            _nomeController.text.toString(),
+                                            tel,
+                                            _emailController.text.toString(),
+                                            widget.paciente.imageURL,
                                             dataString,
                                             horaSelecionada,
                                             "Anotações sobre o atendimento de ${_nomeController

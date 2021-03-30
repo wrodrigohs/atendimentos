@@ -8,6 +8,7 @@ import 'package:atendimentos/ui/cadastro.dart';
 import 'package:atendimentos/model/profissional.dart';
 import 'package:atendimentos/ui/consultas.dart';
 import 'package:atendimentos/ui/edicao.dart';
+import 'package:atendimentos/ui/home.dart';
 import 'package:atendimentos/ui/login.dart';
 import 'package:atendimentos/ui/politica.dart';
 import 'package:atendimentos/ui/prontuarios.dart';
@@ -35,8 +36,9 @@ final FirebaseDatabase db2 = FirebaseDatabase.instance;
 class FirstScreen extends StatefulWidget {
 
   Profissional profissional;
+  String tipo;
 
-  FirstScreen({Key key, this.profissional}) : super(key: key);
+  FirstScreen({Key key, this.profissional, this.tipo}) : super(key: key);
 
   @override
   _FirstScreenState createState() => _FirstScreenState();
@@ -48,7 +50,9 @@ class _FirstScreenState extends State<FirstScreen> {
       false, false, false, false, false, false, false, null, false);
   Profissional pro = new Profissional('', '', '', '', '', '', '', '', '',
       false, false, false, false, false, false, false, null, false);
+  Paciente pac = new Paciente(name, "", email, imageUrl, "", "", "", false, "", false, false, false, false, false, "", false, "", false, "", "", "");
   List<Paciente> listaPacientes = List();
+  List<Paciente> listaConsultas = List();
   List<Profissional> listaProfissional = List();
   DatabaseReference dbPacientes;
   DatabaseReference dbProfissional;
@@ -58,6 +62,14 @@ class _FirstScreenState extends State<FirstScreen> {
   final TextEditingController _nomeController = TextEditingController();
   AuthService auth = new AuthService();
   bool isPro = true;
+  int selectedIndex = 0;
+  List<String> listaNomesProfissionais = List();
+  List<String> listaAreasdeAtuacao = List();
+  String dropdownValue;
+  String urlImg;
+  String nomeEscolhido;
+  String areadoEscolhido;
+  String area;
 
   final GlobalKey<SideMenuState> _sideMenuKey = GlobalKey<SideMenuState>();
   final GlobalKey<SideMenuState> _endSideMenuKey = GlobalKey<SideMenuState>();
@@ -74,12 +86,47 @@ class _FirstScreenState extends State<FirstScreen> {
     _deviceCalendarPlugin = calendar.DeviceCalendarPlugin();
   }
 
+  void carregarInfos() async {
+    dbProfissional = db2.reference().child('atendimentos');
+    dbProfissional.onChildAdded.listen(_gravarProfissional);
+    dbProfissional.onChildChanged.listen(_updateProfissional);
+    await dbProfissional.once().then((DataSnapshot snapshot) {
+      Map<dynamic, dynamic> values = snapshot.value;
+      Profissional prof = new Profissional(values['nome'], values['telefone'],
+          values['email'], values['areaAtuacao'], values['usuario'],
+          values['imageURL'], values['facebook'], values['instagram'],
+          values['num_conselho'], snapshot.value['domingo'], snapshot.value['segunda'],
+          snapshot.value['terca'], snapshot.value['quarta'], snapshot.value['quinta'],
+          snapshot.value['sexta'], snapshot.value['sabado'], values['horarios'], values['assinante']);
+      if(prof.nome != null) {
+        listaProfissional.add(prof);
+      }
+    });
+
+    dbPacientes = db.reference().child('atendimentos/${profissional.usuario}/pacientes');
+    dbPacientes.onChildAdded.listen(_gravar);
+    dbPacientes.onChildChanged.listen(_update);
+    await dbPacientes.once().then((DataSnapshot snapshot) {
+      Map<dynamic, dynamic> values = snapshot.value;
+      Paciente paciente = new Paciente(
+          values['nome'], values['telefone'], values['email'], values['imageURL'],
+          values['data'], values['hora'], values['anotacao'], values['confirmado'],
+          values['objetivo'], values['vegetariano'], values['bebidaAlcoolica'],
+          values['fumante'], values['sedentario'], values['patologia'],
+          values['nomePatologia'], values['medicamentos'], values['nomeMedicamentos'],
+          values['alergia'], values['nomeAlergia'], values['sexo'], values['estadoCivil']
+      );
+      if(paciente.nome != null) {
+        listaPacientes.add(paciente);
+      }
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     initPlatformState();
     carregarInfos();
-    //_retrieveCalendars();
 
     if(widget.profissional != null) {
       profissional = widget.profissional;
@@ -92,7 +139,14 @@ class _FirstScreenState extends State<FirstScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if(widget.tipo == 'profissional') {
+      return widgetPro();
+    } else {
+      return widgetPaciente();
+    }
+  }
 
+  Widget widgetPro() {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -103,9 +157,22 @@ class _FirstScreenState extends State<FirstScreen> {
         setState(() {
           presente = true;
           pro = listaProfissional[i];
+          if(appData.isPro == true && pro.assinante == false) {
+            setState(() {
+              pro.assinante = true;
+              atualizarProfissional(pro);
+            });
+          }
+
+          if(appData.isPro == false && pro.assinante == true) {
+            setState(() {
+              pro.assinante = false;
+              atualizarProfissional(pro);
+            });
+          }
         });
-        break;
       }
+      break;
     }
 
     listaPacientes.sort((a, b) => (((converterData(a.data)).compareTo(converterData(b.data)))));
@@ -150,8 +217,8 @@ class _FirstScreenState extends State<FirstScreen> {
                         ),
                         onPressed: () {
                           setState(() {
-                            // if(appData.isPro == true) {
-                            if(isPro == true) {
+                            if(appData.isPro == true) {
+//                            if(isPro == true) {
                               dialogBusca(context);
                             } else {
                               WidgetsBinding.instance.addPostFrameCallback((
@@ -188,7 +255,7 @@ class _FirstScreenState extends State<FirstScreen> {
                         }
                     ),
                   ],
-                  title: Text('Meu consultório online',
+                  title: Text('Consultório online',
                     style: TextStyle(
                         fontFamily: 'quicksand',
                         color: Colors.white
@@ -375,6 +442,7 @@ class _FirstScreenState extends State<FirstScreen> {
                           ],
                         )
                             :
+                        //EX-ASSINANTE PODE VER AS CONSULTAS MARCADAS, MAS SÓ ISSO.
                         appData.isPro == false && presente == true ?
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -639,7 +707,8 @@ class _FirstScreenState extends State<FirstScreen> {
                           ],
                         )
                             :
-                        appData.isPro == true && presente == false ?
+                        //ISSO PERMITE QUE A CONTA SEJA UTILIZADA EM MAIS DE UM DISPOSITIVO SIMULTANEAMENTE
+                        (appData.isPro == true || pro.assinante == true) && presente == false ?
 //                        isPro == true && presente == false ?
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -952,8 +1021,7 @@ class _FirstScreenState extends State<FirstScreen> {
                 toastLength: Toast.LENGTH_SHORT,
                 timeInSecForIosWeb: 5,
               );
-              Navigator.of(context).pop();
-              Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home()));
             },
           ),
         ),
@@ -1194,7 +1262,7 @@ class _FirstScreenState extends State<FirstScreen> {
                 timeInSecForIosWeb: 5,
               );
 //              Navigator.of(context).pop();
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home()));
             },
             leading: Icon(Icons.exit_to_app, size: 20.0, color: Colors.white),
             title: Text("Sair",
@@ -1209,6 +1277,1347 @@ class _FirstScreenState extends State<FirstScreen> {
         ],
       ),
     );
+  }
+
+  Widget widgetPaciente() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+
+    double distancia = AppBar().preferredSize.height + 40;
+
+    return SideMenu(
+      key: _endSideMenuKey,
+      inverse: true,
+      type: SideMenuType.slideNRotate,
+      menu: buildMenuPacientes(context),
+      child: SideMenu(
+        background: Colors.black,
+        key: _sideMenuKey,
+        menu: buildMenuPacientes(context),
+        type: SideMenuType.slideNRotate,
+        child: Scaffold(
+          key: _scaffoldKey,
+          body: Stack(
+            children: <Widget>[
+              Scaffold(
+                extendBodyBehindAppBar: true,
+                backgroundColor: Colors.transparent,
+                appBar: AppBar(
+                  backgroundColor: Color(0x44000000),//Color(0xFF333366)
+                  elevation: 0.0,
+                  centerTitle: true,
+                  leading: IconButton(
+                    icon: Icon(Icons.menu),
+                    onPressed: () {
+                      final _state = _sideMenuKey.currentState;
+                      if (_state.isOpened) {
+                        _state.closeSideMenu();
+                      } else {
+                        _state.openSideMenu();
+                      }
+                    },
+                  ),
+                  title: Text('Consultório online',
+                    style: TextStyle(
+                        fontFamily: 'quicksand',
+                        color: Colors.white
+                    ),
+                  ),
+                ),
+                body: new Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("assets/images/imglogin.jpg"),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: <Widget>[
+                      Container(
+                        height: MediaQuery.of(context).size.height/1,
+                        width: MediaQuery.of(context).size.width/1,
+                        decoration: new BoxDecoration(color: Colors.black.withOpacity(0.0)),
+                        child: new BackdropFilter(
+                          filter: new ui.ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+                          child: new Container(
+                            decoration: new BoxDecoration(color: Colors.transparent.withOpacity(0.1)),
+                          ),
+                        ),
+                      ),
+                      mostrarWidget(selectedIndex, MediaQuery.of(context).size.height - distancia, MediaQuery.of(context).size.width),
+                    ],
+                  ),
+                ),
+                bottomNavigationBar: BottomAppBar(
+                  shape: CircularNotchedRectangle(),
+                  color: Colors.black,
+                  child: Container(
+                    margin: EdgeInsets.only(left: 10.0, right: 10.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        IconButton(
+                          //update the bottom app bar view each time an item is clicked
+                          onPressed: () {
+                            mostrarWidget(0, MediaQuery.of(context).size.height - distancia, MediaQuery.of(context).size.width);
+                          },
+                          iconSize: 27.0,
+                          icon: Icon(
+                            Icons.home,
+                            color: selectedIndex == 0 ? Colors.cyan : Colors.white,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            mostrarWidget(1, MediaQuery.of(context).size.height - distancia, MediaQuery.of(context).size.width);
+                          },
+                          iconSize: 27.0,
+                          icon: Icon(
+                            Icons.account_circle,
+                            color: selectedIndex == 1 ? Colors.cyan : Colors.white,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 20.0,
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            mostrarWidget(2, MediaQuery.of(context).size.height - distancia, MediaQuery.of(context).size.width);
+                          },
+                          iconSize: 27.0,
+                          icon: Icon(
+                            Icons.calendar_today,
+                            color: selectedIndex == 2 ? Colors.cyan : Colors.white,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            signOutGoogle();
+                            Fluttertoast.showToast(
+                              msg:'Logout efetuado com sucesso.',
+                              toastLength: Toast.LENGTH_SHORT,
+                              timeInSecForIosWeb: 5,
+                            );
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home()));
+                          },
+                          iconSize: 27.0,
+                          icon: Icon(
+                            Icons.exit_to_app,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+                floatingActionButton: FloatingActionButton(
+                  backgroundColor: Colors.black,
+                  onPressed: () {
+                    setState(() {
+                      for(int i = 0; i < listaProfissional.length; i++) {
+                        if (equalsIgnoreCase(listaProfissional[i].nome, (pro.nome))) {
+                          Navigator.push(context, MaterialPageRoute(
+                              builder: (context) => Agendar(paciente: pac,
+                                profissional: pro, tipo: widget.tipo)));
+                          return;
+                        } else {
+                          WidgetsBinding.instance.addPostFrameCallback((_) =>
+                              _scaffoldKey.currentState.showSnackBar(
+                                  SnackBar(
+                                    duration: Duration(seconds: 1),
+                                    content: Text('Você deve escolher um profissional',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'quicksand',
+                                        fontSize: MediaQuery
+                                            .of(context)
+                                            .size
+                                            .height / 50,
+                                      ),
+                                    ),
+                                    backgroundColor: Colors.black,
+                                    behavior: SnackBarBehavior.floating,
+                                  )
+                              )
+                          );
+                        }
+                      }
+                    });
+                  },
+                  tooltip: 'Agendar atendimento',
+                  child: Container(
+                    margin: EdgeInsets.all(15.0),
+                    child: Icon(Icons.add),
+                  ),
+                  elevation: 4.0,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildMenuPacientes(BuildContext context) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(vertical: 50.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                pro.imageURL != null ?
+                CircleAvatar(
+                  backgroundImage: NetworkImage(imageUrl),
+                  radius: 45,
+                  backgroundColor: Colors.transparent,
+                )
+                    :
+                CircleAvatar(
+                  child: Text('${pro.nome.substring(0, 1).toUpperCase()}',
+                    style: TextStyle(
+                        fontFamily: 'quicksand',
+                        fontSize: MediaQuery.of(context).size.height/40,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white
+                    ),
+                  ),
+                  radius: 45,
+                  backgroundColor: Colors.black,
+                ),
+                SizedBox(height: 16.0),
+                LText(name != null ? "\l.lead{Bem-vindo(a)},\n\l.lead.bold{$name}" :
+                "\l.lead{Bem-vindo(a)}",
+                  baseStyle: TextStyle(
+                    color: Colors.white,
+                    fontSize: MediaQuery.of(context).size.height/55,
+                    fontFamily: 'quicksand',
+                  ),
+                ),
+                SizedBox(height: 20.0),
+              ],
+            ),
+          ),
+          LListItem(
+            backgroundColor: Colors.transparent,
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => PoliticadePrivacidade()));
+            },
+            leading:
+            Icon(Icons.description, size: 20.0, color: Colors.white),
+            title: Text("Política de privacidade",
+              style: TextStyle(
+                fontSize: MediaQuery.of(context).size.height/55,
+                fontFamily: 'quicksand',
+              ),
+            ),
+            textColor: Colors.white,
+            dense: true,
+          ),
+          SizedBox(height: 10.0),
+          LListItem(
+            backgroundColor: Colors.transparent,
+            onTap: () {
+              signOutGoogle();
+              Fluttertoast.showToast(
+                msg:'Logout efetuado com sucesso.',
+                toastLength: Toast.LENGTH_SHORT,
+                timeInSecForIosWeb: 5,
+              );
+//              Navigator.of(context).pop();
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home()));
+            },
+            leading: Icon(Icons.exit_to_app, size: 20.0, color: Colors.white),
+            title: Text("Sair",
+              style: TextStyle(
+                fontSize: MediaQuery.of(context).size.height/55,
+                fontFamily: 'quicksand',
+              ),
+            ),
+            textColor: Colors.white,
+            dense: true,
+          ),
+        ],
+      ),
+    );
+  }
+
+  bool equalsIgnoreCase(String a, String b) =>
+      (a == null && b == null) || (a != null && b != null && a.toLowerCase() == b.toLowerCase());
+
+
+  Widget mostrarWidget(int index, double altura, double largura) {
+    setState(() {
+      selectedIndex = index;
+    });
+
+    switch(index) {
+      case 0: return mostrarHome();
+      case 1: return mostrarContatos(altura, largura);
+      case 2: return mostrarConsultas(altura, largura);
+    }
+  }
+
+  Widget mostrarHome() {
+
+    double distancia = AppBar().preferredSize.height + 40;
+
+    //Remove profissionais NULL
+    for (int i = 0; i < listaProfissional.length; i++) {
+      if(listaProfissional[i] == null || listaProfissional[i].nome == null) {
+        listaProfissional.removeAt(i);
+      }
+    }
+
+    //Adiciona à listaAreasAtuacao as áreas de atuação dos profissionais cadastrados
+    for (int i = 0; i < listaProfissional.length; i++) {
+      if(listaProfissional[i].areaAtuacao != null) {
+        listaAreasdeAtuacao.add(listaProfissional[i].areaAtuacao);
+      }
+    }
+
+    for(int i = 0; i < listaAreasdeAtuacao.length; i++) {
+      for(int j = i + 1; j < listaAreasdeAtuacao.length; j++) {
+        if (equalsIgnoreCase(listaAreasdeAtuacao[i], listaAreasdeAtuacao[j])) {
+          listaAreasdeAtuacao.removeAt(j);
+        }
+      }
+    }
+
+    for(int i = 0; i < listaAreasdeAtuacao.length; i++) {
+      for(int j = i + 1; j < listaAreasdeAtuacao.length; j++) {
+        if (equalsIgnoreCase(listaAreasdeAtuacao[i], listaAreasdeAtuacao[j])) {
+          listaAreasdeAtuacao.removeAt(j);
+        }
+      }
+    }
+
+    for(int i = 0; i < listaAreasdeAtuacao.length; i++) {
+      for(int j = i + 1; j < listaAreasdeAtuacao.length; j++) {
+        if (equalsIgnoreCase(listaAreasdeAtuacao[i], listaAreasdeAtuacao[j])) {
+          listaAreasdeAtuacao.removeAt(j);
+        }
+      }
+    }
+
+    for(int i = 0; i < listaAreasdeAtuacao.length; i++) {
+      for(int j = i + 1; j < listaAreasdeAtuacao.length; j++) {
+        if (equalsIgnoreCase(listaAreasdeAtuacao[i], listaAreasdeAtuacao[j])) {
+          listaAreasdeAtuacao.removeAt(j);
+        }
+      }
+    }
+
+    for(int i = 0; i < listaAreasdeAtuacao.length; i++) {
+      for(int j = i + 1; j < listaAreasdeAtuacao.length; j++) {
+        if (equalsIgnoreCase(listaAreasdeAtuacao[i], listaAreasdeAtuacao[j])) {
+          listaAreasdeAtuacao.removeAt(j);
+        }
+      }
+    }
+
+    listaAreasdeAtuacao.sort((a, b) => (a.compareTo(b)));
+
+    return Container(
+      height: MediaQuery.of(context).size.height/1.8,
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            SizedBox(
+              height: distancia,
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width / 1.2,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(50)),
+                      border: Border.all(color: Colors.transparent),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black54,
+                            blurRadius: 15
+                        )
+                      ]
+                  ),
+                  child: Padding(
+                      padding: EdgeInsets.only(left: 20, right: 20),
+                      child: DropdownButton<String>(
+                        autofocus: true,
+                        value: area,
+                        icon: Icon(Icons.arrow_drop_down_circle,
+                            color: Colors.black),
+                        iconSize: 20,
+                        elevation: 16,
+                        isExpanded: true,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: 'quicksand',
+                        ),
+                        underline: Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 2,
+                            color: Colors.black
+                        ),
+                        onChanged: (String newValue) {
+                          setState(() {
+                            area = newValue;
+                            _dialogProfissionais(context, area);
+//                            Navigator.pushReplacement(context, MaterialPageRoute(
+//                                builder: (BuildContext context) => super.widget));
+                          });
+                        },
+                        items: listaAreasdeAtuacao.map((data) {
+                          return DropdownMenuItem<String>(
+                            child: new Text(data ?? ''),
+                            value: data,
+                          );
+                        }).toList(),
+                        hint: new Text("Escolha a área profissional",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontFamily: 'quicksand',
+                          ),
+                        ),
+                      )
+                  ),
+                ),
+                SizedBox(
+                  height: 20.0,
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                pro != null ?
+                Column(
+                  children: [
+                    pro.imageURL != null ?
+                    CircleAvatar(
+                      radius: 45.0,
+                      backgroundImage:
+                      NetworkImage(pro.imageURL),
+                      backgroundColor: Colors.transparent,
+                    )
+                        :
+                    CircleAvatar(
+                      radius: 45.0,
+                      backgroundColor: Colors.black,
+                      child: Text('${pro.nome.substring(0, 1).toUpperCase()}',
+                        style: TextStyle(
+                            fontFamily: 'quicksand',
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    Text('${pro.nome}',
+                      style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.height/40,
+                          fontFamily: 'quicksand',
+                          color: Colors.white,
+                          shadows: [
+                            Shadow( // bottomLeft
+                                offset: Offset(-0.5, -0.5),
+                                color: Colors.black
+                            ),
+                            Shadow( // bottomRight
+                                offset: Offset(0.5, -0.5),
+                                color: Colors.black
+                            ),
+                            Shadow( // topRight
+                                offset: Offset(0.5, 0.5),
+                                color: Colors.black
+                            ),
+                            Shadow( // topLeft
+                                offset: Offset(-0.5, 0.5),
+                                color: Colors.black
+                            ),
+                          ]
+                      ),
+                    ),
+                    Text('${pro.areaAtuacao}',
+                      style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.height/40,
+                          fontFamily: 'quicksand',
+                          color: Colors.white,
+                          shadows: [
+                            Shadow( // bottomLeft
+                                offset: Offset(-0.5, -0.5),
+                                color: Colors.black
+                            ),
+                            Shadow( // bottomRight
+                                offset: Offset(0.5, -0.5),
+                                color: Colors.black
+                            ),
+                            Shadow( // topRight
+                                offset: Offset(0.5, 0.5),
+                                color: Colors.black
+                            ),
+                            Shadow( // topLeft
+                                offset: Offset(-0.5, 0.5),
+                                color: Colors.black
+                            ),
+                          ]
+                      ),
+                    ),
+                    Text('${pro.num_conselho}',
+                      style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.height/40,
+                          fontFamily: 'quicksand',
+                          color: Colors.white,
+                          shadows: [
+                            Shadow( // bottomLeft
+                                offset: Offset(-0.5, -0.5),
+                                color: Colors.black
+                            ),
+                            Shadow( // bottomRight
+                                offset: Offset(0.5, -0.5),
+                                color: Colors.black
+                            ),
+                            Shadow( // topRight
+                                offset: Offset(0.5, 0.5),
+                                color: Colors.black
+                            ),
+                            Shadow( // topLeft
+                                offset: Offset(-0.5, 0.5),
+                                color: Colors.black
+                            ),
+                          ]
+                      ),
+                    ),
+                  ],
+                )
+                    :
+                Container(),
+                /*Container(
+                  width: MediaQuery.of(context).size.width / 1.2,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(50)),
+                      border: Border.all(color: Colors.transparent),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(color: Colors.black54, blurRadius: 15)
+                      ]),
+                  child: Padding(
+                      padding: EdgeInsets.only(left: 20, right: 20),
+                      child: DropdownButton<String>(
+                        autofocus: true,
+                        value: profissional,
+                        icon: Icon(Icons.arrow_drop_down_circle,
+                            color: Colors.black),
+                        iconSize: 20,
+                        elevation: 16,
+                        isExpanded: true,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: 'quicksand',
+                        ),
+                        underline: Container(
+                            width: double.infinity,
+                            height: 2,
+                            color: Colors.black
+                        ),
+                        onChanged: (String newValue) {
+                          setState(() {
+                            profissional = newValue;
+                            for(int i = 0; i < listaProfissionais.length; i++) {
+                              if(equalsIgnoreCase(profissional, listaProfissionais[i].nome)) {
+                                urlImg = listaProfissionais[i].imageURL;
+                                pro = listaProfissionais[i];
+                                receberImg(urlImg);
+                                dbReferencePacientes = db.reference().child('atendimentos/${pro.usuario}/pacientes');
+                                dbReferencePacientes.onChildAdded.listen(_gravar);
+                                dbReferencePacientes.onChildChanged.listen(_update);
+                                dbReferencePacientes.once().then((DataSnapshot snapshot) {
+                                  Map<dynamic, dynamic> values = snapshot.value;
+                                  Paciente paciente = new Paciente(values['nome'], values['telefone'],
+                                      values['email'], values['data'], values['hora'], values['anotacao'],
+                                      values['confirmado']);
+                                  if(paciente.nome != null && (equalsIgnoreCase(paciente.nome, pac.nome))
+                                      && (equalsIgnoreCase(paciente.email, pac.email))) {
+                                    listaPacientes.add(paciente);
+                                  }
+                                });
+                                return;
+                              }
+                            }
+                            profissional = null;
+                            area = null;
+                            for(int i = 0; i < listaNomesProfissionais.length; i++) {
+                              listaNomesProfissionais.removeAt(i);
+                            }
+                          });
+                        },
+                        items: listaNomesProfissionais.map((data) {
+                          return DropdownMenuItem<String>(
+                            onTap: () {
+                              setState(() {
+                                for(int i = 0; i < listaNomesProfissionais.length; i++) {
+                                  listaNomesProfissionais.removeAt(i);
+                                }
+                              });
+                            },
+                            child: new Text(data ?? ''),
+                            value: data,
+                          );
+                        }).toList(),
+                        hint: new Text("Escolha o profissional",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontFamily: 'quicksand',
+                            //fontWeight: FontWeight.bold
+                          ),
+                        ),
+                      )
+                  ),
+                ),*/
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _dialogProfissionais(BuildContext context, String area) async {
+
+    for (int i = 0; i < listaNomesProfissionais.length; i++) {
+      listaNomesProfissionais.removeAt(i);
+    }
+
+    for (int i = 0; i < listaProfissional.length; i++) {
+      if((equalsIgnoreCase(area, listaProfissional[i].areaAtuacao)) == true) {
+        listaNomesProfissionais.add(listaProfissional[i].nome);
+      }
+    }
+
+    for (int i = 0; i < listaNomesProfissionais.length; i++) {
+      for (int j = i + 1; j < listaNomesProfissionais.length; j++) {
+        if ((equalsIgnoreCase(listaNomesProfissionais[i],
+            listaNomesProfissionais[j])) == true) {
+          listaNomesProfissionais.removeAt(j);
+        }
+      }
+    }
+
+    for (int i = 0; i < listaNomesProfissionais.length; i++) {
+      for (int j = i + 1; j < listaNomesProfissionais.length; j++) {
+        if ((equalsIgnoreCase(listaNomesProfissionais[i], listaNomesProfissionais[j])) == true) {
+          listaNomesProfissionais.removeAt(j);
+        }
+      }
+    }
+
+    await showDialog<String>(
+        context: context,
+        builder: (BuildContext context) {
+          return StatefulBuilder(
+            builder: (context, setState)
+            {
+              return AlertDialog(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                contentPadding: EdgeInsets.all(6.0),
+                content: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      InkWell(
+                        child: Text(
+                          "Profissionais cadastrados",
+                          style: TextStyle(
+                              color: Colors.red,
+                              fontSize: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .height / 50,
+                              fontFamily: 'quicksand'
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      Divider(
+                        color: Colors.black,
+                        height: 1.0,
+                      ),
+                      Container(
+                        height: MediaQuery
+                            .of(context)
+                            .size
+                            .height / 4,
+                        width: MediaQuery
+                            .of(context)
+                            .size
+                            .width,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: listaNomesProfissionais.length,
+                          itemBuilder: (BuildContext context, int posicao) {
+                            return pro.nome != listaNomesProfissionais[posicao] ?
+                            ListTile(
+                                title: FlatButton(
+                                  color: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                      side: BorderSide(
+                                          color: Colors.black,
+                                          width: 1,
+                                          style: BorderStyle.solid
+                                      ),
+                                      borderRadius: BorderRadius.circular(10)
+                                  ),
+                                  child: ListTile(
+                                    title: Text(
+                                      '${listaNomesProfissionais[posicao]}',
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontFamily: 'quicksand'
+                                      ),
+                                    ),
+                                    leading: Wrap(
+                                      spacing: 12, // space between two icons
+                                      children: <Widget>[
+                                        Icon(Icons.done_all,
+                                            color:Colors.transparent), // icon-2
+                                      ],
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      for(int i = 0; i < listaProfissional.length; i++) {
+                                        if(equalsIgnoreCase(listaProfissional[i].nome, listaNomesProfissionais[posicao])) {
+                                          pro = listaProfissional[i];
+                                          mudarPro(listaProfissional[i]);
+                                          break;
+                                        }
+                                      }
+                                    });
+                                  },
+                                )
+                            )
+                                :
+                            ListTile(
+                                title: FlatButton(
+                                  color: Colors.black,
+                                  shape: RoundedRectangleBorder(
+                                      side: BorderSide(
+                                          color: Colors.black,
+                                          width: 1,
+                                          style: BorderStyle.solid
+                                      ),
+                                      borderRadius: BorderRadius.circular(10)
+                                  ),
+                                  child: ListTile(
+                                    title: Text(
+                                      '${listaNomesProfissionais[posicao]}',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: 'quicksand'
+                                      ),
+                                    ),
+                                    leading: Wrap(
+                                      spacing: 12, // space between two icons
+                                      children: <Widget>[
+                                        Icon(Icons.done_all,
+                                            color:Colors.green), // icon-2
+                                      ],
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      for (int i = 0; i < listaProfissional.length; i++) {
+                                        if (equalsIgnoreCase(listaNomesProfissionais[posicao],
+                                            listaProfissional[i].nome)) {
+                                          mudarPro(listaProfissional[i]);
+                                          break;
+                                        }
+                                      }
+                                      WidgetsBinding.instance
+                                          .addPostFrameCallback((_) =>
+                                          _scaffoldKey.currentState.showSnackBar(
+                                              SnackBar(
+                                                duration: Duration(seconds: 1),
+                                                content: Text(
+                                                  'Selecionou ${listaNomesProfissionais[posicao]}',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontFamily: 'quicksand',
+                                                    fontSize: MediaQuery
+                                                        .of(context)
+                                                        .size
+                                                        .height / 50,
+                                                  ),
+                                                ),
+                                                backgroundColor: Colors.black,
+                                                behavior: SnackBarBehavior
+                                                    .floating,
+                                              )
+                                          )
+                                      );
+//                                      Navigator.of(context).pop();
+                                    });
+                                  },
+                                )
+                            );
+                          },
+                        ),
+                      ),
+                      Divider(
+                        color: Colors.black,
+                        height: 1.0,
+                      ),
+                      FlatButton(
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                color: Colors.black,
+                                width: 1,
+                                style: BorderStyle.solid
+                            ),
+                            borderRadius: BorderRadius.circular(10)
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            Navigator.of(context).pop();
+                          });
+                        },
+                        color: Colors.black,
+                        child: Text('OK',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'quicksand'
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
+        });
+  }
+
+  Future<void> mudarPro(Profissional profissional) async {
+    setState(() {
+      print('entrou no mudarPro');
+      pro = profissional;
+
+      for(int i = 0; i < listaPacientes.length; i++) {
+        listaPacientes.removeAt(i);
+      }
+
+      dbPacientes = db.reference().child('atendimentos/${pro.usuario}/pacientes');
+      dbPacientes.onChildAdded.listen(_gravar);
+      dbPacientes.onChildChanged.listen(_update);
+      dbPacientes.once().then((DataSnapshot snapshot) {
+        Map<dynamic, dynamic> values = snapshot.value;
+        Paciente paciente = new Paciente(
+            values['nome'], values['telefone'], values['email'], values['imageURL'],
+            values['data'], values['hora'], values['anotacao'], values['confirmado'],
+            values['objetivo'], values['vegetariano'], values['bebidaAlcoolica'],
+            values['fumante'], values['sedentario'], values['patologia'],
+            values['nomePatologia'], values['medicamentos'], values['nomeMedicamentos'],
+            values['alergia'], values['nomeAlergia'], values['sexo'], values['estadoCivil']
+        );
+        if((equalsIgnoreCase(paciente.nome, pac.nome)) &&
+            (equalsIgnoreCase(paciente.email, pac.email))) {
+          listaConsultas.add(paciente);
+        }
+      });
+    });
+  }
+
+  Widget mostrarConsultas(double altura, largura) {
+
+    for(int i = 0; i < listaPacientes.length; i++) {
+      if(!(equalsIgnoreCase(listaPacientes[i].nome, pac.nome))) {
+        listaPacientes.removeAt(i);
+      }
+    }
+
+    for(int i = 0; i < listaPacientes.length; i++) {
+      if(!(equalsIgnoreCase(listaPacientes[i].nome, pac.nome))) {
+        listaPacientes.removeAt(i);
+      }
+    }
+
+    for(int i = 0; i < listaPacientes.length; i++) {
+      for (int j = i + 1; j < listaPacientes.length; j++) {
+        if ((equalsIgnoreCase(listaPacientes[i].nome, listaPacientes[j].nome))
+            &&
+            (equalsIgnoreCase(listaPacientes[i].data, listaPacientes[j].data))
+            && (equalsIgnoreCase(
+                listaPacientes[i].hora, listaPacientes[j].hora))) {
+          listaPacientes.removeAt(j);
+        }
+      }
+    }
+
+    for(int i = 0; i < listaPacientes.length; i++) {
+      for (int j = i + 1; j < listaPacientes.length; j++) {
+        if ((equalsIgnoreCase(listaPacientes[i].nome, listaPacientes[j].nome))
+            &&
+            (equalsIgnoreCase(listaPacientes[i].data, listaPacientes[j].data))
+            && (equalsIgnoreCase(
+                listaPacientes[i].hora, listaPacientes[j].hora))) {
+          listaPacientes.removeAt(j);
+        }
+      }
+    }
+
+    for(int i = 0; i < listaPacientes.length; i++) {
+      for (int j = i + 1; j < listaPacientes.length; j++) {
+        if ((equalsIgnoreCase(listaPacientes[i].nome, listaPacientes[j].nome))
+            &&
+            (equalsIgnoreCase(listaPacientes[i].data, listaPacientes[j].data))
+            && (equalsIgnoreCase(
+                listaPacientes[i].hora, listaPacientes[j].hora))) {
+          listaPacientes.removeAt(j);
+        }
+      }
+    }
+
+    double distancia = AppBar().preferredSize.height + 20;
+    listaPacientes.sort((a, b) => (((converterData(a.data)).compareTo(converterData(b.data)))));
+
+    return listaPacientes.isEmpty ?
+    Container(
+      width: largura,
+      height: altura,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: distancia,
+          ),
+          Text('\nNenhuma consulta marcada',
+            style: TextStyle(
+                inherit: false,
+                fontSize: MediaQuery.of(context).size.height/45,
+                fontFamily: 'quicksand',
+                color: Colors.white,
+                shadows: [
+                  Shadow( // bottomLeft
+                      offset: Offset(-0.5, -0.5),
+                      color: Colors.black
+                  ),
+                  Shadow( // bottomRight
+                      offset: Offset(0.5, -0.5),
+                      color: Colors.black
+                  ),
+                  Shadow( // topRight
+                      offset: Offset(0.5, 0.5),
+                      color: Colors.black
+                  ),
+                  Shadow( // topLeft
+                      offset: Offset(-0.5, 0.5),
+                      color: Colors.black
+                  ),
+                ]
+            ),
+          ),
+          Lottie.asset(
+            'assets/images/sad.json',
+            animate: true,
+            repeat: true,
+            reverse: true,
+            width: 200,
+            height: 200,
+            fit: BoxFit.fill,
+          ),
+        ],
+      ),
+    )
+        :
+    SizedBox(
+        width: largura,
+        height: altura,
+        child: ListView.builder(
+            scrollDirection: Axis.vertical,
+            itemCount: listaPacientes.length,
+            itemBuilder: (BuildContext context, int posicao) {
+              return Card(
+                shadowColor: Color(0xFFd6d0c1),
+                elevation: 0.1,
+                color: Colors.transparent,
+                margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  side: BorderSide(width: 0.5, color: new Color(0x00000000)),
+                ),
+                child: ListTile(
+                  onTap: () {},
+                  leading: listaPacientes[posicao].imageURL != null ?
+                  CircleAvatar(
+                    backgroundImage: NetworkImage(listaPacientes[posicao].imageURL),
+                  )
+                      :
+                  CircleAvatar(
+                      child: Text(
+                        '${listaPacientes[posicao].nome.substring(0, 1).toUpperCase()}',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'quicksand',
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      backgroundColor: Colors.black
+                  ),
+                  title: Text(
+                    '${listaPacientes[posicao].nome}',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'quicksand',
+                      fontWeight: FontWeight.w300,
+                    ),
+                  ),
+                  subtitle: Text(
+                    '${listaPacientes[posicao].data} às ${listaPacientes[posicao].hora}',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'quicksand',
+                      fontWeight: FontWeight.w100,
+                    ),
+                  ),
+                ),
+              );
+            })
+    );
+  }
+
+  Widget mostrarContatos(double altura, double largura) {
+    double distancia = AppBar().preferredSize.height + 40;
+    return pro.nome.isEmpty ?
+    Container(
+      width: largura/1.5,
+      height: altura,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: distancia,
+          ),
+          Text('\nNão esqueça de selecionar um profissional',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                inherit: false,
+                fontSize: MediaQuery.of(context).size.height/45,
+                fontFamily: 'quicksand',
+                color: Colors.white,
+                shadows: [
+                  Shadow( // bottomLeft
+                      offset: Offset(-0.5, -0.5),
+                      color: Colors.black
+                  ),
+                  Shadow( // bottomRight
+                      offset: Offset(0.5, -0.5),
+                      color: Colors.black
+                  ),
+                  Shadow( // topRight
+                      offset: Offset(0.5, 0.5),
+                      color: Colors.black
+                  ),
+                  Shadow( // topLeft
+                      offset: Offset(-0.5, 0.5),
+                      color: Colors.black
+                  ),
+                ]
+            ),
+          ),
+          Lottie.asset(
+              'assets/images/esqueceu.json',
+              fit: BoxFit.cover),
+        ],
+      ),
+    )
+        :
+    Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: distancia,
+          ),
+          pro.imageURL != null ?
+          CircleAvatar(
+            radius: 45.0,
+            backgroundImage:
+            NetworkImage(pro.imageURL),
+            backgroundColor: Colors.transparent,
+          )
+              :
+          CircleAvatar(
+            radius: 45.0,
+            backgroundColor: Colors.black,
+            child: Text('${pro.nome.substring(0, 1).toUpperCase()}',
+              style: TextStyle(
+                  fontFamily: 'quicksand',
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          ListTile(
+            leading: CircleAvatar(
+              radius: 20,
+              backgroundImage: AssetImage('assets/images/facebook.png'),
+              backgroundColor: Colors.transparent,
+            ),
+            onTap: () {
+              setState(() async {
+                /*var url = '${pro.facebook}';
+                if (await canLaunch(url)) {
+                  await launch(url, universalLinksOnly: true);
+                } else {
+                  if (await canLaunch(url)) {
+                    await launch(
+                      url,
+                      universalLinksOnly: false,
+                    );
+                  } else {
+                    throw 'Houve um erro';
+                  }
+                }*/
+                String fbProtocolUrl;
+                if (Platform.isIOS) {
+                  if(pro.facebook == 'https://www.facebook.com/') {
+                    WidgetsBinding.instance.addPostFrameCallback((_) =>
+                        _scaffoldKey.currentState.showSnackBar(
+                            SnackBar(
+                              duration: Duration(seconds: 1),
+                              content: Text('O profissional não cadastrou seu facebook.',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'quicksand',
+                                  fontSize: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .height / 50,
+                                ),
+                              ),
+                              backgroundColor: Colors.black,
+                              behavior: SnackBarBehavior.floating,
+                            )
+                        )
+                    );
+                  } else {
+                    fbProtocolUrl = 'fb://profile/${pro.facebook}';
+                  }
+                } else {
+                  if(pro.facebook == 'https://www.facebook.com/') {
+                    WidgetsBinding.instance.addPostFrameCallback((_) =>
+                        _scaffoldKey.currentState.showSnackBar(
+                            SnackBar(
+                              duration: Duration(seconds: 1),
+                              content: Text('O profissional não cadastrou seu facebook.',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'quicksand',
+                                  fontSize: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .height / 50,
+                                ),
+                              ),
+                              backgroundColor: Colors.black,
+                              behavior: SnackBarBehavior.floating,
+                            )
+                        )
+                    );
+                  } else {
+                    fbProtocolUrl = 'fb://page/${pro.facebook}';
+                  }
+                }
+
+                String fallbackUrl = '${pro.facebook}';
+                try {
+                  bool launched = await launch(fbProtocolUrl, forceWebView: true, forceSafariVC: false);
+
+                  if (!launched) {
+                    await launch(fallbackUrl, forceSafariVC: false);
+                  }
+                } catch (e) {
+                  await launch(fallbackUrl, forceSafariVC: false);
+                }
+              });
+            },
+            title: Text(
+              'Facebook',
+              style: TextStyle(
+                fontSize: MediaQuery.of(context).size.height/45,
+                fontFamily: 'quicksand',
+                  color: Colors.white,
+                  shadows: [
+                    Shadow( // bottomLeft
+                        offset: Offset(-0.5, -0.5),
+                        color: Colors.black
+                    ),
+                    Shadow( // bottomRight
+                        offset: Offset(0.5, -0.5),
+                        color: Colors.black
+                    ),
+                    Shadow( // topRight
+                        offset: Offset(0.5, 0.5),
+                        color: Colors.black
+                    ),
+                    Shadow( // topLeft
+                        offset: Offset(-0.5, 0.5),
+                        color: Colors.black
+                    ),
+                  ]
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          ListTile(
+            leading: CircleAvatar(
+              radius: 20,
+              backgroundImage: AssetImage('assets/images/instagram.png'),
+              backgroundColor: Colors.transparent,
+            ),
+            onTap: () {
+              setState(() async {
+                String url;
+                if(pro.instagram == 'https://www.instagram.com/') {
+                  WidgetsBinding.instance.addPostFrameCallback((_) =>
+                      _scaffoldKey.currentState.showSnackBar(
+                          SnackBar(
+                            duration: Duration(seconds: 1),
+                            content: Text('O profissional não cadastrou seu instagram.',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'quicksand',
+                                fontSize: MediaQuery
+                                    .of(context)
+                                    .size
+                                    .height / 50,
+                              ),
+                            ),
+                            backgroundColor: Colors.black,
+                            behavior: SnackBarBehavior.floating,
+                          )
+                      )
+                  );
+                } else {
+                  url = '${pro.instagram}';
+                  if (await canLaunch(url)) {
+                    await launch(url, universalLinksOnly: true);
+                  } else {
+                    if (await canLaunch(url)) {
+                      await launch(
+                        url,
+                        universalLinksOnly: false,
+                      );
+                    } else {
+                      throw 'Houve um erro';
+                    }
+                  }
+                }
+              });
+            },
+            title: Text(
+              'Instagram',
+              style: TextStyle(
+                fontSize: MediaQuery.of(context).size.height/45,
+                fontFamily: 'quicksand',
+                  color: Colors.white,
+                  shadows: [
+                    Shadow( // bottomLeft
+                        offset: Offset(-0.5, -0.5),
+                        color: Colors.black
+                    ),
+                    Shadow( // bottomRight
+                        offset: Offset(0.5, -0.5),
+                        color: Colors.black
+                    ),
+                    Shadow( // topRight
+                        offset: Offset(0.5, 0.5),
+                        color: Colors.black
+                    ),
+                    Shadow( // topLeft
+                        offset: Offset(-0.5, 0.5),
+                        color: Colors.black
+                    ),
+                  ]
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          ListTile(
+            leading: CircleAvatar(
+              radius: 20,
+              backgroundImage: AssetImage('assets/images/whatsapp.png'),
+              backgroundColor: Colors.transparent,
+            ),
+            onTap: () {
+              String phone = '${pro.telefone}';
+              String message = 'Olá, ${pro.nome}, entro em contato por meio do app \'Clínica online\'. Podemos conversar?';
+              launchWhatsApp(phone: phone, message: message);
+            },
+            title: Text(
+              'WhatsApp',
+              style: TextStyle(
+                fontSize: MediaQuery.of(context).size.height/45,
+                fontFamily: 'quicksand',
+                  color: Colors.white,
+                  shadows: [
+                    Shadow( // bottomLeft
+                        offset: Offset(-0.5, -0.5),
+                        color: Colors.black
+                    ),
+                    Shadow( // bottomRight
+                        offset: Offset(0.5, -0.5),
+                        color: Colors.black
+                    ),
+                    Shadow( // topRight
+                        offset: Offset(0.5, 0.5),
+                        color: Colors.black
+                    ),
+                    Shadow( // topLeft
+                        offset: Offset(-0.5, 0.5),
+                        color: Colors.black
+                    ),
+                  ]
+              ),
+            ),
+          ),
+        ],
+      );
   }
 
   void _gravarProfissional(Event event) {
@@ -1242,42 +2651,6 @@ class _FirstScreenState extends State<FirstScreen> {
     setState(() {
       listaPacientes[listaPacientes.indexOf(oldEntry)] =
           Paciente.fromSnapshot(event.snapshot);
-    });
-  }
-
-  void carregarInfos() {
-    dbProfissional = db2.reference().child('atendimentos');
-    dbProfissional.onChildAdded.listen(_gravarProfissional);
-    dbProfissional.onChildChanged.listen(_updateProfissional);
-    dbProfissional.once().then((DataSnapshot snapshot) {
-      Map<dynamic, dynamic> values = snapshot.value;
-      Profissional prof = new Profissional(values['nome'], values['telefone'],
-          values['email'], values['areaAtuacao'], values['usuario'],
-          values['imageURL'], values['facebook'], values['instagram'],
-          values['num_conselho'], snapshot.value['domingo'], snapshot.value['segunda'],
-          snapshot.value['terca'], snapshot.value['quarta'], snapshot.value['quinta'],
-          snapshot.value['sexta'], snapshot.value['sabado'], values['horarios'], values['assinante']);
-      if(prof.nome != null) {
-        listaProfissional.add(prof);
-      }
-    });
-
-    dbPacientes = db.reference().child('atendimentos/${profissional.usuario}/pacientes');
-    dbPacientes.onChildAdded.listen(_gravar);
-    dbPacientes.onChildChanged.listen(_update);
-    dbPacientes.once().then((DataSnapshot snapshot) {
-      Map<dynamic, dynamic> values = snapshot.value;
-      Paciente paciente = new Paciente(
-          values['nome'], values['telefone'], values['email'], values['imageURL'],
-          values['data'], values['hora'], values['anotacao'], values['confirmado'],
-          values['objetivo'], values['vegetariano'], values['bebidaAlcoolica'],
-          values['fumante'], values['sedentario'], values['patologia'],
-          values['nomePatologia'], values['medicamentos'], values['nomeMedicamentos'],
-          values['alergia'], values['nomeAlergia'], values['sexo'], values['estadoCivil']
-      );
-      if(paciente.nome != null) {
-        listaPacientes.add(paciente);
-      }
     });
   }
 
@@ -1353,10 +2726,6 @@ class _FirstScreenState extends State<FirstScreen> {
         description: 'Consulta com ${profissional.nome} no dia ${dataInicial.day}/${dataInicial.month}/${dataInicial.year} às $hora:$minuto',
         start: _startDate, end: _endDate);
 
-    /*setState(() {
-      = event;
-    });*/
-
     if (event == null) {
       event = calendar.Event(calendario.id, title: 'Consulta de ${paciente.nome}',
           description: 'Consulta de ${paciente.nome} no dia ${dataInicial.day}/${dataInicial.month}/${dataInicial.year} às $hora:$minuto',
@@ -1396,9 +2765,74 @@ class _FirstScreenState extends State<FirstScreen> {
     });
   }
 
+  void atualizarProfissional(Profissional profissional) {
+    dbProfissional.child(profissional.primaryKey).update({
+      "nome" : profissional.nome,
+      "telefone" : profissional.telefone,
+      "email" : profissional.email,
+      "areaAtuacao" : profissional.areaAtuacao,
+      "usuario" : profissional.usuario,
+      "imageURL" : profissional.imageURL,
+      "facebook" : profissional.facebook,
+      "instagram" : profissional.instagram,
+      "num_conselho" : profissional.num_conselho,
+      "domingo" : profissional.domingo,
+      "segunda" : profissional.segunda,
+      "terca" : profissional.terca,
+      "quarta" : profissional.quarta,
+      "quinta" : profissional.quinta,
+      "sexta" : profissional.sexta,
+      "sabado" : profissional.sabado,
+      "horarios" : profissional.horarios,
+      "assinante" : profissional.assinante
+    }).then((_) {
+      //print('Transaction  committed.');
+    });
+    Navigator.of(context).pop();
+  }
+
   DateTime converterData(String strDate){
     DateTime data = dateFormat.parse(strDate);
     return data;
+  }
+
+  void remover(String id, int index, Paciente paciente) {
+    setState(() {
+      listaPacientes.removeAt(index);
+      dbPacientes.child(id).remove().then((_) {
+      });
+    });
+  }
+
+  void launchWhatsApp({@required String phone, @required String message}) async {
+    String url() {
+      if (Platform.isIOS) {
+        return "whatsapp://wa.me/$phone/?text=${Uri.parse(message)}";
+      } else if (Platform.isAndroid){
+        return "whatsapp://send?phone=$phone&text=${Uri.parse(message)}";
+      } else {
+        setState(() async {
+          var url = 'https://wa.me/$phone?text=$message';
+          if (await canLaunch(url)) {
+            await launch(
+              url,
+              universalLinksOnly: false,
+            );
+          } else {
+            launch("sms://${phone}");
+            throw 'Houve um erro';
+          }
+          //Navigator.of(context).pop();
+        });
+        return "";
+      }
+    }
+
+    if (await canLaunch(url())) {
+      await launch(url());
+    } else {
+      launch("sms://${phone}");
+    }
   }
 
   void _showDialog(BuildContext context, Paciente paciente, int posicao) async {
@@ -1503,14 +2937,6 @@ class _FirstScreenState extends State<FirstScreen> {
             ),
           );
         });
-  }
-
-  void remover(String id, int index, Paciente paciente) {
-    setState(() {
-      listaPacientes.removeAt(index);
-      dbPacientes.child(id).remove().then((_) {
-      });
-    });
   }
 
   void dialogBusca(BuildContext context) async {
@@ -1649,36 +3075,5 @@ class _FirstScreenState extends State<FirstScreen> {
           );
         }
     );
-  }
-
-  void launchWhatsApp({@required String phone, @required String message}) async {
-    String url() {
-      if (Platform.isIOS) {
-        return "whatsapp://wa.me/$phone/?text=${Uri.parse(message)}";
-      } else if (Platform.isAndroid){
-        return "whatsapp://send?phone=$phone&text=${Uri.parse(message)}";
-      } else {
-        setState(() async {
-          var url = 'https://wa.me/$phone?text=$message';
-          if (await canLaunch(url)) {
-            await launch(
-              url,
-              universalLinksOnly: false,
-            );
-          } else {
-            launch("sms://${phone}");
-            throw 'Houve um erro';
-          }
-          //Navigator.of(context).pop();
-        });
-        return "";
-      }
-    }
-
-    if (await canLaunch(url())) {
-      await launch(url());
-    } else {
-      launch("sms://${phone}");
-    }
   }
 }

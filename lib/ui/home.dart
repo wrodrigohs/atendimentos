@@ -1,30 +1,18 @@
-import 'dart:io';
 import 'dart:ui' as ui;
 
-import 'package:apple_sign_in/apple_sign_in.dart' as apple;
 import 'package:atendimentos/services/applesigninavailable.dart';
-import 'package:atendimentos/ui/firstscreen.dart';
-import 'package:atendimentos/services/sign_in.dart';
-import 'package:atendimentos/services/auth_service.dart';
+import 'package:atendimentos/ui/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-class LoginPage extends StatefulWidget {
-  String tipo;
-
-  LoginPage({Key key, this.tipo}) : super(key: key);
+class Home extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _HomeState createState() => _HomeState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  bool _obscureText = true;
+class _HomeState extends State<Home> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
@@ -39,9 +27,6 @@ class _LoginPageState extends State<LoginPage> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-
-    final appleSignInAvailable =
-    Provider.of<AppleSignInAvailable>(context, listen: false);
 
     double distancia = AppBar().preferredSize.height + 10;
 
@@ -110,7 +95,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ],
             ),
-              /*child: Container(
+            /*child: Container(
                 width: MediaQuery.of(context).size.width / 1.2,
                 height: MediaQuery.of(context).size.height / 2,
                 decoration: BoxDecoration(
@@ -124,12 +109,12 @@ class _LoginPageState extends State<LoginPage> {
                       )
                     ]
                 ),*/
-              Padding(
-                padding: const EdgeInsets.all(12),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    /*Form(
+            Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  /*Form(
                         key: _formKey,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -359,102 +344,107 @@ class _LoginPageState extends State<LoginPage> {
                             SizedBox(
                               height: MediaQuery.of(context).size.height/100,
                             ),*/
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: _signInButton(),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child:
                     Container(
                         width: MediaQuery.of(context).size.width/2,
-                        child: (appleSignInAvailable.isAvailable) ?
-                        apple.AppleSignInButton(
-                          cornerRadius: 40,
-                          type: apple.ButtonType.signIn,
-                          style: apple.ButtonStyle.whiteOutline,
+                        child: FlatButton(
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                  color: Colors.black,
+                                  width: 1,
+                                  style: BorderStyle.solid
+                              ),
+                              borderRadius: BorderRadius.circular(40)
+                          ),
                           onPressed: () {
-                            _signInWithApple(context);
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage(tipo: 'paciente')));
                           },
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                            child: Container(
+                              color: Colors.white,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Image(image: AssetImage("assets/images/people.png"), height: MediaQuery.of(context).size.height/55),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 3),
+                                    child: Text(
+                                      'Paciente',
+                                      style: TextStyle(
+                                        fontSize: MediaQuery.of(context).size.height/55,
+                                        fontFamily: 'quicksand',
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
                         )
-                            : Container()
                     ),
-                    SizedBox(
-                      height: distancia - 10,
-                    ),
-                  ],
-                ),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                      width: MediaQuery.of(context).size.width/2,
+                      child: FlatButton(
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                color: Colors.black,
+                                width: 1,
+                                style: BorderStyle.solid
+                            ),
+                            borderRadius: BorderRadius.circular(40)
+                        ),
+                        onPressed: () {
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage(tipo: 'profissional')));
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                          child: Container(
+                            color: Colors.white,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Image(image: AssetImage("assets/images/nurse.png"), height: MediaQuery.of(context).size.height/55),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 3),
+                                  child: Text(
+                                    'Profissional',
+                                    style: TextStyle(
+                                      fontSize: MediaQuery.of(context).size.height/55,
+                                      fontFamily: 'quicksand',
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      )
+                  ),
+                  SizedBox(
+                    height: distancia - 10,
+                  ),
+                ],
               ),
+            ),
           ],
         ),
       ),
     );
-  }
-
-  Widget _signInButton() {
-    return FlatButton(
-      color: Colors.white,
-      shape: RoundedRectangleBorder(
-          side: BorderSide(
-              color: Colors.black,
-              width: 1,
-              style: BorderStyle.solid
-          ),
-          borderRadius: BorderRadius.circular(40)
-      ),
-      onPressed: () {
-        signInWithGoogle().then((result) {
-          if (result != null) {
-            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                FirstScreen(tipo: widget.tipo)), (Route<dynamic> route) => false);
-            /*Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(
-                builder: (context) {
-                  return FirstScreen();
-                },
-              ),
-            );*/
-          }
-        });
-      },
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-        child: Container(
-          color: Colors.white,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Image(image: AssetImage("assets/images/google_logo.png"), height: MediaQuery.of(context).size.height/55),
-              Padding(
-                padding: const EdgeInsets.only(left: 3),
-                child: Text(
-                  'Login com Google',
-                  style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.height/55,
-                    fontFamily: 'quicksand',
-                    color: Colors.black,
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Future<void> _signInWithApple(BuildContext context) async {
-    try {
-      final authService = Provider.of<AuthService>(context, listen: false);
-      final user = await authService.signInWithApple(
-          scopes: [apple.Scope.email, apple.Scope.fullName]);
-      print('uid: ${user.uid}');
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage(tipo: widget.tipo)));
-    } catch (e) {
-      // TODO: Show alert here
-      print(e);
-    }
   }
 
   /*Future<User> _signInWithEmailAndPassword() async {

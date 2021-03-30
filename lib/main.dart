@@ -1,5 +1,6 @@
 import 'package:atendimentos/services/applesigninavailable.dart';
 import 'package:atendimentos/services/auth_service.dart';
+import 'package:atendimentos/ui/home.dart';
 import 'package:atendimentos/ui/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
           routes: {
             "/logout": (_) => LoginPage(),
           },
-          home: LoginPage(),
+          home: Home(),
         ),
       ),
     );
