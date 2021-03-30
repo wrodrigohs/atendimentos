@@ -2350,8 +2350,14 @@ class _FirstScreenState extends State<FirstScreen> {
             ),
           ),
           Lottie.asset(
-              'assets/images/esqueceu.json',
-              fit: BoxFit.cover),
+            'assets/images/esqueceu.json',
+            animate: true,
+            repeat: true,
+            reverse: true,
+            width: 200,
+            height: 200,
+            fit: BoxFit.fill,
+          ),
         ],
       ),
     )
