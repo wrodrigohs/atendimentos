@@ -108,6 +108,8 @@ class _CadastroState extends State<Cadastro> {
         widget.profissional.quinta, widget.profissional.sexta,
         widget.profissional.sabado, null, widget.profissional.assinante);
 
+    double distancia = AppBar().preferredSize.height + 40;
+
     return Scaffold(
       body: Stack(children: <Widget>[
         Scaffold(
@@ -154,7 +156,9 @@ class _CadastroState extends State<Cadastro> {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
-                            SizedBox(height: 100.0),
+                            SizedBox(
+                              height: distancia
+                            ),
                             Flexible(
                               child: ListTile(
                                 leading: Icon(Icons.account_box, color: Colors.white),
@@ -176,6 +180,7 @@ class _CadastroState extends State<Cadastro> {
                                       ),
                                     ],
                                   ),
+                                  readOnly: true,
                                   controller: _nomeController,
                                   onSaved: (nome) => profissional.nome = nome,
                                   validator: (nome) =>
@@ -346,6 +351,7 @@ class _CadastroState extends State<Cadastro> {
                                     ),
                                   ],
                                 ),
+                                readOnly: true,
                                 controller: _emailController,
                                 onSaved: (email) => profissional.email = email,
                                 validator: validateEmail,
@@ -781,7 +787,6 @@ class _CadastroState extends State<Cadastro> {
                                     ),
                                     FlatButton(
                                       color: Colors.black,
-                                      textColor: Colors.white,
                                       child: Text(
                                         'Definir dias',
                                         style: TextStyle(
@@ -792,7 +797,7 @@ class _CadastroState extends State<Cadastro> {
                                       ),
                                       shape: RoundedRectangleBorder(
                                           side: BorderSide(
-                                              color: Colors.black,
+                                              color: Colors.white,
                                               width: 1,
                                               style: BorderStyle.solid
                                           ),
@@ -839,7 +844,7 @@ class _CadastroState extends State<Cadastro> {
                                       ),
                                       shape: RoundedRectangleBorder(
                                           side: BorderSide(
-                                              color: Colors.black,
+                                              color: Colors.white,
                                               width: 1,
                                               style: BorderStyle.solid
                                           ),
@@ -861,7 +866,7 @@ class _CadastroState extends State<Cadastro> {
                                 color: Colors.black,
                                 shape: RoundedRectangleBorder(
                                   side: BorderSide(
-                                      color: Colors.black,
+                                      color: Colors.white,
                                       width: 1,
                                       style: BorderStyle.solid
                                   ),

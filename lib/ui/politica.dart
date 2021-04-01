@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class PoliticadePrivacidade extends StatefulWidget {
+  String tipo;
+  PoliticadePrivacidade({Key key, this.tipo});
+
   @override
   _PoliticadePrivacidadeState createState() => _PoliticadePrivacidadeState();
 }
@@ -54,7 +57,10 @@ class _PoliticadePrivacidadeState extends State<PoliticadePrivacidade> {
                         ),
                       ),
                       TextSpan(
-                        text: 'São coletadas as informações pessoais que você nos dá: nome, e-mail, sua área de atuação profissional, seu endereço do instagram e do facebook e telefone.',
+                        text: widget.tipo == 'profissional' ?
+                        'São coletadas as informações pessoais que você nos dá: nome, e-mail, sua área de atuação profissional, seu endereço do instagram e do facebook e telefone.'
+                        :
+                        'São coletadas as informações pessoais que você nos dá: nome, telefone, e-mail, estado civil e sexo.',
                         style: TextStyle(
                           color: Colors.black,
                           fontFamily: 'quicksand',
@@ -86,7 +92,10 @@ class _PoliticadePrivacidadeState extends State<PoliticadePrivacidade> {
                         ),
                       ),
                       TextSpan(
-                        text: 'Como vocês obtêm meu consentimento?\nQuando você fornece informações pessoais como nome, telefone e e-mail para seu cadastro no aplicativo. Após o preenchimento do formulário para cadastro, entendemos que você está de acordo com a coleta de dados para serem utilizados pelo aplicativo.',
+                        text: widget.tipo == 'profissional' ?
+                        'Como vocês obtêm meu consentimento?\nQuando você fornece informações pessoais como nome, telefone e e-mail para seu cadastro no aplicativo. Após o preenchimento do formulário para cadastro, entendemos que você está de acordo com a coleta de dados para serem utilizados pelo aplicativo.'
+                        :
+                        'Como vocês obtêm meu consentimento?\nQuando você fornece informações pessoais como nome, telefone, e-mail, estado civil e sexo para o agendamento de consultas pelo aplicativo. Após o preenchimento do formulário para agendamento de consulta entendemos que você está de acordo com a coleta de dados para serem utilizados pelo aplicativo.',
                         style: TextStyle(
                           color: Colors.black,
                           fontFamily: 'quicksand',
@@ -102,7 +111,7 @@ class _PoliticadePrivacidadeState extends State<PoliticadePrivacidade> {
                         ),
                       ),
                       TextSpan(
-                        text: 'Podemos divulgar suas informações pessoais caso sejamos obrigados pela lei para fazê-lo.',
+                        text: 'Podemos divulgar suas informações pessoais caso sejamos obrigados pela lei a fazê-lo.',
                         style: TextStyle(
                           color: Colors.black,
                           fontFamily: 'quicksand',
@@ -118,7 +127,7 @@ class _PoliticadePrivacidadeState extends State<PoliticadePrivacidade> {
                         ),
                       ),
                       TextSpan(
-                        text: 'No geral, os fornecedores terceirizados usados por nós irão apenas coletar, usar e divulgar suas informações na medida do necessário para permitir que eles realizem os serviços que eles nos fornecem. Lembre-se que certos fornecedores podem ser localizados em ou possuir instalações que são localizadas em jurisdições diferentes que você ou nós. Assim, se você quer continuar com uma transação que envolve os serviços de um fornecedor de serviço terceirizado, então suas informações podem tornar-se sujeitas às leis da(s) jurisdição(ões) nas quais o fornecedor de serviço ou suas instalações estão localizados. Como um exemplo, se você está localizado no Canadá e sua transação é processada nos Estados Unidos, então suas informações pessoais usadas para completar aquela transação podem estar sujeitas a divulgação sob a legislação dos Estados Unidos, incluindo o Ato Patriota. Uma vez que você deixe o aplicativo, você não será mais regido por essa política de privacidade.',
+                        text: 'No geral, os fornecedores terceirizados usados por nós irão apenas coletar, usar e divulgar suas informações na medida do necessário para permitir que eles realizem os serviços que eles nos fornecem. Lembre-se que certos fornecedores podem ser localizados em ou possuir instalações que são localizadas em jurisdições diferentes que você ou nós. Assim, se você quer continuar com uma transação que envolve os serviços de um fornecedor de serviço terceirizado, então suas informações podem tornar-se sujeitas às leis da(s) jurisdição(ões) nas quais o fornecedor de serviço ou suas instalações estão localizados. Como um exemplo, se você está localizado no Brasil e sua transação é processada nos Estados Unidos, então suas informações pessoais usadas para completar aquela transação podem estar sujeitas a divulgação sob a legislação dos Estados Unidos, incluindo o Ato Patriota. Uma vez que você deixe o aplicativo, você não será mais regido por essa política de privacidade.',
                         style: TextStyle(
                           color: Colors.black,
                           fontFamily: 'quicksand',

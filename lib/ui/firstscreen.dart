@@ -1238,11 +1238,33 @@ class _FirstScreenState extends State<FirstScreen> {
           LListItem(
             backgroundColor: Colors.transparent,
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => PoliticadePrivacidade()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => PoliticadePrivacidade(tipo: widget.tipo)));
             },
             leading:
             Icon(Icons.description, size: 20.0, color: Colors.white),
             title: Text("Política de privacidade",
+              style: TextStyle(
+                fontSize: MediaQuery.of(context).size.height/55,
+                fontFamily: 'quicksand',
+              ),
+            ),
+            textColor: Colors.white,
+            dense: true,
+          ),
+          LListItem(
+            backgroundColor: Colors.transparent,
+            onTap: () {
+              for(int i = 0; i < listaProfissional.length; i++) {
+                if(equalsIgnoreCase(listaProfissional[i].nome, pac.nome)
+                    && equalsIgnoreCase(listaProfissional[i].email, pac.email)) {
+                  Profissional profissional = listaProfissional[i];
+                  removerProfissional(profissional.primaryKey, i, profissional);
+                }
+              }
+            },
+            leading:
+            Icon(Icons.delete, size: 20.0, color: Colors.red),
+            title: Text("Requisitar exclusão permanente dos meus dados",
               style: TextStyle(
                 fontSize: MediaQuery.of(context).size.height/55,
                 fontFamily: 'quicksand',
@@ -1517,6 +1539,31 @@ class _FirstScreenState extends State<FirstScreen> {
             leading:
             Icon(Icons.description, size: 20.0, color: Colors.white),
             title: Text("Política de privacidade",
+              style: TextStyle(
+                fontSize: MediaQuery.of(context).size.height/55,
+                fontFamily: 'quicksand',
+              ),
+            ),
+            textColor: Colors.white,
+            dense: true,
+          ),
+          LListItem(
+            backgroundColor: Colors.transparent,
+            onTap: () {
+              for(int i = 0; i < listaPacientes.length; i++) {
+                if(equalsIgnoreCase(listaPacientes[i].nome, pac.nome)
+                && equalsIgnoreCase(listaPacientes[i].email, pac.email)) {
+                  Paciente paciente = listaPacientes[i];
+                  _dialogRemocaoPermanente(context, paciente, i);
+                  print('chamou dialog');
+//                  remover(paciente.primaryKey, i, paciente);
+                }
+              }
+//              Navigator.push(context, MaterialPageRoute(builder: (context) => PoliticadePrivacidade()));
+            },
+            leading:
+            Icon(Icons.delete, size: 20.0, color: Colors.red),
+            title: Text("Requisitar exclusão permanente dos meus dados",
               style: TextStyle(
                 fontSize: MediaQuery.of(context).size.height/55,
                 fontFamily: 'quicksand',
@@ -2807,6 +2854,24 @@ class _FirstScreenState extends State<FirstScreen> {
       listaPacientes.removeAt(index);
       dbPacientes.child(id).remove().then((_) {
       });
+      Fluttertoast.showToast(
+        msg:'Todos os seus dados foram excluídos com sucesso!',
+        toastLength: Toast.LENGTH_SHORT,
+        timeInSecForIosWeb: 5,
+      );
+    });
+  }
+
+  void removerProfissional(String id, int index, Profissional profissional) {
+    setState(() {
+      listaProfissional.removeAt(index);
+      dbProfissional.child(id).remove().then((_) {
+      });
+      Fluttertoast.showToast(
+        msg:'Todos os seus dados foram excluídos com sucesso!',
+        toastLength: Toast.LENGTH_SHORT,
+        timeInSecForIosWeb: 5,
+      );
     });
   }
 
@@ -2882,6 +2947,111 @@ class _FirstScreenState extends State<FirstScreen> {
                           padding: EdgeInsets.all(8.0),
                           child: Text(
                             "Tem certeza que deseja APAGAR a consulta de ${paciente.nome} no dia ${paciente.data} às ${paciente.hora}?",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontFamily: 'quicksand',
+                              fontSize: MediaQuery.of(context).size.height/50,
+                            ),
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            FlatButton(
+                              color: Colors.black,
+                              textColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                              ),
+                              child: Text(
+                                'Sim',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: MediaQuery.of(context).size.height/60,
+                                  fontFamily: 'quicksand',
+                                ),
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  remover('${paciente.primaryKey}', posicao, paciente);
+                                  Navigator.of(context).pop();
+                                });
+                              },
+                            ),
+                            FlatButton(
+                              color: Colors.black,
+                              textColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                              ),
+                              child: Text(
+                                'Não',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: MediaQuery.of(context).size.height/60,
+                                  fontFamily: 'quicksand',
+                                ),
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  Navigator.of(context).pop();
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                      ]),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  void _dialogRemocaoPermanente(BuildContext context, Paciente paciente, int posicao) async {
+    print('entrou no dialog');
+    await showDialog<String>(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(32.0))),
+            contentPadding: EdgeInsets.all(8.0),
+            content: Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  InkWell(
+                    child: Text(
+                      "ATENÇÃO",
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontFamily: 'quicksand',
+                        fontSize: MediaQuery.of(context).size.height/50,
+                        fontWeight: FontWeight.bold,),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                  Divider(
+                    color: Colors.black,
+                    height: 4.0,
+                  ),
+                  Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            "Todos os seus dados serão APAGADOS PERMANENTEMENTE. Tem certeza disso?",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.black,
