@@ -1,4 +1,5 @@
 import 'package:atendimentos/model/profissional.dart';
+import 'package:atendimentos/ui/firstscreen.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -30,6 +31,8 @@ class _CadastroState extends State<Cadastro> {
   final TextEditingController _instagramController = TextEditingController();
   final TextEditingController _facebookController = TextEditingController();
   final TextEditingController _num_conselhoController = TextEditingController();
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   List<String> horas = ['07:00h', '07:30h', '08:00h', '08:30h', '09:00h', '09:30h', '10:00h',
     '10:30h', '11:00h', '11:30h', '12:00h', '12:30h', '13:00h', '13:30h', '14:00h', '14:30h',
@@ -111,6 +114,7 @@ class _CadastroState extends State<Cadastro> {
     double distancia = AppBar().preferredSize.height + 40;
 
     return Scaffold(
+      key: _scaffoldKey,
       body: Stack(children: <Widget>[
         Scaffold(
           extendBodyBehindAppBar: true,
@@ -894,6 +898,66 @@ class _CadastroState extends State<Cadastro> {
                                 ),
                                 onPressed: () {
                                   setState(() {
+                                    if (diasEscolhidos[0] == false && diasEscolhidos[1] == false
+                                        && diasEscolhidos[2] == false && diasEscolhidos[3] == false
+                                        && diasEscolhidos[4] == false && diasEscolhidos[5] == false
+                                        && diasEscolhidos[6] == false) {
+                                      WidgetsBinding.instance
+                                          .addPostFrameCallback((_) =>
+                                          _scaffoldKey.currentState
+                                              .showSnackBar(
+                                              SnackBar(
+                                                duration: Duration(
+                                                    seconds: 2),
+                                                content: Text(
+                                                  'Você deve definir seus dias de trabalho.',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontFamily: 'quicksand',
+                                                    fontSize: MediaQuery
+                                                        .of(context)
+                                                        .size
+                                                        .height / 50,
+                                                  ),
+                                                ),
+                                                backgroundColor: Colors.black,
+                                                behavior: SnackBarBehavior
+                                                    .floating,
+                                              )
+                                          )
+                                      );
+                                      return;
+                                    }
+
+                                    if (horasEscolhidas.isEmpty) {
+                                      WidgetsBinding.instance
+                                          .addPostFrameCallback((_) =>
+                                          _scaffoldKey.currentState
+                                              .showSnackBar(
+                                              SnackBar(
+                                                duration: Duration(
+                                                    seconds: 2),
+                                                content: Text(
+                                                  'Você deve definir seus horários de trabalho.',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontFamily: 'quicksand',
+                                                    fontSize: MediaQuery
+                                                        .of(context)
+                                                        .size
+                                                        .height / 50,
+                                                  ),
+                                                ),
+                                                backgroundColor: Colors.black,
+                                                behavior: SnackBarBehavior
+                                                    .floating,
+                                              )
+                                          )
+                                      );
+                                      return;
+                                    }
 
                                     if(profissional.facebook.length < 25) {
                                       profissional.facebook = 'https://www.facebook.com/';
@@ -974,7 +1038,8 @@ class _CadastroState extends State<Cadastro> {
     }
 
     form.reset();
-    Navigator.of(context).pop();
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => FirstScreen(tipo: 'profissional',)));
+//    Navigator.of(context).pop();
   }
 
   String validateEmail(String value) {
@@ -1319,40 +1384,7 @@ class _CadastroState extends State<Cadastro> {
       } else if (posicao == 6) {
         sabado = diasEscolhidos[posicao];
       }
-      /*switch(posicao) {
-        case 0: profissional.domingo = diasEscolhidos[posicao]; return;
-        case 1: profissional.segunda = diasEscolhidos[posicao]; return;
-        case 2: profissional.terca = diasEscolhidos[posicao]; return;
-        case 3: profissional.quarta = diasEscolhidos[posicao]; return;
-        case 4: profissional.quinta = diasEscolhidos[posicao]; return;
-        case 5: profissional.sexta = diasEscolhidos[posicao]; return;
-        case 6: profissional.sabado = diasEscolhidos[posicao]; return;
-        default: return;
-      }*/
-      print('$domingo $segunda $terca $quarta $quinta $sexta $sabado');
     });
-    /*if(posicao == 0 && (!diasEscolhidos.contains(domingo))) {
-      domingo = true;
-      diasEscolhidos.add(domingo);
-    } else if(posicao == 1 && (!diasEscolhidos.contains(segunda))){
-      segunda = true;
-      diasEscolhidos.add(segunda);
-    } else if(posicao == 2 && (!diasEscolhidos.contains(terca))){
-      terca = true;
-      diasEscolhidos.add(terca);
-    } else if(posicao == 3 && (!diasEscolhidos.contains(quarta))){
-      quarta = true;
-      diasEscolhidos.add(quarta);
-    } else if(posicao == 4 && (!diasEscolhidos.contains(quinta))){
-      quinta = true;
-      diasEscolhidos.add(quinta);
-    } else if(posicao == 5 && (!diasEscolhidos.contains(sexta))){
-      sexta = true;
-      diasEscolhidos.add(sexta);
-    } else if(posicao == 6 && (!diasEscolhidos.contains(sabado))){
-      sabado = true;
-      diasEscolhidos.add(sabado);
-    }*/
   }
 
   void removerDia(int posicao) {
@@ -1373,7 +1405,6 @@ class _CadastroState extends State<Cadastro> {
       } else if (posicao == 6) {
         sabado = diasEscolhidos[posicao];
       }
-      print('${diasEscolhidos[posicao]}');
     });
   }
 

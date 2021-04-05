@@ -110,7 +110,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ],
             ),
-              /*child: Container(
+            /*child: Container(
                 width: MediaQuery.of(context).size.width / 1.2,
                 height: MediaQuery.of(context).size.height / 2,
                 decoration: BoxDecoration(
@@ -124,12 +124,12 @@ class _LoginPageState extends State<LoginPage> {
                       )
                     ]
                 ),*/
-              Padding(
-                padding: const EdgeInsets.all(12),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    /*Form(
+            Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  /*Form(
                         key: _formKey,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -359,32 +359,78 @@ class _LoginPageState extends State<LoginPage> {
                             SizedBox(
                               height: MediaQuery.of(context).size.height/100,
                             ),*/
-                    Align(
+                  Container(
+                    width: MediaQuery.of(context).size.width/2.1,
+                    child: _signInButton()/*Align(
                       alignment: Alignment.bottomCenter,
-                      child: _signInButton(),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Container(
-                        width: MediaQuery.of(context).size.width/2,
-                        child: (appleSignInAvailable.isAvailable) ?
-                        apple.AppleSignInButton(
-                          cornerRadius: 40,
-                          type: apple.ButtonType.signIn,
-                          style: apple.ButtonStyle.whiteOutline,
-                          onPressed: () {
-                            _signInWithApple(context);
-                          },
-                        )
-                            : Container()
-                    ),
-                    SizedBox(
-                      height: distancia - 10,
-                    ),
-                  ],
-                ),
+                      child: ,
+                    ),*/
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width/2.1,
+                    child: (appleSignInAvailable.isAvailable) ?
+                    FlatButton(
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                              color: Colors.black,
+                              width: 1,
+                              style: BorderStyle.solid
+                          ),
+                          borderRadius: BorderRadius.circular(40)
+                      ),
+                      onPressed: () {
+                        _signInWithApple(context);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                        child: Container(
+                          color: Colors.white,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Image(image: AssetImage("assets/images/apple-logo.png"), height: MediaQuery.of(context).size.height/55),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 3),
+                                child: Text(
+                                  'Login com Apple',
+                                  style: TextStyle(
+                                    fontSize: MediaQuery.of(context).size.height/55,
+                                    fontFamily: 'quicksand',
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    )
+                    :
+                    Container(),
+                  ),
+                  /*Container(
+                      width: MediaQuery.of(context).size.width/2,
+                      child:
+                      apple.AppleSignInButton(
+                        cornerRadius: 40,
+                        type: apple.ButtonType.signIn,
+                        style: apple.ButtonStyle.whiteOutline,
+                        onPressed: () {
+                        },
+                      )
+
+                  ),*/
+                  SizedBox(
+                    height: distancia - 10,
+                  ),
+                ],
               ),
+            ),
           ],
         ),
       ),

@@ -152,6 +152,8 @@ class _FirstScreenState extends State<FirstScreen> {
       DeviceOrientation.portraitDown,
     ]);
 
+    appData.isPro = true;
+
     for(int i = 0; i < listaProfissional.length; i++) {
       if(listaProfissional[i].email == profissional.email) {
         setState(() {
@@ -739,7 +741,7 @@ class _FirstScreenState extends State<FirstScreen> {
                               color: Colors.black,
                               shape: RoundedRectangleBorder(
                                 side: BorderSide(
-                                    color: Colors.black,
+                                    color: Colors.white,
                                     width: 1,
                                     style: BorderStyle.solid
                                 ),
@@ -749,6 +751,9 @@ class _FirstScreenState extends State<FirstScreen> {
                                 Navigator.push(context, MaterialPageRoute(
                                     builder: (context) => Cadastro(profissional: profissional)),
                                 );
+                                setState(() {
+                                  presente = true;
+                                });
                               },
                               child: Text(
                                 "Cadastre-se",
@@ -1258,7 +1263,8 @@ class _FirstScreenState extends State<FirstScreen> {
                 if(equalsIgnoreCase(listaProfissional[i].nome, pac.nome)
                     && equalsIgnoreCase(listaProfissional[i].email, pac.email)) {
                   Profissional profissional = listaProfissional[i];
-                  removerProfissional(profissional.primaryKey, i, profissional);
+                  _dialogRemocaoPermanenteProfissional(context, profissional, i);
+                  return;
                 }
               }
             },
@@ -1445,7 +1451,7 @@ class _FirstScreenState extends State<FirstScreen> {
                         if (equalsIgnoreCase(listaProfissional[i].nome, (pro.nome))) {
                           Navigator.push(context, MaterialPageRoute(
                               builder: (context) => Agendar(paciente: pac,
-                                profissional: pro, tipo: widget.tipo)));
+                                  profissional: pro, tipo: widget.tipo)));
                           return;
                         } else {
                           WidgetsBinding.instance.addPostFrameCallback((_) =>
@@ -1552,7 +1558,7 @@ class _FirstScreenState extends State<FirstScreen> {
             onTap: () {
               for(int i = 0; i < listaPacientes.length; i++) {
                 if(equalsIgnoreCase(listaPacientes[i].nome, pac.nome)
-                && equalsIgnoreCase(listaPacientes[i].email, pac.email)) {
+                    && equalsIgnoreCase(listaPacientes[i].email, pac.email)) {
                   Paciente paciente = listaPacientes[i];
                   _dialogRemocaoPermanente(context, paciente, i);
                   print('chamou dialog');
@@ -2410,43 +2416,43 @@ class _FirstScreenState extends State<FirstScreen> {
     )
         :
     Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: distancia,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        SizedBox(
+          height: distancia,
+        ),
+        pro.imageURL != null ?
+        CircleAvatar(
+          radius: 45.0,
+          backgroundImage:
+          NetworkImage(pro.imageURL),
+          backgroundColor: Colors.transparent,
+        )
+            :
+        CircleAvatar(
+          radius: 45.0,
+          backgroundColor: Colors.black,
+          child: Text('${pro.nome.substring(0, 1).toUpperCase()}',
+            style: TextStyle(
+                fontFamily: 'quicksand',
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+                color: Colors.white
+            ),
           ),
-          pro.imageURL != null ?
-          CircleAvatar(
-            radius: 45.0,
-            backgroundImage:
-            NetworkImage(pro.imageURL),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        ListTile(
+          leading: CircleAvatar(
+            radius: 20,
+            backgroundImage: AssetImage('assets/images/facebook.png'),
             backgroundColor: Colors.transparent,
-          )
-              :
-          CircleAvatar(
-            radius: 45.0,
-            backgroundColor: Colors.black,
-            child: Text('${pro.nome.substring(0, 1).toUpperCase()}',
-              style: TextStyle(
-                  fontFamily: 'quicksand',
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white
-              ),
-            ),
           ),
-          SizedBox(
-            height: 10,
-          ),
-          ListTile(
-            leading: CircleAvatar(
-              radius: 20,
-              backgroundImage: AssetImage('assets/images/facebook.png'),
-              backgroundColor: Colors.transparent,
-            ),
-            onTap: () {
-              setState(() async {
-                /*var url = '${pro.facebook}';
+          onTap: () {
+            setState(() async {
+              /*var url = '${pro.facebook}';
                 if (await canLaunch(url)) {
                   await launch(url, universalLinksOnly: true);
                 } else {
@@ -2459,116 +2465,14 @@ class _FirstScreenState extends State<FirstScreen> {
                     throw 'Houve um erro';
                   }
                 }*/
-                String fbProtocolUrl;
-                if (Platform.isIOS) {
-                  if(pro.facebook == 'https://www.facebook.com/') {
-                    WidgetsBinding.instance.addPostFrameCallback((_) =>
-                        _scaffoldKey.currentState.showSnackBar(
-                            SnackBar(
-                              duration: Duration(seconds: 1),
-                              content: Text('O profissional não cadastrou seu facebook.',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'quicksand',
-                                  fontSize: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .height / 50,
-                                ),
-                              ),
-                              backgroundColor: Colors.black,
-                              behavior: SnackBarBehavior.floating,
-                            )
-                        )
-                    );
-                  } else {
-                    fbProtocolUrl = 'fb://profile/${pro.facebook}';
-                  }
-                } else {
-                  if(pro.facebook == 'https://www.facebook.com/') {
-                    WidgetsBinding.instance.addPostFrameCallback((_) =>
-                        _scaffoldKey.currentState.showSnackBar(
-                            SnackBar(
-                              duration: Duration(seconds: 1),
-                              content: Text('O profissional não cadastrou seu facebook.',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'quicksand',
-                                  fontSize: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .height / 50,
-                                ),
-                              ),
-                              backgroundColor: Colors.black,
-                              behavior: SnackBarBehavior.floating,
-                            )
-                        )
-                    );
-                  } else {
-                    fbProtocolUrl = 'fb://page/${pro.facebook}';
-                  }
-                }
-
-                String fallbackUrl = '${pro.facebook}';
-                try {
-                  bool launched = await launch(fbProtocolUrl, forceWebView: true, forceSafariVC: false);
-
-                  if (!launched) {
-                    await launch(fallbackUrl, forceSafariVC: false);
-                  }
-                } catch (e) {
-                  await launch(fallbackUrl, forceSafariVC: false);
-                }
-              });
-            },
-            title: Text(
-              'Facebook',
-              style: TextStyle(
-                fontSize: MediaQuery.of(context).size.height/45,
-                fontFamily: 'quicksand',
-                  color: Colors.white,
-                  shadows: [
-                    Shadow( // bottomLeft
-                        offset: Offset(-0.5, -0.5),
-                        color: Colors.black
-                    ),
-                    Shadow( // bottomRight
-                        offset: Offset(0.5, -0.5),
-                        color: Colors.black
-                    ),
-                    Shadow( // topRight
-                        offset: Offset(0.5, 0.5),
-                        color: Colors.black
-                    ),
-                    Shadow( // topLeft
-                        offset: Offset(-0.5, 0.5),
-                        color: Colors.black
-                    ),
-                  ]
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          ListTile(
-            leading: CircleAvatar(
-              radius: 20,
-              backgroundImage: AssetImage('assets/images/instagram.png'),
-              backgroundColor: Colors.transparent,
-            ),
-            onTap: () {
-              setState(() async {
-                String url;
-                if(pro.instagram == 'https://www.instagram.com/') {
+              String fbProtocolUrl;
+              if (Platform.isIOS) {
+                if(pro.facebook == 'https://www.facebook.com/') {
                   WidgetsBinding.instance.addPostFrameCallback((_) =>
                       _scaffoldKey.currentState.showSnackBar(
                           SnackBar(
                             duration: Duration(seconds: 1),
-                            content: Text('O profissional não cadastrou seu instagram.',
+                            content: Text('O profissional não cadastrou seu facebook.',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: Colors.white,
@@ -2585,92 +2489,194 @@ class _FirstScreenState extends State<FirstScreen> {
                       )
                   );
                 } else {
-                  url = '${pro.instagram}';
+                  fbProtocolUrl = 'fb://profile/${pro.facebook}';
+                }
+              } else {
+                if(pro.facebook == 'https://www.facebook.com/') {
+                  WidgetsBinding.instance.addPostFrameCallback((_) =>
+                      _scaffoldKey.currentState.showSnackBar(
+                          SnackBar(
+                            duration: Duration(seconds: 1),
+                            content: Text('O profissional não cadastrou seu facebook.',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'quicksand',
+                                fontSize: MediaQuery
+                                    .of(context)
+                                    .size
+                                    .height / 50,
+                              ),
+                            ),
+                            backgroundColor: Colors.black,
+                            behavior: SnackBarBehavior.floating,
+                          )
+                      )
+                  );
+                } else {
+                  fbProtocolUrl = 'fb://page/${pro.facebook}';
+                }
+              }
+
+              String fallbackUrl = '${pro.facebook}';
+              try {
+                bool launched = await launch(fbProtocolUrl, forceWebView: true, forceSafariVC: false);
+
+                if (!launched) {
+                  await launch(fallbackUrl, forceSafariVC: false);
+                }
+              } catch (e) {
+                await launch(fallbackUrl, forceSafariVC: false);
+              }
+            });
+          },
+          title: Text(
+            'Facebook',
+            style: TextStyle(
+                fontSize: MediaQuery.of(context).size.height/45,
+                fontFamily: 'quicksand',
+                color: Colors.white,
+                shadows: [
+                  Shadow( // bottomLeft
+                      offset: Offset(-0.5, -0.5),
+                      color: Colors.black
+                  ),
+                  Shadow( // bottomRight
+                      offset: Offset(0.5, -0.5),
+                      color: Colors.black
+                  ),
+                  Shadow( // topRight
+                      offset: Offset(0.5, 0.5),
+                      color: Colors.black
+                  ),
+                  Shadow( // topLeft
+                      offset: Offset(-0.5, 0.5),
+                      color: Colors.black
+                  ),
+                ]
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        ListTile(
+          leading: CircleAvatar(
+            radius: 20,
+            backgroundImage: AssetImage('assets/images/instagram.png'),
+            backgroundColor: Colors.transparent,
+          ),
+          onTap: () {
+            setState(() async {
+              String url;
+              if(pro.instagram == 'https://www.instagram.com/') {
+                WidgetsBinding.instance.addPostFrameCallback((_) =>
+                    _scaffoldKey.currentState.showSnackBar(
+                        SnackBar(
+                          duration: Duration(seconds: 1),
+                          content: Text('O profissional não cadastrou seu instagram.',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'quicksand',
+                              fontSize: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .height / 50,
+                            ),
+                          ),
+                          backgroundColor: Colors.black,
+                          behavior: SnackBarBehavior.floating,
+                        )
+                    )
+                );
+              } else {
+                url = '${pro.instagram}';
+                if (await canLaunch(url)) {
+                  await launch(url, universalLinksOnly: true);
+                } else {
                   if (await canLaunch(url)) {
-                    await launch(url, universalLinksOnly: true);
+                    await launch(
+                      url,
+                      universalLinksOnly: false,
+                    );
                   } else {
-                    if (await canLaunch(url)) {
-                      await launch(
-                        url,
-                        universalLinksOnly: false,
-                      );
-                    } else {
-                      throw 'Houve um erro';
-                    }
+                    throw 'Houve um erro';
                   }
                 }
-              });
-            },
-            title: Text(
-              'Instagram',
-              style: TextStyle(
+              }
+            });
+          },
+          title: Text(
+            'Instagram',
+            style: TextStyle(
                 fontSize: MediaQuery.of(context).size.height/45,
                 fontFamily: 'quicksand',
-                  color: Colors.white,
-                  shadows: [
-                    Shadow( // bottomLeft
-                        offset: Offset(-0.5, -0.5),
-                        color: Colors.black
-                    ),
-                    Shadow( // bottomRight
-                        offset: Offset(0.5, -0.5),
-                        color: Colors.black
-                    ),
-                    Shadow( // topRight
-                        offset: Offset(0.5, 0.5),
-                        color: Colors.black
-                    ),
-                    Shadow( // topLeft
-                        offset: Offset(-0.5, 0.5),
-                        color: Colors.black
-                    ),
-                  ]
-              ),
+                color: Colors.white,
+                shadows: [
+                  Shadow( // bottomLeft
+                      offset: Offset(-0.5, -0.5),
+                      color: Colors.black
+                  ),
+                  Shadow( // bottomRight
+                      offset: Offset(0.5, -0.5),
+                      color: Colors.black
+                  ),
+                  Shadow( // topRight
+                      offset: Offset(0.5, 0.5),
+                      color: Colors.black
+                  ),
+                  Shadow( // topLeft
+                      offset: Offset(-0.5, 0.5),
+                      color: Colors.black
+                  ),
+                ]
             ),
           ),
-          SizedBox(
-            height: 10,
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        ListTile(
+          leading: CircleAvatar(
+            radius: 20,
+            backgroundImage: AssetImage('assets/images/whatsapp.png'),
+            backgroundColor: Colors.transparent,
           ),
-          ListTile(
-            leading: CircleAvatar(
-              radius: 20,
-              backgroundImage: AssetImage('assets/images/whatsapp.png'),
-              backgroundColor: Colors.transparent,
-            ),
-            onTap: () {
-              String phone = '${pro.telefone}';
-              String message = 'Olá, ${pro.nome}, entro em contato por meio do app \'Clínica online\'. Podemos conversar?';
-              launchWhatsApp(phone: phone, message: message);
-            },
-            title: Text(
-              'WhatsApp',
-              style: TextStyle(
+          onTap: () {
+            String phone = '${pro.telefone}';
+            String message = 'Olá, ${pro.nome}, entro em contato por meio do app \'Clínica online\'. Podemos conversar?';
+            launchWhatsApp(phone: phone, message: message);
+          },
+          title: Text(
+            'WhatsApp',
+            style: TextStyle(
                 fontSize: MediaQuery.of(context).size.height/45,
                 fontFamily: 'quicksand',
-                  color: Colors.white,
-                  shadows: [
-                    Shadow( // bottomLeft
-                        offset: Offset(-0.5, -0.5),
-                        color: Colors.black
-                    ),
-                    Shadow( // bottomRight
-                        offset: Offset(0.5, -0.5),
-                        color: Colors.black
-                    ),
-                    Shadow( // topRight
-                        offset: Offset(0.5, 0.5),
-                        color: Colors.black
-                    ),
-                    Shadow( // topLeft
-                        offset: Offset(-0.5, 0.5),
-                        color: Colors.black
-                    ),
-                  ]
-              ),
+                color: Colors.white,
+                shadows: [
+                  Shadow( // bottomLeft
+                      offset: Offset(-0.5, -0.5),
+                      color: Colors.black
+                  ),
+                  Shadow( // bottomRight
+                      offset: Offset(0.5, -0.5),
+                      color: Colors.black
+                  ),
+                  Shadow( // topRight
+                      offset: Offset(0.5, 0.5),
+                      color: Colors.black
+                  ),
+                  Shadow( // topLeft
+                      offset: Offset(-0.5, 0.5),
+                      color: Colors.black
+                  ),
+                ]
             ),
           ),
-        ],
-      );
+        ),
+      ],
+    );
   }
 
   void _gravarProfissional(Event event) {
@@ -2872,6 +2878,8 @@ class _FirstScreenState extends State<FirstScreen> {
         toastLength: Toast.LENGTH_SHORT,
         timeInSecForIosWeb: 5,
       );
+      Navigator.pushReplacement(context, MaterialPageRoute(
+          builder: (BuildContext context) => super.widget));
     });
   }
 
@@ -3081,6 +3089,110 @@ class _FirstScreenState extends State<FirstScreen> {
                               onPressed: () {
                                 setState(() {
                                   remover('${paciente.primaryKey}', posicao, paciente);
+                                  Navigator.of(context).pop();
+                                });
+                              },
+                            ),
+                            FlatButton(
+                              color: Colors.black,
+                              textColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                              ),
+                              child: Text(
+                                'Não',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: MediaQuery.of(context).size.height/60,
+                                  fontFamily: 'quicksand',
+                                ),
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  Navigator.of(context).pop();
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                      ]),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  void _dialogRemocaoPermanenteProfissional(BuildContext context, Profissional profissional, int posicao) async {
+    await showDialog<String>(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(32.0))),
+            contentPadding: EdgeInsets.all(8.0),
+            content: Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  InkWell(
+                    child: Text(
+                      "ATENÇÃO",
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontFamily: 'quicksand',
+                        fontSize: MediaQuery.of(context).size.height/50,
+                        fontWeight: FontWeight.bold,),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                  Divider(
+                    color: Colors.black,
+                    height: 4.0,
+                  ),
+                  Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            "Todos os seus dados serão APAGADOS PERMANENTEMENTE. Tem certeza disso?",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontFamily: 'quicksand',
+                              fontSize: MediaQuery.of(context).size.height/50,
+                            ),
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            FlatButton(
+                              color: Colors.black,
+                              textColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                              ),
+                              child: Text(
+                                'Sim',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: MediaQuery.of(context).size.height/60,
+                                  fontFamily: 'quicksand',
+                                ),
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  removerProfissional(profissional.primaryKey, posicao, profissional);
                                   Navigator.of(context).pop();
                                 });
                               },
