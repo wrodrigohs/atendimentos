@@ -361,7 +361,7 @@ class _UpsellScreenState extends State<UpsellScreen> {
                                         Navigator.push(context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    PoliticadePrivacidade()));
+                                                    PoliticadePrivacidade(tipo: 'profissional',)));
                                       },
                                       child: Text(
                                           'Política de privacidade (clique para ler)',

@@ -152,8 +152,6 @@ class _FirstScreenState extends State<FirstScreen> {
       DeviceOrientation.portraitDown,
     ]);
 
-    appData.isPro = true;
-
     for(int i = 0; i < listaProfissional.length; i++) {
       if(listaProfissional[i].email == profissional.email) {
         setState(() {
@@ -287,7 +285,7 @@ class _FirstScreenState extends State<FirstScreen> {
                       ),
                       Center(
 //                        child: isPro == false ?
-                        child: appData.isPro == false && presente == false ?
+                        child: appData.isPro == false && pro.assinante == false && presente == false ?
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -327,7 +325,7 @@ class _FirstScreenState extends State<FirstScreen> {
                               color: Colors.black,
                               shape: RoundedRectangleBorder(
                                 side: BorderSide(
-                                    color: Colors.black,
+                                    color: Colors.white,
                                     width: 1,
                                     style: BorderStyle.solid
                                 ),
@@ -411,7 +409,7 @@ class _FirstScreenState extends State<FirstScreen> {
                               color: Colors.black,
                               shape: RoundedRectangleBorder(
                                 side: BorderSide(
-                                    color: Colors.black,
+                                    color: Colors.white,
                                     width: 1,
                                     style: BorderStyle.solid
                                 ),
@@ -445,7 +443,7 @@ class _FirstScreenState extends State<FirstScreen> {
                         )
                             :
                         //EX-ASSINANTE PODE VER AS CONSULTAS MARCADAS, MAS SÓ ISSO.
-                        appData.isPro == false && presente == true ?
+                        (appData.isPro == false || pro.assinante == false) && presente == true ?
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,

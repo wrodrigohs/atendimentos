@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
           ],
           supportedLocales: [const Locale('pt', 'BR')],
           debugShowCheckedModeBanner: false,
-          title: 'Clínica online',
+          title: 'Consultório online',
           routes: {
             "/logout": (_) => LoginPage(),
           },
