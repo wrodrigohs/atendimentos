@@ -101,8 +101,6 @@ class _PurchaseButtonState extends State<PurchaseButton> {
                             ),
                             onPressed: () {
                               Navigator.of(context, rootNavigator: true).pop();
-                              Navigator.of(context, rootNavigator: true).pop();
-                              Navigator.of(context, rootNavigator: true).pop();
                             },
                             width: 127,
                             color: kColorAccent,

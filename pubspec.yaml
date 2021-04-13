@@ -63,6 +63,7 @@ flutter_icons:
   android: true
   ios: true
   image_path: "assets/images/health-report.png"
+  # flutter pub run flutter_launcher_icons:main
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
