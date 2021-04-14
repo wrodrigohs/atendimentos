@@ -147,7 +147,6 @@ class _FirstScreenState extends State<FirstScreen> {
   }
 
   Widget widgetPro() {
-    appData.isPro = true;
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
