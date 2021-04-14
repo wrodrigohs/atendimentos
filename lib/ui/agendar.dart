@@ -4027,7 +4027,8 @@ class _AgendarState extends State<Agendar> {
                             .of(context)
                             .size
                             .width,
-                        child: ListView.builder(
+                        child: listaHorarios.isNotEmpty ?
+                        ListView.builder(
                           shrinkWrap: true,
                           itemCount: listaHorarios.length,
                           itemBuilder: (BuildContext context, int posicao) {
@@ -4100,6 +4101,21 @@ class _AgendarState extends State<Agendar> {
                                 )
                             );
                           },
+                        )
+                            :
+                        Align(
+                          alignment: Alignment.center,
+                          child: Text('Não há horários disponíveis.',
+                              style: TextStyle(
+                              color: Colors.red,
+                              fontSize: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .height / 50,
+                              fontFamily: 'quicksand'
+                          ),
+                          textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
                       Divider(
