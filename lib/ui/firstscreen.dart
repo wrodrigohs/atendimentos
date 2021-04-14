@@ -147,6 +147,7 @@ class _FirstScreenState extends State<FirstScreen> {
   }
 
   Widget widgetPro() {
+    appData.isPro = true;
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -443,7 +444,7 @@ class _FirstScreenState extends State<FirstScreen> {
                         )
                             :
                         //EX-ASSINANTE PODE VER AS CONSULTAS MARCADAS, MAS SÓ ISSO.
-                        (appData.isPro == false || pro.assinante == false) && presente == true ?
+                        (appData.isPro == false && pro.assinante == false) && presente == true ?
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
@@ -857,7 +858,7 @@ class _FirstScreenState extends State<FirstScreen> {
                                     onPressed: () {
                                       setState(() {
                                         Navigator.push(context, MaterialPageRoute(builder:
-                                            (context) => Agendar(profissional: pro)));
+                                            (context) => Agendar(profissional: pro, tipo: 'profissional',)));
                                       });
                                     }
                                 ),
@@ -1121,7 +1122,7 @@ class _FirstScreenState extends State<FirstScreen> {
             onTap: () {
 //              if(isPro == true) {
               if(appData.isPro == true) {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Agendar(profissional: pro)));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Agendar(profissional: pro, tipo: 'profissional')));
               } else {
                 WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
                     SnackBar(

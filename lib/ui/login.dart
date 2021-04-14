@@ -371,7 +371,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width/2.1,
-                    child: //(appleSignInAvailable.isAvailable) ?
+                    child: (appleSignInAvailable.isAvailable) ?
                     FlatButton(
                       color: Colors.white,
                       shape: RoundedRectangleBorder(
@@ -410,7 +410,8 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                     )
-                    // :                     Container(),
+                     :
+                    Container(),
                   ),
                   /*Container(
                       width: MediaQuery.of(context).size.width/2,

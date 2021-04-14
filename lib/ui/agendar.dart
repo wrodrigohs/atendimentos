@@ -208,6 +208,7 @@ class _AgendarState extends State<Agendar> {
                                           ),
                                         ]
                                     ),
+                                    readOnly: false,
                                     controller: _nomeController,
                                     onSaved: (nome) => paciente.nome = nome,
                                     validator: (nome) => nome.length < 3 ? "Deve ter ao menos 3 caracteres." : null,
@@ -420,6 +421,7 @@ class _AgendarState extends State<Agendar> {
                                           ),
                                         ]
                                     ),
+                                    readOnly: false,
                                     controller: _emailController,
                                     onSaved: (email) => paciente.email = email,
                                     validator: validateEmail,
@@ -1991,6 +1993,7 @@ class _AgendarState extends State<Agendar> {
                   ),
                 )
                     :
+                //PACIENTE AGENDANDO CONSULTA
                 SingleChildScrollView(
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
