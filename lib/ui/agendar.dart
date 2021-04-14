@@ -1937,7 +1937,7 @@ class _AgendarState extends State<Agendar> {
                                             _nomeController.text.toString(),
                                             tel,
                                             _emailController.text.toString(),
-                                            '',
+                                            null,
                                             dataString,
                                             horaSelecionada,
                                             "Anotações sobre o atendimento de ${_nomeController.text.toString()} no dia $dataString às $horaSelecionada\n\n",
@@ -1966,22 +1966,20 @@ class _AgendarState extends State<Agendar> {
                                             _nomeController.text.toString(),
                                             tel,
                                             _emailController.text.toString(),
-                                            '',
+                                            null,
                                             dataString,
                                             horaSelecionada,
                                             "Anotações sobre o atendimento de ${_nomeController
                                                 .text
                                                 .toString()} no dia $dataString às $horaSelecionada\n\n",
                                             true, "", false, false, false, false, false,
-                                            "", false, "", false, "", "", "");
+                                            "", false, "", false, "", sexo, _estadoCivilController.text.toString());
 
                                         int hora = int.parse(horaSelecionada.substring(0, 2));
                                         int minuto = int.parse(horaSelecionada.substring(horaSelecionada.length - 2, horaSelecionada.length - 1));
-//                                        print('hora = $hora minuto = $minuto');
                                         salvarnoCalendario(converterData(dataString), hora, minuto, paciente);
                                         _submit(paciente);
                                       }
-
                                     }
                                   });
                                 },
@@ -3784,7 +3782,6 @@ class _AgendarState extends State<Agendar> {
                                         );
                                         int hora = int.parse(horaSelecionada.substring(0, 2));
                                         int minuto = int.parse(horaSelecionada.substring(horaSelecionada.length - 2, horaSelecionada.length - 1));
-//                                        print('hora = $hora minuto = $minuto');
                                         salvarnoCalendario(converterData(dataString), hora, minuto, paciente);
                                         _submit(paciente);
                                       } else {
@@ -3799,15 +3796,14 @@ class _AgendarState extends State<Agendar> {
                                                 .text
                                                 .toString()} no dia $dataString às $horaSelecionada\n\n",
                                             true, "", false, false, false, false, false,
-                                            "", false, "", false, "", "", "");
+                                            "", false, "", false, "", sexo,
+                                            _estadoCivilController.text.toString());
 
                                         int hora = int.parse(horaSelecionada.substring(0, 2));
                                         int minuto = int.parse(horaSelecionada.substring(horaSelecionada.length - 2, horaSelecionada.length - 1));
-//                                        print('hora = $hora minuto = $minuto');
                                         salvarnoCalendario(converterData(dataString), hora, minuto, paciente);
                                         _submit(paciente);
                                       }
-
                                     }
                                   });
                                 },
