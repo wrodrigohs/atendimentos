@@ -108,9 +108,9 @@ class _AgendarState extends State<Agendar> {
           values['nome'], values['telefone'], values['email'], values['imageURL'],
           values['data'], values['hora'], values['anotacao'], values['confirmado'],
           values['objetivo'], values['vegetariano'], values['bebidaAlcoolica'],
-        values['fumante'], values['sedentario'], values['patologia'],
-        values['nomePatologia'], values['medicamentos'], values['nomeMedicamentos'],
-        values['alergia'], values['nomeAlergia'], values['sexo'], values['estadoCivil']
+          values['fumante'], values['sedentario'], values['patologia'],
+          values['nomePatologia'], values['medicamentos'], values['nomeMedicamentos'],
+          values['alergia'], values['nomeAlergia'], values['sexo'], values['estadoCivil']
       );
       if(paciente.nome != null && paciente != null) {
         listaPacientes.add(paciente);
@@ -1942,19 +1942,19 @@ class _AgendarState extends State<Agendar> {
                                             horaSelecionada,
                                             "Anotações sobre o atendimento de ${_nomeController.text.toString()} no dia $dataString às $horaSelecionada\n\n",
                                             true,
-                                          _objetivoController.text.toString(),
-                                          vegetariano,
-                                          bebidaAlcoolica,
-                                          fumante,
-                                          sedentario,
-                                          patologia,
-                                          _patologiaController.text.toString(),
-                                          medicamento,
-                                          _medicamentoController.text.toString(),
-                                          alergia,
-                                          _alergiaController.text.toString(),
-                                          sexo,
-                                          _estadoCivilController.text.toString()
+                                            _objetivoController.text.toString(),
+                                            vegetariano,
+                                            bebidaAlcoolica,
+                                            fumante,
+                                            sedentario,
+                                            patologia,
+                                            _patologiaController.text.toString(),
+                                            medicamento,
+                                            _medicamentoController.text.toString(),
+                                            alergia,
+                                            _alergiaController.text.toString(),
+                                            sexo,
+                                            _estadoCivilController.text.toString()
                                         );
                                         int hora = int.parse(horaSelecionada.substring(0, 2));
                                         int minuto = int.parse(horaSelecionada.substring(horaSelecionada.length - 2, horaSelecionada.length - 1));
@@ -3934,7 +3934,7 @@ class _AgendarState extends State<Agendar> {
     DateTime nextYear = new DateTime(now.year + 2);
     showDatePicker(
       context: context,
-      initialDate: dias[now.weekday - 1] == false ? now.add(Duration(days: 1)) : now,//checarDia(now),
+      initialDate: dias[now.weekday - 1] == true ? now : checarDia(now.add(Duration(days: 1))) ,//checarDia(now),
       firstDate: DateTime.now().subtract(new Duration(days: 0)),
       lastDate: nextYear,
       selectableDayPredicate: (now) => dias[now.weekday - 1] == false ? false : true,
@@ -4198,4 +4198,12 @@ class _AgendarState extends State<Agendar> {
 
   bool equalsIgnoreCase(String a, String b) =>
       (a == null && b == null) || (a != null && b != null && a.toLowerCase() == b.toLowerCase());
+
+  DateTime checarDia(DateTime now) {
+    if (dias[now.weekday - 1] == true) {
+      return now;
+    } else {
+      return checarDia(now.add(Duration(days: 1)));
+    }
+  }
 }

@@ -3193,6 +3193,13 @@ class _FirstScreenState extends State<FirstScreen> {
                                 setState(() {
                                   removerProfissional(profissional.primaryKey, posicao, profissional);
                                   Navigator.of(context).pop();
+                                  signOutGoogle();
+                                  Fluttertoast.showToast(
+                                    msg:'Logout efetuado com sucesso.',
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    timeInSecForIosWeb: 5,
+                                  );
+                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home()));
                                 });
                               },
                             ),

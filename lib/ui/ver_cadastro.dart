@@ -4,6 +4,7 @@ import 'package:atendimentos/model/profissional.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'dart:ui' as ui;
@@ -80,7 +81,9 @@ class _EditarCadastroState extends State<EditarCadastro> {
     prof = widget.profissional;
 
     _nomeController.text = widget.profissional.nome;
-    _telefoneController.text = widget.profissional.telefone.substring(3, widget.profissional.telefone.length);
+    String telefone = widget.profissional.telefone.replaceAll(new RegExp(r"\s+"), "");
+    telefone = telefone.replaceAll(new RegExp(r"-"), "");
+    _telefoneController.text = telefone.substring(3, telefone.length);
     _emailController.text = widget.profissional.email;
     _areaAtuacaoController.text = widget.profissional.areaAtuacao;
     _facebookController.text = widget.profissional.facebook;
@@ -1018,7 +1021,12 @@ class _EditarCadastroState extends State<EditarCadastro> {
     }).then((_) {
       //print('Transaction  committed.');
     });
-    Navigator.of(context).pop();
+    Fluttertoast.showToast(
+      msg: 'Dados atualizados com sucesso.',
+      toastLength: Toast.LENGTH_SHORT,
+      timeInSecForIosWeb: 5,
+    );
+//    Navigator.of(context).pop();
   }
 
   void _submit(Profissional profissional) async {
