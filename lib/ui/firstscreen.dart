@@ -111,7 +111,7 @@ class _FirstScreenState extends State<FirstScreen> {
   }
 
   Widget widgetPro() {
-
+    //verificação das minhas contas para acesso VIP
     if(email == 'aplicativoswr@gmail.com' || email == 'rodiisilva@gmail.com'
         || email == 'w.rodrigo@ufms.br' || email == 'rodrigoicarsaojose@gmail.com') {
       appData.isPro = true;
