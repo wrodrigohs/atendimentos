@@ -86,42 +86,6 @@ class _FirstScreenState extends State<FirstScreen> {
     _deviceCalendarPlugin = calendar.DeviceCalendarPlugin();
   }
 
-  void carregarInfos() async {
-    dbProfissional = db2.reference().child('atendimentos');
-    dbProfissional.onChildAdded.listen(_gravarProfissional);
-    dbProfissional.onChildChanged.listen(_updateProfissional);
-    await dbProfissional.once().then((DataSnapshot snapshot) {
-      Map<dynamic, dynamic> values = snapshot.value;
-      Profissional prof = new Profissional(values['nome'], values['telefone'],
-          values['email'], values['areaAtuacao'], values['usuario'],
-          values['imageURL'], values['facebook'], values['instagram'],
-          values['num_conselho'], snapshot.value['domingo'], snapshot.value['segunda'],
-          snapshot.value['terca'], snapshot.value['quarta'], snapshot.value['quinta'],
-          snapshot.value['sexta'], snapshot.value['sabado'], values['horarios'], values['assinante']);
-      if(prof.nome != null) {
-        listaProfissional.add(prof);
-      }
-    });
-
-    dbPacientes = db.reference().child('atendimentos/${profissional.usuario}/pacientes');
-    dbPacientes.onChildAdded.listen(_gravar);
-    dbPacientes.onChildChanged.listen(_update);
-    await dbPacientes.once().then((DataSnapshot snapshot) {
-      Map<dynamic, dynamic> values = snapshot.value;
-      Paciente paciente = new Paciente(
-          values['nome'], values['telefone'], values['email'], values['imageURL'],
-          values['data'], values['hora'], values['anotacao'], values['confirmado'],
-          values['objetivo'], values['vegetariano'], values['bebidaAlcoolica'],
-          values['fumante'], values['sedentario'], values['patologia'],
-          values['nomePatologia'], values['medicamentos'], values['nomeMedicamentos'],
-          values['alergia'], values['nomeAlergia'], values['sexo'], values['estadoCivil']
-      );
-      if(paciente.nome != null) {
-        listaPacientes.add(paciente);
-      }
-    });
-  }
-
   @override
   void initState() {
     super.initState();
@@ -147,6 +111,12 @@ class _FirstScreenState extends State<FirstScreen> {
   }
 
   Widget widgetPro() {
+
+    if(email == 'aplicativoswr@gmail.com' || email == 'rodiisilva@gmail.com'
+        || email == 'w.rodrigo@ufms.br' || email == 'rodrigoicarsaojose@gmail.com') {
+      appData.isPro = true;
+    }
+
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -747,7 +717,7 @@ class _FirstScreenState extends State<FirstScreen> {
                               ),
                               onPressed: () {
                                 Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) => Cadastro(profissional: profissional)),
+                                    builder: (context) => Cadastro(profissional: profissional, email: email,)),
                                 );
                                 setState(() {
                                   presente = true;
@@ -2711,6 +2681,42 @@ class _FirstScreenState extends State<FirstScreen> {
     });
   }
 
+  void carregarInfos() async {
+    dbProfissional = db2.reference().child('atendimentos');
+    dbProfissional.onChildAdded.listen(_gravarProfissional);
+    dbProfissional.onChildChanged.listen(_updateProfissional);
+    await dbProfissional.once().then((DataSnapshot snapshot) {
+      Map<dynamic, dynamic> values = snapshot.value;
+      Profissional prof = new Profissional(values['nome'], values['telefone'],
+          values['email'], values['areaAtuacao'], values['usuario'],
+          values['imageURL'], values['facebook'], values['instagram'],
+          values['num_conselho'], snapshot.value['domingo'], snapshot.value['segunda'],
+          snapshot.value['terca'], snapshot.value['quarta'], snapshot.value['quinta'],
+          snapshot.value['sexta'], snapshot.value['sabado'], values['horarios'], values['assinante']);
+      if(prof.nome != null) {
+        listaProfissional.add(prof);
+      }
+    });
+
+    dbPacientes = db.reference().child('atendimentos/${profissional.usuario}/pacientes');
+    dbPacientes.onChildAdded.listen(_gravar);
+    dbPacientes.onChildChanged.listen(_update);
+    await dbPacientes.once().then((DataSnapshot snapshot) {
+      Map<dynamic, dynamic> values = snapshot.value;
+      Paciente paciente = new Paciente(
+          values['nome'], values['telefone'], values['email'], values['imageURL'],
+          values['data'], values['hora'], values['anotacao'], values['confirmado'],
+          values['objetivo'], values['vegetariano'], values['bebidaAlcoolica'],
+          values['fumante'], values['sedentario'], values['patologia'],
+          values['nomePatologia'], values['medicamentos'], values['nomeMedicamentos'],
+          values['alergia'], values['nomeAlergia'], values['sexo'], values['estadoCivil']
+      );
+      if(paciente.nome != null) {
+        listaPacientes.add(paciente);
+      }
+    });
+  }
+
   Future<void> initPlatformState() async {
     appData.isPro = false;
 
@@ -2721,6 +2727,7 @@ class _FirstScreenState extends State<FirstScreen> {
     try {
       purchaserInfo = await Purchases.getPurchaserInfo();
       print(purchaserInfo.toString());
+
       if (purchaserInfo.entitlements.all['VIP'] != null) {
         appData.isPro = purchaserInfo.entitlements.all['VIP'].isActive;
       } else {

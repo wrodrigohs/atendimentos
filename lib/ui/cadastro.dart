@@ -3,6 +3,7 @@ import 'package:atendimentos/ui/firstscreen.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'dart:ui' as ui;
@@ -11,7 +12,8 @@ final FirebaseDatabase db = FirebaseDatabase.instance;
 
 class Cadastro extends StatefulWidget {
   Profissional profissional;
-  Cadastro({Key key, this.profissional}) : super(key: key);
+  String email;
+  Cadastro({Key key, this.profissional, this.email}) : super(key: key);
 
   @override
   _CadastroState createState() => _CadastroState();
@@ -83,20 +85,36 @@ class _CadastroState extends State<Cadastro> {
     _facebookController.text = "https://www.facebook.com/";
     _instagramController.text = "https://www.instagram.com/";
 
-    dbReference = db.reference().child('atendimentos');
+    dbReference = db2.reference().child('atendimentos');
     dbReference.onChildAdded.listen(_gravar);
     dbReference.onChildChanged.listen(_update);
     dbReference.once().then((DataSnapshot snapshot) {
-      //Map<dynamic, dynamic> values = snapshot.value;
-      /*Paciente paciente = new Paciente(
-          values['nome'], values['telefone'], values['email'],
-          values['data'], values['hora'], values['anotacao'], values['confirmado']);
-      listaPacientes.add(paciente);*/
+      Map<dynamic, dynamic> values = snapshot.value;
+      Profissional prof = new Profissional(values['nome'], values['telefone'],
+          values['email'], values['areaAtuacao'], values['usuario'],
+          values['imageURL'], values['facebook'], values['instagram'],
+          values['num_conselho'], snapshot.value['domingo'], snapshot.value['segunda'],
+          snapshot.value['terca'], snapshot.value['quarta'], snapshot.value['quinta'],
+          snapshot.value['sexta'], snapshot.value['sabado'], values['horarios'], values['assinante']);
+      if(prof.email != null) {
+        listaProfissional.add(prof);
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
+
+    for(int i = 0; i < listaProfissional.length; i++) {
+      if(listaProfissional[i].email == widget.email) {
+        Navigator.of(context).pop();
+        Fluttertoast.showToast(
+          msg:'Você já se cadastrou.',
+          toastLength: Toast.LENGTH_SHORT,
+          timeInSecForIosWeb: 5,
+        );
+      }
+    }
 
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
