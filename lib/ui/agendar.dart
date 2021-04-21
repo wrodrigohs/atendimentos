@@ -2032,7 +2032,7 @@ class _AgendarState extends State<Agendar> {
                                           ),
                                         ]
                                     ),
-                                    readOnly: true,
+                                    readOnly: widget.paciente.email.isEmpty || widget.paciente.email == null ? false : true,
                                     controller: _nomeController,
                                     onSaved: (nome) => paciente.nome = nome,
                                     validator: (nome) => nome.length < 3 ? "Deve ter ao menos 3 caracteres." : null,
@@ -2245,7 +2245,7 @@ class _AgendarState extends State<Agendar> {
                                           ),
                                         ]
                                     ),
-                                    readOnly: true,
+                                    readOnly: widget.paciente.email.isEmpty || widget.paciente.email == null ? false : true,
                                     controller: _emailController,
                                     onSaved: (email) => paciente.email = email,
                                     validator: validateEmail,
