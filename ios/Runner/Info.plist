@@ -56,7 +56,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCalendarsUsageDescription</key>
-	<string>REASON_TO_USE_CALENDAR</string>
+	<string>Para salvar as consultas marcadas no calendário do dispositivo.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

@@ -37,8 +37,9 @@ class FirstScreen extends StatefulWidget {
 
   Profissional profissional;
   String tipo;
+  bool presente;
 
-  FirstScreen({Key key, this.profissional, this.tipo}) : super(key: key);
+  FirstScreen({Key key, this.profissional, this.tipo, this.presente}) : super(key: key);
 
   @override
   _FirstScreenState createState() => _FirstScreenState();
@@ -143,6 +144,12 @@ class _FirstScreenState extends State<FirstScreen> {
         });
       }
       break;
+    }
+
+    if(widget.presente == true) {
+      setState(() {
+        presente = widget.presente;
+      });
     }
 
     listaPacientes.sort((a, b) => (((converterData(a.data)).compareTo(converterData(b.data)))));
@@ -674,6 +681,10 @@ class _FirstScreenState extends State<FirstScreen> {
                                     );
                                   }),
                             ),
+                            Divider(
+                              height: 5.0,
+                              color: Colors.transparent,
+                            ),
                           ],
                         )
                             :
@@ -716,12 +727,24 @@ class _FirstScreenState extends State<FirstScreen> {
                                 borderRadius: BorderRadius.circular(40),
                               ),
                               onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) => Cadastro(profissional: profissional, email: email,)),
-                                );
-                                setState(() {
-                                  presente = true;
-                                });
+                                for(int i = 0; i < listaProfissional.length; i++) {
+                                  if(listaProfissional[i].email == email) {
+                                    Navigator.pushReplacement(context, MaterialPageRoute(
+                                        builder: (BuildContext context) => super.widget));
+                                    Fluttertoast.showToast(
+                                      msg:'Você já se cadastrou.',
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      timeInSecForIosWeb: 5,
+                                    );
+                                    return;
+                                  }
+                                }
+
+                                if(presente == false) {
+                                  Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) => Cadastro(profissional: profissional, email: email,)),
+                                  );
+                                }
                               },
                               child: Text(
                                 "Cadastre-se",
@@ -963,6 +986,9 @@ class _FirstScreenState extends State<FirstScreen> {
                                       ),
                                     );
                                   }),
+                            ),
+                            SizedBox(
+                              height: 12.0,
                             ),
                           ],
                         ),
@@ -2685,7 +2711,7 @@ class _FirstScreenState extends State<FirstScreen> {
     dbProfissional = db2.reference().child('atendimentos');
     dbProfissional.onChildAdded.listen(_gravarProfissional);
     dbProfissional.onChildChanged.listen(_updateProfissional);
-    await dbProfissional.once().then((DataSnapshot snapshot) {
+    dbProfissional.once().then((DataSnapshot snapshot) {
       Map<dynamic, dynamic> values = snapshot.value;
       Profissional prof = new Profissional(values['nome'], values['telefone'],
           values['email'], values['areaAtuacao'], values['usuario'],
@@ -2701,7 +2727,7 @@ class _FirstScreenState extends State<FirstScreen> {
     dbPacientes = db.reference().child('atendimentos/${profissional.usuario}/pacientes');
     dbPacientes.onChildAdded.listen(_gravar);
     dbPacientes.onChildChanged.listen(_update);
-    await dbPacientes.once().then((DataSnapshot snapshot) {
+    dbPacientes.once().then((DataSnapshot snapshot) {
       Map<dynamic, dynamic> values = snapshot.value;
       Paciente paciente = new Paciente(
           values['nome'], values['telefone'], values['email'], values['imageURL'],

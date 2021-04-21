@@ -105,17 +105,6 @@ class _CadastroState extends State<Cadastro> {
   @override
   Widget build(BuildContext context) {
 
-    for(int i = 0; i < listaProfissional.length; i++) {
-      if(listaProfissional[i].email == widget.email) {
-        Navigator.of(context).pop();
-        Fluttertoast.showToast(
-          msg:'Você já se cadastrou.',
-          toastLength: Toast.LENGTH_SHORT,
-          timeInSecForIosWeb: 5,
-        );
-      }
-    }
-
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -1056,7 +1045,8 @@ class _CadastroState extends State<Cadastro> {
     }
 
     form.reset();
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => FirstScreen(tipo: 'profissional',)));
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>
+        FirstScreen(tipo: 'profissional', presente: true,)));
 //    Navigator.of(context).pop();
   }
 
