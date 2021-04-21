@@ -18,11 +18,32 @@
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
-    <key>CFBundleTypeRole</key>
-        <string>Editor</string>
-    <key>CFBundleURLSchemes</key>
+    <key>CFBundleURLTypes</key>
     <array>
-        <string>com.googleusercontent.apps.100927655331-62jsfaeodsutuh1fk5nj3l0lfl59crdp</string>
+        <dict>
+            <key>CFBundleTypeRole</key>
+            <string>Editor</string>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>br.com.aplicativoswr.meuconsultorioonline</string>
+            </array>
+        </dict>
+        <dict>
+            <key>CFBundleTypeRole</key>
+            <string>Editor</string>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>com.googleusercontent.apps.100927655331-62jsfaeodsutuh1fk5nj3l0lfl59crdp</string>
+            </array>
+        </dict>
+        <dict>
+            <key>CFBundleTypeRole</key>
+            <string>Editor</string>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>com.googleusercontent.apps.100927655331-62jsfaeodsutuh1fk5nj3l0lfl59crdp</string>
+            </array>
+        </dict>
     </array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
