@@ -57,7 +57,7 @@ class _FirstScreenState extends State<FirstScreen> {
   List<Profissional> listaProfissional = List();
   DatabaseReference dbPacientes;
   DatabaseReference dbProfissional;
-  bool presente = false;
+  bool presente;
   DateFormat dateFormat = DateFormat('dd/MM/yyyy', 'pt_Br');
   String nomeBuscado;
   final TextEditingController _nomeController = TextEditingController();
@@ -113,7 +113,7 @@ class _FirstScreenState extends State<FirstScreen> {
 
   Widget widgetPro() {
     //verificação das minhas contas para acesso VIP
-    if(email == 'aplicativoswr@gmail.com' || email == 'rodiisilva@gmail.com'
+    if(email == 'aplicativoswr@gmail.com' //|| email == 'rodiisilva@gmail.com'
         || email == 'w.rodrigo@ufms.br' || email == 'rodrigoicarsaojose@gmail.com') {
       appData.isPro = true;
     }
@@ -123,29 +123,6 @@ class _FirstScreenState extends State<FirstScreen> {
       DeviceOrientation.portraitDown,
     ]);
 
-    for(int i = 0; i < listaProfissional.length; i++) {
-      if(listaProfissional[i].email == profissional.email) {
-        setState(() {
-          presente = true;
-          pro = listaProfissional[i];
-          if(appData.isPro == true && pro.assinante == false) {
-            setState(() {
-              pro.assinante = true;
-              atualizarProfissional(pro);
-            });
-          }
-
-          if(appData.isPro == false && pro.assinante == true) {
-            setState(() {
-              pro.assinante = false;
-              atualizarProfissional(pro);
-            });
-          }
-        });
-      }
-      break;
-    }
-
     if(widget.presente == true) {
       setState(() {
         presente = widget.presente;
@@ -154,6 +131,8 @@ class _FirstScreenState extends State<FirstScreen> {
 
     listaPacientes.sort((a, b) => (((converterData(a.data)).compareTo(converterData(b.data)))));
     double distancia = AppBar().preferredSize.height + 40;
+
+    presente = verificaPresente();
 
     return SideMenu(
       key: _endSideMenuKey,
@@ -420,7 +399,7 @@ class _FirstScreenState extends State<FirstScreen> {
                         )
                             :
                         //EX-ASSINANTE PODE VER AS CONSULTAS MARCADAS, MAS SÓ ISSO.
-                        (appData.isPro == false && pro.assinante == false) && presente == true ?
+                        (appData.isPro == false && pro.assinante == false) == true && presente == true ?
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
@@ -686,7 +665,6 @@ class _FirstScreenState extends State<FirstScreen> {
                             :
                         //ISSO PERMITE QUE A CONTA SEJA UTILIZADA EM MAIS DE UM DISPOSITIVO SIMULTANEAMENTE
                         (appData.isPro == true || pro.assinante == true) && presente == false ?
-//                        isPro == true && presente == false ?
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -762,11 +740,12 @@ class _FirstScreenState extends State<FirstScreen> {
                                   ],
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         )
                             :
-                        presente == true && listaPacientes.length <= 0 ?
+                        (appData.isPro == true || pro.assinante == true)
+                            && presente == true && listaPacientes.length <= 0 ?
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           mainAxisSize: MainAxisSize.max,
@@ -817,7 +796,7 @@ class _FirstScreenState extends State<FirstScreen> {
                                     color: Colors.black,
                                     shape: RoundedRectangleBorder(
                                       side: BorderSide(
-                                          color: Colors.black,
+                                          color: Colors.white,
                                           width: 1,
                                           style: BorderStyle.solid
                                       ),
@@ -1068,6 +1047,10 @@ class _FirstScreenState extends State<FirstScreen> {
           LListItem(
             backgroundColor: Colors.transparent,
             onTap: () {
+              if(email == 'aplicativoswr@gmail.com' //|| email == 'rodiisilva@gmail.com'
+                  || email == 'w.rodrigo@ufms.br' || email == 'rodrigoicarsaojose@gmail.com') {
+                appData.isPro = true;
+              }
               if(appData.isPro == true) {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => Consultas(profissional: pro)));
               } else {
@@ -1108,7 +1091,10 @@ class _FirstScreenState extends State<FirstScreen> {
           LListItem(
             backgroundColor: Colors.transparent,
             onTap: () {
-//              if(isPro == true) {
+              if(email == 'aplicativoswr@gmail.com' //|| email == 'rodiisilva@gmail.com'
+                  || email == 'w.rodrigo@ufms.br' || email == 'rodrigoicarsaojose@gmail.com') {
+                appData.isPro = true;
+              }
               if(appData.isPro == true) {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => Agendar(profissional: pro, tipo: 'profissional')));
               } else {
@@ -1149,6 +1135,10 @@ class _FirstScreenState extends State<FirstScreen> {
           LListItem(
             backgroundColor: Colors.transparent,
             onTap: () {
+              if(email == 'aplicativoswr@gmail.com' //|| email == 'rodiisilva@gmail.com'
+                  || email == 'w.rodrigo@ufms.br' || email == 'rodrigoicarsaojose@gmail.com') {
+                appData.isPro = true;
+              }
               if(appData.isPro == true) {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => Prontuarios(profissional: pro)));
               } else {
@@ -1189,6 +1179,10 @@ class _FirstScreenState extends State<FirstScreen> {
           LListItem(
             backgroundColor: Colors.transparent,
             onTap: () {
+              if(email == 'aplicativoswr@gmail.com' //|| email == 'rodiisilva@gmail.com'
+                  || email == 'w.rodrigo@ufms.br' || email == 'rodrigoicarsaojose@gmail.com') {
+                appData.isPro = true;
+              }
               if(appData.isPro == true) {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => EditarCadastro(profissional: pro,)));
               } else {
@@ -3401,5 +3395,31 @@ class _FirstScreenState extends State<FirstScreen> {
           );
         }
     );
+  }
+
+  bool verificaPresente() {
+    bool presente = false;
+
+    for(int i = 0; i < listaProfissional.length; i++) {
+      if(equalsIgnoreCase(listaProfissional[i].email, email)) {
+        setState(() {
+          presente = true;
+          pro = listaProfissional[i];
+          if(appData.isPro == true && pro.assinante == false) {
+            setState(() {
+              pro.assinante = true;
+              atualizarProfissional(pro);
+            });
+          } else if(appData.isPro == false && pro.assinante == true) {
+            setState(() {
+              pro.assinante = false;
+              atualizarProfissional(pro);
+            });
+          }
+        });
+        return presente;
+      }
+    }
+    return presente;
   }
 }

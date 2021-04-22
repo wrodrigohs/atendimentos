@@ -9,6 +9,8 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:ui' as ui;
 
+import 'ui/firstscreen.dart';
+
 class UpsellScreen extends StatefulWidget {
   final Offerings offerings;
 
@@ -70,6 +72,24 @@ class _UpsellScreenState extends State<UpsellScreen> {
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Align(
+                                      alignment: Alignment.topRight,
+                                      child: FloatingActionButton(
+                                        backgroundColor: Colors.red,
+                                        mini: true,
+                                        child: Icon(Icons.close),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          /*Navigator.pushReplacement(context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      FirstScreen(tipo: 'profissional',)));*/
+                                        },
+                                      ),
+                                    ),
+                                  ),
                                   Padding(
                                     padding: const EdgeInsets.all(18.0),
                                     child: CircleAvatar(
