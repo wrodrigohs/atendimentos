@@ -681,10 +681,6 @@ class _FirstScreenState extends State<FirstScreen> {
                                     );
                                   }),
                             ),
-                            Divider(
-                              height: 5.0,
-                              color: Colors.transparent,
-                            ),
                           ],
                         )
                             :
@@ -986,9 +982,6 @@ class _FirstScreenState extends State<FirstScreen> {
                                       ),
                                     );
                                   }),
-                            ),
-                            SizedBox(
-                              height: 12.0,
                             ),
                           ],
                         ),
