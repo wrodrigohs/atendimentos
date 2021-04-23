@@ -156,7 +156,7 @@ class _VerProntuariosState extends State<VerProntuarios> {
                           Text('Não há consultas marcadas.',
                             style: TextStyle(
                                 inherit: false,
-                                fontSize: MediaQuery.of(context).size.height/45,
+                                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/45,
                                 fontFamily: 'quicksand',
                                 color: Colors.white,
                                 shadows: [
@@ -215,14 +215,14 @@ class _VerProntuariosState extends State<VerProntuarios> {
                                   title: Text('Consulta de',
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: MediaQuery.of(context).size.height/55,
+                                      fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                       fontFamily: 'quicksand',
                                     ),
                                   ),
                                   subtitle: Text('${listaAnotacoes[posicao].data} às ${listaAnotacoes[posicao].hora}',
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: MediaQuery.of(context).size.height/55,
+                                      fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                       fontFamily: 'quicksand',
                                     ),
                                   ),

@@ -109,7 +109,7 @@ class _UpsellScreenState extends State<UpsellScreen> {
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontFamily: 'quicksand',
-                                        fontSize: MediaQuery.of(context).size.height/50,
+                                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                         shadows: <Shadow>[
                                           Shadow(
                                             offset: Offset(1.0, 1.0),
@@ -145,7 +145,7 @@ class _UpsellScreenState extends State<UpsellScreen> {
                                           child: Text(
                                             'Estornar compra',
                                             style: kSendButtonTextStyle.copyWith(
-                                              fontSize: MediaQuery.of(context).size.height/50,
+                                              fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                               fontWeight: FontWeight.normal,
                                             ),
                                           ),
@@ -181,7 +181,7 @@ class _UpsellScreenState extends State<UpsellScreen> {
                                                         style: TextStyle(
                                                           color: Colors.white,
                                                           fontFamily: 'quicksand',
-                                                          fontSize: MediaQuery.of(context).size.height/50,
+                                                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                                           shadows: <Shadow>[
                                                             Shadow(
                                                               offset: Offset(1.0, 1.0),
@@ -208,7 +208,7 @@ class _UpsellScreenState extends State<UpsellScreen> {
                                                       style: TextStyle(
                                                         color: Colors.white,
                                                         fontFamily: 'quicksand',
-                                                        fontSize: MediaQuery.of(context).size.height/40,
+                                                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/40,
                                                         shadows: <Shadow>[
                                                           Shadow(
                                                             offset: Offset(1.0, 1.0),
@@ -253,7 +253,7 @@ class _UpsellScreenState extends State<UpsellScreen> {
                                                         style: TextStyle(
                                                           color: Colors.white,
                                                           fontFamily: 'quicksand',
-                                                          fontSize: MediaQuery.of(context).size.height/50,
+                                                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                                           shadows: <Shadow>[
                                                             Shadow(
                                                               offset: Offset(1.0, 1.0),
@@ -314,7 +314,7 @@ class _UpsellScreenState extends State<UpsellScreen> {
                                                       style: TextStyle(
                                                         color: Colors.white,
                                                         fontFamily: 'quicksand',
-                                                        fontSize: MediaQuery.of(context).size.height/50,
+                                                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                                         shadows: <Shadow>[
                                                           Shadow(
                                                             offset: Offset(1.0, 1.0),
@@ -341,7 +341,7 @@ class _UpsellScreenState extends State<UpsellScreen> {
                                                     style: TextStyle(
                                                       color: Colors.white,
                                                       fontFamily: 'quicksand',
-                                                      fontSize: MediaQuery.of(context).size.height/50,
+                                                      fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                                       shadows: <Shadow>[
                                                         Shadow(
                                                           offset: Offset(1.0, 1.0),
@@ -389,7 +389,7 @@ class _UpsellScreenState extends State<UpsellScreen> {
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontFamily: 'quicksand',
-                                            fontSize: MediaQuery.of(context).size.height/50,
+                                            fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                             shadows: <Shadow>[
                                               Shadow(
                                                 offset: Offset(1.0, 1.0),
@@ -482,7 +482,7 @@ class _UpsellScreenState extends State<UpsellScreen> {
                               style: TextStyle(
                                 color: Colors.white,
                                 fontFamily: 'quicksand',
-                                fontSize: MediaQuery.of(context).size.height/50,
+                                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                 shadows: <Shadow>[
                                   Shadow(
                                     offset: Offset(1.0, 1.0),

@@ -188,7 +188,7 @@ class _AgendarState extends State<Agendar> {
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontFamily: 'quicksand',
-                                        fontSize: MediaQuery.of(context).size.height/50,
+                                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                         shadows: [
                                           Shadow( // bottomLeft
                                               offset: Offset(-0.5, -0.5),
@@ -234,7 +234,7 @@ class _AgendarState extends State<Agendar> {
                                       hintStyle: TextStyle(
                                           color: Colors.white,
                                           fontFamily: 'quicksand',
-                                          fontSize: MediaQuery.of(context).size.height/50,
+                                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                           shadows: [
                                             Shadow( // bottomLeft
                                                 offset: Offset(-0.5, -0.5),
@@ -258,7 +258,7 @@ class _AgendarState extends State<Agendar> {
                                       labelStyle: TextStyle(
                                           color: Colors.white,
                                           fontFamily: 'quicksand',
-                                          fontSize: MediaQuery.of(context).size.height/50,
+                                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                           shadows: [
                                             Shadow( // bottomLeft
                                                 offset: Offset(-0.5, -0.5),
@@ -296,7 +296,7 @@ class _AgendarState extends State<Agendar> {
                                     textStyle: TextStyle(
                                         color: Colors.white,
                                         fontFamily: 'quicksand',
-                                        fontSize: MediaQuery.of(context).size.height/50,
+                                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                         shadows: [
                                           Shadow( // bottomLeft
                                               offset: Offset(-0.5, -0.5),
@@ -335,7 +335,7 @@ class _AgendarState extends State<Agendar> {
                                       hintStyle: TextStyle(
                                           color: Colors.white,
                                           fontFamily: 'quicksand',
-                                          fontSize: MediaQuery.of(context).size.height/50,
+                                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                           shadows: [
                                             Shadow( // bottomLeft
                                                 offset: Offset(-0.5, -0.5),
@@ -359,7 +359,7 @@ class _AgendarState extends State<Agendar> {
                                       labelStyle: TextStyle(
                                           color: Colors.white,
                                           fontFamily: 'quicksand',
-                                          fontSize: MediaQuery.of(context).size.height/50,
+                                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                           shadows: [
                                             Shadow( // bottomLeft
                                                 offset: Offset(-0.5, -0.5),
@@ -401,7 +401,7 @@ class _AgendarState extends State<Agendar> {
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontFamily: 'quicksand',
-                                        fontSize: MediaQuery.of(context).size.height/50,
+                                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                         shadows: [
                                           Shadow( // bottomLeft
                                               offset: Offset(-0.5, -0.5),
@@ -446,7 +446,7 @@ class _AgendarState extends State<Agendar> {
                                       hintText: "Digite seu e-mail",
                                       hintStyle: TextStyle(
                                           color: Colors.white,
-                                          fontSize: MediaQuery.of(context).size.height/50,
+                                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                           fontFamily: 'quicksand',
                                           shadows: [
                                             Shadow( // bottomLeft
@@ -470,7 +470,7 @@ class _AgendarState extends State<Agendar> {
                                       labelText: "E-mail",
                                       labelStyle: TextStyle(
                                           color: Colors.white,
-                                          fontSize: MediaQuery.of(context).size.height/50,
+                                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                           fontFamily: 'quicksand',
                                           shadows: [
                                             Shadow( // bottomLeft
@@ -508,7 +508,7 @@ class _AgendarState extends State<Agendar> {
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontFamily: 'quicksand',
-                                        fontSize: MediaQuery.of(context).size.height/50,
+                                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                         shadows: [
                                           Shadow( // bottomLeft
                                               offset: Offset(-0.5, -0.5),
@@ -553,7 +553,7 @@ class _AgendarState extends State<Agendar> {
                                       hintStyle: TextStyle(
                                           color: Colors.white,
                                           fontFamily: 'quicksand',
-                                          fontSize: MediaQuery.of(context).size.height/50,
+                                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                           shadows: [
                                             Shadow( // bottomLeft
                                                 offset: Offset(-0.5, -0.5),
@@ -577,7 +577,7 @@ class _AgendarState extends State<Agendar> {
                                       labelStyle: TextStyle(
                                           color: Colors.white,
                                           fontFamily: 'quicksand',
-                                          fontSize: MediaQuery.of(context).size.height/50,
+                                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                           shadows: [
                                             Shadow( // bottomLeft
                                                 offset: Offset(-0.5, -0.5),
@@ -616,7 +616,7 @@ class _AgendarState extends State<Agendar> {
                                       children: <Widget>[
                                         Text('Sexo: ',
                                           style: new TextStyle(
-                                              fontSize: MediaQuery.of(context).size.height/55,
+                                              fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                               color: Colors.white,
                                               fontFamily: 'quicksand',
                                               shadows: [
@@ -652,7 +652,7 @@ class _AgendarState extends State<Agendar> {
                                         Text(
                                           'Feminino',
                                           style: new TextStyle(
-                                              fontSize: MediaQuery.of(context).size.height/55,
+                                              fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                               color: Colors.white,
                                               fontFamily: 'quicksand',
                                               shadows: [
@@ -688,7 +688,7 @@ class _AgendarState extends State<Agendar> {
                                         Text(
                                           'Masculino',
                                           style: new TextStyle(
-                                              fontSize: MediaQuery.of(context).size.height/55,
+                                              fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                               color: Colors.white,
                                               fontFamily: 'quicksand',
                                               shadows: [
@@ -731,7 +731,7 @@ class _AgendarState extends State<Agendar> {
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontFamily: 'quicksand',
-                                                fontSize: MediaQuery.of(context).size.height/50,
+                                                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                                 shadows: [
                                                   Shadow( // bottomLeft
                                                       offset: Offset(-0.5, -0.5),
@@ -775,7 +775,7 @@ class _AgendarState extends State<Agendar> {
                                               hintText: "Digite seu objetivo",
                                               hintStyle: TextStyle(
                                                   color: Colors.white,
-                                                  fontSize: MediaQuery.of(context).size.height/50,
+                                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                                   fontFamily: 'quicksand',
                                                   shadows: [
                                                     Shadow( // bottomLeft
@@ -799,7 +799,7 @@ class _AgendarState extends State<Agendar> {
                                               labelText: "Objetivo",
                                               labelStyle: TextStyle(
                                                   color: Colors.white,
-                                                  fontSize: MediaQuery.of(context).size.height/50,
+                                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                                   fontFamily: 'quicksand',
                                                   shadows: [
                                                     Shadow( // bottomLeft
@@ -839,7 +839,7 @@ class _AgendarState extends State<Agendar> {
                                             style: TextStyle(
                                                 fontFamily: 'quicksand',
                                                 color: Colors.white,
-                                                fontSize: MediaQuery.of(context).size.height/55,
+                                                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                                 shadows: [
                                                   Shadow( // bottomLeft
                                                       offset: Offset(-0.5, -0.5),
@@ -878,7 +878,7 @@ class _AgendarState extends State<Agendar> {
                                             style: TextStyle(
                                                 fontFamily: 'quicksand',
                                                 color: Colors.white,
-                                                fontSize: MediaQuery.of(context).size.height/55,
+                                                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                                 shadows: [
                                                   Shadow( // bottomLeft
                                                       offset: Offset(-0.5, -0.5),
@@ -917,7 +917,7 @@ class _AgendarState extends State<Agendar> {
                                             style: TextStyle(
                                                 fontFamily: 'quicksand',
                                                 color: Colors.white,
-                                                fontSize: MediaQuery.of(context).size.height/55,
+                                                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                                 shadows: [
                                                   Shadow( // bottomLeft
                                                       offset: Offset(-0.5, -0.5),
@@ -956,7 +956,7 @@ class _AgendarState extends State<Agendar> {
                                             style: TextStyle(
                                                 fontFamily: 'quicksand',
                                                 color: Colors.white,
-                                                fontSize: MediaQuery.of(context).size.height/55,
+                                                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                                 shadows: [
                                                   Shadow( // bottomLeft
                                                       offset: Offset(-0.5, -0.5),
@@ -995,7 +995,7 @@ class _AgendarState extends State<Agendar> {
                                               children: <Widget>[
                                                 Text('Tem alguma patologia?',
                                                   style: new TextStyle(
-                                                      fontSize: MediaQuery.of(context).size.height/55,
+                                                      fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                                       color: Colors.white,
                                                       fontFamily: 'quicksand',
                                                       shadows: [
@@ -1031,7 +1031,7 @@ class _AgendarState extends State<Agendar> {
                                                 Text(
                                                   'Sim',
                                                   style: new TextStyle(
-                                                      fontSize: MediaQuery.of(context).size.height/55,
+                                                      fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                                       color: Colors.white,
                                                       fontFamily: 'quicksand',
                                                       shadows: [
@@ -1067,7 +1067,7 @@ class _AgendarState extends State<Agendar> {
                                                 Text(
                                                   'Não',
                                                   style: new TextStyle(
-                                                      fontSize: MediaQuery.of(context).size.height/55,
+                                                      fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                                       color: Colors.white,
                                                       fontFamily: 'quicksand',
                                                       shadows: [
@@ -1106,7 +1106,7 @@ class _AgendarState extends State<Agendar> {
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontFamily: 'quicksand',
-                                                  fontSize: MediaQuery.of(context).size.height/50,
+                                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                                   shadows: [
                                                     Shadow( // bottomLeft
                                                         offset: Offset(-0.5, -0.5),
@@ -1150,7 +1150,7 @@ class _AgendarState extends State<Agendar> {
                                                 hintText: "Digite sua(s) patologia(s)",
                                                 hintStyle: TextStyle(
                                                     color: Colors.white,
-                                                    fontSize: MediaQuery.of(context).size.height/50,
+                                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                                     fontFamily: 'quicksand',
                                                     shadows: [
                                                       Shadow( // bottomLeft
@@ -1174,7 +1174,7 @@ class _AgendarState extends State<Agendar> {
                                                 labelText: "Patologia",
                                                 labelStyle: TextStyle(
                                                     color: Colors.white,
-                                                    fontSize: MediaQuery.of(context).size.height/50,
+                                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                                     fontFamily: 'quicksand',
                                                     shadows: [
                                                       Shadow( // bottomLeft
@@ -1223,7 +1223,7 @@ class _AgendarState extends State<Agendar> {
                                               children: <Widget>[
                                                 Text('Faz uso de algum medicamento?',
                                                   style: new TextStyle(
-                                                      fontSize: MediaQuery.of(context).size.height/55,
+                                                      fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                                       color: Colors.white,
                                                       fontFamily: 'quicksand',
                                                       shadows: [
@@ -1259,7 +1259,7 @@ class _AgendarState extends State<Agendar> {
                                                 Text(
                                                   'Sim',
                                                   style: new TextStyle(
-                                                      fontSize: MediaQuery.of(context).size.height/55,
+                                                      fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                                       color: Colors.white,
                                                       fontFamily: 'quicksand',
                                                       shadows: [
@@ -1295,7 +1295,7 @@ class _AgendarState extends State<Agendar> {
                                                 Text(
                                                   'Não',
                                                   style: new TextStyle(
-                                                      fontSize: MediaQuery.of(context).size.height/55,
+                                                      fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                                       color: Colors.white,
                                                       fontFamily: 'quicksand',
                                                       shadows: [
@@ -1334,7 +1334,7 @@ class _AgendarState extends State<Agendar> {
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontFamily: 'quicksand',
-                                                  fontSize: MediaQuery.of(context).size.height/50,
+                                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                                   shadows: [
                                                     Shadow( // bottomLeft
                                                         offset: Offset(-0.5, -0.5),
@@ -1378,7 +1378,7 @@ class _AgendarState extends State<Agendar> {
                                                 hintText: "Digite seu(s) medicamento(s)",
                                                 hintStyle: TextStyle(
                                                     color: Colors.white,
-                                                    fontSize: MediaQuery.of(context).size.height/50,
+                                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                                     fontFamily: 'quicksand',
                                                     shadows: [
                                                       Shadow( // bottomLeft
@@ -1402,7 +1402,7 @@ class _AgendarState extends State<Agendar> {
                                                 labelText: "Medicamento(s)",
                                                 labelStyle: TextStyle(
                                                     color: Colors.white,
-                                                    fontSize: MediaQuery.of(context).size.height/50,
+                                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                                     fontFamily: 'quicksand',
                                                     shadows: [
                                                       Shadow( // bottomLeft
@@ -1451,7 +1451,7 @@ class _AgendarState extends State<Agendar> {
                                               children: <Widget>[
                                                 Text('Alguma alergia?',
                                                   style: new TextStyle(
-                                                      fontSize: MediaQuery.of(context).size.height/55,
+                                                      fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                                       color: Colors.white,
                                                       fontFamily: 'quicksand',
                                                       shadows: [
@@ -1487,7 +1487,7 @@ class _AgendarState extends State<Agendar> {
                                                 Text(
                                                   'Sim',
                                                   style: new TextStyle(
-                                                      fontSize: MediaQuery.of(context).size.height/55,
+                                                      fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                                       color: Colors.white,
                                                       fontFamily: 'quicksand',
                                                       shadows: [
@@ -1523,7 +1523,7 @@ class _AgendarState extends State<Agendar> {
                                                 Text(
                                                   'Não',
                                                   style: new TextStyle(
-                                                      fontSize: MediaQuery.of(context).size.height/55,
+                                                      fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                                       color: Colors.white,
                                                       fontFamily: 'quicksand',
                                                       shadows: [
@@ -1562,7 +1562,7 @@ class _AgendarState extends State<Agendar> {
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontFamily: 'quicksand',
-                                                  fontSize: MediaQuery.of(context).size.height/50,
+                                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                                   shadows: [
                                                     Shadow( // bottomLeft
                                                         offset: Offset(-0.5, -0.5),
@@ -1606,7 +1606,7 @@ class _AgendarState extends State<Agendar> {
                                                 hintText: "Digite sua(s) alergia(s)",
                                                 hintStyle: TextStyle(
                                                     color: Colors.white,
-                                                    fontSize: MediaQuery.of(context).size.height/50,
+                                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                                     fontFamily: 'quicksand',
                                                     shadows: [
                                                       Shadow( // bottomLeft
@@ -1630,7 +1630,7 @@ class _AgendarState extends State<Agendar> {
                                                 labelText: "Alergia(s)",
                                                 labelStyle: TextStyle(
                                                     color: Colors.white,
-                                                    fontSize: MediaQuery.of(context).size.height/50,
+                                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                                     fontFamily: 'quicksand',
                                                     shadows: [
                                                       Shadow( // bottomLeft
@@ -1699,7 +1699,7 @@ class _AgendarState extends State<Agendar> {
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontFamily: 'quicksand',
-                                                fontSize: MediaQuery.of(context).size.height/50,
+                                                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                                 shadows: [
                                                   Shadow( // bottomLeft
                                                       offset: Offset(-0.5, -0.5),
@@ -1728,7 +1728,7 @@ class _AgendarState extends State<Agendar> {
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontFamily: 'quicksand',
-                                              fontSize: MediaQuery.of(context).size.height/60,
+                                              fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/60,
                                             ),
                                           ),
                                           shape: RoundedRectangleBorder(
@@ -1766,7 +1766,7 @@ class _AgendarState extends State<Agendar> {
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontFamily: 'quicksand',
-                                                fontSize: MediaQuery.of(context).size.height/50,
+                                                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                                 shadows: [
                                                   Shadow( // bottomLeft
                                                       offset: Offset(-0.5, -0.5),
@@ -1795,7 +1795,7 @@ class _AgendarState extends State<Agendar> {
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontFamily: 'quicksand',
-                                              fontSize: MediaQuery.of(context).size.height/60,
+                                              fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/60,
                                             ),
                                           ),
                                           shape: RoundedRectangleBorder(
@@ -1817,7 +1817,7 @@ class _AgendarState extends State<Agendar> {
                                                         style: TextStyle(
                                                           color: Colors.white,
                                                           fontFamily: 'quicksand',
-                                                          fontSize: MediaQuery.of(context).size.height/50,
+                                                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                                         ),
                                                       ),
                                                       backgroundColor: Colors.black,
@@ -1850,7 +1850,7 @@ class _AgendarState extends State<Agendar> {
                                   "Marcar atendimento",
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: MediaQuery.of(context).size.height/50,
+                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                     fontFamily: 'quicksand',
                                     shadows: <Shadow>[
                                       Shadow(
@@ -2012,7 +2012,7 @@ class _AgendarState extends State<Agendar> {
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontFamily: 'quicksand',
-                                        fontSize: MediaQuery.of(context).size.height/50,
+                                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                         shadows: [
                                           Shadow( // bottomLeft
                                               offset: Offset(-0.5, -0.5),
@@ -2058,7 +2058,7 @@ class _AgendarState extends State<Agendar> {
                                       hintStyle: TextStyle(
                                           color: Colors.white,
                                           fontFamily: 'quicksand',
-                                          fontSize: MediaQuery.of(context).size.height/50,
+                                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                           shadows: [
                                             Shadow( // bottomLeft
                                                 offset: Offset(-0.5, -0.5),
@@ -2082,7 +2082,7 @@ class _AgendarState extends State<Agendar> {
                                       labelStyle: TextStyle(
                                           color: Colors.white,
                                           fontFamily: 'quicksand',
-                                          fontSize: MediaQuery.of(context).size.height/50,
+                                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                           shadows: [
                                             Shadow( // bottomLeft
                                                 offset: Offset(-0.5, -0.5),
@@ -2120,7 +2120,7 @@ class _AgendarState extends State<Agendar> {
                                     textStyle: TextStyle(
                                         color: Colors.white,
                                         fontFamily: 'quicksand',
-                                        fontSize: MediaQuery.of(context).size.height/50,
+                                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                         shadows: [
                                           Shadow( // bottomLeft
                                               offset: Offset(-0.5, -0.5),
@@ -2159,7 +2159,7 @@ class _AgendarState extends State<Agendar> {
                                       hintStyle: TextStyle(
                                           color: Colors.white,
                                           fontFamily: 'quicksand',
-                                          fontSize: MediaQuery.of(context).size.height/50,
+                                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                           shadows: [
                                             Shadow( // bottomLeft
                                                 offset: Offset(-0.5, -0.5),
@@ -2183,7 +2183,7 @@ class _AgendarState extends State<Agendar> {
                                       labelStyle: TextStyle(
                                           color: Colors.white,
                                           fontFamily: 'quicksand',
-                                          fontSize: MediaQuery.of(context).size.height/50,
+                                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                           shadows: [
                                             Shadow( // bottomLeft
                                                 offset: Offset(-0.5, -0.5),
@@ -2225,7 +2225,7 @@ class _AgendarState extends State<Agendar> {
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontFamily: 'quicksand',
-                                        fontSize: MediaQuery.of(context).size.height/50,
+                                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                         shadows: [
                                           Shadow( // bottomLeft
                                               offset: Offset(-0.5, -0.5),
@@ -2270,7 +2270,7 @@ class _AgendarState extends State<Agendar> {
                                       hintText: "Digite seu e-mail",
                                       hintStyle: TextStyle(
                                           color: Colors.white,
-                                          fontSize: MediaQuery.of(context).size.height/50,
+                                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                           fontFamily: 'quicksand',
                                           shadows: [
                                             Shadow( // bottomLeft
@@ -2294,7 +2294,7 @@ class _AgendarState extends State<Agendar> {
                                       labelText: "E-mail",
                                       labelStyle: TextStyle(
                                           color: Colors.white,
-                                          fontSize: MediaQuery.of(context).size.height/50,
+                                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                           fontFamily: 'quicksand',
                                           shadows: [
                                             Shadow( // bottomLeft
@@ -2332,7 +2332,7 @@ class _AgendarState extends State<Agendar> {
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontFamily: 'quicksand',
-                                        fontSize: MediaQuery.of(context).size.height/50,
+                                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                         shadows: [
                                           Shadow( // bottomLeft
                                               offset: Offset(-0.5, -0.5),
@@ -2377,7 +2377,7 @@ class _AgendarState extends State<Agendar> {
                                       hintStyle: TextStyle(
                                           color: Colors.white,
                                           fontFamily: 'quicksand',
-                                          fontSize: MediaQuery.of(context).size.height/50,
+                                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                           shadows: [
                                             Shadow( // bottomLeft
                                                 offset: Offset(-0.5, -0.5),
@@ -2401,7 +2401,7 @@ class _AgendarState extends State<Agendar> {
                                       labelStyle: TextStyle(
                                           color: Colors.white,
                                           fontFamily: 'quicksand',
-                                          fontSize: MediaQuery.of(context).size.height/50,
+                                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                           shadows: [
                                             Shadow( // bottomLeft
                                                 offset: Offset(-0.5, -0.5),
@@ -2440,7 +2440,7 @@ class _AgendarState extends State<Agendar> {
                                       children: <Widget>[
                                         Text('Sexo: ',
                                           style: new TextStyle(
-                                              fontSize: MediaQuery.of(context).size.height/55,
+                                              fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                               color: Colors.white,
                                               fontFamily: 'quicksand',
                                               shadows: [
@@ -2476,7 +2476,7 @@ class _AgendarState extends State<Agendar> {
                                         Text(
                                           'Feminino',
                                           style: new TextStyle(
-                                              fontSize: MediaQuery.of(context).size.height/55,
+                                              fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                               color: Colors.white,
                                               fontFamily: 'quicksand',
                                               shadows: [
@@ -2512,7 +2512,7 @@ class _AgendarState extends State<Agendar> {
                                         Text(
                                           'Masculino',
                                           style: new TextStyle(
-                                              fontSize: MediaQuery.of(context).size.height/55,
+                                              fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                               color: Colors.white,
                                               fontFamily: 'quicksand',
                                               shadows: [
@@ -2555,7 +2555,7 @@ class _AgendarState extends State<Agendar> {
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontFamily: 'quicksand',
-                                                fontSize: MediaQuery.of(context).size.height/50,
+                                                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                                 shadows: [
                                                   Shadow( // bottomLeft
                                                       offset: Offset(-0.5, -0.5),
@@ -2599,7 +2599,7 @@ class _AgendarState extends State<Agendar> {
                                               hintText: "Digite seu objetivo",
                                               hintStyle: TextStyle(
                                                   color: Colors.white,
-                                                  fontSize: MediaQuery.of(context).size.height/50,
+                                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                                   fontFamily: 'quicksand',
                                                   shadows: [
                                                     Shadow( // bottomLeft
@@ -2623,7 +2623,7 @@ class _AgendarState extends State<Agendar> {
                                               labelText: "Objetivo",
                                               labelStyle: TextStyle(
                                                   color: Colors.white,
-                                                  fontSize: MediaQuery.of(context).size.height/50,
+                                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                                   fontFamily: 'quicksand',
                                                   shadows: [
                                                     Shadow( // bottomLeft
@@ -2663,7 +2663,7 @@ class _AgendarState extends State<Agendar> {
                                             style: TextStyle(
                                                 fontFamily: 'quicksand',
                                                 color: Colors.white,
-                                                fontSize: MediaQuery.of(context).size.height/55,
+                                                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                                 shadows: [
                                                   Shadow( // bottomLeft
                                                       offset: Offset(-0.5, -0.5),
@@ -2702,7 +2702,7 @@ class _AgendarState extends State<Agendar> {
                                             style: TextStyle(
                                                 fontFamily: 'quicksand',
                                                 color: Colors.white,
-                                                fontSize: MediaQuery.of(context).size.height/55,
+                                                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                                 shadows: [
                                                   Shadow( // bottomLeft
                                                       offset: Offset(-0.5, -0.5),
@@ -2741,7 +2741,7 @@ class _AgendarState extends State<Agendar> {
                                             style: TextStyle(
                                                 fontFamily: 'quicksand',
                                                 color: Colors.white,
-                                                fontSize: MediaQuery.of(context).size.height/55,
+                                                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                                 shadows: [
                                                   Shadow( // bottomLeft
                                                       offset: Offset(-0.5, -0.5),
@@ -2780,7 +2780,7 @@ class _AgendarState extends State<Agendar> {
                                             style: TextStyle(
                                                 fontFamily: 'quicksand',
                                                 color: Colors.white,
-                                                fontSize: MediaQuery.of(context).size.height/55,
+                                                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                                 shadows: [
                                                   Shadow( // bottomLeft
                                                       offset: Offset(-0.5, -0.5),
@@ -2819,7 +2819,7 @@ class _AgendarState extends State<Agendar> {
                                               children: <Widget>[
                                                 Text('Tem alguma patologia?',
                                                   style: new TextStyle(
-                                                      fontSize: MediaQuery.of(context).size.height/55,
+                                                      fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                                       color: Colors.white,
                                                       fontFamily: 'quicksand',
                                                       shadows: [
@@ -2855,7 +2855,7 @@ class _AgendarState extends State<Agendar> {
                                                 Text(
                                                   'Sim',
                                                   style: new TextStyle(
-                                                      fontSize: MediaQuery.of(context).size.height/55,
+                                                      fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                                       color: Colors.white,
                                                       fontFamily: 'quicksand',
                                                       shadows: [
@@ -2891,7 +2891,7 @@ class _AgendarState extends State<Agendar> {
                                                 Text(
                                                   'Não',
                                                   style: new TextStyle(
-                                                      fontSize: MediaQuery.of(context).size.height/55,
+                                                      fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                                       color: Colors.white,
                                                       fontFamily: 'quicksand',
                                                       shadows: [
@@ -2930,7 +2930,7 @@ class _AgendarState extends State<Agendar> {
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontFamily: 'quicksand',
-                                                  fontSize: MediaQuery.of(context).size.height/50,
+                                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                                   shadows: [
                                                     Shadow( // bottomLeft
                                                         offset: Offset(-0.5, -0.5),
@@ -2974,7 +2974,7 @@ class _AgendarState extends State<Agendar> {
                                                 hintText: "Digite sua(s) patologia(s)",
                                                 hintStyle: TextStyle(
                                                     color: Colors.white,
-                                                    fontSize: MediaQuery.of(context).size.height/50,
+                                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                                     fontFamily: 'quicksand',
                                                     shadows: [
                                                       Shadow( // bottomLeft
@@ -2998,7 +2998,7 @@ class _AgendarState extends State<Agendar> {
                                                 labelText: "Patologia",
                                                 labelStyle: TextStyle(
                                                     color: Colors.white,
-                                                    fontSize: MediaQuery.of(context).size.height/50,
+                                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                                     fontFamily: 'quicksand',
                                                     shadows: [
                                                       Shadow( // bottomLeft
@@ -3047,7 +3047,7 @@ class _AgendarState extends State<Agendar> {
                                               children: <Widget>[
                                                 Text('Faz uso de algum medicamento?',
                                                   style: new TextStyle(
-                                                      fontSize: MediaQuery.of(context).size.height/55,
+                                                      fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                                       color: Colors.white,
                                                       fontFamily: 'quicksand',
                                                       shadows: [
@@ -3083,7 +3083,7 @@ class _AgendarState extends State<Agendar> {
                                                 Text(
                                                   'Sim',
                                                   style: new TextStyle(
-                                                      fontSize: MediaQuery.of(context).size.height/55,
+                                                      fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                                       color: Colors.white,
                                                       fontFamily: 'quicksand',
                                                       shadows: [
@@ -3119,7 +3119,7 @@ class _AgendarState extends State<Agendar> {
                                                 Text(
                                                   'Não',
                                                   style: new TextStyle(
-                                                      fontSize: MediaQuery.of(context).size.height/55,
+                                                      fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                                       color: Colors.white,
                                                       fontFamily: 'quicksand',
                                                       shadows: [
@@ -3158,7 +3158,7 @@ class _AgendarState extends State<Agendar> {
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontFamily: 'quicksand',
-                                                  fontSize: MediaQuery.of(context).size.height/50,
+                                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                                   shadows: [
                                                     Shadow( // bottomLeft
                                                         offset: Offset(-0.5, -0.5),
@@ -3202,7 +3202,7 @@ class _AgendarState extends State<Agendar> {
                                                 hintText: "Digite seu(s) medicamento(s)",
                                                 hintStyle: TextStyle(
                                                     color: Colors.white,
-                                                    fontSize: MediaQuery.of(context).size.height/50,
+                                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                                     fontFamily: 'quicksand',
                                                     shadows: [
                                                       Shadow( // bottomLeft
@@ -3226,7 +3226,7 @@ class _AgendarState extends State<Agendar> {
                                                 labelText: "Medicamento(s)",
                                                 labelStyle: TextStyle(
                                                     color: Colors.white,
-                                                    fontSize: MediaQuery.of(context).size.height/50,
+                                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                                     fontFamily: 'quicksand',
                                                     shadows: [
                                                       Shadow( // bottomLeft
@@ -3275,7 +3275,7 @@ class _AgendarState extends State<Agendar> {
                                               children: <Widget>[
                                                 Text('Alguma alergia?',
                                                   style: new TextStyle(
-                                                      fontSize: MediaQuery.of(context).size.height/55,
+                                                      fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                                       color: Colors.white,
                                                       fontFamily: 'quicksand',
                                                       shadows: [
@@ -3311,7 +3311,7 @@ class _AgendarState extends State<Agendar> {
                                                 Text(
                                                   'Sim',
                                                   style: new TextStyle(
-                                                      fontSize: MediaQuery.of(context).size.height/55,
+                                                      fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                                       color: Colors.white,
                                                       fontFamily: 'quicksand',
                                                       shadows: [
@@ -3347,7 +3347,7 @@ class _AgendarState extends State<Agendar> {
                                                 Text(
                                                   'Não',
                                                   style: new TextStyle(
-                                                      fontSize: MediaQuery.of(context).size.height/55,
+                                                      fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                                       color: Colors.white,
                                                       fontFamily: 'quicksand',
                                                       shadows: [
@@ -3386,7 +3386,7 @@ class _AgendarState extends State<Agendar> {
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontFamily: 'quicksand',
-                                                  fontSize: MediaQuery.of(context).size.height/50,
+                                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                                   shadows: [
                                                     Shadow( // bottomLeft
                                                         offset: Offset(-0.5, -0.5),
@@ -3430,7 +3430,7 @@ class _AgendarState extends State<Agendar> {
                                                 hintText: "Digite sua(s) alergia(s)",
                                                 hintStyle: TextStyle(
                                                     color: Colors.white,
-                                                    fontSize: MediaQuery.of(context).size.height/50,
+                                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                                     fontFamily: 'quicksand',
                                                     shadows: [
                                                       Shadow( // bottomLeft
@@ -3454,7 +3454,7 @@ class _AgendarState extends State<Agendar> {
                                                 labelText: "Alergia(s)",
                                                 labelStyle: TextStyle(
                                                     color: Colors.white,
-                                                    fontSize: MediaQuery.of(context).size.height/50,
+                                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                                     fontFamily: 'quicksand',
                                                     shadows: [
                                                       Shadow( // bottomLeft
@@ -3523,7 +3523,7 @@ class _AgendarState extends State<Agendar> {
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontFamily: 'quicksand',
-                                                fontSize: MediaQuery.of(context).size.height/50,
+                                                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                                 shadows: [
                                                   Shadow( // bottomLeft
                                                       offset: Offset(-0.5, -0.5),
@@ -3552,7 +3552,7 @@ class _AgendarState extends State<Agendar> {
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontFamily: 'quicksand',
-                                              fontSize: MediaQuery.of(context).size.height/60,
+                                              fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/60,
                                             ),
                                           ),
                                           shape: RoundedRectangleBorder(
@@ -3590,7 +3590,7 @@ class _AgendarState extends State<Agendar> {
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontFamily: 'quicksand',
-                                                fontSize: MediaQuery.of(context).size.height/50,
+                                                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                                 shadows: [
                                                   Shadow( // bottomLeft
                                                       offset: Offset(-0.5, -0.5),
@@ -3619,7 +3619,7 @@ class _AgendarState extends State<Agendar> {
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontFamily: 'quicksand',
-                                              fontSize: MediaQuery.of(context).size.height/60,
+                                              fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/60,
                                             ),
                                           ),
                                           shape: RoundedRectangleBorder(
@@ -3641,7 +3641,7 @@ class _AgendarState extends State<Agendar> {
                                                         style: TextStyle(
                                                           color: Colors.white,
                                                           fontFamily: 'quicksand',
-                                                          fontSize: MediaQuery.of(context).size.height/50,
+                                                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                                         ),
                                                       ),
                                                       backgroundColor: Colors.black,
@@ -3674,7 +3674,7 @@ class _AgendarState extends State<Agendar> {
                                   "Marcar atendimento",
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: MediaQuery.of(context).size.height/50,
+                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                     fontFamily: 'quicksand',
                                     shadows: <Shadow>[
                                       Shadow(
@@ -3904,7 +3904,7 @@ class _AgendarState extends State<Agendar> {
             style: TextStyle(
               color: Colors.white,
               fontFamily: 'quicksand',
-              fontSize: MediaQuery.of(context).size.height/50,
+              fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
             ),
           ),
           backgroundColor: Colors.black,
@@ -4197,7 +4197,6 @@ class _AgendarState extends State<Agendar> {
         print('Evento criado no calendário de ${calendarioEscolhido.name}');
       } else {
         print('não criou o evento no calendário de ${calendarioEscolhido.name}');
-//        showInSnackBar(createEventResult.errorMessages.join(' | '));
       }
 
       Fluttertoast.showToast(

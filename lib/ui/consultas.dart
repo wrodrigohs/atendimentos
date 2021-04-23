@@ -164,7 +164,7 @@ class _ConsultasState extends State<Consultas> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             inherit: false,
-                            fontSize: MediaQuery.of(context).size.height/45,
+                            fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/45,
                             fontFamily: 'quicksand',
                             color: Colors.white,
                             shadows: [
@@ -232,7 +232,7 @@ class _ConsultasState extends State<Consultas> {
                                   color: Colors.white,
                                   fontFamily: 'quicksand',
                                   fontWeight: FontWeight.w300,
-                                  fontSize: MediaQuery.of(context).size.height/50,
+                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                 ),
                               ),
                               subtitle: Text(
@@ -241,7 +241,7 @@ class _ConsultasState extends State<Consultas> {
                                   color: Colors.white,
                                   fontFamily: 'quicksand',
                                   fontWeight: FontWeight.w100,
-                                  fontSize: MediaQuery.of(context).size.height/55,
+                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                 ),
                               ),
                               trailing: Row(
@@ -405,7 +405,7 @@ class _ConsultasState extends State<Consultas> {
                                 'Sim',
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: MediaQuery.of(context).size.height/60,
+                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/60,
                                   fontFamily: 'quicksand',
                                 ),
                               ),

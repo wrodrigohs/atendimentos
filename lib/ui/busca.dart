@@ -160,7 +160,7 @@ class _BuscaState extends State<Busca> {
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 inherit: false,
-                                fontSize: MediaQuery.of(context).size.height/45,
+                                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/45,
                                 fontFamily: 'quicksand',
                                 color: Colors.white,
                                 shadows: [
@@ -228,7 +228,7 @@ class _BuscaState extends State<Busca> {
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontFamily: 'quicksand',
-                                      fontSize: MediaQuery.of(context).size.height/55,
+                                      fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                     ),
                                   ),
                                   subtitle: Text(
@@ -236,7 +236,7 @@ class _BuscaState extends State<Busca> {
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontFamily: 'quicksand',
-                                      fontSize: MediaQuery.of(context).size.height/55,
+                                      fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                     ),
                                   ),
                                   trailing: Row(
@@ -338,7 +338,7 @@ class _BuscaState extends State<Busca> {
                       style: TextStyle(
                         color: Colors.red,
                         fontFamily: 'quicksand',
-                        fontSize: MediaQuery.of(context).size.height/50,
+                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                         fontWeight: FontWeight.bold,),
                       textAlign: TextAlign.center,
                     ),
@@ -363,7 +363,7 @@ class _BuscaState extends State<Busca> {
                             style: TextStyle(
                               color: Colors.black,
                               fontFamily: 'quicksand',
-                              fontSize: MediaQuery.of(context).size.height/50,
+                              fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                             ),
                           ),
                         ),
@@ -381,7 +381,7 @@ class _BuscaState extends State<Busca> {
                                 'Sim',
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: MediaQuery.of(context).size.height/60,
+                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/60,
                                   fontFamily: 'quicksand',
                                 ),
                               ),
@@ -402,7 +402,7 @@ class _BuscaState extends State<Busca> {
                                 'Não',
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: MediaQuery.of(context).size.height/60,
+                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/60,
                                   fontFamily: 'quicksand',
                                 ),
                               ),

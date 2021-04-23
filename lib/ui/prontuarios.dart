@@ -147,7 +147,7 @@ class _ProntuariosState extends State<Prontuarios> {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     inherit: false,
-                                    fontSize: MediaQuery.of(context).size.height/45,
+                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/45,
                                     fontFamily: 'quicksand',
                                     color: Colors.white,
                                     shadows: [

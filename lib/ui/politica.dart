@@ -45,7 +45,7 @@ class _PoliticadePrivacidadeState extends State<PoliticadePrivacidade> {
                     style: TextStyle(
                       color: Colors.black,
                       fontFamily: 'quicksand',
-                      fontSize: MediaQuery.of(context).size.height/50,
+                      fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                     ),
                     children: <TextSpan>[
                       TextSpan(text: '\nSEÇÃO 1 - QUE INFORMAÇÕES COLETAMOS?\n',
@@ -53,7 +53,7 @@ class _PoliticadePrivacidadeState extends State<PoliticadePrivacidade> {
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'quicksand',
-                          fontSize: MediaQuery.of(context).size.height/50,
+                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                         ),
                       ),
                       TextSpan(
@@ -64,7 +64,7 @@ class _PoliticadePrivacidadeState extends State<PoliticadePrivacidade> {
                         style: TextStyle(
                           color: Colors.black,
                           fontFamily: 'quicksand',
-                          fontSize: MediaQuery.of(context).size.height/50,
+                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                         ),
                       ),
                       TextSpan(text: '\n\nSEÇÃO 2 - O QUE FAREMOS COM ESSAS INFORMAÇÕES?\n',
@@ -72,7 +72,7 @@ class _PoliticadePrivacidadeState extends State<PoliticadePrivacidade> {
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'quicksand',
-                          fontSize: MediaQuery.of(context).size.height/50,
+                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                         ),
                       ),
                       TextSpan(
@@ -80,7 +80,7 @@ class _PoliticadePrivacidadeState extends State<PoliticadePrivacidade> {
                         style: TextStyle(
                           color: Colors.black,
                           fontFamily: 'quicksand',
-                          fontSize: MediaQuery.of(context).size.height/50,
+                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                         ),
                       ),
                       TextSpan(text: '\n\nSEÇÃO 3 - CONSENTIMENTO\n',
@@ -88,7 +88,7 @@ class _PoliticadePrivacidadeState extends State<PoliticadePrivacidade> {
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'quicksand',
-                          fontSize: MediaQuery.of(context).size.height/50,
+                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                         ),
                       ),
                       TextSpan(
@@ -99,7 +99,7 @@ class _PoliticadePrivacidadeState extends State<PoliticadePrivacidade> {
                         style: TextStyle(
                           color: Colors.black,
                           fontFamily: 'quicksand',
-                          fontSize: MediaQuery.of(context).size.height/50,
+                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                         ),
                       ),
                       TextSpan(text: '\n\nSEÇÃO 4 - DIVULGAÇÃO\n',
@@ -107,7 +107,7 @@ class _PoliticadePrivacidadeState extends State<PoliticadePrivacidade> {
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'quicksand',
-                          fontSize: MediaQuery.of(context).size.height/50,
+                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                         ),
                       ),
                       TextSpan(
@@ -115,7 +115,7 @@ class _PoliticadePrivacidadeState extends State<PoliticadePrivacidade> {
                         style: TextStyle(
                           color: Colors.black,
                           fontFamily: 'quicksand',
-                          fontSize: MediaQuery.of(context).size.height/50,
+                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                         ),
                       ),
                       TextSpan(text: '\n\nSEÇÃO 5 - SERVIÇOS DE TERCEIROS\n',
@@ -123,7 +123,7 @@ class _PoliticadePrivacidadeState extends State<PoliticadePrivacidade> {
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'quicksand',
-                          fontSize: MediaQuery.of(context).size.height/50,
+                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                         ),
                       ),
                       TextSpan(
@@ -131,7 +131,7 @@ class _PoliticadePrivacidadeState extends State<PoliticadePrivacidade> {
                         style: TextStyle(
                           color: Colors.black,
                           fontFamily: 'quicksand',
-                          fontSize: MediaQuery.of(context).size.height/50,
+                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                         ),
                       ),
                       TextSpan(text: '\n\nSEÇÃO 6 - SEGURANÇA\n',
@@ -139,7 +139,7 @@ class _PoliticadePrivacidadeState extends State<PoliticadePrivacidade> {
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'quicksand',
-                          fontSize: MediaQuery.of(context).size.height/50,
+                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                         ),
                       ),
                       TextSpan(
@@ -147,7 +147,7 @@ class _PoliticadePrivacidadeState extends State<PoliticadePrivacidade> {
                         style: TextStyle(
                           color: Colors.black,
                           fontFamily: 'quicksand',
-                          fontSize: MediaQuery.of(context).size.height/50,
+                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                         ),
                       ),
                       TextSpan(text: '\n\nSEÇÃO 7 - ALTERAÇÕES PARA ESSA POLÍTICA DE PRIVACIDADE\n',
@@ -155,7 +155,7 @@ class _PoliticadePrivacidadeState extends State<PoliticadePrivacidade> {
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'quicksand',
-                          fontSize: MediaQuery.of(context).size.height/50,
+                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                         ),
                       ),
                       TextSpan(
@@ -163,7 +163,7 @@ class _PoliticadePrivacidadeState extends State<PoliticadePrivacidade> {
                         style: TextStyle(
                           color: Colors.black,
                           fontFamily: 'quicksand',
-                          fontSize: MediaQuery.of(context).size.height/50,
+                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                         ),
                       ),
                     ],

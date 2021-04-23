@@ -113,8 +113,8 @@ class _FirstScreenState extends State<FirstScreen> {
 
   Widget widgetPro() {
     //verificação das minhas contas para acesso VIP
-    if(email == 'aplicativoswr@gmail.com' //|| email == 'rodiisilva@gmail.com'
-        || email == 'w.rodrigo@ufms.br' || email == 'rodrigoicarsaojose@gmail.com') {
+    if(email == 'aplicativoswr@gmail.com' //|| email == 'rodrigoicarsaojose@gmail.com'|| email == 'rodiisilva@gmail.com'
+        || email == 'w.rodrigo@ufms.br' ) {
       appData.isPro = true;
     }
 
@@ -261,7 +261,7 @@ class _FirstScreenState extends State<FirstScreen> {
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontFamily: 'quicksand',
-                                    fontSize: MediaQuery.of(context).size.height/50,
+                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                     shadows: <Shadow>[
                                       Shadow(
                                         offset: Offset(1.0, 1.0),
@@ -303,7 +303,7 @@ class _FirstScreenState extends State<FirstScreen> {
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontFamily: 'quicksand',
-                                            fontSize: MediaQuery.of(context).size.height/55,
+                                            fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                           ),
                                         ),
                                         backgroundColor: Colors.black,
@@ -320,7 +320,7 @@ class _FirstScreenState extends State<FirstScreen> {
                                 "Área do assinante",
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: MediaQuery.of(context).size.height/50,
+                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                   fontFamily: 'quicksand',
                                   shadows: <Shadow>[
                                     Shadow(
@@ -345,7 +345,7 @@ class _FirstScreenState extends State<FirstScreen> {
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontFamily: 'quicksand',
-                                    fontSize: MediaQuery.of(context).size.height/50,
+                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                     shadows: <Shadow>[
                                       Shadow(
                                         offset: Offset(1.0, 1.0),
@@ -378,7 +378,7 @@ class _FirstScreenState extends State<FirstScreen> {
                                 "Assine",
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: MediaQuery.of(context).size.height/50,
+                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                   fontFamily: 'quicksand',
                                   shadows: <Shadow>[
                                     Shadow(
@@ -402,7 +402,7 @@ class _FirstScreenState extends State<FirstScreen> {
                         (appData.isPro == false && pro.assinante == false) == true && presente == true ?
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
+                          mainAxisSize: MainAxisSize.max,
                           children: [
                             SizedBox(
                               height: distancia,
@@ -441,7 +441,7 @@ class _FirstScreenState extends State<FirstScreen> {
                                     "Assine",
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: MediaQuery.of(context).size.height/50,
+                                      fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                       fontFamily: 'quicksand',
                                       shadows: <Shadow>[
                                         Shadow(
@@ -459,6 +459,52 @@ class _FirstScreenState extends State<FirstScreen> {
                                   ),
                                 )
                             ),
+                            listaPacientes.isEmpty ?
+                            Column(
+                             mainAxisAlignment: MainAxisAlignment.start,
+                             mainAxisSize: MainAxisSize.max,
+                             children: [
+                               SizedBox(
+                                 height: 20,
+                               ),
+                               Text('Nenhum atendimento marcado',
+                                 style: TextStyle(
+                                     inherit: false,
+                                     fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/45,
+                                     fontFamily: 'quicksand',
+                                     color: Colors.white,
+                                     shadows: [
+                                       Shadow( // bottomLeft
+                                           offset: Offset(-0.5, -0.5),
+                                           color: Colors.black
+                                       ),
+                                       Shadow( // bottomRight
+                                           offset: Offset(0.5, -0.5),
+                                           color: Colors.black
+                                       ),
+                                       Shadow( // topRight
+                                           offset: Offset(0.5, 0.5),
+                                           color: Colors.black
+                                       ),
+                                       Shadow( // topLeft
+                                           offset: Offset(-0.5, 0.5),
+                                           color: Colors.black
+                                       ),
+                                     ]
+                                 ),
+                               ),
+                               Lottie.asset(
+                                 'assets/images/sad.json',
+                                 animate: true,
+                                 repeat: true,
+                                 reverse: true,
+                                 width: 200,
+                                 height: 200,
+                                 fit: BoxFit.fill,
+                               ),
+                             ],
+                            )
+                                :
                             Flexible(
                               child: ListView.builder(
                                   itemCount: listaPacientes.length,
@@ -502,7 +548,7 @@ class _FirstScreenState extends State<FirstScreen> {
                                             color: Colors.white,
                                             fontFamily: 'quicksand',
                                             fontWeight: FontWeight.w300,
-                                            fontSize: MediaQuery.of(context).size.height/50,
+                                            fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                           ),
                                         ),
                                         subtitle: Text(
@@ -511,7 +557,7 @@ class _FirstScreenState extends State<FirstScreen> {
                                             color: Colors.white,
                                             fontFamily: 'quicksand',
                                             fontWeight: FontWeight.w100,
-                                            fontSize: MediaQuery.of(context).size.height/55,
+                                            fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                           ),
                                         ),
                                         trailing: Row(
@@ -541,7 +587,7 @@ class _FirstScreenState extends State<FirstScreen> {
                                                               style: TextStyle(
                                                                 color: Colors.white,
                                                                 fontFamily: 'quicksand',
-                                                                fontSize: MediaQuery.of(context).size.height/55,
+                                                                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                                               ),
                                                             ),
                                                             backgroundColor: Colors.black,
@@ -593,7 +639,7 @@ class _FirstScreenState extends State<FirstScreen> {
                                                             style: TextStyle(
                                                               color: Colors.white,
                                                               fontFamily: 'quicksand',
-                                                              fontSize: MediaQuery.of(context).size.height/55,
+                                                              fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                                             ),
                                                           ),
                                                           backgroundColor: Colors.black,
@@ -637,7 +683,7 @@ class _FirstScreenState extends State<FirstScreen> {
                                                             style: TextStyle(
                                                               color: Colors.white,
                                                               fontFamily: 'quicksand',
-                                                              fontSize: MediaQuery.of(context).size.height/55,
+                                                              fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                                             ),
                                                           ),
                                                           backgroundColor: Colors.black,
@@ -674,7 +720,7 @@ class _FirstScreenState extends State<FirstScreen> {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: MediaQuery.of(context).size.height/50,
+                                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                 fontFamily: 'quicksand',
                                 shadows: <Shadow>[
                                   Shadow(
@@ -724,7 +770,7 @@ class _FirstScreenState extends State<FirstScreen> {
                                 "Cadastre-se",
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: MediaQuery.of(context).size.height/50,
+                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                   fontFamily: 'quicksand',
                                   shadows: <Shadow>[
                                     Shadow(
@@ -760,7 +806,7 @@ class _FirstScreenState extends State<FirstScreen> {
                                 Text('Nenhum atendimento marcado',
                                   style: TextStyle(
                                       inherit: false,
-                                      fontSize: MediaQuery.of(context).size.height/45,
+                                      fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/45,
                                       fontFamily: 'quicksand',
                                       color: Colors.white,
                                       shadows: [
@@ -806,7 +852,7 @@ class _FirstScreenState extends State<FirstScreen> {
                                       "Marcar atendimento",
                                       style: TextStyle(
                                         color: Colors.white,
-                                        fontSize: MediaQuery.of(context).size.height/50,
+                                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                         fontFamily: 'quicksand',
                                         shadows: <Shadow>[
                                           Shadow(
@@ -884,7 +930,7 @@ class _FirstScreenState extends State<FirstScreen> {
                                             color: Colors.white,
                                             fontFamily: 'quicksand',
                                             fontWeight: FontWeight.w300,
-                                            fontSize: MediaQuery.of(context).size.height/50,
+                                            fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                           ),
                                         ),
                                         subtitle: Text(
@@ -893,7 +939,7 @@ class _FirstScreenState extends State<FirstScreen> {
                                             color: Colors.white,
                                             fontFamily: 'quicksand',
                                             fontWeight: FontWeight.w100,
-                                            fontSize: MediaQuery.of(context).size.height/55,
+                                            fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                           ),
                                         ),
                                         trailing: Row(
@@ -1023,7 +1069,7 @@ class _FirstScreenState extends State<FirstScreen> {
                   child: Text('${pro.nome.substring(0, 1).toUpperCase()}',
                     style: TextStyle(
                         fontFamily: 'quicksand',
-                        fontSize: MediaQuery.of(context).size.height/40,
+                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/40,
                         fontWeight: FontWeight.bold,
                         color: Colors.white
                     ),
@@ -1036,7 +1082,7 @@ class _FirstScreenState extends State<FirstScreen> {
                 "\l.lead{Bem-vindo(a)}",
                   baseStyle: TextStyle(
                     color: Colors.white,
-                    fontSize: MediaQuery.of(context).size.height/55,
+                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                     fontFamily: 'quicksand',
                   ),
                 ),
@@ -1068,7 +1114,7 @@ class _FirstScreenState extends State<FirstScreen> {
                         style: TextStyle(
                           color: Colors.white,
                           fontFamily: 'quicksand',
-                          fontSize: MediaQuery.of(context).size.height/55,
+                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                         ),
                       ),
                       backgroundColor: Colors.black,
@@ -1081,7 +1127,7 @@ class _FirstScreenState extends State<FirstScreen> {
             leading: Icon(Icons.home, size: 20.0, color: Colors.white),
             title: Text("Atendimentos de hoje",
               style: TextStyle(
-                fontSize: MediaQuery.of(context).size.height/55,
+                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                 fontFamily: 'quicksand',
               ),
             ),
@@ -1112,7 +1158,7 @@ class _FirstScreenState extends State<FirstScreen> {
                         style: TextStyle(
                           color: Colors.white,
                           fontFamily: 'quicksand',
-                          fontSize: MediaQuery.of(context).size.height/55,
+                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                         ),
                       ),
                       backgroundColor: Colors.black,
@@ -1125,7 +1171,7 @@ class _FirstScreenState extends State<FirstScreen> {
             leading: Icon(Icons.add_circle, size: 20.0, color: Colors.white),
             title: Text("Agendar atendimento",
               style: TextStyle(
-                fontSize: MediaQuery.of(context).size.height/55,
+                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                 fontFamily: 'quicksand',
               ),
             ),
@@ -1156,7 +1202,7 @@ class _FirstScreenState extends State<FirstScreen> {
                         style: TextStyle(
                           color: Colors.white,
                           fontFamily: 'quicksand',
-                          fontSize: MediaQuery.of(context).size.height/55,
+                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                         ),
                       ),
                       backgroundColor: Colors.black,
@@ -1169,7 +1215,7 @@ class _FirstScreenState extends State<FirstScreen> {
             leading: Icon(Icons.assignment, size: 20.0, color: Colors.white),
             title: Text("Anotações/Prontuários",
               style: TextStyle(
-                fontSize: MediaQuery.of(context).size.height/55,
+                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                 fontFamily: 'quicksand',
               ),
             ),
@@ -1200,7 +1246,7 @@ class _FirstScreenState extends State<FirstScreen> {
                         style: TextStyle(
                           color: Colors.white,
                           fontFamily: 'quicksand',
-                          fontSize: MediaQuery.of(context).size.height/55,
+                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                         ),
                       ),
                       backgroundColor: Colors.black,
@@ -1214,7 +1260,7 @@ class _FirstScreenState extends State<FirstScreen> {
             Icon(Icons.wysiwyg, size: 20.0, color: Colors.white),
             title: Text("Editar cadastro",
               style: TextStyle(
-                fontSize: MediaQuery.of(context).size.height/55,
+                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                 fontFamily: 'quicksand',
               ),
             ),
@@ -1230,7 +1276,7 @@ class _FirstScreenState extends State<FirstScreen> {
             Icon(Icons.description, size: 20.0, color: Colors.white),
             title: Text("Política de privacidade",
               style: TextStyle(
-                fontSize: MediaQuery.of(context).size.height/55,
+                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                 fontFamily: 'quicksand',
               ),
             ),
@@ -1253,7 +1299,7 @@ class _FirstScreenState extends State<FirstScreen> {
             Icon(Icons.delete, size: 20.0, color: Colors.red),
             title: Text("Requisitar exclusão permanente dos meus dados",
               style: TextStyle(
-                fontSize: MediaQuery.of(context).size.height/55,
+                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                 fontFamily: 'quicksand',
               ),
             ),
@@ -1276,7 +1322,7 @@ class _FirstScreenState extends State<FirstScreen> {
             leading: Icon(Icons.exit_to_app, size: 20.0, color: Colors.white),
             title: Text("Sair",
               style: TextStyle(
-                fontSize: MediaQuery.of(context).size.height/55,
+                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                 fontFamily: 'quicksand',
               ),
             ),
@@ -1497,7 +1543,7 @@ class _FirstScreenState extends State<FirstScreen> {
                   child: Text('${pro.nome.substring(0, 1).toUpperCase()}',
                     style: TextStyle(
                         fontFamily: 'quicksand',
-                        fontSize: MediaQuery.of(context).size.height/40,
+                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/40,
                         fontWeight: FontWeight.bold,
                         color: Colors.white
                     ),
@@ -1510,7 +1556,7 @@ class _FirstScreenState extends State<FirstScreen> {
                 "\l.lead{Bem-vindo(a)}",
                   baseStyle: TextStyle(
                     color: Colors.white,
-                    fontSize: MediaQuery.of(context).size.height/55,
+                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                     fontFamily: 'quicksand',
                   ),
                 ),
@@ -1527,7 +1573,7 @@ class _FirstScreenState extends State<FirstScreen> {
             Icon(Icons.description, size: 20.0, color: Colors.white),
             title: Text("Política de privacidade",
               style: TextStyle(
-                fontSize: MediaQuery.of(context).size.height/55,
+                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                 fontFamily: 'quicksand',
               ),
             ),
@@ -1542,8 +1588,6 @@ class _FirstScreenState extends State<FirstScreen> {
                     && equalsIgnoreCase(listaPacientes[i].email, pac.email)) {
                   Paciente paciente = listaPacientes[i];
                   _dialogRemocaoPermanente(context, paciente, i);
-                  print('chamou dialog');
-//                  remover(paciente.primaryKey, i, paciente);
                 }
               }
 //              Navigator.push(context, MaterialPageRoute(builder: (context) => PoliticadePrivacidade()));
@@ -1552,7 +1596,7 @@ class _FirstScreenState extends State<FirstScreen> {
             Icon(Icons.delete, size: 20.0, color: Colors.red),
             title: Text("Requisitar exclusão permanente dos meus dados",
               style: TextStyle(
-                fontSize: MediaQuery.of(context).size.height/55,
+                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                 fontFamily: 'quicksand',
               ),
             ),
@@ -1575,7 +1619,7 @@ class _FirstScreenState extends State<FirstScreen> {
             leading: Icon(Icons.exit_to_app, size: 20.0, color: Colors.white),
             title: Text("Sair",
               style: TextStyle(
-                fontSize: MediaQuery.of(context).size.height/55,
+                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                 fontFamily: 'quicksand',
               ),
             ),
@@ -1769,7 +1813,7 @@ class _FirstScreenState extends State<FirstScreen> {
                     ),
                     Text('${pro.nome}',
                       style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.height/40,
+                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/40,
                           fontFamily: 'quicksand',
                           color: Colors.white,
                           shadows: [
@@ -1794,7 +1838,7 @@ class _FirstScreenState extends State<FirstScreen> {
                     ),
                     Text('${pro.areaAtuacao}',
                       style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.height/40,
+                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/40,
                           fontFamily: 'quicksand',
                           color: Colors.white,
                           shadows: [
@@ -1819,7 +1863,7 @@ class _FirstScreenState extends State<FirstScreen> {
                     ),
                     Text('${pro.num_conselho}',
                       style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.height/40,
+                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/40,
                           fontFamily: 'quicksand',
                           color: Colors.white,
                           shadows: [
@@ -2158,7 +2202,6 @@ class _FirstScreenState extends State<FirstScreen> {
 
   Future<void> mudarPro(Profissional profissional) async {
     setState(() {
-      print('entrou no mudarPro');
       pro = profissional;
 
       for(int i = 0; i < listaPacientes.length; i++) {
@@ -2252,7 +2295,7 @@ class _FirstScreenState extends State<FirstScreen> {
           Text('\nNenhuma consulta marcada',
             style: TextStyle(
                 inherit: false,
-                fontSize: MediaQuery.of(context).size.height/45,
+                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/45,
                 fontFamily: 'quicksand',
                 color: Colors.white,
                 shadows: [
@@ -2360,7 +2403,7 @@ class _FirstScreenState extends State<FirstScreen> {
             textAlign: TextAlign.center,
             style: TextStyle(
                 inherit: false,
-                fontSize: MediaQuery.of(context).size.height/45,
+                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/45,
                 fontFamily: 'quicksand',
                 color: Colors.white,
                 shadows: [
@@ -2514,7 +2557,7 @@ class _FirstScreenState extends State<FirstScreen> {
           title: Text(
             'Facebook',
             style: TextStyle(
-                fontSize: MediaQuery.of(context).size.height/45,
+                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/45,
                 fontFamily: 'quicksand',
                 color: Colors.white,
                 shadows: [
@@ -2591,7 +2634,7 @@ class _FirstScreenState extends State<FirstScreen> {
           title: Text(
             'Instagram',
             style: TextStyle(
-                fontSize: MediaQuery.of(context).size.height/45,
+                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/45,
                 fontFamily: 'quicksand',
                 color: Colors.white,
                 shadows: [
@@ -2632,7 +2675,7 @@ class _FirstScreenState extends State<FirstScreen> {
           title: Text(
             'WhatsApp',
             style: TextStyle(
-                fontSize: MediaQuery.of(context).size.height/45,
+                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/45,
                 fontFamily: 'quicksand',
                 color: Colors.white,
                 shadows: [
@@ -2952,7 +2995,7 @@ class _FirstScreenState extends State<FirstScreen> {
                       style: TextStyle(
                         color: Colors.red,
                         fontFamily: 'quicksand',
-                        fontSize: MediaQuery.of(context).size.height/50,
+                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                         fontWeight: FontWeight.bold,),
                       textAlign: TextAlign.center,
                     ),
@@ -2977,7 +3020,7 @@ class _FirstScreenState extends State<FirstScreen> {
                             style: TextStyle(
                               color: Colors.black,
                               fontFamily: 'quicksand',
-                              fontSize: MediaQuery.of(context).size.height/50,
+                              fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                             ),
                           ),
                         ),
@@ -2995,7 +3038,7 @@ class _FirstScreenState extends State<FirstScreen> {
                                 'Sim',
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: MediaQuery.of(context).size.height/60,
+                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/60,
                                   fontFamily: 'quicksand',
                                 ),
                               ),
@@ -3016,7 +3059,7 @@ class _FirstScreenState extends State<FirstScreen> {
                                 'Não',
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: MediaQuery.of(context).size.height/60,
+                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/60,
                                   fontFamily: 'quicksand',
                                 ),
                               ),
@@ -3037,7 +3080,6 @@ class _FirstScreenState extends State<FirstScreen> {
   }
 
   void _dialogRemocaoPermanente(BuildContext context, Paciente paciente, int posicao) async {
-    print('entrou no dialog');
     await showDialog<String>(
         context: context,
         builder: (BuildContext context) {
@@ -3057,7 +3099,7 @@ class _FirstScreenState extends State<FirstScreen> {
                       style: TextStyle(
                         color: Colors.red,
                         fontFamily: 'quicksand',
-                        fontSize: MediaQuery.of(context).size.height/50,
+                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                         fontWeight: FontWeight.bold,),
                       textAlign: TextAlign.center,
                     ),
@@ -3082,7 +3124,7 @@ class _FirstScreenState extends State<FirstScreen> {
                             style: TextStyle(
                               color: Colors.black,
                               fontFamily: 'quicksand',
-                              fontSize: MediaQuery.of(context).size.height/50,
+                              fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                             ),
                           ),
                         ),
@@ -3100,7 +3142,7 @@ class _FirstScreenState extends State<FirstScreen> {
                                 'Sim',
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: MediaQuery.of(context).size.height/60,
+                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/60,
                                   fontFamily: 'quicksand',
                                 ),
                               ),
@@ -3128,7 +3170,7 @@ class _FirstScreenState extends State<FirstScreen> {
                                 'Não',
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: MediaQuery.of(context).size.height/60,
+                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/60,
                                   fontFamily: 'quicksand',
                                 ),
                               ),
@@ -3168,7 +3210,7 @@ class _FirstScreenState extends State<FirstScreen> {
                       style: TextStyle(
                         color: Colors.red,
                         fontFamily: 'quicksand',
-                        fontSize: MediaQuery.of(context).size.height/50,
+                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                         fontWeight: FontWeight.bold,),
                       textAlign: TextAlign.center,
                     ),
@@ -3193,7 +3235,7 @@ class _FirstScreenState extends State<FirstScreen> {
                             style: TextStyle(
                               color: Colors.black,
                               fontFamily: 'quicksand',
-                              fontSize: MediaQuery.of(context).size.height/50,
+                              fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                             ),
                           ),
                         ),
@@ -3211,7 +3253,7 @@ class _FirstScreenState extends State<FirstScreen> {
                                 'Sim',
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: MediaQuery.of(context).size.height/60,
+                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/60,
                                   fontFamily: 'quicksand',
                                 ),
                               ),
@@ -3239,7 +3281,7 @@ class _FirstScreenState extends State<FirstScreen> {
                                 'Não',
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: MediaQuery.of(context).size.height/60,
+                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/60,
                                   fontFamily: 'quicksand',
                                 ),
                               ),
@@ -3278,7 +3320,7 @@ class _FirstScreenState extends State<FirstScreen> {
                       "Digite o nome a ser buscado",
                       style: TextStyle(
                         color: Colors.red,
-                        fontSize: MediaQuery.of(context).size.height/50,
+                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                         fontFamily: 'quicksand',
                       ),
                       textAlign: TextAlign.center,

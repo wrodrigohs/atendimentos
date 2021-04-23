@@ -119,7 +119,7 @@ class _AnotarState extends State<Anotar> {
                             title: TextFormField(
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: MediaQuery.of(context).size.height/50,
+                                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                 fontFamily: 'quicksand',
                                 shadows: <Shadow>[
                                   Shadow(
@@ -158,7 +158,7 @@ class _AnotarState extends State<Anotar> {
                                 hintText: "Faça suas anotações aqui.",
                                 hintStyle: TextStyle(
                                   color: Colors.white,
-                                  fontSize: MediaQuery.of(context).size.height/50,
+                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                   fontFamily: 'quicksand',
                                   shadows: <Shadow>[
                                     Shadow(
@@ -177,7 +177,7 @@ class _AnotarState extends State<Anotar> {
                                 labelStyle: TextStyle(
                                   color: Colors.white,
                                   fontFamily: 'quicksand',
-                                  fontSize: MediaQuery.of(context).size.height/50,
+                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                   shadows: <Shadow>[
                                     Shadow(
                                       offset: Offset(1.0, 1.0),
@@ -219,7 +219,7 @@ class _AnotarState extends State<Anotar> {
                               "Salvar anotação",
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: MediaQuery.of(context).size.height/50,
+                                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                 fontFamily: 'quicksand',
                                 shadows: <Shadow>[
                                   Shadow(

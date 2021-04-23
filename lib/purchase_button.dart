@@ -57,7 +57,7 @@ class _PurchaseButtonState extends State<PurchaseButton> {
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontFamily: 'quicksand',
-                                    fontSize: MediaQuery.of(context).size.height/50,
+                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                     shadows: <Shadow>[
                                       Shadow(
                                         offset: Offset(1.0, 1.0),
@@ -84,7 +84,7 @@ class _PurchaseButtonState extends State<PurchaseButton> {
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontFamily: 'quicksand',
-                                  fontSize: MediaQuery.of(context).size.height/50,
+                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                   shadows: <Shadow>[
                                     Shadow(
                                       offset: Offset(1.0, 1.0),
@@ -127,7 +127,7 @@ class _PurchaseButtonState extends State<PurchaseButton> {
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontFamily: 'quicksand',
-                                    fontSize: MediaQuery.of(context).size.height/50,
+                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                     shadows: <Shadow>[
                                       Shadow(
                                         offset: Offset(1.0, 1.0),
@@ -154,7 +154,7 @@ class _PurchaseButtonState extends State<PurchaseButton> {
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontFamily: 'quicksand',
-                                  fontSize: MediaQuery.of(context).size.height/50,
+                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                   shadows: <Shadow>[
                                     Shadow(
                                       offset: Offset(1.0, 1.0),
@@ -202,7 +202,7 @@ class _PurchaseButtonState extends State<PurchaseButton> {
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontFamily: 'quicksand',
-                                    fontSize: MediaQuery.of(context).size.height/50,
+                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                     shadows: <Shadow>[
                                       Shadow(
                                         offset: Offset(1.0, 1.0),
@@ -256,7 +256,7 @@ class _PurchaseButtonState extends State<PurchaseButton> {
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontFamily: 'quicksand',
-                                    fontSize: MediaQuery.of(context).size.height/50,
+                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                     shadows: <Shadow>[
                                       Shadow(
                                         offset: Offset(1.0, 1.0),
@@ -312,7 +312,7 @@ class _PurchaseButtonState extends State<PurchaseButton> {
                   child: Text(
                     'Assinar ${widget.package.product.title}\n${widget.package.product.priceString}',
                     style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.height/50,
+                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                         fontFamily: 'quicksand',
                         color: Colors.white
                     ),
@@ -327,7 +327,7 @@ class _PurchaseButtonState extends State<PurchaseButton> {
                 '${widget.package.product.description}',
                 textAlign: TextAlign.center,
                 style: kSendButtonTextStyle.copyWith(
-                    fontSize: MediaQuery.of(context).size.height/60,
+                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/60,
                     fontFamily: 'quicksand',
                     color: Colors.white
                 ),

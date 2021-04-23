@@ -76,7 +76,7 @@ class _HomeState extends State<Home> {
                       child: Text("Consultório online",
                         style: new TextStyle(
                             fontWeight: FontWeight.w500,
-                            fontSize: MediaQuery.of(context).size.height/45,
+                            fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/45,
                             fontFamily: 'quicksand',
                             color: Colors.white
                         ),
@@ -86,7 +86,7 @@ class _HomeState extends State<Home> {
                       child: Text("Pacientes e profissionais a um clique de distância",
                         style: new TextStyle(
                             fontWeight: FontWeight.w200,
-                            fontSize: MediaQuery.of(context).size.height/55,
+                            fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                             fontFamily: 'quicksand',
                             color: Colors.white
                         ),
@@ -123,7 +123,7 @@ class _HomeState extends State<Home> {
                               style: TextStyle(
                                 color: Colors.black,
                                 fontFamily: 'quicksand',
-                                fontSize: MediaQuery.of(context).size.height/50,
+                                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                               ),
                               controller: _emailController,
                               //onSaved: (email) => paciente.email = email,
@@ -149,13 +149,13 @@ class _HomeState extends State<Home> {
                                 hintText: "Digite seu e-mail",
                                 hintStyle: TextStyle(
                                   color: Colors.black,
-                                  fontSize: MediaQuery.of(context).size.height/50,
+                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                   fontFamily: 'quicksand',
                                 ),
                                 labelText: "E-mail",
                                 labelStyle: TextStyle(
                                   color: Colors.black,
-                                  fontSize: MediaQuery.of(context).size.height/50,
+                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                   fontFamily: 'quicksand',
                                 ),
                                 errorBorder: OutlineInputBorder(
@@ -173,7 +173,7 @@ class _HomeState extends State<Home> {
                               style: TextStyle(
                                 color: Colors.black,
                                 fontFamily: 'quicksand',
-                                fontSize: MediaQuery.of(context).size.height/50,
+                                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                               ),
                               controller: _passwordController,
                               obscureText: _obscureText,
@@ -209,13 +209,13 @@ class _HomeState extends State<Home> {
                                 hintText: "Digite sua senha",
                                 hintStyle: TextStyle(
                                   color: Colors.black,
-                                  fontSize: MediaQuery.of(context).size.height/50,
+                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                   fontFamily: 'quicksand',
                                 ),
                                 labelText: "Senha",
                                 labelStyle: TextStyle(
                                   color: Colors.black,
-                                  fontSize: MediaQuery.of(context).size.height/50,
+                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                                   fontFamily: 'quicksand',
                                 ),
                                 errorBorder: OutlineInputBorder(
@@ -268,7 +268,7 @@ class _HomeState extends State<Home> {
                                           child: Text(
                                             'Fazer login',
                                             style: TextStyle(
-                                              fontSize: MediaQuery.of(context).size.height/55,
+                                              fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                               fontFamily: 'quicksand',
                                               color: Colors.white,
                                             ),
@@ -308,7 +308,7 @@ class _HomeState extends State<Home> {
                                           child: Text(
                                             'Registre-se',
                                             style: TextStyle(
-                                              fontSize: MediaQuery.of(context).size.height/55,
+                                              fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                               fontFamily: 'quicksand',
                                               color: Colors.white,
                                             ),
@@ -376,7 +376,7 @@ class _HomeState extends State<Home> {
                                     child: Text(
                                       'Paciente',
                                       style: TextStyle(
-                                        fontSize: MediaQuery.of(context).size.height/55,
+                                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                         fontFamily: 'quicksand',
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black,
@@ -422,7 +422,7 @@ class _HomeState extends State<Home> {
                                   child: Text(
                                     'Profissional',
                                     style: TextStyle(
-                                      fontSize: MediaQuery.of(context).size.height/55,
+                                      fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                                       fontFamily: 'quicksand',
                                       fontWeight: FontWeight.bold,
                                       color: Colors.black,
@@ -497,7 +497,7 @@ class _HomeState extends State<Home> {
                 style: TextStyle(
                   color: Colors.white,
                   fontFamily: 'quicksand',
-                  fontSize: MediaQuery.of(context).size.height/50,
+                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                 ),
               ),
               backgroundColor: Colors.black,
@@ -513,7 +513,7 @@ class _HomeState extends State<Home> {
                 style: TextStyle(
                   color: Colors.white,
                   fontFamily: 'quicksand',
-                  fontSize: MediaQuery.of(context).size.height/50,
+                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                 ),
               ),
               backgroundColor: Colors.black,
@@ -539,7 +539,7 @@ class _HomeState extends State<Home> {
                 style: TextStyle(
                   color: Colors.white,
                   fontFamily: 'quicksand',
-                  fontSize: MediaQuery.of(context).size.height/50,
+                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
                 ),
               ),
               backgroundColor: Colors.black,
