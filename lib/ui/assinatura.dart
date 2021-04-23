@@ -96,7 +96,7 @@ class _AssinaturaState extends State<Assinatura> {
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontFamily: 'quicksand',
-                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                   shadows: <Shadow>[
                                     Shadow(
                                       offset: Offset(1.0, 1.0),

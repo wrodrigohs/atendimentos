@@ -91,7 +91,7 @@ class _EdicaoState extends State<Edicao> {
                 style: TextStyle(
                   color: Colors.white,
                   fontFamily: 'quicksand',
-                  //fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                  //fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                 ),
               ),
               backgroundColor: Color(0x44000000),
@@ -158,7 +158,7 @@ class _EdicaoState extends State<Edicao> {
                                           color: Colors.black
                                       ),
                                     ],
-                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                 ),
                               )
                           ),
@@ -171,7 +171,7 @@ class _EdicaoState extends State<Edicao> {
                               style: TextStyle(
                                 color: Colors.white,
                                 fontFamily: 'quicksand',
-                                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                 shadows: [
                                   Shadow( // bottomLeft
                                       offset: Offset(-0.5, -0.5),
@@ -203,7 +203,7 @@ class _EdicaoState extends State<Edicao> {
                               style: TextStyle(
                                 color: Colors.white,
                                 fontFamily: 'quicksand',
-                                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                 shadows: [
                                   Shadow( // bottomLeft
                                       offset: Offset(-0.5, -0.5),
@@ -235,7 +235,7 @@ class _EdicaoState extends State<Edicao> {
                               style: TextStyle(
                                 color: Colors.white,
                                 fontFamily: 'quicksand',
-                                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                 shadows: [
                                   Shadow( // bottomLeft
                                       offset: Offset(-0.5, -0.5),
@@ -267,7 +267,7 @@ class _EdicaoState extends State<Edicao> {
                               style: TextStyle(
                                 color: Colors.white,
                                 fontFamily: 'quicksand',
-                                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                 shadows: [
                                   Shadow( // bottomLeft
                                       offset: Offset(-0.5, -0.5),
@@ -305,7 +305,7 @@ class _EdicaoState extends State<Edicao> {
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontFamily: 'quicksand',
-                                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                         shadows: [
                                           Shadow( // bottomLeft
                                               offset: Offset(-0.5, -0.5),
@@ -336,7 +336,7 @@ class _EdicaoState extends State<Edicao> {
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontFamily: 'quicksand',
-                                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                         shadows: [
                                           Shadow( // bottomLeft
                                               offset: Offset(-0.5, -0.5),
@@ -367,7 +367,7 @@ class _EdicaoState extends State<Edicao> {
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontFamily: 'quicksand',
-                                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                         shadows: [
                                           Shadow( // bottomLeft
                                               offset: Offset(-0.5, -0.5),
@@ -398,7 +398,7 @@ class _EdicaoState extends State<Edicao> {
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontFamily: 'quicksand',
-                                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                         shadows: [
                                           Shadow( // bottomLeft
                                               offset: Offset(-0.5, -0.5),
@@ -428,7 +428,7 @@ class _EdicaoState extends State<Edicao> {
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontFamily: 'quicksand',
-                                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                         shadows: [
                                           Shadow( // bottomLeft
                                               offset: Offset(-0.5, -0.5),
@@ -459,7 +459,7 @@ class _EdicaoState extends State<Edicao> {
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontFamily: 'quicksand',
-                                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                         shadows: [
                                           Shadow( // bottomLeft
                                               offset: Offset(-0.5, -0.5),
@@ -490,7 +490,7 @@ class _EdicaoState extends State<Edicao> {
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontFamily: 'quicksand',
-                                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                         shadows: [
                                           Shadow( // bottomLeft
                                               offset: Offset(-0.5, -0.5),
@@ -521,7 +521,7 @@ class _EdicaoState extends State<Edicao> {
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontFamily: 'quicksand',
-                                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                         shadows: [
                                           Shadow( // bottomLeft
                                               offset: Offset(-0.5, -0.5),
@@ -567,7 +567,7 @@ class _EdicaoState extends State<Edicao> {
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontFamily: 'quicksand',
-                                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                         shadows: [
                                           Shadow( // bottomLeft
                                               offset: Offset(-0.5, -0.5),
@@ -632,7 +632,7 @@ class _EdicaoState extends State<Edicao> {
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontFamily: 'quicksand',
-                                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                         shadows: [
                                           Shadow( // bottomLeft
                                               offset: Offset(-0.5, -0.5),
@@ -830,7 +830,7 @@ class _EdicaoState extends State<Edicao> {
                       "Horários disponíveis",
                       style: TextStyle(
                           color: Colors.red,
-                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                           fontFamily: 'quicksand'
                       ),
                       textAlign: TextAlign.center,
@@ -876,7 +876,7 @@ class _EdicaoState extends State<Edicao> {
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontFamily: 'quicksand',
-                                            fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                            fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                           ),
                                         ),
                                         backgroundColor: Colors.black,

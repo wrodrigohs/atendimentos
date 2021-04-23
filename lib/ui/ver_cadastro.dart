@@ -201,7 +201,7 @@ class _EditarCadastroState extends State<EditarCadastro> {
                                 title: TextFormField(
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                     fontFamily: 'quicksand',
                                     shadows: <Shadow>[
                                       Shadow(
@@ -242,7 +242,7 @@ class _EditarCadastroState extends State<EditarCadastro> {
                                     hintText: "Nome completo",
                                     hintStyle: TextStyle(
                                       color: Colors.white,
-                                      fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                      fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                       fontFamily: 'quicksand',
                                       shadows: <Shadow>[
                                         Shadow(
@@ -261,7 +261,7 @@ class _EditarCadastroState extends State<EditarCadastro> {
                                     labelStyle: TextStyle(
                                       color: Colors.white,
                                       fontFamily: 'quicksand',
-                                      fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                      fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                       shadows: <Shadow>[
                                         Shadow(
                                           offset: Offset(1.0, 1.0),
@@ -289,7 +289,7 @@ class _EditarCadastroState extends State<EditarCadastro> {
                                 maxLength: 15,
                                 textStyle: TextStyle(
                                   color: Colors.white,
-                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                   fontFamily: 'quicksand',
                                   shadows: <Shadow>[
                                     Shadow(
@@ -320,7 +320,7 @@ class _EditarCadastroState extends State<EditarCadastro> {
                                   hintStyle: TextStyle(
                                     color: Colors.white,
                                     fontFamily: 'quicksand',
-                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                     shadows: <Shadow>[
                                       Shadow(
                                         offset: Offset(1.0, 1.0),
@@ -338,7 +338,7 @@ class _EditarCadastroState extends State<EditarCadastro> {
                                   labelStyle: TextStyle(
                                     color: Colors.white,
                                     fontFamily: 'quicksand',
-                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                     shadows: <Shadow>[
                                       Shadow(
                                         offset: Offset(1.0, 1.0),
@@ -371,7 +371,7 @@ class _EditarCadastroState extends State<EditarCadastro> {
                               title: TextFormField(
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                   fontFamily: 'quicksand',
                                   shadows: <Shadow>[
                                     Shadow(
@@ -409,7 +409,7 @@ class _EditarCadastroState extends State<EditarCadastro> {
                                   hintStyle: TextStyle(
                                     color: Colors.white,
                                     fontFamily: 'quicksand',
-                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                     shadows: <Shadow>[
                                       Shadow(
                                         offset: Offset(1.0, 1.0),
@@ -426,7 +426,7 @@ class _EditarCadastroState extends State<EditarCadastro> {
                                   labelText: "E-mail",
                                   labelStyle: TextStyle(
                                     color: Colors.white,
-                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                     fontFamily: 'quicksand',
                                     shadows: <Shadow>[
                                       Shadow(
@@ -455,7 +455,7 @@ class _EditarCadastroState extends State<EditarCadastro> {
                               title: TextFormField(
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                   fontFamily: 'quicksand',
                                   shadows: <Shadow>[
                                     Shadow(
@@ -495,7 +495,7 @@ class _EditarCadastroState extends State<EditarCadastro> {
                                   hintText: "Digite sua área profissional",
                                   hintStyle: TextStyle(
                                     color: Colors.white,
-                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                     fontFamily: 'quicksand',
                                     shadows: <Shadow>[
                                       Shadow(
@@ -513,7 +513,7 @@ class _EditarCadastroState extends State<EditarCadastro> {
                                   labelText: "Área de atuação",
                                   labelStyle: TextStyle(
                                     color: Colors.white,
-                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                     fontFamily: 'quicksand',
                                     shadows: <Shadow>[
                                       Shadow(
@@ -542,7 +542,7 @@ class _EditarCadastroState extends State<EditarCadastro> {
                               title: TextFormField(
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                   fontFamily: 'quicksand',
                                   shadows: <Shadow>[
                                     Shadow(
@@ -582,7 +582,7 @@ class _EditarCadastroState extends State<EditarCadastro> {
                                   hintText: "https://www.facebook.com/nomedeusuario",
                                   hintStyle: TextStyle(
                                     color: Colors.white,
-                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                     fontFamily: 'quicksand',
                                     shadows: <Shadow>[
                                       Shadow(
@@ -601,7 +601,7 @@ class _EditarCadastroState extends State<EditarCadastro> {
                                   labelStyle: TextStyle(
                                     color: Colors.white,
                                     fontFamily: 'quicksand',
-                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                     shadows: <Shadow>[
                                       Shadow(
                                         offset: Offset(1.0, 1.0),
@@ -629,7 +629,7 @@ class _EditarCadastroState extends State<EditarCadastro> {
                               title: TextFormField(
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                   fontFamily: 'quicksand',
                                   shadows: <Shadow>[
                                     Shadow(
@@ -670,7 +670,7 @@ class _EditarCadastroState extends State<EditarCadastro> {
                                   hintStyle: TextStyle(
                                     color: Colors.white,
                                     fontFamily: 'quicksand',
-                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                     shadows: <Shadow>[
                                       Shadow(
                                         offset: Offset(1.0, 1.0),
@@ -687,7 +687,7 @@ class _EditarCadastroState extends State<EditarCadastro> {
                                   labelText: "Instagram",
                                   labelStyle: TextStyle(
                                     color: Colors.white,
-                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                     fontFamily: 'quicksand',
                                     shadows: <Shadow>[
                                       Shadow(
@@ -716,7 +716,7 @@ class _EditarCadastroState extends State<EditarCadastro> {
                               title: TextFormField(
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                   fontFamily: 'quicksand',
                                   shadows: <Shadow>[
                                     Shadow(
@@ -758,7 +758,7 @@ class _EditarCadastroState extends State<EditarCadastro> {
                                   hintStyle: TextStyle(
                                     color: Colors.white,
                                     fontFamily: 'quicksand',
-                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                     shadows: <Shadow>[
                                       Shadow(
                                         offset: Offset(1.0, 1.0),
@@ -775,7 +775,7 @@ class _EditarCadastroState extends State<EditarCadastro> {
                                   labelText: "Registro profissional",
                                   labelStyle: TextStyle(
                                     color: Colors.white,
-                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                     fontFamily: 'quicksand',
                                     shadows: <Shadow>[
                                       Shadow(
@@ -815,7 +815,7 @@ class _EditarCadastroState extends State<EditarCadastro> {
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontFamily: 'quicksand',
-                                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                         ),
                                       ),
                                     ),
@@ -862,7 +862,7 @@ class _EditarCadastroState extends State<EditarCadastro> {
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontFamily: 'quicksand',
-                                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                         ),
                                       ),
                                     ),
@@ -911,7 +911,7 @@ class _EditarCadastroState extends State<EditarCadastro> {
                                   "Atualizar cadastro",
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                     fontFamily: 'quicksand',
                                     shadows: <Shadow>[
                                       Shadow(

@@ -84,7 +84,7 @@ class _ParentalGateState extends State<ParentalGate> {
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontFamily: 'quicksand',
-                                      fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/40,
+                                      fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/50,
                                       shadows: <Shadow>[
                                         Shadow(
                                           offset: Offset(1.0, 1.0),
@@ -108,7 +108,7 @@ class _ParentalGateState extends State<ParentalGate> {
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontFamily: 'quicksand',
-                                      fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/40,
+                                      fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/50,
                                       shadows: <Shadow>[
                                         Shadow(
                                           offset: Offset(1.0, 1.0),
@@ -137,7 +137,7 @@ class _ParentalGateState extends State<ParentalGate> {
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontFamily: 'quicksand',
-                                            fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/40,
+                                            fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/50,
                                             shadows: <Shadow>[
                                               Shadow(
                                                 offset: Offset(1.0, 1.0),
@@ -161,7 +161,7 @@ class _ParentalGateState extends State<ParentalGate> {
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontFamily: 'quicksand',
-                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/40,
+                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/50,
                                     shadows: <Shadow>[
                                       Shadow(
                                         offset: Offset(1.0, 1.0),
@@ -270,7 +270,7 @@ class _ParentalGateState extends State<ParentalGate> {
                                           "Confirmar",
                                           style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                            fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                             fontFamily: 'quicksand',
                                             shadows: <Shadow>[
                                               Shadow(
@@ -306,7 +306,7 @@ class _ParentalGateState extends State<ParentalGate> {
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontFamily: 'quicksand',
-                                              fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/40,
+                                              fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/50,
                                               shadows: <Shadow>[
                                                 Shadow(
                                                   offset: Offset(1.0, 1.0),

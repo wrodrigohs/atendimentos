@@ -67,7 +67,7 @@ class LerProntuario extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Text('$anotacao',
                 style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                     fontFamily: 'quicksand',
                     color: Colors.white
                 ),
@@ -82,7 +82,7 @@ class LerProntuario extends StatelessWidget {
                 text: '\n${paciente.anotacao}',
                 //textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                     fontFamily: 'quicksand',
                     color: Colors.white
                 ),
@@ -119,7 +119,7 @@ class LerProntuario extends StatelessWidget {
                       "ATENÇÃO",
                       style: TextStyle(
                           color: Colors.black,
-                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                           fontFamily: 'quicksand'
                       ),
                       textAlign: TextAlign.center,

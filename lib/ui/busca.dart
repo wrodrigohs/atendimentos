@@ -338,7 +338,7 @@ class _BuscaState extends State<Busca> {
                       style: TextStyle(
                         color: Colors.red,
                         fontFamily: 'quicksand',
-                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                         fontWeight: FontWeight.bold,),
                       textAlign: TextAlign.center,
                     ),
@@ -363,7 +363,7 @@ class _BuscaState extends State<Busca> {
                             style: TextStyle(
                               color: Colors.black,
                               fontFamily: 'quicksand',
-                              fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                              fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                             ),
                           ),
                         ),

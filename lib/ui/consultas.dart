@@ -232,7 +232,7 @@ class _ConsultasState extends State<Consultas> {
                                   color: Colors.white,
                                   fontFamily: 'quicksand',
                                   fontWeight: FontWeight.w300,
-                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/50,
+                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                                 ),
                               ),
                               subtitle: Text(
