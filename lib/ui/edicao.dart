@@ -256,7 +256,7 @@ class _EdicaoState extends State<Edicao> {
                                 ],
                               ),
                             ),
-                            onTap: () => launch("mailto:${widget.paciente.email}?subject=&body="),
+//                            onTap: () => launch("mailto:${widget.paciente.email}?subject=&body="),
                           ),
                         ),
                         Padding(
