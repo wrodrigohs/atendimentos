@@ -6,6 +6,7 @@ import 'package:atendimentos/services/applesigninavailable.dart';
 import 'package:atendimentos/ui/firstscreen.dart';
 import 'package:atendimentos/services/sign_in.dart';
 import 'package:atendimentos/services/auth_service.dart';
+import 'package:atendimentos/ui/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,11 +21,11 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  bool _obscureText = true;
+//  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+//  final TextEditingController _emailController = TextEditingController();
+//  final TextEditingController _passwordController = TextEditingController();
+//  final FirebaseAuth _auth = FirebaseAuth.instance;
+//  bool _obscureText = true;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
@@ -47,70 +48,96 @@ class _LoginPageState extends State<LoginPage> {
 
     return Scaffold(
       key: _scaffoldKey,
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/imglogin.jpg"),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Stack(
-          fit: StackFit.expand,
-          children: <Widget>[
-            Container(
-              height: MediaQuery.of(context).size.height/1,
-              width: MediaQuery.of(context).size.width/1,
-              decoration: new BoxDecoration(color: Colors.black.withOpacity(0.2)),
-              child: new BackdropFilter(
-                filter: new ui.ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
-                child: new Container(
-                  decoration: new BoxDecoration(color: Colors.grey.withOpacity(0.2)),
+      body: Stack(
+        children: <Widget>[
+          Scaffold(
+            extendBodyBehindAppBar: true,
+            backgroundColor: Colors.transparent,
+            appBar: AppBar(
+              leading: IconButton(
+                icon: (Platform.isAndroid) ?
+                Icon(Icons.arrow_back, color: Colors.white,)
+                :
+                Icon(Icons.arrow_back_ios, color: Colors.white,),
+                onPressed: () {
+                  Navigator.pushReplacement(context, MaterialPageRoute
+                    (builder: (context) => Home()));
+                },
+              ),
+              backgroundColor: Color(0x44000000),//Color(0xFF333366)
+              elevation: 0.0,
+              centerTitle: true,
+              title: Text('Consultório online',
+                style: TextStyle(
+                    fontFamily: 'quicksand',
+                    color: Colors.white
                 ),
               ),
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                SizedBox(
-                  height: distancia,
+            body: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/imglogin.jpg"),
+                  fit: BoxFit.cover,
                 ),
-                Container(
-                  alignment: Alignment.center,
-                  width: 100,
-                  height: 100,
-                  margin: EdgeInsets.only(top: 20),
-                  child: Image.asset(
-                    'assets/images/health.png',
-                    width: 120,
-                    height: 120,
-                    fit: BoxFit.fill,
+              ),
+              child: Stack(
+                fit: StackFit.expand,
+                children: <Widget>[
+                  Container(
+                    height: MediaQuery.of(context).size.height/1,
+                    width: MediaQuery.of(context).size.width/1,
+                    decoration: new BoxDecoration(color: Colors.black.withOpacity(0.2)),
+                    child: new BackdropFilter(
+                      filter: new ui.ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+                      child: new Container(
+                        decoration: new BoxDecoration(color: Colors.grey.withOpacity(0.2)),
+                      ),
+                    ),
                   ),
-                ),
-                ListTile(
-                  title: new Center(
-                      child: Text("Consultório online",
-                        style: new TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/45,
-                            fontFamily: 'quicksand',
-                            color: Colors.white
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(
+                        height: distancia + 10,
+                      ),
+                      Container(
+                        alignment: Alignment.center,
+                        width: 100,
+                        height: 100,
+                        margin: EdgeInsets.only(top: 20),
+                        child: Image.asset(
+                          'assets/images/health.png',
+                          width: 120,
+                          height: 120,
+                          fit: BoxFit.fill,
                         ),
-                      )
-                  ),
-                  subtitle: Center(
-                      child: Text("Pacientes e profissionais a um clique de distância",
-                        style: new TextStyle(
-                            fontWeight: FontWeight.w200,
-                            fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
-                            fontFamily: 'quicksand',
-                            color: Colors.white
+                      ),
+                      ListTile(
+                        title: new Center(
+                            child: Text("Consultório online",
+                              style: new TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/45,
+                                  fontFamily: 'quicksand',
+                                  color: Colors.white
+                              ),
+                            )
                         ),
-                      )
+                        subtitle: Center(
+                            child: Text("Pacientes e profissionais a um clique de distância",
+                              style: new TextStyle(
+                                  fontWeight: FontWeight.w200,
+                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
+                                  fontFamily: 'quicksand',
+                                  color: Colors.white
+                              ),
+                            )
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
-            ),
-            /*child: Container(
+                  /*child: Container(
                 width: MediaQuery.of(context).size.width / 1.2,
                 height: MediaQuery.of(context).size.height / 2,
                 decoration: BoxDecoration(
@@ -124,12 +151,12 @@ class _LoginPageState extends State<LoginPage> {
                       )
                     ]
                 ),*/
-            Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  /*Form(
+                  Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        /*Form(
                         key: _formKey,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -359,80 +386,71 @@ class _LoginPageState extends State<LoginPage> {
                             SizedBox(
                               height: MediaQuery.of(context).size.height/100,
                             ),*/
-                  Container(
-                    width: MediaQuery.of(context).size.width/2.1,
-                    child: _signInButton()/*Align(
+                        Container(
+                            width: MediaQuery.of(context).size.width/2.1,
+                            child: _signInButton()/*Align(
                       alignment: Alignment.bottomCenter,
                       child: ,
                     ),*/
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width/2.1,
-                    child: (appleSignInAvailable.isAvailable) ?
-                    FlatButton(
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                          side: BorderSide(
-                              color: Colors.black,
-                              width: 1,
-                              style: BorderStyle.solid
-                          ),
-                          borderRadius: BorderRadius.circular(40)
-                      ),
-                      onPressed: () {
-                        _signInWithApple(context);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                        child: Container(
-                          color: Colors.white,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Image(image: AssetImage("assets/images/apple-logo.png"), height: MediaQuery.of(context).size.height/55),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 3),
-                                child: Text(
-                                  'Login com Apple',
-                                  style: TextStyle(
-                                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
-                                    fontFamily: 'quicksand',
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
                         ),
-                      ),
-                    )
-                     :
-                    Container(),
-                  ),
-                  /*Container(
-                      width: MediaQuery.of(context).size.width/2,
-                      child: (appleSignInAvailable.isAvailable) ?
-                      apple.AppleSignInButton(
-                        cornerRadius: 40,
-                        type: apple.ButtonType.signIn,
-                        style: apple.ButtonStyle.whiteOutline,
-                        onPressed: () {
-                        },
-                      )
-                      : Container(),
-                  ),*/
-                  SizedBox(
-                    height: distancia - 10,
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width/2.1,
+                          child: (appleSignInAvailable.isAvailable) ?
+                          FlatButton(
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                    color: Colors.black,
+                                    width: 1,
+                                    style: BorderStyle.solid
+                                ),
+                                borderRadius: BorderRadius.circular(40)
+                            ),
+                            onPressed: () {
+                              _signInWithApple(context);
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                              child: Container(
+                                color: Colors.white,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Image(image: AssetImage("assets/images/apple-logo.png"), height: MediaQuery.of(context).size.height/55),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 3),
+                                      child: Text(
+                                        'Login com Apple',
+                                        style: TextStyle(
+                                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
+                                          fontFamily: 'quicksand',
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )
+                              :
+                          Container(),
+                        ),
+                        SizedBox(
+                          height: distancia - 10,
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -496,7 +514,8 @@ class _LoginPageState extends State<LoginPage> {
       final user = await authService.signInWithApple(
           scopes: [apple.Scope.email, apple.Scope.fullName]);
       print('uid: ${user.uid}');
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage(tipo: widget.tipo)));
+      Navigator.pushReplacement(context, MaterialPageRoute
+        (builder: (context) => FirstScreen(tipo: widget.tipo)));
     } catch (e) {
       // TODO: Show alert here
       print(e);

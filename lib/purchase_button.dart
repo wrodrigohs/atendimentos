@@ -1,4 +1,5 @@
 import 'package:atendimentos/components.dart';
+import 'package:atendimentos/ui/firstscreen.dart';
 import 'package:atendimentos/upgrade.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -101,6 +102,8 @@ class _PurchaseButtonState extends State<PurchaseButton> {
                             ),
                             onPressed: () {
                               Navigator.of(context, rootNavigator: true).pop();
+                              Navigator.pushReplacement(context, MaterialPageRoute
+                                (builder: (context) => FirstScreen(tipo: 'profissional',)));
                             },
                             width: 127,
                             color: kColorAccent,
@@ -171,6 +174,8 @@ class _PurchaseButtonState extends State<PurchaseButton> {
                             ),
                             onPressed: () {
                               Navigator.of(context, rootNavigator: true).pop();
+                              Navigator.pushReplacement(context, MaterialPageRoute
+                                (builder: (context) => FirstScreen(tipo: 'profissional',)));
                             },
                             width: 127,
                             color: kColorAccent,
