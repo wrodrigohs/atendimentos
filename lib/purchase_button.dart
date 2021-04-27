@@ -345,7 +345,8 @@ class _PurchaseButtonState extends State<PurchaseButton> {
   }
 
   void fecharTela() {
-    Navigator.pushReplacement(context, MaterialPageRoute
-      (builder: (context) => FirstScreen(tipo: 'profissional',)));
+    /*Navigator.pushReplacement(context, MaterialPageRoute
+      (builder: (context) => FirstScreen(tipo: 'profissional',)));*/
+    Navigator.of(context).pop();
   }
 }
