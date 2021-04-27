@@ -101,9 +101,8 @@ class _PurchaseButtonState extends State<PurchaseButton> {
                                 )
                             ),
                             onPressed: () {
-                              Navigator.of(context, rootNavigator: true).pop();
-                              Navigator.pushReplacement(context, MaterialPageRoute
-                                (builder: (context) => FirstScreen(tipo: 'profissional',)));
+                              Navigator.of(context).pop();
+                              fecharTela();
                             },
                             width: 127,
                             color: kColorAccent,
@@ -173,9 +172,8 @@ class _PurchaseButtonState extends State<PurchaseButton> {
                                 )
                             ),
                             onPressed: () {
-                              Navigator.of(context, rootNavigator: true).pop();
-                              Navigator.pushReplacement(context, MaterialPageRoute
-                                (builder: (context) => FirstScreen(tipo: 'profissional',)));
+                              Navigator.of(context).pop();
+                              fecharTela();
                             },
                             width: 127,
                             color: kColorAccent,
@@ -233,7 +231,8 @@ class _PurchaseButtonState extends State<PurchaseButton> {
                               style: kSendButtonTextStyle,
                             ),
                             onPressed: () {
-                              Navigator.of(context, rootNavigator: true).pop();
+                              Navigator.of(context).pop();
+                              fecharTela();
                             },
                             width: 127,
                             color: kColorAccent,
@@ -287,7 +286,8 @@ class _PurchaseButtonState extends State<PurchaseButton> {
                               style: kSendButtonTextStyle,
                             ),
                             onPressed: () {
-                              Navigator.of(context, rootNavigator: true).pop();
+                              Navigator.of(context).pop();
+                              fecharTela();
                             },
                             width: 127,
                             color: kColorAccent,
@@ -342,5 +342,10 @@ class _PurchaseButtonState extends State<PurchaseButton> {
         ),
       ),
     );
+  }
+
+  void fecharTela() {
+    Navigator.pushReplacement(context, MaterialPageRoute
+      (builder: (context) => FirstScreen(tipo: 'profissional',)));
   }
 }
