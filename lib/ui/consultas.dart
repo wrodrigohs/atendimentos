@@ -26,7 +26,7 @@ class Consultas extends StatefulWidget {
 class _ConsultasState extends State<Consultas> {
   Paciente paciente;
   DatabaseReference dbReference;
-  // List<DataPaciente> listaDt = List();
+  double distancia;
   List<Paciente> listaPacientes = List();
   List<Paciente> listaBuscado = List();
   DateFormat dateFormat = DateFormat('dd/MM/yyyy', 'pt_Br');
@@ -34,10 +34,6 @@ class _ConsultasState extends State<Consultas> {
   @override
   void initState() {
     super.initState();
-
-    /*for (int i = 0; i < listaDt.length; i++) {
-      listaDt.removeAt(i);
-    }*/
 
     for (int i = 0; i < listaPacientes.length; i++) {
       listaPacientes.removeAt(i);
@@ -66,33 +62,6 @@ class _ConsultasState extends State<Consultas> {
   @override
   Widget build(BuildContext context) {
 
-    /*for (int i = 0; i < listaDt.length; i++) {
-      DataPaciente dt_pac = new DataPaciente(listaPacientes[i].primaryKey, listaPacientes[i].nome, listaPacientes[i].telefone,
-          listaPacientes[i].email, converterData(listaPacientes[i].data), listaPacientes[i].hora,
-          listaPacientes[i].anotacao, listaPacientes[i].confirmado, listaPacientes[i].objetivo,
-          listaPacientes[i].vegetariano, listaPacientes[i].bebidaAlcoolica,
-          listaPacientes[i].fumante, listaPacientes[i].sedentario,
-          listaPacientes[i].patologia, listaPacientes[i].nomePatologia,
-          listaPacientes[i].medicamentos, listaPacientes[i].nomeMedicamentos,
-          listaPacientes[i].alergia, listaPacientes[i].nomeAlergia,
-          listaPacientes[i].sexo, listaPacientes[i].estadoCivil);
-      listaDt.remove(dt_pac);
-      listaDt.removeAt(i);
-    }
-
-    for(int i = 0; i < listaPacientes.length; i++) {
-      DataPaciente dt_pac = new DataPaciente(listaPacientes[i].primaryKey, listaPacientes[i].nome, listaPacientes[i].telefone,
-          listaPacientes[i].email, converterData(listaPacientes[i].data), listaPacientes[i].hora,
-          listaPacientes[i].anotacao, listaPacientes[i].confirmado, listaPacientes[i].objetivo,
-          listaPacientes[i].vegetariano, listaPacientes[i].bebidaAlcoolica,
-          listaPacientes[i].fumante, listaPacientes[i].sedentario,
-          listaPacientes[i].patologia, listaPacientes[i].nomePatologia,
-          listaPacientes[i].medicamentos, listaPacientes[i].nomeMedicamentos,
-          listaPacientes[i].alergia, listaPacientes[i].nomeAlergia,
-          listaPacientes[i].sexo, listaPacientes[i].estadoCivil);
-      listaDt.add(dt_pac);
-    }*/
-
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -109,7 +78,12 @@ class _ConsultasState extends State<Consultas> {
     }
 
     listaBuscado.sort((a, b) => ((a.hora).compareTo(b.hora)));
-    double distancia = AppBar().preferredSize.height + 40;
+
+    if (Platform.isIOS) {
+      distancia = AppBar().preferredSize.height + 60;
+    } else {
+      distancia = AppBar().preferredSize.height + 40;
+    }
 
     return Scaffold(
       body: Stack(

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:atendimentos/model/paciente.dart';
 import 'package:atendimentos/model/profissional.dart';
 import 'package:atendimentos/ui/firstscreen.dart';
@@ -59,6 +61,7 @@ class _CadastroState extends State<Cadastro> {
   String facebook;
   String instagram;
   String tel;
+  double distancia;
 
   @override
   void initState() {
@@ -142,7 +145,11 @@ class _CadastroState extends State<Cadastro> {
         widget.profissional.quinta, widget.profissional.sexta,
         widget.profissional.sabado, null, widget.profissional.assinante);
 
-    double distancia = AppBar().preferredSize.height + 40;
+    if (Platform.isIOS) {
+      distancia = AppBar().preferredSize.height + 60;
+    } else {
+      distancia = AppBar().preferredSize.height + 40;
+    }
 
     return Scaffold(
       key: _scaffoldKey,
@@ -1752,9 +1759,9 @@ class _CadastroState extends State<Cadastro> {
     }
 
     form.reset();
-/*    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>
-        FirstScreen(tipo: 'profissional', presente: true,)));*/
-    Navigator.of(context).pop();
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>
+        FirstScreen(tipo: 'profissional', presente: true,)));
+//    Navigator.of(context).pop();
   }
 
   String validateEmail(String value) {

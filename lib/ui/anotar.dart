@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:atendimentos/model/profissional.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +29,7 @@ class _AnotarState extends State<Anotar> {
   DatabaseReference dbReference;
   TextEditingController _anotacaoController = TextEditingController();
   String anotacao;
+  double distancia;
 
   @override
   void initState() {
@@ -61,7 +64,11 @@ class _AnotarState extends State<Anotar> {
       DeviceOrientation.portraitDown,
     ]);
 
-    double distancia = AppBar().preferredSize.height + 40;
+    if (Platform.isIOS) {
+      distancia = AppBar().preferredSize.height + 60;
+    } else {
+      distancia = AppBar().preferredSize.height + 40;
+    }
 
     return Scaffold(
       body: Stack(

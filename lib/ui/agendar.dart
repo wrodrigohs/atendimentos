@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:atendimentos/model/paciente.dart';
 import 'package:atendimentos/model/profissional.dart';
 import 'package:device_calendar/device_calendar.dart' as calendar;
@@ -58,6 +60,7 @@ class _AgendarState extends State<Agendar> {
   String nomeMedicamento;
   String estadoCivil;
   bool alergia = false;
+  double distancia;
 
   calendar.DeviceCalendarPlugin _deviceCalendarPlugin;
   List<calendar.Calendar> calendarioCerto = List();
@@ -126,7 +129,11 @@ class _AgendarState extends State<Agendar> {
       DeviceOrientation.portraitDown,
     ]);
 
-    double distancia = AppBar().preferredSize.height + 40;
+    if (Platform.isIOS) {
+      distancia = AppBar().preferredSize.height + 60;
+    } else {
+      distancia = AppBar().preferredSize.height + 40;
+    }
 
     return Scaffold(
       key: _scaffoldKey,

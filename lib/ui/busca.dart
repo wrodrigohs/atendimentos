@@ -29,6 +29,7 @@ class _BuscaState extends State<Busca> {
   DatabaseReference dbReference;
   List<Paciente> listaPacientes = List();
   List<Paciente> listaBuscado = List();
+  double distancia;
 
   @override
   void initState() {
@@ -102,7 +103,11 @@ class _BuscaState extends State<Busca> {
       }
     }
 
-    double distancia = AppBar().preferredSize.height + 40;
+    if (Platform.isIOS) {
+      distancia = AppBar().preferredSize.height + 60;
+    } else {
+      distancia = AppBar().preferredSize.height + 40;
+    }
 
     return Scaffold(
       body: Stack(

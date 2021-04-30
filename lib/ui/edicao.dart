@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:atendimentos/model/profissional.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +40,7 @@ class _EdicaoState extends State<Edicao> {
   String anotacao;
   bool confirmar;
   TimeOfDay _time = TimeOfDay.now();
+  double distancia;
 
   @override
   void initState() {
@@ -77,7 +80,11 @@ class _EdicaoState extends State<Edicao> {
       DeviceOrientation.portraitDown,
     ]);
 
-    double distancia = AppBar().preferredSize.height + 40;
+    if (Platform.isIOS) {
+      distancia = AppBar().preferredSize.height + 60;
+    } else {
+      distancia = AppBar().preferredSize.height + 40;
+    }
 
     return Scaffold(
       key: _scaffoldKey,

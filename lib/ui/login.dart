@@ -28,6 +28,7 @@ class _LoginPageState extends State<LoginPage> {
 //  bool _obscureText = true;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
+  double distancia;
   @override
   void initState() {
     super.initState();
@@ -44,7 +45,11 @@ class _LoginPageState extends State<LoginPage> {
     final appleSignInAvailable =
     Provider.of<AppleSignInAvailable>(context, listen: false);
 
-    double distancia = AppBar().preferredSize.height + 10;
+    if (Platform.isIOS) {
+      distancia = AppBar().preferredSize.height + 60;
+    } else {
+      distancia = AppBar().preferredSize.height + 40;
+    }
 
     return Scaffold(
       key: _scaffoldKey,

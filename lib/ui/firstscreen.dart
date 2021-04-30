@@ -82,6 +82,7 @@ class _FirstScreenState extends State<FirstScreen> {
   calendar.Calendar calendarioEscolhido;
   List<calendar.Calendar> _calendars;
   calendar.Event eventoApagado;
+  double distancia;
 
   _FirstScreenState() {
     _deviceCalendarPlugin = calendar.DeviceCalendarPlugin();
@@ -113,7 +114,7 @@ class _FirstScreenState extends State<FirstScreen> {
 
   Widget widgetPro() {
     //verificação das minhas contas para acesso VIP
-    if(email == 'aplicativoswr@gmail.com' //|| email == 'rodrigoicarsaojose@gmail.com'|| email == 'rodiisilva@gmail.com'
+    if(email == 'aplicativoswr@gmail.com' || email == 'rodrigoicarsaojose@gmail.com'|| email == 'rodiisilva@gmail.com'
         || email == 'w.rodrigo@ufms.br' ) {
       appData.isPro = true;
     }
@@ -130,7 +131,12 @@ class _FirstScreenState extends State<FirstScreen> {
     }
 
     listaPacientes.sort((a, b) => (((converterData(a.data)).compareTo(converterData(b.data)))));
-    double distancia = AppBar().preferredSize.height + 40;
+
+    if (Platform.isIOS) {
+      distancia = AppBar().preferredSize.height + 60;
+    } else {
+      distancia = AppBar().preferredSize.height + 40;
+    }
 
     presente = verificaPresente();
 
@@ -1345,7 +1351,11 @@ class _FirstScreenState extends State<FirstScreen> {
       DeviceOrientation.portraitDown,
     ]);
 
-    double distancia = AppBar().preferredSize.height + 40;
+    if (Platform.isIOS) {
+      distancia = AppBar().preferredSize.height + 60;
+    } else {
+      distancia = AppBar().preferredSize.height + 40;
+    }
 
     return SideMenu(
       key: _endSideMenuKey,
@@ -1654,7 +1664,11 @@ class _FirstScreenState extends State<FirstScreen> {
 
   Widget mostrarHome() {
 
-    double distancia = AppBar().preferredSize.height + 40;
+    if (Platform.isIOS) {
+      distancia = AppBar().preferredSize.height + 60;
+    } else {
+      distancia = AppBar().preferredSize.height + 40;
+    }
 
     //Remove profissionais NULL
     for (int i = 0; i < listaProfissional.length; i++) {
@@ -2284,7 +2298,12 @@ class _FirstScreenState extends State<FirstScreen> {
       }
     }
 
-    double distancia = AppBar().preferredSize.height + 20;
+    if (Platform.isIOS) {
+      distancia = AppBar().preferredSize.height + 60;
+    } else {
+      distancia = AppBar().preferredSize.height + 40;
+    }
+
     listaPacientes.sort((a, b) => (((converterData(a.data)).compareTo(converterData(b.data)))));
 
     return listaPacientes.isEmpty ?
@@ -2393,7 +2412,13 @@ class _FirstScreenState extends State<FirstScreen> {
   }
 
   Widget mostrarContatos(double altura, double largura) {
-    double distancia = AppBar().preferredSize.height + 40;
+
+    if (Platform.isIOS) {
+      distancia = AppBar().preferredSize.height + 60;
+    } else {
+      distancia = AppBar().preferredSize.height + 40;
+    }
+
     return pro.nome.isEmpty ?
     Container(
       width: largura/1.5,

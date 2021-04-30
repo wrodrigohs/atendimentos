@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui' as ui;
 
 import 'package:atendimentos/services/applesigninavailable.dart';
@@ -14,6 +15,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  double distancia;
 
   @override
   void initState() {
@@ -28,7 +30,11 @@ class _HomeState extends State<Home> {
       DeviceOrientation.portraitDown,
     ]);
 
-    double distancia = AppBar().preferredSize.height + 10;
+    if (Platform.isIOS) {
+      distancia = AppBar().preferredSize.height + 60;
+    } else {
+      distancia = AppBar().preferredSize.height + 40;
+    }
 
     return Scaffold(
       key: _scaffoldKey,
