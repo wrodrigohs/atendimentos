@@ -461,48 +461,48 @@ class _FirstScreenState extends State<FirstScreen> {
                             ),
                             listaPacientes.isEmpty ?
                             Column(
-                             mainAxisAlignment: MainAxisAlignment.start,
-                             mainAxisSize: MainAxisSize.max,
-                             children: [
-                               SizedBox(
-                                 height: 20,
-                               ),
-                               Text('Nenhum atendimento marcado',
-                                 style: TextStyle(
-                                     inherit: false,
-                                     fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/45,
-                                     fontFamily: 'quicksand',
-                                     color: Colors.white,
-                                     shadows: [
-                                       Shadow( // bottomLeft
-                                           offset: Offset(-0.5, -0.5),
-                                           color: Colors.black
-                                       ),
-                                       Shadow( // bottomRight
-                                           offset: Offset(0.5, -0.5),
-                                           color: Colors.black
-                                       ),
-                                       Shadow( // topRight
-                                           offset: Offset(0.5, 0.5),
-                                           color: Colors.black
-                                       ),
-                                       Shadow( // topLeft
-                                           offset: Offset(-0.5, 0.5),
-                                           color: Colors.black
-                                       ),
-                                     ]
-                                 ),
-                               ),
-                               Lottie.asset(
-                                 'assets/images/sad.json',
-                                 animate: true,
-                                 repeat: true,
-                                 reverse: true,
-                                 width: 200,
-                                 height: 200,
-                                 fit: BoxFit.fill,
-                               ),
-                             ],
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Text('Nenhum atendimento marcado',
+                                  style: TextStyle(
+                                      inherit: false,
+                                      fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/45,
+                                      fontFamily: 'quicksand',
+                                      color: Colors.white,
+                                      shadows: [
+                                        Shadow( // bottomLeft
+                                            offset: Offset(-0.5, -0.5),
+                                            color: Colors.black
+                                        ),
+                                        Shadow( // bottomRight
+                                            offset: Offset(0.5, -0.5),
+                                            color: Colors.black
+                                        ),
+                                        Shadow( // topRight
+                                            offset: Offset(0.5, 0.5),
+                                            color: Colors.black
+                                        ),
+                                        Shadow( // topLeft
+                                            offset: Offset(-0.5, 0.5),
+                                            color: Colors.black
+                                        ),
+                                      ]
+                                  ),
+                                ),
+                                Lottie.asset(
+                                  'assets/images/sad.json',
+                                  animate: true,
+                                  repeat: true,
+                                  reverse: true,
+                                  width: 200,
+                                  height: 200,
+                                  fit: BoxFit.fill,
+                                ),
+                              ],
                             )
                                 :
                             Flexible(
@@ -762,7 +762,7 @@ class _FirstScreenState extends State<FirstScreen> {
 
                                 if(presente == false) {
                                   Navigator.push(context, MaterialPageRoute(
-                                      builder: (context) => Cadastro(profissional: profissional, email: email,)),
+                                      builder: (context) => Cadastro(profissional: profissional, email: email)),
                                   );
                                 }
                               },
@@ -1230,7 +1230,17 @@ class _FirstScreenState extends State<FirstScreen> {
                 appData.isPro = true;
               }
               if(appData.isPro == true) {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => EditarCadastro(profissional: pro,)));
+                for(int i = 0; i < listaProfissional.length; i++) {
+                  if(listaProfissional[i].email == email) {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => EditarCadastro(profissional: pro,)));
+                    /*Fluttertoast.showToast(
+                      msg:'Você já se cadastrou.',
+                      toastLength: Toast.LENGTH_SHORT,
+                      timeInSecForIosWeb: 5,
+                    );*/
+                    return;
+                  }
+                }
               } else {
                 WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
                     SnackBar(
@@ -2771,6 +2781,24 @@ class _FirstScreenState extends State<FirstScreen> {
         listaPacientes.add(paciente);
       }
     });
+/*
+    dbPacientes = db.reference().child('atendimentos/pacientes');
+    dbPacientes.onChildAdded.listen(_gravarPacPresente);
+    dbPacientes.onChildChanged.listen(_updatePacPresente);
+    dbPacientes.once().then((DataSnapshot snapshot) {
+      Map<dynamic, dynamic> values = snapshot.value;
+      Paciente paciente = new Paciente(
+          values['nome'], values['telefone'], values['email'], values['imageURL'],
+          values['data'], values['hora'], values['anotacao'], values['confirmado'],
+          values['objetivo'], values['vegetariano'], values['bebidaAlcoolica'],
+          values['fumante'], values['sedentario'], values['patologia'],
+          values['nomePatologia'], values['medicamentos'], values['nomeMedicamentos'],
+          values['alergia'], values['nomeAlergia'], values['sexo'], values['estadoCivil']
+      );
+      if(paciente.nome != null) {
+        listaPacientesPresentes.add(paciente);
+      }
+    });*/
   }
 
   Future<void> initPlatformState() async {
@@ -3442,26 +3470,38 @@ class _FirstScreenState extends State<FirstScreen> {
   bool verificaPresente() {
     bool presente = false;
 
-    for(int i = 0; i < listaProfissional.length; i++) {
-      if(equalsIgnoreCase(listaProfissional[i].email, email)) {
-        setState(() {
-          presente = true;
-          pro = listaProfissional[i];
-          if(appData.isPro == true && pro.assinante == false) {
-            setState(() {
-              pro.assinante = true;
-              atualizarProfissional(pro);
-            });
-          } else if(appData.isPro == false && pro.assinante == true) {
-            setState(() {
-              pro.assinante = false;
-              atualizarProfissional(pro);
-            });
-          }
-        });
-        return presente;
+    if(widget.tipo == 'profissional') {
+      for(int i = 0; i < listaProfissional.length; i++) {
+        if(equalsIgnoreCase(listaProfissional[i].email, email)) {
+          setState(() {
+            presente = true;
+            pro = listaProfissional[i];
+            if(appData.isPro == true && pro.assinante == false) {
+              setState(() {
+                pro.assinante = true;
+                atualizarProfissional(pro);
+              });
+            } else if(appData.isPro == false && pro.assinante == true) {
+              setState(() {
+                pro.assinante = false;
+                atualizarProfissional(pro);
+              });
+            }
+          });
+          return presente;
+        }
       }
-    }
+    } /*else {
+      for(int i = 0; i < listaPacientesPresentes.length; i++) {
+        if(equalsIgnoreCase(listaPacientesPresentes[i].email, email)) {
+          setState(() {
+            presente = true;
+          });
+          return presente;
+        }
+      }
+    }*/
+
     return presente;
   }
 }

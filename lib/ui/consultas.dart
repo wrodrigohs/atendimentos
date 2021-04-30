@@ -1,17 +1,15 @@
 import 'dart:io';
+import 'dart:ui' as ui;
 
-import 'package:atendimentos/model/datapaciente.dart';
 import 'package:atendimentos/model/paciente.dart';
 import 'package:atendimentos/model/profissional.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'dart:ui' as ui;
 
 final FirebaseDatabase db = FirebaseDatabase.instance;
 

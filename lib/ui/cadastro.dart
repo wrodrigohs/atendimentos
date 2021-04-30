@@ -1,3 +1,4 @@
+import 'package:atendimentos/model/paciente.dart';
 import 'package:atendimentos/model/profissional.dart';
 import 'package:atendimentos/ui/firstscreen.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -12,7 +13,9 @@ final FirebaseDatabase db = FirebaseDatabase.instance;
 
 class Cadastro extends StatefulWidget {
   Profissional profissional;
+//  Paciente paciente;
   String email;
+//  String tipo;
   Cadastro({Key key, this.profissional, this.email}) : super(key: key);
 
   @override
@@ -57,9 +60,6 @@ class _CadastroState extends State<Cadastro> {
   String instagram;
   String tel;
 
-  //PhoneNumber numero = PhoneNumber(isoCode: 'BR');
-  //var maskTextInputFormatter = MaskTextInputFormatter(mask: "xxxxxxxxxxx", filter: {"x": RegExp(r'[0-9]')});
-
   @override
   void initState() {
     super.initState();
@@ -72,34 +72,58 @@ class _CadastroState extends State<Cadastro> {
       horasEscolhidas.removeAt(i);
     }
 
-    diasEscolhidos.add(domingo);
-    diasEscolhidos.add(segunda);
-    diasEscolhidos.add(terca);
-    diasEscolhidos.add(quarta);
-    diasEscolhidos.add(quinta);
-    diasEscolhidos.add(sexta);
-    diasEscolhidos.add(sabado);
+//    if(widget.tipo == 'profissional') {
+      diasEscolhidos.add(domingo);
+      diasEscolhidos.add(segunda);
+      diasEscolhidos.add(terca);
+      diasEscolhidos.add(quarta);
+      diasEscolhidos.add(quinta);
+      diasEscolhidos.add(sexta);
+      diasEscolhidos.add(sabado);
 
-    _nomeController.text = widget.profissional.nome;
-    _emailController.text = widget.profissional.email;
-    _facebookController.text = "https://www.facebook.com/";
-    _instagramController.text = "https://www.instagram.com/";
+      _nomeController.text = widget.profissional.nome;
+      _emailController.text = widget.profissional.email;
+      _facebookController.text = "https://www.facebook.com/";
+      _instagramController.text = "https://www.instagram.com/";
 
-    dbReference = db2.reference().child('atendimentos');
-    dbReference.onChildAdded.listen(_gravar);
-    dbReference.onChildChanged.listen(_update);
-    dbReference.once().then((DataSnapshot snapshot) {
-      Map<dynamic, dynamic> values = snapshot.value;
-      Profissional prof = new Profissional(values['nome'], values['telefone'],
-          values['email'], values['areaAtuacao'], values['usuario'],
-          values['imageURL'], values['facebook'], values['instagram'],
-          values['num_conselho'], snapshot.value['domingo'], snapshot.value['segunda'],
-          snapshot.value['terca'], snapshot.value['quarta'], snapshot.value['quinta'],
-          snapshot.value['sexta'], snapshot.value['sabado'], values['horarios'], values['assinante']);
-      if(prof.email != null) {
-        listaProfissional.add(prof);
-      }
-    });
+      dbReference = db2.reference().child('atendimentos');
+      dbReference.onChildAdded.listen(_gravar);
+      dbReference.onChildChanged.listen(_update);
+      dbReference.once().then((DataSnapshot snapshot) {
+        Map<dynamic, dynamic> values = snapshot.value;
+        Profissional prof = new Profissional(values['nome'], values['telefone'],
+            values['email'], values['areaAtuacao'], values['usuario'],
+            values['imageURL'], values['facebook'], values['instagram'],
+            values['num_conselho'], snapshot.value['domingo'], snapshot.value['segunda'],
+            snapshot.value['terca'], snapshot.value['quarta'], snapshot.value['quinta'],
+            snapshot.value['sexta'], snapshot.value['sabado'], values['horarios'], values['assinante']);
+        if(prof.email != null) {
+          listaProfissional.add(prof);
+        }
+      });
+//    }
+    /*else {
+      _nomeController.text = widget.paciente.nome;
+      _emailController.text = widget.paciente.email;
+
+      dbReference = db2.reference().child('atendimentos/pacientes');
+      dbReference.onChildAdded.listen(_gravar);
+      dbReference.onChildChanged.listen(_update);
+      dbReference.once().then((DataSnapshot snapshot) {
+        Map<dynamic, dynamic> values = snapshot.value;
+        Paciente paciente = new Paciente(
+            values['nome'], values['telefone'], values['email'], values['imageURL'],
+            values['data'], values['hora'], values['anotacao'], values['confirmado'],
+            values['objetivo'], values['vegetariano'], values['bebidaAlcoolica'],
+            values['fumante'], values['sedentario'], values['patologia'],
+            values['nomePatologia'], values['medicamentos'], values['nomeMedicamentos'],
+            values['alergia'], values['nomeAlergia'], values['sexo'], values['estadoCivil']
+        );
+        if(paciente.nome != null) {
+          listaPacientes.add(paciente);
+        }
+      });
+    }*/
   }
 
   @override
@@ -162,6 +186,7 @@ class _CadastroState extends State<Cadastro> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
+//                      widget.tipo == 'profissional' ?
                       Form(
                         key: formKey,
                         child: Column(
@@ -1004,13 +1029,678 @@ class _CadastroState extends State<Cadastro> {
                             ),
                           ],
                         ),
-                      ),
+                      )
+                      /*:
+                      Form(
+                        key: formKey,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            SizedBox(
+                                height: distancia
+                            ),
+                            Flexible(
+                              child: ListTile(
+                                leading: Icon(
+                                    Icons.account_box, color: Colors.white),
+                                title: TextFormField(
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width > 600 && MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width < 1000 ? MediaQuery
+                                        .of(context)
+                                        .size
+                                        .height / 50 : MediaQuery
+                                        .of(context)
+                                        .size
+                                        .height / 50,
+                                    fontFamily: 'quicksand',
+                                    shadows: <Shadow>[
+                                      Shadow(
+                                        offset: Offset(1.0, 1.0),
+                                        blurRadius: 3.0,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                      Shadow(
+                                        offset: Offset(2.0, 1.0),
+                                        blurRadius: 8.0,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                    ],
+                                  ),
+                                  readOnly: widget.paciente.nome.isEmpty ||
+                                      widget.paciente.nome == null ? false : true,
+                                  controller: _nomeController,
+                                  onSaved: (nome) => paciente.nome = nome,
+                                  validator: (nome) =>
+                                  nome.length < 3
+                                      ? "Deve ter ao menos 3 caracteres."
+                                      : null,
+                                  cursorColor: Theme
+                                      .of(context)
+                                      .accentColor,
+                                  onFieldSubmitted: (_) {
+                                    setState(() {
+                                      paciente.nome = _nomeController.text.toString();
+                                    });
+                                  },
+                                  decoration: InputDecoration(
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.white,
+                                          width: 3.0),
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    enabledBorder: new OutlineInputBorder(
+                                      borderRadius: new BorderRadius.circular(
+                                          8.0),
+                                      borderSide: BorderSide(
+                                          color: Colors.white, width: 2.0),
+                                    ),
+                                    hintText: "Nome completo",
+                                    hintStyle: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width > 600 && MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width < 1000 ? MediaQuery
+                                          .of(context)
+                                          .size
+                                          .height / 50 : MediaQuery
+                                          .of(context)
+                                          .size
+                                          .height / 50,
+                                      fontFamily: 'quicksand',
+                                      shadows: <Shadow>[
+                                        Shadow(
+                                          offset: Offset(1.0, 1.0),
+                                          blurRadius: 3.0,
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                        ),
+                                        Shadow(
+                                          offset: Offset(2.0, 1.0),
+                                          blurRadius: 8.0,
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                        ),
+                                      ],
+                                    ),
+                                    labelText: "Nome",
+                                    labelStyle: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: 'quicksand',
+                                      fontSize: MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width > 600 && MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width < 1000 ? MediaQuery
+                                          .of(context)
+                                          .size
+                                          .height / 50 : MediaQuery
+                                          .of(context)
+                                          .size
+                                          .height / 50,
+                                      shadows: <Shadow>[
+                                        Shadow(
+                                          offset: Offset(1.0, 1.0),
+                                          blurRadius: 3.0,
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                        ),
+                                        Shadow(
+                                          offset: Offset(2.0, 1.0),
+                                          blurRadius: 8.0,
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                        ),
+                                      ],
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.red, width: 3.0),
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            ListTile(
+                              leading: Icon(Icons.phone, color: Colors.white),
+                              title: InternationalPhoneNumberInput(
+                                maxLength: 15,
+                                textStyle: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width > 600 && MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width < 1000 ? MediaQuery
+                                      .of(context)
+                                      .size
+                                      .height / 50 : MediaQuery
+                                      .of(context)
+                                      .size
+                                      .height / 50,
+                                  fontFamily: 'quicksand',
+                                  shadows: <Shadow>[
+                                    Shadow(
+                                      offset: Offset(1.0, 1.0),
+                                      blurRadius: 3.0,
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                    ),
+                                    Shadow(
+                                      offset: Offset(2.0, 1.0),
+                                      blurRadius: 8.0,
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                    ),
+                                  ],
+                                ),
+                                textFieldController: _telefoneController,
+                                autoValidate: false,
+                                errorMessage: 'Número fora do padrão',
+                                inputDecoration: InputDecoration(
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.white, width: 3.0),
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  enabledBorder: new OutlineInputBorder(
+                                    borderRadius: new BorderRadius.circular(
+                                        8.0),
+                                    borderSide: BorderSide(
+                                        color: Colors.white, width: 2.0),
+                                  ),
+                                  hintText: "xx xxxxx xxxx",
+                                  hintStyle: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'quicksand',
+                                    fontSize: MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width > 600 && MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width < 1000 ? MediaQuery
+                                        .of(context)
+                                        .size
+                                        .height / 50 : MediaQuery
+                                        .of(context)
+                                        .size
+                                        .height / 50,
+                                    shadows: <Shadow>[
+                                      Shadow(
+                                        offset: Offset(1.0, 1.0),
+                                        blurRadius: 3.0,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                      Shadow(
+                                        offset: Offset(2.0, 1.0),
+                                        blurRadius: 8.0,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                    ],
+                                  ),
+                                  labelText: "WhatsApp/Telefone",
+                                  labelStyle: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'quicksand',
+                                    fontSize: MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width > 600 && MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width < 1000 ? MediaQuery
+                                        .of(context)
+                                        .size
+                                        .height / 50 : MediaQuery
+                                        .of(context)
+                                        .size
+                                        .height / 50,
+                                    shadows: <Shadow>[
+                                      Shadow(
+                                        offset: Offset(1.0, 1.0),
+                                        blurRadius: 3.0,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                      Shadow(
+                                        offset: Offset(2.0, 1.0),
+                                        blurRadius: 8.0,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                    ],
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide:
+                                    new BorderSide(
+                                        color: Colors.red, width: 3.0),
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                ),
+                                countries: ['BR'],
+                                //, 'PT', 'US', 'GB-NIR', 'ES', 'GB'],
+                                locale: 'BR',
+                                onInputChanged: (phone) {
+                                  tel = '${phone.dialCode.toString()}' +
+                                      '${_telefoneController.text}';
+                                },
+                              ),
+                            ),
+                            ListTile(
+                              leading: Icon(
+                                  Icons.alternate_email, color: Colors.white, ),
+                              title: TextFormField(
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width > 600 && MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width < 1000 ? MediaQuery
+                                      .of(context)
+                                      .size
+                                      .height / 50 : MediaQuery
+                                      .of(context)
+                                      .size
+                                      .height / 50,
+                                  fontFamily: 'quicksand',
+                                  shadows: <Shadow>[
+                                    Shadow(
+                                      offset: Offset(1.0, 1.0),
+                                      blurRadius: 3.0,
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                    ),
+                                    Shadow(
+                                      offset: Offset(2.0, 1.0),
+                                      blurRadius: 8.0,
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                    ),
+                                  ],
+                                ),
+                                readOnly: widget.paciente.email.isEmpty ||
+                                  widget.paciente.email == null ? false : true,
+                                controller: _emailController,
+                                onSaved: (email) => paciente.email = email,
+                                validator: validateEmail,
+                                cursorColor: Theme
+                                    .of(context)
+                                    .accentColor,
+                                onFieldSubmitted: (_) {
+                                  setState(() {
+                                    paciente.email =
+                                        _emailController.text.toString();
+                                  });
+                                },
+                                keyboardType: TextInputType.emailAddress,
+                                decoration: InputDecoration(
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.white, width: 3.0),
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  enabledBorder: new OutlineInputBorder(
+                                    borderRadius: new BorderRadius.circular(
+                                        8.0),
+                                    borderSide: BorderSide(
+                                        color: Colors.white, width: 2.0),
+                                  ),
+                                  hintText: "Digite seu e-mail",
+                                  hintStyle: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'quicksand',
+                                    fontSize: MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width > 600 && MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width < 1000 ? MediaQuery
+                                        .of(context)
+                                        .size
+                                        .height / 50 : MediaQuery
+                                        .of(context)
+                                        .size
+                                        .height / 50,
+                                    shadows: <Shadow>[
+                                      Shadow(
+                                        offset: Offset(1.0, 1.0),
+                                        blurRadius: 3.0,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                      Shadow(
+                                        offset: Offset(2.0, 1.0),
+                                        blurRadius: 8.0,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                    ],
+                                  ),
+                                  labelText: "E-mail",
+                                  labelStyle: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width > 600 && MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width < 1000 ? MediaQuery
+                                        .of(context)
+                                        .size
+                                        .height / 50 : MediaQuery
+                                        .of(context)
+                                        .size
+                                        .height / 50,
+                                    fontFamily: 'quicksand',
+                                    shadows: <Shadow>[
+                                      Shadow(
+                                        offset: Offset(1.0, 1.0),
+                                        blurRadius: 3.0,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                      Shadow(
+                                        offset: Offset(2.0, 1.0),
+                                        blurRadius: 8.0,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                    ],
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide:
+                                    const BorderSide(
+                                        color: Colors.red, width: 3.0),
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            ListTile(
+                              leading: Icon(
+                                  Icons.adjust, color: Colors.white),
+                              title: TextFormField(
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width > 600 && MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width < 1000 ? MediaQuery
+                                      .of(context)
+                                      .size
+                                      .height / 50 : MediaQuery
+                                      .of(context)
+                                      .size
+                                      .height / 50,
+                                  fontFamily: 'quicksand',
+                                  shadows: <Shadow>[
+                                    Shadow(
+                                      offset: Offset(1.0, 1.0),
+                                      blurRadius: 3.0,
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                    ),
+                                    Shadow(
+                                      offset: Offset(2.0, 1.0),
+                                      blurRadius: 8.0,
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                    ),
+                                  ],
+                                ),
+                                readOnly: false,
+                                controller: _estadoCivilController,
+                                onSaved: (estadoCivil) => paciente.estadoCivil = estadoCivil,
+                                validator: (estadoCivil) =>
+                                estadoCivil.length < 3
+                                    ? "Não pode ficar em branco."
+                                    : null,
+                                cursorColor: Theme
+                                    .of(context)
+                                    .accentColor,
+                                onFieldSubmitted: (_) {
+                                  setState(() {
+                                    paciente.estadoCivil =
+                                        _estadoCivilController.text.toString();
+                                  });
+                                },
+                                keyboardType: TextInputType.emailAddress,
+                                decoration: InputDecoration(
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.white, width: 3.0),
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  enabledBorder: new OutlineInputBorder(
+                                    borderRadius: new BorderRadius.circular(
+                                        8.0),
+                                    borderSide: BorderSide(
+                                        color: Colors.white, width: 2.0),
+                                  ),
+                                  hintText: "Seu estado civil",
+                                  hintStyle: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'quicksand',
+                                    fontSize: MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width > 600 && MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width < 1000 ? MediaQuery
+                                        .of(context)
+                                        .size
+                                        .height / 50 : MediaQuery
+                                        .of(context)
+                                        .size
+                                        .height / 50,
+                                    shadows: <Shadow>[
+                                      Shadow(
+                                        offset: Offset(1.0, 1.0),
+                                        blurRadius: 3.0,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                      Shadow(
+                                        offset: Offset(2.0, 1.0),
+                                        blurRadius: 8.0,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                    ],
+                                  ),
+                                  labelText: "E-mail",
+                                  labelStyle: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width > 600 && MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width < 1000 ? MediaQuery
+                                        .of(context)
+                                        .size
+                                        .height / 50 : MediaQuery
+                                        .of(context)
+                                        .size
+                                        .height / 50,
+                                    fontFamily: 'quicksand',
+                                    shadows: <Shadow>[
+                                      Shadow(
+                                        offset: Offset(1.0, 1.0),
+                                        blurRadius: 3.0,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                      Shadow(
+                                        offset: Offset(2.0, 1.0),
+                                        blurRadius: 8.0,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                    ],
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide:
+                                    const BorderSide(
+                                        color: Colors.red, width: 3.0),
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Radio(
+                              value: 'Feminino',
+                              activeColor: Colors.cyanAccent,
+                              groupValue: sexo,
+                              onChanged: (val) {
+                                setState(() {
+                                  sexo = 'Feminino';
+                                });
+                              },
+                            ),
+                            Text(
+                              'Feminino',
+                              style: new TextStyle(
+                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
+                                  color: Colors.white,
+                                  fontFamily: 'quicksand',
+                                  shadows: [
+                                    Shadow( // bottomLeft
+                                        offset: Offset(-0.5, -0.5),
+                                        color: Colors.black
+                                    ),
+                                    Shadow( // bottomRight
+                                        offset: Offset(0.5, -0.5),
+                                        color: Colors.black
+                                    ),
+                                    Shadow( // topRight
+                                        offset: Offset(0.5, 0.5),
+                                        color: Colors.black
+                                    ),
+                                    Shadow( // topLeft
+                                        offset: Offset(-0.5, 0.5),
+                                        color: Colors.black
+                                    ),
+                                  ]
+                              ),
+                            ),
+                            Radio(
+                              value: 'Masculino',
+                              groupValue: sexo,
+                              activeColor: Colors.cyanAccent,
+                              onChanged: (val) {
+                                setState(() {
+                                  sexo = 'Masculino';
+                                });
+                              },
+                            ),
+                            Text(
+                              'Masculino',
+                              style: new TextStyle(
+                                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
+                                  color: Colors.white,
+                                  fontFamily: 'quicksand',
+                                  shadows: [
+                                    Shadow( // bottomLeft
+                                        offset: Offset(-0.5, -0.5),
+                                        color: Colors.black
+                                    ),
+                                    Shadow( // bottomRight
+                                        offset: Offset(0.5, -0.5),
+                                        color: Colors.black
+                                    ),
+                                    Shadow( // topRight
+                                        offset: Offset(0.5, 0.5),
+                                        color: Colors.black
+                                    ),
+                                    Shadow( // topLeft
+                                        offset: Offset(-0.5, 0.5),
+                                        color: Colors.black
+                                    ),
+                                  ]
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: FlatButton(
+                                color: Colors.black,
+                                shape: RoundedRectangleBorder(
+                                  side: BorderSide(
+                                      color: Colors.white,
+                                      width: 1,
+                                      style: BorderStyle.solid
+                                  ),
+                                  borderRadius: BorderRadius.circular(40),
+                                ),
+                                child: Text(
+                                  "Cadastrar",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width > 600 && MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width < 1000 ? MediaQuery
+                                        .of(context)
+                                        .size
+                                        .height / 50 : MediaQuery
+                                        .of(context)
+                                        .size
+                                        .height / 50,
+                                    fontFamily: 'quicksand',
+                                    shadows: <Shadow>[
+                                      Shadow(
+                                        offset: Offset(1.0, 1.0),
+                                        blurRadius: 3.0,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                      Shadow(
+                                        offset: Offset(2.0, 1.0),
+                                        blurRadius: 8.0,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    if (formKey.currentState.validate()) {
+                                      formKey.currentState.save();
+                                      Paciente paciente = new Paciente(
+                                          _nomeController.text.toString(),
+                                          tel,
+                                          _emailController.text.toString(),
+                                          widget.paciente.imageURL,
+                                          "",
+                                          "",
+                                          "",
+                                          true, "", false, false, false, false, false,
+                                          "", false, "", false, "", sexo,
+                                          _estadoCivilController.text.toString());
+
+                                      _submitPaciente(paciente);
+                                    }
+                                  });
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),*/
                     ],
                   ),
                 ),
               ],
             ),
-
           ),
         ),
       ]
@@ -1019,20 +1709,37 @@ class _CadastroState extends State<Cadastro> {
   }
 
   void _gravar(Event event) {
-    setState(() {
-      listaProfissional.add(Profissional.fromSnapshot(event.snapshot));
-    });
+//    if(widget.tipo == 'profissional') {
+      setState(() {
+        listaProfissional.add(Profissional.fromSnapshot(event.snapshot));
+      });
+    /*} else {
+      setState(() {
+        listaPacientes.add(Paciente.fromSnapshot(event.snapshot));
+      });
+    }*/
   }
 
   void _update(Event event) {
-    var oldEntry = listaProfissional.singleWhere((entry) {
-      return entry.primaryKey == event.snapshot.key;
-    });
+//    if(widget.tipo == 'profissional') {
+      var oldEntry = listaProfissional.singleWhere((entry) {
+        return entry.primaryKey == event.snapshot.key;
+      });
 
-    setState(() {
-      listaProfissional[listaProfissional.indexOf(oldEntry)] =
-          Profissional.fromSnapshot(event.snapshot);
-    });
+      setState(() {
+        listaProfissional[listaProfissional.indexOf(oldEntry)] =
+            Profissional.fromSnapshot(event.snapshot);
+      });
+    /*} else {
+      var oldEntry = listaPacientes.singleWhere((entry) {
+        return entry.primaryKey == event.snapshot.key;
+      });
+
+      setState(() {
+        listaPacientes[listaPacientes.indexOf(oldEntry)] =
+            Paciente.fromSnapshot(event.snapshot);
+      });
+    }*/
   }
 
   void _submit(Profissional profissional) async {
@@ -1045,9 +1752,9 @@ class _CadastroState extends State<Cadastro> {
     }
 
     form.reset();
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>
-        FirstScreen(tipo: 'profissional', presente: true,)));
-//    Navigator.of(context).pop();
+/*    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>
+        FirstScreen(tipo: 'profissional', presente: true,)));*/
+    Navigator.of(context).pop();
   }
 
   String validateEmail(String value) {
