@@ -1233,11 +1233,6 @@ class _FirstScreenState extends State<FirstScreen> {
                 for(int i = 0; i < listaProfissional.length; i++) {
                   if(listaProfissional[i].email == email) {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => EditarCadastro(profissional: pro,)));
-                    /*Fluttertoast.showToast(
-                      msg:'Você já se cadastrou.',
-                      toastLength: Toast.LENGTH_SHORT,
-                      timeInSecForIosWeb: 5,
-                    );*/
                     return;
                   }
                 }
