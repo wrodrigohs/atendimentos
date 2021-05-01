@@ -223,7 +223,7 @@ class _CadastroState extends State<Cadastro> {
                                       ),
                                     ],
                                   ),
-                                  readOnly: true,
+                                  readOnly: false,
                                   controller: _nomeController,
                                   onSaved: (nome) => profissional.nome = nome,
                                   validator: (nome) =>
@@ -394,7 +394,8 @@ class _CadastroState extends State<Cadastro> {
                                     ),
                                   ],
                                 ),
-                                readOnly: true,
+                                readOnly: widget.profissional.email.isEmpty
+                                || widget.profissional.email == null ? false : true,
                                 controller: _emailController,
                                 onSaved: (email) => profissional.email = email,
                                 validator: validateEmail,
