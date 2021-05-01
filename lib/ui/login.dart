@@ -519,11 +519,13 @@ class _LoginPageState extends State<LoginPage> {
       final user = await authService.signInWithApple(
           scopes: [apple.Scope.email, apple.Scope.fullName]);
       print('uid: ${user.uid}');
-      Navigator.pushReplacement(context, MaterialPageRoute
-        (builder: (context) => FirstScreen(tipo: widget.tipo)));
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+          FirstScreen(tipo: widget.tipo)), (Route<dynamic> route) => false);
+      /*Navigator.pushReplacement(context, MaterialPageRoute
+        (builder: (context) => FirstScreen(tipo: widget.tipo)));*/
     } catch (e) {
       // TODO: Show alert here
-      print(e);
+      print('Erro no login com Apple ===> $e');
     }
   }
 
