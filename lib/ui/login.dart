@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:ui' as ui;
-
-import 'package:apple_sign_in/apple_sign_in.dart' as apple;
+import 'package:http/http.dart' as http;
+//import 'package:apple_sign_in/apple_sign_in.dart' as apple;
 import 'package:atendimentos/services/applesigninavailable.dart';
 import 'package:atendimentos/ui/firstscreen.dart';
 import 'package:atendimentos/services/sign_in.dart';
@@ -11,6 +11,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class LoginPage extends StatefulWidget {
   String tipo;
@@ -514,7 +515,51 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> _signInWithApple(BuildContext context) async {
-    try {
+
+      final credential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+        /*webAuthenticationOptions: WebAuthenticationOptions(
+          // TODO: Set the `clientId` and `redirectUri` arguments to the values you entered in the Apple Developer portal during the setup
+          clientId:
+          'com.aboutyou.dart_packages.sign_in_with_apple.example',
+          redirectUri: Uri.parse(
+            'https://flutter-sign-in-with-apple-example.glitch.me/callbacks/sign_in_with_apple',
+          ),
+        ),*/
+      );
+
+      print(credential);
+
+      // This is the endpoint that will convert an authorization code obtained
+      // via Sign in with Apple into a session in your system
+      final signInWithAppleEndpoint = Uri(
+        scheme: 'https',
+        host: 'https://olivine-slender-mat.glitch.me/callbacks/',
+        path: '/sign_in_with_apple',
+        queryParameters: <String, String>{
+          'code': credential.authorizationCode,
+          if (credential.givenName != null)
+            'firstName': credential.givenName,
+          if (credential.familyName != null)
+            'lastName': credential.familyName,
+          'useBundleId':
+          Platform.isIOS || Platform.isMacOS ? 'true' : 'false',
+          if (credential.state != null) 'state': credential.state,
+        },
+      );
+
+      final session = await http.Client().post(
+        signInWithAppleEndpoint,
+      );
+
+      // If we got this far, a session based on the Apple ID credential has been created in your system,
+      // and you can now set this as the app's session
+      print(session);
+    }
+    /*try {
       final authService = Provider.of<AuthService>(context, listen: false);
       final user = await authService.signInWithApple(
           scopes: [apple.Scope.email, apple.Scope.fullName]);
@@ -523,15 +568,14 @@ class _LoginPageState extends State<LoginPage> {
         Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
             FirstScreen(tipo: widget.tipo)), (Route<dynamic> route) => false);
       }
-      /*Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-          FirstScreen(tipo: widget.tipo)), (Route<dynamic> route) => false);*/
-      /*Navigator.pushReplacement(context, MaterialPageRoute
-        (builder: (context) => FirstScreen(tipo: widget.tipo)));*/
+      *//*Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+          FirstScreen(tipo: widget.tipo)), (Route<dynamic> route) => false);*//*
+      *//*Navigator.pushReplacement(context, MaterialPageRoute
+        (builder: (context) => FirstScreen(tipo: widget.tipo)));*//*
     } catch (e) {
       // TODO: Show alert here
       print('Erro no login com Apple ===> $e');
-    }
-  }
+    }*/
 
   /*Future<User> _signInWithEmailAndPassword() async {
     String nome;
