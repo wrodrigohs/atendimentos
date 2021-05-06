@@ -79,14 +79,5 @@ Future<String> signInWithGoogle() async {
 
 Future<void> signOutGoogle() async {
   await googleSignIn.signOut();
-  Future<void> signOut() async {
-    try {
-      return await _firebaseAuth.signOut();
-    } catch (e) {
-      print(e.toString());
-      return null;
-    }
-  }
-
   print("$email saiu do sistema");
 }
