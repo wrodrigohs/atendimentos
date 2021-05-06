@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 
 class AuthService {
   final _firebaseAuth = FirebaseAuth.instance;
-  final AppleSignIn appleSignIn = AppleSignIn();
 
   Future<User> signInWithApple({List<Scope> scopes = const []}) async {
     // 1. perform the sign-in request
@@ -48,8 +47,8 @@ class AuthService {
     try {
       return await _firebaseAuth.signOut();
     } catch (e) {
-    print(e.toString());
-    return null;
+      print(e.toString());
+      return null;
     }
   }
 }

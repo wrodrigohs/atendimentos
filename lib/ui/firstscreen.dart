@@ -1035,9 +1035,11 @@ class _FirstScreenState extends State<FirstScreen> {
                 )
             ),
             onPressed: () {
-              //if(Platform.isIOS) {
-              auth.signOut();
-              //}
+              try {
+                auth.signOut();
+              } catch (e) {
+                print('Erro no logout ===> $e');
+              }
               signOutGoogle();
               Fluttertoast.showToast(
                 msg:'Logout efetuado com sucesso.',
@@ -1322,6 +1324,11 @@ class _FirstScreenState extends State<FirstScreen> {
             backgroundColor: Colors.transparent,
             onTap: () {
               signOutGoogle();
+              try {
+                auth.signOut();
+              } catch (e) {
+                print('Erro no logout ===> $e');
+              }
               Fluttertoast.showToast(
                 msg:'Logout efetuado com sucesso.',
                 toastLength: Toast.LENGTH_SHORT,
