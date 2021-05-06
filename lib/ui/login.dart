@@ -10,6 +10,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:http/http.dart' as http;
 
 class LoginPage extends StatefulWidget {
   String tipo;
@@ -510,7 +512,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> _signInWithApple(BuildContext context) async {
-    try {
+    /*try {
       final authService = Provider.of<AuthService>(context, listen: false);
       final user = await authService.signInWithApple(
           scopes: [apple.Scope.email, apple.Scope.fullName]);
@@ -524,136 +526,56 @@ class _LoginPageState extends State<LoginPage> {
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) =>
               FirstScreen(tipo: widget.tipo)), (Route<dynamic> route) => false);
-      /*Navigator.pushReplacement(context, MaterialPageRoute
-        (builder: (context) => FirstScreen(tipo: widget.tipo)));*/
+      *//*Navigator.pushReplacement(context, MaterialPageRoute
+        (builder: (context) => FirstScreen(tipo: widget.tipo)));*//*
     } catch (e) {
       // TODO: Show alert here
       print('Erro no login com Apple ===> $e');
-    }
+    }*/
 
-    /*Future<User> _signInWithEmailAndPassword() async {
-    String nome;
-    String email;
-    String imageUrl;
-    String usuario;
+    final credential = await SignInWithApple.getAppleIDCredential(
+      scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ],
+    );
 
-    try {
-      final UserCredential authResult = (await _auth.signInWithEmailAndPassword(
-        email: _emailController.text,
-        password: _passwordController.text,
-      ));
+    print(credential);
 
-      final User user = authResult.user;
+    // This is the endpoint that will convert an authorization code obtained
+    // via Sign in with Apple into a session in your system
+    final signInWithAppleEndpoint = Uri(
+      scheme: 'https',
+      host: 'https://bristle-unique-behavior.glitch.me/callbacks',
+      path: '/sign_in_with_apple',
+      queryParameters: <String, String>{
+        'code': credential.authorizationCode,
+        if (credential.givenName != null)
+          'firstName': credential.givenName,
+        if (credential.familyName != null)
+          'lastName': credential.familyName,
+        'useBundleId':
+        Platform.isIOS || Platform.isMacOS ? 'true' : 'false',
+        if (credential.state != null) 'state': credential.state,
+      },
+    );
 
-      if (user != null) {
-        assert(user.email != null);
-        email = user.email;
+    final session = await http.Client().post(
+      signInWithAppleEndpoint,
+    );
 
-        if (email.contains("@")) {
-          usuario = email.substring(0, email.indexOf("@"));
-          if (usuario.contains('.') || usuario.contains('#') ||
-              usuario.contains('\$') ||
-              usuario.contains('[') || usuario.contains(']')) {
-            usuario = usuario.replaceAll('\.', '');
-            usuario = usuario.replaceAll('#', '');
-            usuario = usuario.replaceAll('\$', '');
-            usuario = usuario.replaceAll('[', '');
-            usuario = usuario.replaceAll(']', '');
-          }
-        }
+    // If we got this far, a session based on the Apple ID credential has been created in your system,
+    // and you can now set this as the app's session
+    print(session);
 
-        nome = '';
-        imageUrl = '';
-        _emailController.text = '';
-        _passwordController.text = '';
-        print('$email acessou o sistema');
-        return user;
-      }
-    } on FirebaseAuthException catch  (e) {
-      print('Failed with error code: ${e.code}');
-      print(e.message);
-      if(e.code == 'user-not-found') {
-        WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
-            SnackBar(
-              duration: Duration(seconds: 2),
-              content: Text('Email não cadastrado',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: 'quicksand',
-                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
-                ),
-              ),
-              backgroundColor: Colors.black,
-              behavior: SnackBarBehavior.floating,
-            )
-        ));
-      } else if (e.code == 'wrong-password') {
-        WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
-            SnackBar(
-              duration: Duration(seconds: 2),
-              content: Text('Senha incorreta',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: 'quicksand',
-                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
-                ),
-              ),
-              backgroundColor: Colors.black,
-              behavior: SnackBarBehavior.floating,
-            )
-        ));
-      }
+    if (credential != null) {
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+        FirstScreen(tipo: widget.tipo)), (Route<dynamic> route) => false);
     }
   }
-
 
   @override
-  Future<void> resetPassword(String email) async {
-    try {
-      await _auth.sendPasswordResetEmail(email: email);
-    } on FirebaseAuthException catch (ex) {
-      if(ex.code == 'ERROR_INVALID_EMAIL') {
-        WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
-            SnackBar(
-              duration: Duration(seconds: 2),
-              content: Text('Email não cadastrado',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: 'quicksand',
-                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
-                ),
-              ),
-              backgroundColor: Colors.black,
-              behavior: SnackBarBehavior.floating,
-            )
-        )
-        );
-      }
-    }
-  }
-
-  void _verSenha() {
-    setState(() {
-      _obscureText = !_obscureText;
-    });
-  }
-
-  String validateEmail(String value) {
-    Pattern pattern =
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regex = new RegExp(pattern);
-    if (!regex.hasMatch(value))
-      return 'Digite um e-mail válido.';
-    else
-      return null;
-  }*/
-
-    @override
-    void dispose() {
-      super.dispose();
-    }
+  void dispose() {
+    super.dispose();
   }
 }
