@@ -512,7 +512,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> _signInWithApple(BuildContext context) async {
-    /*try {
+    try {
       final authService = Provider.of<AuthService>(context, listen: false);
       final user = await authService.signInWithApple(
           scopes: [apple.Scope.email, apple.Scope.fullName]);
@@ -526,14 +526,14 @@ class _LoginPageState extends State<LoginPage> {
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) =>
               FirstScreen(tipo: widget.tipo)), (Route<dynamic> route) => false);
-      *//*Navigator.pushReplacement(context, MaterialPageRoute
-        (builder: (context) => FirstScreen(tipo: widget.tipo)));*//*
+      /*Navigator.pushReplacement(context, MaterialPageRoute
+        (builder: (context) => FirstScreen(tipo: widget.tipo)));*/
     } catch (e) {
       // TODO: Show alert here
       print('Erro no login com Apple ===> $e');
-    }*/
+    }
 
-    final credential = await SignInWithApple.getAppleIDCredential(
+    /*final credential = await SignInWithApple.getAppleIDCredential(
       scopes: [
         AppleIDAuthorizationScopes.email,
         AppleIDAuthorizationScopes.fullName,
@@ -571,7 +571,7 @@ class _LoginPageState extends State<LoginPage> {
     if (credential != null) {
       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
         FirstScreen(tipo: widget.tipo)), (Route<dynamic> route) => false);
-    }
+    }*/
   }
 
   @override
