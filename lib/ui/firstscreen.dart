@@ -1073,18 +1073,21 @@ class _FirstScreenState extends State<FirstScreen> {
                   backgroundColor: Colors.transparent,
                 )
                     :
+                name != null ?
                 CircleAvatar(
                   child: Text('${name.substring(0, 1).toUpperCase()}',
                     style: TextStyle(
                         fontFamily: 'quicksand',
-                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/50,
+                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/50,
                         fontWeight: FontWeight.bold,
                         color: Colors.white
                     ),
                   ),
                   radius: 45,
                   backgroundColor: Colors.black,
-                ),
+                )
+                    :
+                Container(),
                 SizedBox(height: 16.0),
                 LText(name != null ? "\l.lead{Bem-vindo(a)},\n\l.lead.bold{$name}" :
                 "\l.lead{Bem-vindo(a)}",
@@ -1561,6 +1564,7 @@ class _FirstScreenState extends State<FirstScreen> {
                   backgroundColor: Colors.transparent,
                 )
                     :
+                name != null ?
                 CircleAvatar(
                   child: Text('${name.substring(0, 1).toUpperCase()}',
                     style: TextStyle(
@@ -1572,7 +1576,8 @@ class _FirstScreenState extends State<FirstScreen> {
                   ),
                   radius: 45,
                   backgroundColor: Colors.black,
-                ),
+                )
+                    : Container(),
                 SizedBox(height: 16.0),
                 LText(name != null ? "\l.lead{Bem-vindo(a)},\n\l.lead.bold{$name}" :
                 "\l.lead{Bem-vindo(a)}",
