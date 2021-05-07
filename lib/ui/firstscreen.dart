@@ -716,7 +716,8 @@ class _FirstScreenState extends State<FirstScreen> {
                         )
                             :
                         //ISSO PERMITE QUE A CONTA SEJA UTILIZADA EM MAIS DE UM DISPOSITIVO SIMULTANEAMENTE
-                        (appData.isPro == true || pro.assinante == true) && presente == false ?
+                        (appData.isPro == true || pro.assinante == true) && (presente == false)
+                            || email.isEmpty  || email == null ?
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -2556,6 +2557,21 @@ class _FirstScreenState extends State<FirstScreen> {
                   );
                 } else {
                   fbProtocolUrl = 'fb://profile/${pro.facebook}';
+                  String fallbackUrl = '${pro.facebook}';
+                  try {
+                    bool launched = await launch(fbProtocolUrl, forceWebView: true, forceSafariVC: false);
+
+                    if (!launched) {
+                      Fluttertoast.showToast(
+                        msg:'Aplicativo não instalado. Instale-o para ter acesso a esse recurso.',
+                        toastLength: Toast.LENGTH_LONG,
+                        timeInSecForIosWeb: 5,
+                      );
+//                      await launch(fallbackUrl, forceSafariVC: false);
+                    }
+                  } catch (e) {
+                    await launch(fallbackUrl, forceSafariVC: false);
+                  }
                 }
               } else {
                 if(pro.facebook == 'https://www.facebook.com/') {
@@ -2581,10 +2597,25 @@ class _FirstScreenState extends State<FirstScreen> {
                   );
                 } else {
                   fbProtocolUrl = 'fb://page/${pro.facebook}';
+                  String fallbackUrl = '${pro.facebook}';
+                  try {
+                    bool launched = await launch(fbProtocolUrl, forceWebView: true, forceSafariVC: false);
+
+                    if (!launched) {
+                      Fluttertoast.showToast(
+                        msg:'Aplicativo não instalado. Instale-o para ter acesso a esse recurso.',
+                        toastLength: Toast.LENGTH_LONG,
+                        timeInSecForIosWeb: 5,
+                      );
+//                      await launch(fallbackUrl, forceSafariVC: false);
+                    }
+                  } catch (e) {
+                    await launch(fallbackUrl, forceSafariVC: false);
+                  }
                 }
               }
 
-              String fallbackUrl = '${pro.facebook}';
+              /*String fallbackUrl = '${pro.facebook}';
               try {
                 bool launched = await launch(fbProtocolUrl, forceWebView: true, forceSafariVC: false);
 
@@ -2593,7 +2624,7 @@ class _FirstScreenState extends State<FirstScreen> {
                 }
               } catch (e) {
                 await launch(fallbackUrl, forceSafariVC: false);
-              }
+              }*/
             });
           },
           title: Text(
@@ -2661,14 +2692,18 @@ class _FirstScreenState extends State<FirstScreen> {
                 if (await canLaunch(url)) {
                   await launch(url, universalLinksOnly: true);
                 } else {
-                  if (await canLaunch(url)) {
+                  Fluttertoast.showToast(
+                    msg:'Aplicativo não instalado. Instale-o para ter acesso a esse recurso.',
+                    toastLength: Toast.LENGTH_LONG,
+                    timeInSecForIosWeb: 5,
+                  );
+                  /*if (await canLaunch(url)) {
                     await launch(
                       url,
                       universalLinksOnly: false,
                     );
-                  } else {
-                    throw 'Houve um erro';
-                  }
+                  } else {*/
+                  throw 'Houve um erro';
                 }
               }
             });
@@ -3007,10 +3042,42 @@ class _FirstScreenState extends State<FirstScreen> {
   void launchWhatsApp({@required String phone, @required String message}) async {
     String url() {
       if (Platform.isIOS) {
-        return "whatsapp://wa.me/$phone/?text=${Uri.parse(message)}";
-      } else if (Platform.isAndroid){
-        return "whatsapp://send?phone=$phone&text=${Uri.parse(message)}";
-      } else {
+        setState(() async {
+//          var url = 'https://wa.me/$phone?text=$message';
+          var url = "whatsapp://wa.me/$phone/?text=${Uri.parse(message)}";
+          if (await canLaunch(url)) {
+            await launch(
+              url,
+              universalLinksOnly: false,
+            );
+          } else {
+            Fluttertoast.showToast(
+              msg:'Aplicativo não instalado. Instale-o para ter acesso a esse recurso.',
+              toastLength: Toast.LENGTH_LONG,
+              timeInSecForIosWeb: 5,
+            );
+//            launch("sms://${phone}");
+            throw 'Houve um erro';
+          }
+        });
+      } else if (Platform.isAndroid) {
+        setState(() async {
+          var url = "whatsapp://send?phone=$phone&text=${Uri.parse(message)}";
+          if (await canLaunch(url)) {
+            await launch(
+              url,
+              universalLinksOnly: false,
+            );
+          } else {
+            Fluttertoast.showToast(
+              msg:'Aplicativo não instalado. Instale-o para ter acesso a esse recurso.',
+              toastLength: Toast.LENGTH_LONG,
+              timeInSecForIosWeb: 5,
+            );
+//            launch("sms://${phone}");
+            throw 'Houve um erro';
+          }
+        }); /*else {
         setState(() async {
           var url = 'https://wa.me/$phone?text=$message';
           if (await canLaunch(url)) {
@@ -3024,7 +3091,7 @@ class _FirstScreenState extends State<FirstScreen> {
           }
           //Navigator.of(context).pop();
         });
-        return "";
+        return "";*/
       }
     }
 
