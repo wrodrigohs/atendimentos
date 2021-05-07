@@ -1066,7 +1066,7 @@ class _FirstScreenState extends State<FirstScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                pro.imageURL != null ?
+                imageUrl != null ?
                 CircleAvatar(
                   backgroundImage: NetworkImage(imageUrl),
                   radius: 45,
@@ -1074,7 +1074,7 @@ class _FirstScreenState extends State<FirstScreen> {
                 )
                     :
                 CircleAvatar(
-                  child: Text('${pro.nome.substring(0, 1).toUpperCase()}',
+                  child: Text('${name.substring(0, 1).toUpperCase()}',
                     style: TextStyle(
                         fontFamily: 'quicksand',
                         fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/50,
@@ -1554,7 +1554,7 @@ class _FirstScreenState extends State<FirstScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                pro.imageURL != null ?
+                imageUrl != null ?
                 CircleAvatar(
                   backgroundImage: NetworkImage(imageUrl),
                   radius: 45,
@@ -1562,7 +1562,7 @@ class _FirstScreenState extends State<FirstScreen> {
                 )
                     :
                 CircleAvatar(
-                  child: Text('${pro.nome.substring(0, 1).toUpperCase()}',
+                  child: Text('${name.substring(0, 1).toUpperCase()}',
                     style: TextStyle(
                         fontFamily: 'quicksand',
                         fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/50,
