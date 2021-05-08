@@ -38,8 +38,11 @@ class FirstScreen extends StatefulWidget {
   Profissional profissional;
   String tipo;
   bool presente;
+  Profissional proIOS;
+  Paciente pacienteIOS;
 
-  FirstScreen({Key key, this.profissional, this.tipo, this.presente}) : super(key: key);
+  FirstScreen({Key key, this.profissional, this.proIOS, this.pacienteIOS,
+    this.tipo, this.presente}) : super(key: key);
 
   @override
   _FirstScreenState createState() => _FirstScreenState();
@@ -133,7 +136,7 @@ class _FirstScreenState extends State<FirstScreen> {
     listaPacientes.sort((a, b) => (((converterData(a.data)).compareTo(converterData(b.data)))));
 
     if (Platform.isIOS) {
-      distancia = AppBar().preferredSize.height + 60;
+      distancia = AppBar().preferredSize.height + 50;
     } else {
       distancia = AppBar().preferredSize.height + 40;
     }
@@ -180,7 +183,6 @@ class _FirstScreenState extends State<FirstScreen> {
                         onPressed: () {
                           setState(() {
                             if(appData.isPro == true) {
-//                            if(isPro == true) {
                               dialogBusca(context);
                             } else {
                               WidgetsBinding.instance.addPostFrameCallback((
@@ -246,7 +248,6 @@ class _FirstScreenState extends State<FirstScreen> {
                         ),
                       ),
                       Center(
-//                        child: isPro == false ?
                         child: appData.isPro == false && pro.assinante == false && presente == false ?
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -405,7 +406,7 @@ class _FirstScreenState extends State<FirstScreen> {
                         )
                             :
                         //EX-ASSINANTE PODE VER AS CONSULTAS MARCADAS, MAS SÓ ISSO.
-                        (appData.isPro == false && pro.assinante == false) == true && presente == true ?
+                        (appData.isPro == false && pro.assinante == false) && presente == true ?
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           mainAxisSize: MainAxisSize.max,
@@ -717,7 +718,8 @@ class _FirstScreenState extends State<FirstScreen> {
                             :
                         //ISSO PERMITE QUE A CONTA SEJA UTILIZADA EM MAIS DE UM DISPOSITIVO SIMULTANEAMENTE
                         (appData.isPro == true || pro.assinante == true) && (presente == false)
-                            || email.isEmpty  || email == null ?
+                            || (Platform.isIOS && widget.proIOS.email.isEmpty)
+                            || (Platform.isIOS && widget.proIOS.email == null) ?
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -767,9 +769,14 @@ class _FirstScreenState extends State<FirstScreen> {
                                   }
                                 }
 
-                                if(presente == false) {
+                                if(presente == false && Platform.isAndroid) {
                                   Navigator.push(context, MaterialPageRoute(
                                       builder: (context) => Cadastro(profissional: profissional, email: email)),
+                                  );
+                                } else if((presente == false && Platform.isIOS)) {
+                                  Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) => Cadastro(profissional: widget.proIOS,
+                                          email: widget.pacienteIOS.email)),
                                   );
                                 }
                               },
@@ -1074,9 +1081,24 @@ class _FirstScreenState extends State<FirstScreen> {
                   backgroundColor: Colors.transparent,
                 )
                     :
-                name != null ?
+                (Platform.isAndroid) ?
                 CircleAvatar(
-                  child: Text('${name.substring(0, 1).toUpperCase()}',
+                  child: Text(name != null ? '${name.substring(0, 1).toUpperCase()}' : '',
+                    style: TextStyle(
+                        fontFamily: 'quicksand',
+                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/50,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white
+                    ),
+                  ),
+                  radius: 45,
+                  backgroundColor: Colors.black,
+                )
+                    :
+                (Platform.isIOS) ?
+                CircleAvatar(
+                  child: Text(widget.proIOS.nome != null ?
+                  '${widget.proIOS.nome.substring(0, 1).toUpperCase()}' : '',
                     style: TextStyle(
                         fontFamily: 'quicksand',
                         fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/50,
@@ -1090,6 +1112,7 @@ class _FirstScreenState extends State<FirstScreen> {
                     :
                 Container(),
                 SizedBox(height: 16.0),
+                (Platform.isAndroid) ?
                 LText(name != null ? "\l.lead{Bem-vindo(a)},\n\l.lead.bold{$name}" :
                 "\l.lead{Bem-vindo(a)}",
                   baseStyle: TextStyle(
@@ -1097,7 +1120,18 @@ class _FirstScreenState extends State<FirstScreen> {
                     fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/55 : MediaQuery.of(context).size.height/55,
                     fontFamily: 'quicksand',
                   ),
-                ),
+                )
+                    :
+                (Platform.isIOS) ?
+                LText(widget.proIOS.nome != null ? "\l.lead{Bem-vindo(a)},\n\l.lead.bold${widget.proIOS.nome}" :
+                "\l.lead{Bem-vindo(a)}",
+                  baseStyle: TextStyle(
+                    color: Colors.white,
+                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/55 : MediaQuery.of(context).size.height/55,
+                    fontFamily: 'quicksand',
+                  ),
+                )
+                    : Container(),
                 SizedBox(height: 20.0),
               ],
             ),
@@ -1243,8 +1277,17 @@ class _FirstScreenState extends State<FirstScreen> {
               }
               if(appData.isPro == true) {
                 for(int i = 0; i < listaProfissional.length; i++) {
-                  if(listaProfissional[i].email == email) {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => EditarCadastro(profissional: pro,)));
+                  if (Platform.isAndroid &&
+                      listaProfissional[i].email == email) {
+                    Navigator.push(context, MaterialPageRoute(
+                        builder: (context) =>
+                            EditarCadastro(profissional: pro,)));
+                    return;
+                  } else if (Platform.isIOS &&
+                      listaProfissional[i].email == widget.proIOS.email) {
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (context) =>
+                        EditarCadastro(profissional: widget.proIOS)));
                     return;
                   }
                 }
@@ -1363,7 +1406,7 @@ class _FirstScreenState extends State<FirstScreen> {
     ]);
 
     if (Platform.isIOS) {
-      distancia = AppBar().preferredSize.height + 60;
+      distancia = AppBar().preferredSize.height + 50;
     } else {
       distancia = AppBar().preferredSize.height + 40;
     }
@@ -1565,9 +1608,9 @@ class _FirstScreenState extends State<FirstScreen> {
                   backgroundColor: Colors.transparent,
                 )
                     :
-                name != null ?
+                (Platform.isAndroid) ?
                 CircleAvatar(
-                  child: Text('${name.substring(0, 1).toUpperCase()}',
+                  child: Text(name != null ? '${name.substring(0, 1).toUpperCase()}': '',
                     style: TextStyle(
                         fontFamily: 'quicksand',
                         fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/50,
@@ -1578,8 +1621,24 @@ class _FirstScreenState extends State<FirstScreen> {
                   radius: 45,
                   backgroundColor: Colors.black,
                 )
-                    : Container(),
+                    :
+                (Platform.isIOS) ?
+                CircleAvatar(
+                  child: Text(widget.pacienteIOS.nome != null ? '${name.substring(0, 1).toUpperCase()}' : '',
+                    style: TextStyle(
+                        fontFamily: 'quicksand',
+                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/50,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white
+                    ),
+                  ),
+                  radius: 45,
+                  backgroundColor: Colors.black,
+                )
+                    :
+                Container(),
                 SizedBox(height: 16.0),
+                (Platform.isAndroid) ?
                 LText(name != null ? "\l.lead{Bem-vindo(a)},\n\l.lead.bold{$name}" :
                 "\l.lead{Bem-vindo(a)}",
                   baseStyle: TextStyle(
@@ -1587,7 +1646,19 @@ class _FirstScreenState extends State<FirstScreen> {
                     fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                     fontFamily: 'quicksand',
                   ),
-                ),
+                )
+                    :
+                (Platform.isIOS) ?
+                LText(widget.pacienteIOS.nome != null ? "\l.lead{Bem-vindo(a)},\n\l.lead.bold${widget.pacienteIOS.nome}" :
+                "\l.lead{Bem-vindo(a)}",
+                  baseStyle: TextStyle(
+                    color: Colors.white,
+                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
+                    fontFamily: 'quicksand',
+                  ),
+                )
+                    :
+                Container(),
                 SizedBox(height: 20.0),
               ],
             ),

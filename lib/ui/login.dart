@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'dart:ui' as ui;
 import 'package:apple_sign_in/apple_sign_in.dart' as apple;
+import 'package:atendimentos/model/paciente.dart';
+import 'package:atendimentos/model/profissional.dart';
 import 'package:atendimentos/services/applesigninavailable.dart';
 import 'package:atendimentos/ui/firstscreen.dart';
 import 'package:atendimentos/services/sign_in.dart';
@@ -517,15 +519,28 @@ class _LoginPageState extends State<LoginPage> {
       final user = await authService.signInWithApple(
           scopes: [apple.Scope.email, apple.Scope.fullName]);
       print('uid: ${user.uid}');
+      String nomeIOS = apple.Scope.fullName.toString();
+      String emailIOS = apple.Scope.email.toString();
+
       if (user != null) {
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) =>
-                FirstScreen(tipo: widget.tipo)), (
-            Route<dynamic> route) => false);
+        if(widget.tipo == 'profissional') {
+          Profissional profissional = new Profissional(nomeIOS, "", emailIOS, "", '', '', "", "", "",
+              false, false, false, false, false, false, false, null, false);
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) =>
+                  FirstScreen(tipo: widget.tipo, proIOS: profissional,)), (
+              Route<dynamic> route) => false);
+        } else {
+          Paciente pac = new Paciente(nomeIOS, "", emailIOS, '', "", "", "", false, "", false, false, false, false, false, "", false, "", false, "", "", "");
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) =>
+                  FirstScreen(tipo: widget.tipo, pacienteIOS: pac,)), (
+              Route<dynamic> route) => false);
+        }
       }
-      Navigator.of(context).pushAndRemoveUntil(
+      /*Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) =>
-              FirstScreen(tipo: widget.tipo)), (Route<dynamic> route) => false);
+              FirstScreen(tipo: widget.tipo)), (Route<dynamic> route) => false);*/
       /*Navigator.pushReplacement(context, MaterialPageRoute
         (builder: (context) => FirstScreen(tipo: widget.tipo)));*/
     } catch (e) {
