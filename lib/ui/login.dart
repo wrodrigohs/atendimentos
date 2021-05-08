@@ -519,8 +519,8 @@ class _LoginPageState extends State<LoginPage> {
       final user = await authService.signInWithApple(
           scopes: [apple.Scope.email, apple.Scope.fullName]);
       print('uid: ${user.uid}');
-      String nomeIOS = apple.Scope.fullName.toString();
-      String emailIOS = apple.Scope.email.toString();
+      String nomeIOS = user.displayName;//apple.Scope.fullName.toString();
+      String emailIOS = user.email;//apple.Scope.email.toString();
 
       if (user != null) {
         if(widget.tipo == 'profissional') {
