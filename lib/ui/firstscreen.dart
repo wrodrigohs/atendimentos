@@ -38,11 +38,12 @@ class FirstScreen extends StatefulWidget {
   Profissional profissional;
   String tipo;
   bool presente;
+  bool logadoIOS;
   Profissional proIOS;
   Paciente pacienteIOS;
 
   FirstScreen({Key key, this.profissional, this.proIOS, this.pacienteIOS,
-    this.tipo, this.presente}) : super(key: key);
+    this.tipo, this.logadoIOS, this.presente}) : super(key: key);
 
   @override
   _FirstScreenState createState() => _FirstScreenState();
@@ -718,8 +719,8 @@ class _FirstScreenState extends State<FirstScreen> {
                             :
                         //ISSO PERMITE QUE A CONTA SEJA UTILIZADA EM MAIS DE UM DISPOSITIVO SIMULTANEAMENTE
                         (appData.isPro == true || pro.assinante == true) && (presente == false)
-                            || (Platform.isIOS && widget.proIOS.email.isEmpty)
-                            || (Platform.isIOS && widget.proIOS.email == null) ?
+                            || (widget.logadoIOS == true && widget.proIOS.email.isEmpty)
+                            || (widget.logadoIOS == true && widget.proIOS.email == null) ?
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -773,7 +774,7 @@ class _FirstScreenState extends State<FirstScreen> {
                                   Navigator.push(context, MaterialPageRoute(
                                       builder: (context) => Cadastro(profissional: profissional, email: email)),
                                   );
-                                } else if((presente == false && Platform.isIOS)) {
+                                } else if((presente == false && widget.logadoIOS == true)) {
                                   Navigator.push(context, MaterialPageRoute(
                                       builder: (context) => Cadastro(profissional: widget.proIOS,
                                           email: widget.pacienteIOS.email)),
@@ -1043,12 +1044,15 @@ class _FirstScreenState extends State<FirstScreen> {
                 )
             ),
             onPressed: () {
-              try {
-                auth.signOut();
-              } catch (e) {
-                print('Erro no logout ===> $e');
+              if(widget.logadoIOS == true) {
+                try {
+                  auth.signOut();
+                } catch (e) {
+                  print('Erro no logout ===> $e');
+                }
+              } else {
+                signOutGoogle();
               }
-              signOutGoogle();
               Fluttertoast.showToast(
                 msg:'Logout efetuado com sucesso.',
                 toastLength: Toast.LENGTH_SHORT,
@@ -1095,7 +1099,7 @@ class _FirstScreenState extends State<FirstScreen> {
                   backgroundColor: Colors.black,
                 )
                     :
-                (Platform.isIOS) ?
+                (widget.logadoIOS == true) ?
                 CircleAvatar(
                   child: Text(widget.proIOS.nome != null ?
                   '${widget.proIOS.nome.substring(0, 1).toUpperCase()}' : '',
@@ -1122,7 +1126,7 @@ class _FirstScreenState extends State<FirstScreen> {
                   ),
                 )
                     :
-                (Platform.isIOS) ?
+                (widget.logadoIOS == true) ?
                 LText(widget.proIOS.nome != null ? "\l.lead{Bem-vindo(a)},\n${widget.proIOS.nome}" :
                 "\l.lead{Bem-vindo(a)}",
                   baseStyle: TextStyle(
@@ -1283,7 +1287,7 @@ class _FirstScreenState extends State<FirstScreen> {
                         builder: (context) =>
                             EditarCadastro(profissional: pro,)));
                     return;
-                  } else if (Platform.isIOS &&
+                  } else if (widget.logadoIOS == true &&
                       listaProfissional[i].email == widget.proIOS.email) {
                     Navigator.push(
                         context, MaterialPageRoute(builder: (context) =>
@@ -1370,11 +1374,14 @@ class _FirstScreenState extends State<FirstScreen> {
           LListItem(
             backgroundColor: Colors.transparent,
             onTap: () {
+              if(widget.logadoIOS == true) {
+                try {
+                  auth.signOut();
+                } catch (e) {
+                  print('Erro no logout ===> $e');
+                }
+              } else {
               signOutGoogle();
-              try {
-                auth.signOut();
-              } catch (e) {
-                print('Erro no logout ===> $e');
               }
               Fluttertoast.showToast(
                 msg:'Logout efetuado com sucesso.',
@@ -1520,7 +1527,15 @@ class _FirstScreenState extends State<FirstScreen> {
                         ),
                         IconButton(
                           onPressed: () {
-                            signOutGoogle();
+                            if(widget.logadoIOS == true) {
+                              try {
+                                auth.signOut();
+                              } catch (e) {
+                                print('Erro no logout ===> $e');
+                              }
+                            } else {
+                              signOutGoogle();
+                            }
                             Fluttertoast.showToast(
                               msg:'Logout efetuado com sucesso.',
                               toastLength: Toast.LENGTH_SHORT,
@@ -1622,9 +1637,10 @@ class _FirstScreenState extends State<FirstScreen> {
                   backgroundColor: Colors.black,
                 )
                     :
-                (Platform.isIOS) ?
+                (widget.logadoIOS == true) ?
                 CircleAvatar(
-                  child: Text(widget.pacienteIOS.nome != null ? '${name.substring(0, 1).toUpperCase()}' : '',
+                  child: Text(widget.pacienteIOS.nome != null ?
+                  '${widget.pacienteIOS.nome.substring(0, 1).toUpperCase()}' : '',
                     style: TextStyle(
                         fontFamily: 'quicksand',
                         fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/50,
@@ -1648,7 +1664,7 @@ class _FirstScreenState extends State<FirstScreen> {
                   ),
                 )
                     :
-                (Platform.isIOS) ?
+                (widget.logadoIOS == true) ?
                 LText(widget.pacienteIOS.nome != null ? "\l.lead{Bem-vindo(a)},\n${widget.pacienteIOS.nome}" :
                 "\l.lead{Bem-vindo(a)}",
                   baseStyle: TextStyle(
@@ -1706,7 +1722,15 @@ class _FirstScreenState extends State<FirstScreen> {
           LListItem(
             backgroundColor: Colors.transparent,
             onTap: () {
-              signOutGoogle();
+              if(widget.logadoIOS == true) {
+                try {
+                  auth.signOut();
+                } catch (e) {
+                  print('Erro no logout ===> $e');
+                }
+              } else {
+                signOutGoogle();
+              }
               Fluttertoast.showToast(
                 msg:'Logout efetuado com sucesso.',
                 toastLength: Toast.LENGTH_SHORT,
@@ -3348,7 +3372,15 @@ class _FirstScreenState extends State<FirstScreen> {
                                 setState(() {
                                   remover('${paciente.primaryKey}', posicao, paciente);
                                   Navigator.of(context).pop();
-                                  signOutGoogle();
+                                  if(widget.logadoIOS == true) {
+                                    try {
+                                      auth.signOut();
+                                    } catch (e) {
+                                      print('Erro no logout ===> $e');
+                                    }
+                                  } else {
+                                    signOutGoogle();
+                                  }
                                   Fluttertoast.showToast(
                                     msg:'Logout efetuado com sucesso.',
                                     toastLength: Toast.LENGTH_SHORT,
@@ -3459,7 +3491,15 @@ class _FirstScreenState extends State<FirstScreen> {
                                 setState(() {
                                   removerProfissional(profissional.primaryKey, posicao, profissional);
                                   Navigator.of(context).pop();
-                                  signOutGoogle();
+                                  if(widget.logadoIOS == true) {
+                                    try {
+                                      auth.signOut();
+                                    } catch (e) {
+                                      print('Erro no logout ===> $e');
+                                    }
+                                  } else {
+                                    signOutGoogle();
+                                  }
                                   Fluttertoast.showToast(
                                     msg:'Logout efetuado com sucesso.',
                                     toastLength: Toast.LENGTH_SHORT,
