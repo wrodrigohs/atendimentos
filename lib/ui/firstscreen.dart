@@ -1649,7 +1649,7 @@ class _FirstScreenState extends State<FirstScreen> {
                 )
                     :
                 (Platform.isIOS) ?
-                LText(widget.pacienteIOS.nome != null ? "\l.lead{Bem-vindo(a)},\n\l.lead.bold${widget.pacienteIOS.nome}" :
+                LText(widget.pacienteIOS.nome != null ? "\l.lead{Bem-vindo(a)},\n${widget.pacienteIOS.nome}" :
                 "\l.lead{Bem-vindo(a)}",
                   baseStyle: TextStyle(
                     color: Colors.white,
