@@ -3641,37 +3641,50 @@ class _FirstScreenState extends State<FirstScreen> {
     bool presente = false;
 
     if(widget.tipo == 'profissional') {
-      for(int i = 0; i < listaProfissional.length; i++) {
-        if(equalsIgnoreCase(listaProfissional[i].email, email)) {
-          setState(() {
-            presente = true;
-            pro = listaProfissional[i];
-            if(appData.isPro == true && pro.assinante == false) {
-              setState(() {
-                pro.assinante = true;
-                atualizarProfissional(pro);
-              });
-            } else if(appData.isPro == false && pro.assinante == true) {
-              setState(() {
-                pro.assinante = false;
-                atualizarProfissional(pro);
-              });
-            }
-          });
-          return presente;
+      if(Platform.isAndroid) {
+        for(int i = 0; i < listaProfissional.length; i++) {
+          if(equalsIgnoreCase(listaProfissional[i].email, email)) {
+            setState(() {
+              presente = true;
+              pro = listaProfissional[i];
+              if(appData.isPro == true && pro.assinante == false) {
+                setState(() {
+                  pro.assinante = true;
+                  atualizarProfissional(pro);
+                });
+              } else if(appData.isPro == false && pro.assinante == true) {
+                setState(() {
+                  pro.assinante = false;
+                  atualizarProfissional(pro);
+                });
+              }
+            });
+            return presente;
+          }
+        }
+      } else {
+        for(int i = 0; i < listaProfissional.length; i++) {
+          if(equalsIgnoreCase(listaProfissional[i].email, widget.proIOS.email)) {
+            setState(() {
+              presente = true;
+              pro = listaProfissional[i];
+              if(appData.isPro == true && pro.assinante == false) {
+                setState(() {
+                  pro.assinante = true;
+                  atualizarProfissional(pro);
+                });
+              } else if(appData.isPro == false && pro.assinante == true) {
+                setState(() {
+                  pro.assinante = false;
+                  atualizarProfissional(pro);
+                });
+              }
+            });
+            return presente;
+          }
         }
       }
-    } /*else {
-      for(int i = 0; i < listaPacientesPresentes.length; i++) {
-        if(equalsIgnoreCase(listaPacientesPresentes[i].email, email)) {
-          setState(() {
-            presente = true;
-          });
-          return presente;
-        }
-      }
-    }*/
-
+    }
     return presente;
   }
 }
