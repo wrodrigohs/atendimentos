@@ -73,7 +73,7 @@ Future<String> signInWithGoogle() async {
       toastLength: Toast.LENGTH_SHORT,
       timeInSecForIosWeb: 2,
     );
-    debugPrint(NSInvalidArgumentException);
+//    debugPrint(NSInvalidArgumentException);
   }
 }
 

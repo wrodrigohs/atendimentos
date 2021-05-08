@@ -885,8 +885,13 @@ class _FirstScreenState extends State<FirstScreen> {
                                     ),
                                     onPressed: () {
                                       setState(() {
-                                        Navigator.push(context, MaterialPageRoute(builder:
-                                            (context) => Agendar(profissional: pro, tipo: 'profissional',)));
+                                        if(widget.logadoIOS == true) {
+                                          Navigator.push(context, MaterialPageRoute(builder:
+                                              (context) => Agendar(profissional: widget.proIOS, tipo: 'profissional',)));
+                                        } else {
+                                          Navigator.push(context, MaterialPageRoute(builder:
+                                              (context) => Agendar(profissional: pro, tipo: 'profissional',)));
+                                        }
                                       });
                                     }
                                 ),
@@ -1192,7 +1197,13 @@ class _FirstScreenState extends State<FirstScreen> {
                 appData.isPro = true;
               }
               if(appData.isPro == true) {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Agendar(profissional: pro, tipo: 'profissional')));
+                if(widget.logadoIOS == true) {
+                  Navigator.push(context, MaterialPageRoute(builder:
+                      (context) => Agendar(profissional: widget.proIOS, tipo: 'profissional',)));
+                } else {
+                  Navigator.push(context, MaterialPageRoute(builder:
+                      (context) => Agendar(profissional: pro, tipo: 'profissional',)));
+                }
               } else {
                 WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
                     SnackBar(
@@ -1560,10 +1571,17 @@ class _FirstScreenState extends State<FirstScreen> {
                     setState(() {
                       for(int i = 0; i < listaProfissional.length; i++) {
                         if (equalsIgnoreCase(listaProfissional[i].nome, (pro.nome))) {
-                          Navigator.push(context, MaterialPageRoute(
-                              builder: (context) => Agendar(paciente: pac,
-                                  profissional: pro, tipo: widget.tipo)));
-                          return;
+                          if(widget.logadoIOS == true) {
+                            Navigator.push(context, MaterialPageRoute(
+                                builder: (context) => Agendar(paciente: widget.pacienteIOS,
+                                    profissional: pro, tipo: widget.tipo)));
+                            return;
+                          } else {
+                            Navigator.push(context, MaterialPageRoute(
+                                builder: (context) => Agendar(paciente: pac,
+                                    profissional: pro, tipo: widget.tipo)));
+                            return;
+                          }
                         } else {
                           WidgetsBinding.instance.addPostFrameCallback((_) =>
                               _scaffoldKey.currentState.showSnackBar(
