@@ -1760,9 +1760,9 @@ class _CadastroState extends State<Cadastro> {
     }
 
     form.reset();
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>
-        FirstScreen(tipo: 'profissional', presente: true,)));
-//    Navigator.of(context).pop();
+    /*Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>
+        FirstScreen(tipo: 'profissional', presente: true,)));*/
+    Navigator.of(context).pop();
   }
 
   String validateEmail(String value) {

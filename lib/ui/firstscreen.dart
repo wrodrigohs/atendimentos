@@ -3702,7 +3702,7 @@ class _FirstScreenState extends State<FirstScreen> {
       if(Platform.isAndroid) {
         for(int i = 0; i < listaProfissional.length; i++) {
           if(equalsIgnoreCase(listaProfissional[i].email, email)) {
-            setState(() {
+            /*setState(() {
               presente = true;
               pro = listaProfissional[i];
               if(appData.isPro == true && pro.assinante == false) {
@@ -3716,14 +3716,14 @@ class _FirstScreenState extends State<FirstScreen> {
                   atualizarProfissional(pro);
                 });
               }
-            });
+            });*/
             return presente;
           }
         }
       } else {
         for(int i = 0; i < listaProfissional.length; i++) {
           if(equalsIgnoreCase(listaProfissional[i].email, widget.proIOS.email)) {
-            setState(() {
+            /*setState(() {
               presente = true;
               pro = listaProfissional[i];
               if(appData.isPro == true && pro.assinante == false) {
@@ -3737,7 +3737,7 @@ class _FirstScreenState extends State<FirstScreen> {
                   atualizarProfissional(pro);
                 });
               }
-            });
+            });*/
             return presente;
           }
         }
