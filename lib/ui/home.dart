@@ -442,7 +442,7 @@ class _HomeState extends State<Home> {
                       )
                   ),
                   SizedBox(
-                    height: distancia - 10,
+                    height: Platform.isAndroid ? distancia - 30 : distancia - 40,
                   ),
                 ],
               ),

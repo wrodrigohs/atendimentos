@@ -91,7 +91,7 @@ class _CadastroState extends State<Cadastro> {
 
       dbReference = db2.reference().child('atendimentos');
       dbReference.onChildAdded.listen(_gravar);
-      dbReference.onChildChanged.listen(_update);
+//      dbReference.onChildChanged.listen(_update);
       dbReference.once().then((DataSnapshot snapshot) {
         Map<dynamic, dynamic> values = snapshot.value;
         Profissional prof = new Profissional(values['nome'], values['telefone'],
@@ -745,7 +745,7 @@ class _CadastroState extends State<Cadastro> {
                                 onSaved: (registro_profissional) => profissional.num_conselho
                                 = registro_profissional,
                                 validator: (registro_profissional) =>
-                                registro_profissional.length < 5
+                                registro_profissional.length < 8
                                     ? "Digite seu número do registro profissional."
                                     : null,
                                 cursorColor: Theme.of(context).accentColor,
@@ -1728,7 +1728,7 @@ class _CadastroState extends State<Cadastro> {
     }*/
   }
 
-  void _update(Event event) {
+  /*void _update(Event event) {
 //    if(widget.tipo == 'profissional') {
       var oldEntry = listaProfissional.singleWhere((entry) {
         return entry.primaryKey == event.snapshot.key;
@@ -1738,7 +1738,7 @@ class _CadastroState extends State<Cadastro> {
         listaProfissional[listaProfissional.indexOf(oldEntry)] =
             Profissional.fromSnapshot(event.snapshot);
       });
-    /*} else {
+    *//*} else {
       var oldEntry = listaPacientes.singleWhere((entry) {
         return entry.primaryKey == event.snapshot.key;
       });
@@ -1747,8 +1747,8 @@ class _CadastroState extends State<Cadastro> {
         listaPacientes[listaPacientes.indexOf(oldEntry)] =
             Paciente.fromSnapshot(event.snapshot);
       });
-    }*/
-  }
+    }*//*
+  }*/
 
   void _submit(Profissional profissional) async {
     final FormState form = formKey.currentState;
@@ -1760,9 +1760,10 @@ class _CadastroState extends State<Cadastro> {
     }
 
     form.reset();
-    /*Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>
-        FirstScreen(tipo: 'profissional', presente: true,)));*/
-    Navigator.of(context).pop();
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>
+        FirstScreen(tipo: 'profissional', presente: true,)));
+    print('============== C A D A S T R A D O ==================');
+//    Navigator.of(context).pop();
   }
 
   String validateEmail(String value) {

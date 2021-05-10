@@ -772,12 +772,12 @@ class _FirstScreenState extends State<FirstScreen> {
 
                                 if(presente == false && Platform.isAndroid) {
                                   Navigator.push(context, MaterialPageRoute(
-                                      builder: (context) => Cadastro(profissional: profissional, email: email)),
+                                      builder: (context) => Cadastro(profissional: profissional,)),
                                   );
                                 } else if((presente == false && widget.logadoIOS == true)) {
                                   Navigator.push(context, MaterialPageRoute(
-                                      builder: (context) => Cadastro(profissional: widget.proIOS,
-                                          email: widget.pacienteIOS.email)),
+                                      builder: (context) => Cadastro(profissional: widget.proIOS,)),
+//                                          email: widget.pacienteIOS.email)),
                                   );
                                 }
                               },
@@ -1092,32 +1092,32 @@ class _FirstScreenState extends State<FirstScreen> {
                     :
                 (Platform.isAndroid) ?
                 CircleAvatar(
-                  child: Text(name != null ? '${name.substring(0, 1).toUpperCase()}' : '',
-                    style: TextStyle(
-                        fontFamily: 'quicksand',
-                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/50,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white
+                    child: Text(name != null ? '${name.substring(0, 1).toUpperCase()}' : '',
+                      style: TextStyle(
+                          fontFamily: 'quicksand',
+                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/35,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white
+                      ),
                     ),
-                  ),
-                  radius: 45,
-                  backgroundColor: Colors.black,
-                )
+                    radius: 45,
+                    backgroundColor: Colors.white24,
+                  )
                     :
                 (widget.logadoIOS == true) ?
                 CircleAvatar(
-                  child: Text(widget.proIOS.nome != null ?
-                  '${widget.proIOS.nome.substring(0, 1).toUpperCase()}' : '',
-                    style: TextStyle(
-                        fontFamily: 'quicksand',
-                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/50,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white
+                    child: Text(widget.proIOS.nome != null ?
+                    '${widget.proIOS.nome.substring(0, 1).toUpperCase()}' : '',
+                      style: TextStyle(
+                          fontFamily: 'quicksand',
+                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/50,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white
+                      ),
                     ),
-                  ),
-                  radius: 45,
-                  backgroundColor: Colors.black,
-                )
+                    radius: 45,
+                    backgroundColor: Colors.white24,
+                  )
                     :
                 Container(),
                 SizedBox(height: 16.0),
@@ -1392,7 +1392,7 @@ class _FirstScreenState extends State<FirstScreen> {
                   print('Erro no logout ===> $e');
                 }
               } else {
-              signOutGoogle();
+                signOutGoogle();
               }
               Fluttertoast.showToast(
                 msg:'Logout efetuado com sucesso.',
@@ -1652,7 +1652,7 @@ class _FirstScreenState extends State<FirstScreen> {
                     ),
                   ),
                   radius: 45,
-                  backgroundColor: Colors.black,
+                  backgroundColor: Colors.white24,
                 )
                     :
                 (widget.logadoIOS == true) ?
@@ -1667,7 +1667,7 @@ class _FirstScreenState extends State<FirstScreen> {
                     ),
                   ),
                   radius: 45,
-                  backgroundColor: Colors.black,
+                  backgroundColor: Colors.white24,
                 )
                     :
                 Container(),
@@ -2961,24 +2961,6 @@ class _FirstScreenState extends State<FirstScreen> {
         listaPacientes.add(paciente);
       }
     });
-/*
-    dbPacientes = db.reference().child('atendimentos/pacientes');
-    dbPacientes.onChildAdded.listen(_gravarPacPresente);
-    dbPacientes.onChildChanged.listen(_updatePacPresente);
-    dbPacientes.once().then((DataSnapshot snapshot) {
-      Map<dynamic, dynamic> values = snapshot.value;
-      Paciente paciente = new Paciente(
-          values['nome'], values['telefone'], values['email'], values['imageURL'],
-          values['data'], values['hora'], values['anotacao'], values['confirmado'],
-          values['objetivo'], values['vegetariano'], values['bebidaAlcoolica'],
-          values['fumante'], values['sedentario'], values['patologia'],
-          values['nomePatologia'], values['medicamentos'], values['nomeMedicamentos'],
-          values['alergia'], values['nomeAlergia'], values['sexo'], values['estadoCivil']
-      );
-      if(paciente.nome != null) {
-        listaPacientesPresentes.add(paciente);
-      }
-    });*/
   }
 
   Future<void> initPlatformState() async {
@@ -3702,7 +3684,7 @@ class _FirstScreenState extends State<FirstScreen> {
       if(Platform.isAndroid) {
         for(int i = 0; i < listaProfissional.length; i++) {
           if(equalsIgnoreCase(listaProfissional[i].email, email)) {
-            /*setState(() {
+            setState(() {
               presente = true;
               pro = listaProfissional[i];
               if(appData.isPro == true && pro.assinante == false) {
@@ -3716,7 +3698,7 @@ class _FirstScreenState extends State<FirstScreen> {
                   atualizarProfissional(pro);
                 });
               }
-            });*/
+            });
             return presente;
           }
         }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +17,10 @@ String imageUrl;
 String usuario;
 
 Future<String> signInWithGoogle() async {
+  if(Platform.isIOS) {
+
+  }
+
   try {
     await Firebase.initializeApp();
 
@@ -36,12 +42,14 @@ Future<String> signInWithGoogle() async {
       // Checking if email and name is null
       assert(user.email != null);
       assert(user.displayName != null);
-      assert(user.photoURL != null);
+      if(user.photoURL != null) {
+        imageUrl = user.photoURL;
+        assert(user.photoURL != null);
+      }
 
       // Store the retrieved data
       name = user.displayName;
       email = user.email;
-      imageUrl = user.photoURL;
 
       if (email.contains("@")) {
         usuario = email.substring(0, email.indexOf("@"));
@@ -73,6 +81,7 @@ Future<String> signInWithGoogle() async {
       toastLength: Toast.LENGTH_SHORT,
       timeInSecForIosWeb: 2,
     );
+    print('E R R O no L O G I N =========== $NSInvalidArgumentException ============');
 //    debugPrint(NSInvalidArgumentException);
   }
 }

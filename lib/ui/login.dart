@@ -12,8 +12,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-import 'package:http/http.dart' as http;
 
 class LoginPage extends StatefulWidget {
   String tipo;
@@ -446,7 +444,7 @@ class _LoginPageState extends State<LoginPage> {
                           Container(),
                         ),
                         SizedBox(
-                          height: distancia - 10,
+                          height: Platform.isAndroid ? distancia - 30 : distancia - 30,
                         ),
                       ],
                     ),
