@@ -1092,32 +1092,32 @@ class _FirstScreenState extends State<FirstScreen> {
                     :
                 (Platform.isAndroid) ?
                 CircleAvatar(
-                    child: Text(name != null ? '${name.substring(0, 1).toUpperCase()}' : '',
-                      style: TextStyle(
-                          fontFamily: 'quicksand',
-                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/35,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white
-                      ),
+                  child: Text(name != null ? '${name.substring(0, 1).toUpperCase()}' : '',
+                    style: TextStyle(
+                        fontFamily: 'quicksand',
+                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/35,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white
                     ),
-                    radius: 45,
-                    backgroundColor: Colors.white24,
-                  )
+                  ),
+                  radius: 45,
+                  backgroundColor: Colors.white24,
+                )
                     :
                 (widget.logadoIOS == true) ?
                 CircleAvatar(
-                    child: Text(widget.proIOS.nome != null ?
-                    '${widget.proIOS.nome.substring(0, 1).toUpperCase()}' : '',
-                      style: TextStyle(
-                          fontFamily: 'quicksand',
-                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/50,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white
-                      ),
+                  child: Text(widget.proIOS.nome != null ?
+                  '${widget.proIOS.nome.substring(0, 1).toUpperCase()}' : '',
+                    style: TextStyle(
+                        fontFamily: 'quicksand',
+                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/35 : MediaQuery.of(context).size.height/50,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white
                     ),
-                    radius: 45,
-                    backgroundColor: Colors.white24,
-                  )
+                  ),
+                  radius: 45,
+                  backgroundColor: Colors.white24,
+                )
                     :
                 Container(),
                 SizedBox(height: 16.0),
@@ -1292,18 +1292,26 @@ class _FirstScreenState extends State<FirstScreen> {
               }
               if(appData.isPro == true) {
                 for(int i = 0; i < listaProfissional.length; i++) {
-                  if (Platform.isAndroid &&
-                      listaProfissional[i].email == email) {
-                    Navigator.push(context, MaterialPageRoute(
-                        builder: (context) =>
-                            EditarCadastro(profissional: pro,)));
-                    return;
-                  } else if (widget.logadoIOS == true &&
-                      listaProfissional[i].email == widget.proIOS.email) {
-                    Navigator.push(
-                        context, MaterialPageRoute(builder: (context) =>
-                        EditarCadastro(profissional: widget.proIOS)));
-                    return;
+                  bool cadastrado = false;
+                  verificaCadastro(cadastrado);
+                  if(cadastrado == true) {
+                    if (Platform.isAndroid || (Platform.isIOS && widget.logadoIOS == false)) {
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context) =>
+                              EditarCadastro(profissional: pro,)));
+                      return;
+                    } else if (widget.logadoIOS == true) {
+                      Navigator.push(
+                          context, MaterialPageRoute(builder: (context) =>
+                          EditarCadastro(profissional: widget.proIOS)));
+                      return;
+                    }
+                  } else {
+                    Fluttertoast.showToast(
+                      msg:'Você não se cadastrou ainda. Faça seu cadastro.',
+                      toastLength: Toast.LENGTH_SHORT,
+                      timeInSecForIosWeb: 3,
+                    );
                   }
                 }
               } else {
@@ -3726,5 +3734,29 @@ class _FirstScreenState extends State<FirstScreen> {
       }
     }
     return presente;
+  }
+
+  bool verificaCadastro(bool cadastrado) {
+    if(widget.tipo == 'profissional') {
+      if(Platform.isAndroid) {
+        for(int i = 0; i < listaProfissional.length; i++) {
+          if(equalsIgnoreCase(listaProfissional[i].email, email)) {
+            setState(() {
+              cadastrado = true;
+              return cadastrado;
+            });
+          }
+        }
+      } else {
+        for(int i = 0; i < listaProfissional.length; i++) {
+          if(equalsIgnoreCase(listaProfissional[i].email, widget.proIOS.email)) {
+            setState(() {
+              cadastrado = true;
+              return cadastrado;
+            });
+          }
+        }
+      }
+    }
   }
 }
