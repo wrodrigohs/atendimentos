@@ -118,8 +118,9 @@ class _FirstScreenState extends State<FirstScreen> {
 
   Widget widgetPro() {
     //verificação das minhas contas para acesso VIP
-    if(email == 'aplicativoswr@gmail.com' || email == 'rodrigoicarsaojose@gmail.com'//|| email == 'rodiisilva@gmail.com'
-        || email == 'w.rodrigo@ufms.br' ) {
+    if(email == 'aplicativoswr@gmail.com' || email == 'w.rodrigo@ufms.br'
+            || email == 'assinanteconsultorioonline@gmail.com'
+            || email == 'rodrigoicarsaojose@gmail.com') {
       appData.isPro = true;
     }
 
@@ -1148,10 +1149,12 @@ class _FirstScreenState extends State<FirstScreen> {
           LListItem(
             backgroundColor: Colors.transparent,
             onTap: () {
-              if(email == 'aplicativoswr@gmail.com' //|| email == 'rodiisilva@gmail.com'
-                  || email == 'w.rodrigo@ufms.br' || email == 'rodrigoicarsaojose@gmail.com') {
+              if(email == 'aplicativoswr@gmail.com' || email == 'w.rodrigo@ufms.br'
+                  || email == 'assinanteconsultorioonline@gmail.com'
+                  || email == 'rodrigoicarsaojose@gmail.com') {
                 appData.isPro = true;
               }
+
               if(appData.isPro == true) {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => Consultas(profissional: pro)));
               } else {
@@ -1192,10 +1195,12 @@ class _FirstScreenState extends State<FirstScreen> {
           LListItem(
             backgroundColor: Colors.transparent,
             onTap: () {
-              if(email == 'aplicativoswr@gmail.com' //|| email == 'rodiisilva@gmail.com'
-                  || email == 'w.rodrigo@ufms.br' || email == 'rodrigoicarsaojose@gmail.com') {
+              if(email == 'aplicativoswr@gmail.com' || email == 'w.rodrigo@ufms.br'
+                  || email == 'assinanteconsultorioonline@gmail.com'
+                  || email == 'rodrigoicarsaojose@gmail.com') {
                 appData.isPro = true;
               }
+
               if(appData.isPro == true) {
                 if(widget.logadoIOS == true) {
                   Navigator.push(context, MaterialPageRoute(builder:
@@ -1242,10 +1247,12 @@ class _FirstScreenState extends State<FirstScreen> {
           LListItem(
             backgroundColor: Colors.transparent,
             onTap: () {
-              if(email == 'aplicativoswr@gmail.com' //|| email == 'rodiisilva@gmail.com'
-                  || email == 'w.rodrigo@ufms.br' || email == 'rodrigoicarsaojose@gmail.com') {
+              if(email == 'aplicativoswr@gmail.com' || email == 'w.rodrigo@ufms.br'
+                  || email == 'assinanteconsultorioonline@gmail.com'
+                  || email == 'rodrigoicarsaojose@gmail.com') {
                 appData.isPro = true;
               }
+
               if(appData.isPro == true) {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => Prontuarios(profissional: pro)));
               } else {
@@ -1286,10 +1293,12 @@ class _FirstScreenState extends State<FirstScreen> {
           LListItem(
             backgroundColor: Colors.transparent,
             onTap: () {
-              if(email == 'aplicativoswr@gmail.com' //|| email == 'rodiisilva@gmail.com'
-                  || email == 'w.rodrigo@ufms.br' || email == 'rodrigoicarsaojose@gmail.com') {
+              if(email == 'aplicativoswr@gmail.com' || email == 'w.rodrigo@ufms.br'
+                  || email == 'assinanteconsultorioonline@gmail.com'
+                  || email == 'rodrigoicarsaojose@gmail.com') {
                 appData.isPro = true;
               }
+
               if(appData.isPro == true) {
                 for(int i = 0; i < listaProfissional.length; i++) {
                   bool cadastrado = false;

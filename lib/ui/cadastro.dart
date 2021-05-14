@@ -1,15 +1,13 @@
 import 'dart:io';
+import 'dart:ui' as ui;
 
-import 'package:atendimentos/model/paciente.dart';
 import 'package:atendimentos/model/profissional.dart';
 import 'package:atendimentos/ui/firstscreen.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
-import 'dart:ui' as ui;
 
 final FirebaseDatabase db = FirebaseDatabase.instance;
 
@@ -394,8 +392,7 @@ class _CadastroState extends State<Cadastro> {
                                     ),
                                   ],
                                 ),
-                                readOnly: widget.profissional.email.isEmpty
-                                || widget.profissional.email == null ? false : true,
+                                readOnly: false,
                                 controller: _emailController,
                                 onSaved: (email) => profissional.email = email,
                                 validator: validateEmail,

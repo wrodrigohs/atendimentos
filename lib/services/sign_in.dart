@@ -42,14 +42,12 @@ Future<String> signInWithGoogle() async {
       // Checking if email and name is null
       assert(user.email != null);
       assert(user.displayName != null);
-      if(user.photoURL != null) {
-        imageUrl = user.photoURL;
-        assert(user.photoURL != null);
-      }
+      assert(user.photoURL != null);
 
       // Store the retrieved data
       name = user.displayName;
       email = user.email;
+      imageUrl = user.photoURL;
 
       if (email.contains("@")) {
         usuario = email.substring(0, email.indexOf("@"));
@@ -68,8 +66,6 @@ Future<String> signInWithGoogle() async {
       /*if (name.contains(" ")) {
       name = name.substring(0, name.indexOf(" "));
     }*/
-      CircularProgressIndicator();
-
       print('$email acessou o sistema');
       return '$user';
     }
@@ -82,7 +78,6 @@ Future<String> signInWithGoogle() async {
       timeInSecForIosWeb: 2,
     );
     print('E R R O no L O G I N =========== $NSInvalidArgumentException ============');
-//    debugPrint(NSInvalidArgumentException);
   }
 }
 

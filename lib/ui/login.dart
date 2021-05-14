@@ -11,6 +11,7 @@ import 'package:atendimentos/ui/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
@@ -63,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
               leading: IconButton(
                 icon: (Platform.isAndroid) ?
                 Icon(Icons.arrow_back, color: Colors.white,)
-                :
+                    :
                 Icon(Icons.arrow_back_ios, color: Colors.white,),
                 onPressed: () {
                   Navigator.pushReplacement(context, MaterialPageRoute
@@ -392,57 +393,55 @@ class _LoginPageState extends State<LoginPage> {
                             SizedBox(
                               height: MediaQuery.of(context).size.height/100,
                             ),*/
-                        Container(
-                            width: MediaQuery.of(context).size.width/2.1,
-                            child: _signInButton()
-                        ),
+                        _signInButton(),
                         SizedBox(
                           height: 5,
                         ),
-                        Container(
-                          width: MediaQuery.of(context).size.width/2.1,
-                          child: (appleSignInAvailable.isAvailable) ?
-                          FlatButton(
-                            color: Colors.white,
-                            shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                    color: Colors.black,
-                                    width: 1,
-                                    style: BorderStyle.solid
-                                ),
-                                borderRadius: BorderRadius.circular(40)
-                            ),
-                            onPressed: () {
-                              _signInWithApple(context);
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                              child: Container(
-                                color: Colors.white,
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Image(image: AssetImage("assets/images/apple-logo.png"), height: MediaQuery.of(context).size.height/55),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 3),
-                                      child: Text(
-                                        'Login com Apple',
-                                        style: TextStyle(
-                                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
-                                          fontFamily: 'quicksand',
-                                          color: Colors.black,
-                                        ),
+                        (appleSignInAvailable.isAvailable) ?
+                        FlatButton(
+                          color: Colors.black,
+                          shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                  color: Colors.black,
+                                  width: 1,
+                                  style: BorderStyle.solid
+                              ),
+                              borderRadius: BorderRadius.circular(40)
+                          ),
+                          onPressed: () {
+                            _signInWithApple(context);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                            child: Container(
+                              color: Colors.black,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  CircleAvatar(
+                                    backgroundColor: Colors.black,
+                                    radius: 8.0,
+                                    child: Image(color: Colors.white, image: AssetImage("assets/images/apple-logo.png"), height: MediaQuery.of(context).size.height/55),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 3),
+                                    child: Text(
+                                      'Iniciar sessão com a Apple',
+                                      style: TextStyle(
+                                        fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
+                                        fontFamily: 'quicksand',
+                                        color: Colors.white,
                                       ),
-                                    )
-                                  ],
-                                ),
+                                    ),
+                                  )
+                                ],
                               ),
                             ),
-                          )
-                              :
-                          Container(),
-                        ),
+                          ),
+                        )
+                            :
+                        Container(),
                         SizedBox(
                           height: Platform.isAndroid ? distancia - 30 : distancia - 30,
                         ),
@@ -457,13 +456,12 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
   Widget _signInButton() {
     return FlatButton(
-      color: Colors.white,
+      color: Colors.blue.shade700,
       shape: RoundedRectangleBorder(
           side: BorderSide(
-              color: Colors.black,
+              color: Colors.blue.shade700,
               width: 1,
               style: BorderStyle.solid
           ),
@@ -473,34 +471,42 @@ class _LoginPageState extends State<LoginPage> {
         signInWithGoogle().then((result) {
           if (result != null) {
             Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                FirstScreen(tipo: widget.tipo)), (Route<dynamic> route) => false);
-            /*Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(
-                builder: (context) {
-                  return FirstScreen();
-                },
-              ),
-            );*/
+                FirstScreen(tipo: widget.tipo,)), (Route<dynamic> route) => false);
+            /*if(widget.tipo == 'profissional') {
+                                  Profissional profissional = new Profissional(name, "", email, "", usuario, imageUrl, "", "", "",
+                                      false, false, false, false, false, false, false, null, false);
+                                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                                      FirstScreen(tipo: widget.tipo, profissional:  profissional,)), (Route<dynamic> route) => false);
+                                } else {
+                                  Paciente pac = new Paciente(name, "", email, imageUrl, "", "", "", false, "", false, false, false, false, false, "", false, "", false, "", "", "");
+                                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                                      FirstScreen(tipo: widget.tipo, pacienteIOS: pac,)), (Route<dynamic> route) => false);
+                                }*/
+//                                print('$email $name $usuario $imageUrl');
           }
         });
       },
       child: Padding(
         padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
         child: Container(
-          color: Colors.white,
+          color: Colors.blue.shade700,
           child: Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Image(image: AssetImage("assets/images/google_logo.png"), height: MediaQuery.of(context).size.height/55),
+              CircleAvatar(
+                backgroundColor: Colors.white,
+                radius: 8.0,
+                child: Image(image: AssetImage("assets/images/google_logo.png"), height: MediaQuery.of(context).size.height/55),
+              ),
               Padding(
                 padding: const EdgeInsets.only(left: 3),
                 child: Text(
-                  'Login com Google',
+                  'Iniciar sessão com Google',
                   style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
                     fontFamily: 'quicksand',
-                    color: Colors.black,
+                    color: Colors.white,
                   ),
                 ),
               )
@@ -517,8 +523,22 @@ class _LoginPageState extends State<LoginPage> {
       final user = await authService.signInWithApple(
           scopes: [apple.Scope.email, apple.Scope.fullName]);
       print('uid: ${user.uid}');
-      String nomeIOS = user.displayName;//apple.Scope.fullName.toString();
-      String emailIOS = user.email;//apple.Scope.email.toString();
+      String nomeIOS = user.displayName != null ? user.displayName : null;//apple.Scope.fullName.toString();
+      String emailIOS = user.email != null ? user.email : null;//apple.Scope.email.toString();
+      String imageUrlIOS = user.photoURL != null ? user.photoURL : null;
+
+      if (emailIOS.contains("@")) {
+        usuario = email.substring(0, email.indexOf("@"));
+        if (usuario.contains('.') || usuario.contains('#') ||
+            usuario.contains('\$') ||
+            usuario.contains('[') || usuario.contains(']')) {
+          usuario = usuario.replaceAll('\.', '');
+          usuario = usuario.replaceAll('#', '');
+          usuario = usuario.replaceAll('\$', '');
+          usuario = usuario.replaceAll('[', '');
+          usuario = usuario.replaceAll(']', '');
+        }
+      }
 
       if (user != null) {
         if(widget.tipo == 'profissional') {
