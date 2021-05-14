@@ -1,6 +1,7 @@
 import 'package:atendimentos/components.dart';
 import 'package:atendimentos/purchase_button.dart';
 import 'package:atendimentos/ui/politica.dart';
+import 'package:atendimentos/ui/termosdeuso.dart';
 import 'package:atendimentos/upgrade.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -385,6 +386,41 @@ class _UpsellScreenState extends State<UpsellScreen> {
                                       },
                                       child: Text(
                                           'Política de privacidade (clique para ler)',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontFamily: 'quicksand',
+                                            fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
+                                            shadows: <Shadow>[
+                                              Shadow(
+                                                offset: Offset(1.0, 1.0),
+                                                blurRadius: 3.0,
+                                                color: Color.fromARGB(255, 0, 0, 0),
+                                              ),
+                                              Shadow(
+                                                offset: Offset(2.0, 1.0),
+                                                blurRadius: 8.0,
+                                                color: Color.fromARGB(255, 0, 0, 0),
+                                              ),
+                                            ],
+                                          )
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 5.0,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(18.0),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    TermosdeUso()));
+                                      },
+                                      child: Text(
+                                          'Termos de uso (clique para ler)',
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                             color: Colors.white,

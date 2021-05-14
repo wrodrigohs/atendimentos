@@ -12,6 +12,7 @@ import 'package:atendimentos/ui/home.dart';
 import 'package:atendimentos/ui/login.dart';
 import 'package:atendimentos/ui/politica.dart';
 import 'package:atendimentos/ui/prontuarios.dart';
+import 'package:atendimentos/ui/termosdeuso.dart';
 import 'package:atendimentos/ui/ver_cadastro.dart';
 import 'package:device_calendar/device_calendar.dart' as calendar;
 import 'package:firebase_database/firebase_database.dart';
@@ -1398,6 +1399,22 @@ class _FirstScreenState extends State<FirstScreen> {
             textColor: Colors.white,
             dense: true,
           ),
+          LListItem(
+            backgroundColor: Colors.transparent,
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => TermosdeUso()));
+            },
+            leading:
+            Icon(Icons.description, size: 20.0, color: Colors.white),
+            title: Text("Termos de uso",
+              style: TextStyle(
+                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/55,
+                fontFamily: 'quicksand',
+              ),
+            ),
+            textColor: Colors.white,
+            dense: true,
+          ),
           SizedBox(height: 10.0),
           LListItem(
             backgroundColor: Colors.transparent,
@@ -1745,6 +1762,22 @@ class _FirstScreenState extends State<FirstScreen> {
             leading:
             Icon(Icons.delete, size: 20.0, color: Colors.red),
             title: Text("Requisitar exclusão permanente dos meus dados",
+              style: TextStyle(
+                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/55,
+                fontFamily: 'quicksand',
+              ),
+            ),
+            textColor: Colors.white,
+            dense: true,
+          ),
+          LListItem(
+            backgroundColor: Colors.transparent,
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => TermosdeUso()));
+            },
+            leading:
+            Icon(Icons.description, size: 20.0, color: Colors.white),
+            title: Text("Termos de uso",
               style: TextStyle(
                 fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/55,
                 fontFamily: 'quicksand',
