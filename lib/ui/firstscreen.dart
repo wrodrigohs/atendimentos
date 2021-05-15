@@ -120,8 +120,8 @@ class _FirstScreenState extends State<FirstScreen> {
   Widget widgetPro() {
     //verificação das minhas contas para acesso VIP
     if(email == 'aplicativoswr@gmail.com' || email == 'w.rodrigo@ufms.br'
-            || email == 'assinanteconsultorioonline@gmail.com'
-            || email == 'rodrigoicarsaojose@gmail.com') {
+        || email == 'assinanteconsultorioonline@gmail.com'
+        || email == 'rodrigoicarsaojose@gmail.com') {
       appData.isPro = true;
     }
 
@@ -1291,72 +1291,65 @@ class _FirstScreenState extends State<FirstScreen> {
             textColor: Colors.white,
             dense: true,
           ),
-          LListItem(
-            backgroundColor: Colors.transparent,
-            onTap: () {
-              if(email == 'aplicativoswr@gmail.com' || email == 'w.rodrigo@ufms.br'
-                  || email == 'assinanteconsultorioonline@gmail.com'
-                  || email == 'rodrigoicarsaojose@gmail.com') {
-                appData.isPro = true;
-              }
-
-              if(appData.isPro == true) {
-                for(int i = 0; i < listaProfissional.length; i++) {
-                  if(presente == true) {
-                    if (Platform.isAndroid || (Platform.isIOS && widget.logadoIOS == false)) {
-                      Navigator.push(context, MaterialPageRoute(
-                          builder: (context) =>
-                              EditarCadastro(profissional: pro,)));
-                      return;
-                    } else if (widget.logadoIOS == true) {
-                      Navigator.push(
-                          context, MaterialPageRoute(builder: (context) =>
-                          EditarCadastro(profissional: widget.proIOS)));
-                      return;
-                    }
-                  } else {
-                    Fluttertoast.showToast(
-                      msg:'Você não se cadastrou ainda. Faça seu cadastro.',
-                      toastLength: Toast.LENGTH_SHORT,
-                      timeInSecForIosWeb: 3,
-                    );
-                  }
+          Visibility(
+            visible: presente == true ? true : false,
+            child: LListItem(
+              backgroundColor: Colors.transparent,
+              onTap: () {
+                if(email == 'aplicativoswr@gmail.com' || email == 'w.rodrigo@ufms.br'
+                    || email == 'assinanteconsultorioonline@gmail.com'
+                    || email == 'rodrigoicarsaojose@gmail.com') {
+                  appData.isPro = true;
                 }
-              } else {
-                WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
-                    SnackBar(
-                      action: SnackBarAction(
-                        label: 'OK',
-                        onPressed: () {
-                          _scaffoldKey.currentState.hideCurrentSnackBar();
-                        },
-                      ),
-                      duration: Duration(seconds: 2),
-                      content: Text('Você deve ser assinante para ter acesso a todos os recursos do app.',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'quicksand',
-                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/55,
+
+                if(appData.isPro == true) {
+                  if (Platform.isAndroid || (Platform.isIOS && widget.logadoIOS == false)) {
+                    Navigator.push(context, MaterialPageRoute(
+                        builder: (context) =>
+                            EditarCadastro(profissional: pro,)));
+                    return;
+                  } else if (widget.logadoIOS == true) {
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (context) =>
+                        EditarCadastro(profissional: widget.proIOS)));
+                    return;
+                  }
+                } else {
+                  WidgetsBinding.instance.addPostFrameCallback((_) => _scaffoldKey.currentState.showSnackBar(
+                      SnackBar(
+                        action: SnackBarAction(
+                          label: 'OK',
+                          onPressed: () {
+                            _scaffoldKey.currentState.hideCurrentSnackBar();
+                          },
                         ),
-                      ),
-                      backgroundColor: Colors.black,
-                      behavior: SnackBarBehavior.floating,
-                    )
-                )
-                );
-              }
-            },
-            leading:
-            Icon(Icons.wysiwyg, size: 20.0, color: Colors.white),
-            title: Text("Editar cadastro",
-              style: TextStyle(
-                fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/55,
-                fontFamily: 'quicksand',
+                        duration: Duration(seconds: 2),
+                        content: Text('Você deve ser assinante para ter acesso a todos os recursos do app.',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'quicksand',
+                            fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/55,
+                          ),
+                        ),
+                        backgroundColor: Colors.black,
+                        behavior: SnackBarBehavior.floating,
+                      )
+                  )
+                  );
+                }
+              },
+              leading:
+              Icon(Icons.wysiwyg, size: 20.0, color: Colors.white),
+              title: Text("Editar cadastro",
+                style: TextStyle(
+                  fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/55,
+                  fontFamily: 'quicksand',
+                ),
               ),
+              textColor: Colors.white,
+              dense: true,
             ),
-            textColor: Colors.white,
-            dense: true,
           ),
           LListItem(
             backgroundColor: Colors.transparent,

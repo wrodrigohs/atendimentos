@@ -526,21 +526,22 @@ class _LoginPageState extends State<LoginPage> {
       String nomeIOS = user.displayName != null ? user.displayName : null;//apple.Scope.fullName.toString();
       String emailIOS = user.email != null ? user.email : null;//apple.Scope.email.toString();
       String imageUrlIOS = user.photoURL != null ? user.photoURL : null;
+      String usuarioIOS;
 
       if (emailIOS != null && emailIOS.contains("@")) {
-        usuario = email.substring(0, email.indexOf("@"));
-        if (usuario.contains('.') || usuario.contains('#') ||
-            usuario.contains('\$') ||
-            usuario.contains('[') || usuario.contains(']')) {
-          usuario = usuario.replaceAll('\.', '');
-          usuario = usuario.replaceAll('#', '');
-          usuario = usuario.replaceAll('\$', '');
-          usuario = usuario.replaceAll('[', '');
-          usuario = usuario.replaceAll(']', '');
+        usuarioIOS = email.substring(0, email.indexOf("@"));
+        if (usuarioIOS.contains('.') || usuarioIOS.contains('#') ||
+            usuarioIOS.contains('\$') ||
+            usuarioIOS.contains('[') || usuarioIOS.contains(']')) {
+          usuarioIOS = usuarioIOS.replaceAll('\.', '');
+          usuarioIOS = usuarioIOS.replaceAll('#', '');
+          usuarioIOS = usuarioIOS.replaceAll('\$', '');
+          usuarioIOS = usuarioIOS.replaceAll('[', '');
+          usuarioIOS = usuarioIOS.replaceAll(']', '');
         }
       }
 
-      print('%%%%%%%%%%%% $emailIOS $nomeIOS $usuario $imageUrlIOS %%%%%%%%%%%%');
+      print('%%%%%%%%%%%% $emailIOS $nomeIOS $usuarioIOS $imageUrlIOS %%%%%%%%%%%%');
 
       if (user != null) {
         if(widget.tipo == 'profissional') {
