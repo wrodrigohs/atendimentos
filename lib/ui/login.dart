@@ -528,7 +528,7 @@ class _LoginPageState extends State<LoginPage> {
       String usuarioIOS = '';
 
       if (emailIOS != null) {
-        usuarioIOS = email.substring(0, email.indexOf("@"));
+        usuarioIOS = emailIOS.substring(0, emailIOS.indexOf("@"));
         if (usuarioIOS.contains('.') || usuarioIOS.contains('#') ||
             usuarioIOS.contains('\$') ||
             usuarioIOS.contains('[') || usuarioIOS.contains(']')) {
