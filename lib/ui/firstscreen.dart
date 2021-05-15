@@ -1121,6 +1121,16 @@ class _FirstScreenState extends State<FirstScreen> {
                   backgroundColor: Colors.white24,
                 )
                     :
+                (Platform.isIOS == true && widget.logadoIOS == false) ?
+                LText(widget.pacienteIOS.nome != null ? "\l.lead{Bem-vindo(a)},\n${widget.pacienteIOS.nome}" :
+                "\l.lead{Bem-vindo(a)}",
+                  baseStyle: TextStyle(
+                    color: Colors.white,
+                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/55 : MediaQuery.of(context).size.height/55,
+                    fontFamily: 'quicksand',
+                  ),
+                )
+                    :
                 Container(),
                 SizedBox(height: 16.0),
                 (Platform.isAndroid) ?
@@ -1708,6 +1718,16 @@ class _FirstScreenState extends State<FirstScreen> {
                 )
                     :
                 (widget.logadoIOS == true) ?
+                LText(widget.pacienteIOS.nome != null ? "\l.lead{Bem-vindo(a)},\n${widget.pacienteIOS.nome}" :
+                "\l.lead{Bem-vindo(a)}",
+                  baseStyle: TextStyle(
+                    color: Colors.white,
+                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/55 : MediaQuery.of(context).size.height/55,
+                    fontFamily: 'quicksand',
+                  ),
+                )
+                :
+                (Platform.isIOS == true && widget.logadoIOS == false) ?
                 LText(widget.pacienteIOS.nome != null ? "\l.lead{Bem-vindo(a)},\n${widget.pacienteIOS.nome}" :
                 "\l.lead{Bem-vindo(a)}",
                   baseStyle: TextStyle(
