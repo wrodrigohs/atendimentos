@@ -526,7 +526,7 @@ class _LoginPageState extends State<LoginPage> {
       String nomeIOS = user.displayName != null ? user.displayName : null;//apple.Scope.fullName.toString();
       String emailIOS = user.email != null ? user.email : null;//apple.Scope.email.toString();
       String imageUrlIOS = user.photoURL != null ? user.photoURL : null;
-      String usuarioIOS;
+      /*String usuarioIOS;
 
       if (emailIOS != null && emailIOS.contains("@")) {
         usuarioIOS = email.substring(0, email.indexOf("@"));
@@ -539,9 +539,9 @@ class _LoginPageState extends State<LoginPage> {
           usuarioIOS = usuarioIOS.replaceAll('[', '');
           usuarioIOS = usuarioIOS.replaceAll(']', '');
         }
-      }
+      }*/
 
-      print('%%%%%%%%%%%% $emailIOS $nomeIOS $usuarioIOS $imageUrlIOS %%%%%%%%%%%%');
+      print('%%%%%%%%%%%% $emailIOS $nomeIOS $imageUrlIOS %%%%%%%%%%%%');
 
       if (user != null) {
         if(widget.tipo == 'profissional') {
