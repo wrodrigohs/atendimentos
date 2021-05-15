@@ -525,7 +525,7 @@ class _LoginPageState extends State<LoginPage> {
       print('uid: ${user.uid}');
       String nomeIOS = user.displayName != null ? user.displayName : null;//apple.Scope.fullName.toString();
       String emailIOS = user.email != null ? user.email : null;//apple.Scope.email.toString();
-      String usuarioIOS;
+      String usuarioIOS = '';
 
       if (emailIOS != null) {
         usuarioIOS = email.substring(0, email.indexOf("@"));
