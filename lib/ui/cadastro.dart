@@ -1006,12 +1006,28 @@ class _CadastroState extends State<Cadastro> {
 
                                     if (formKey.currentState.validate()) {
                                       formKey.currentState.save();
+
+                                      String usuario = '';
+
+                                      if (profissional.email != null) {
+                                        usuario = profissional.email.substring(0, profissional.email.indexOf("@"));
+                                        if (usuario.contains('.') || usuario.contains('#') ||
+                                            usuario.contains('\$') ||
+                                            usuario.contains('[') || usuario.contains(']')) {
+                                          usuario = usuario.replaceAll('\.', '');
+                                          usuario = usuario.replaceAll('#', '');
+                                          usuario = usuario.replaceAll('\$', '');
+                                          usuario = usuario.replaceAll('[', '');
+                                          usuario = usuario.replaceAll(']', '');
+                                        }
+                                      }
+
                                       Profissional pro = new Profissional(
                                           profissional.nome,
                                           tel,
                                           profissional.email,
                                           profissional.areaAtuacao,
-                                          profissional.usuario,
+                                          usuario,
                                           profissional.imageURL,
                                           profissional.facebook,
                                           profissional.instagram,
