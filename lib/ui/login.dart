@@ -525,10 +525,9 @@ class _LoginPageState extends State<LoginPage> {
       print('uid: ${user.uid}');
       String nomeIOS = user.displayName != null ? user.displayName : null;//apple.Scope.fullName.toString();
       String emailIOS = user.email != null ? user.email : null;//apple.Scope.email.toString();
-      String imageUrlIOS = user.photoURL != null ? user.photoURL : null;
-      /*String usuarioIOS;
+      String usuarioIOS;
 
-      if (emailIOS != null && emailIOS.contains("@")) {
+      if (emailIOS != null) {
         usuarioIOS = email.substring(0, email.indexOf("@"));
         if (usuarioIOS.contains('.') || usuarioIOS.contains('#') ||
             usuarioIOS.contains('\$') ||
@@ -539,9 +538,9 @@ class _LoginPageState extends State<LoginPage> {
           usuarioIOS = usuarioIOS.replaceAll('[', '');
           usuarioIOS = usuarioIOS.replaceAll(']', '');
         }
-      }*/
+      }
 
-      print('%%%%%%%%%%%% $emailIOS $nomeIOS $imageUrlIOS %%%%%%%%%%%%');
+      print('%%%%%%%%%%%% $emailIOS $nomeIOS $usuarioIOS %%%%%%%%%%%%');
 
       if (user != null) {
         if(widget.tipo == 'profissional') {
@@ -552,7 +551,7 @@ class _LoginPageState extends State<LoginPage> {
                   FirstScreen(tipo: widget.tipo, proIOS: profissional, logadoIOS: true,)), (
               Route<dynamic> route) => false);
         } else {
-          Paciente pac = new Paciente(nomeIOS, "", emailIOS, imageUrlIOS, "", "", "", false, "", false, false, false, false, false, "", false, "", false, "", "", "");
+          Paciente pac = new Paciente(nomeIOS, "", emailIOS, '', "", "", "", false, "", false, false, false, false, false, "", false, "", false, "", "", "");
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(builder: (context) =>
                   FirstScreen(tipo: widget.tipo, pacienteIOS: pac,)), (
