@@ -527,7 +527,7 @@ class _LoginPageState extends State<LoginPage> {
       String emailIOS = user.email != null ? user.email : null;//apple.Scope.email.toString();
       String imageUrlIOS = user.photoURL != null ? user.photoURL : null;
 
-      if (emailIOS.contains("@")) {
+      if (emailIOS != null && emailIOS.contains("@")) {
         usuario = email.substring(0, email.indexOf("@"));
         if (usuario.contains('.') || usuario.contains('#') ||
             usuario.contains('\$') ||
@@ -549,7 +549,7 @@ class _LoginPageState extends State<LoginPage> {
                   FirstScreen(tipo: widget.tipo, proIOS: profissional, logadoIOS: true,)), (
               Route<dynamic> route) => false);
         } else {
-          Paciente pac = new Paciente(nomeIOS, "", emailIOS, '', "", "", "", false, "", false, false, false, false, false, "", false, "", false, "", "", "");
+          Paciente pac = new Paciente(nomeIOS, "", emailIOS, imageUrlIOS, "", "", "", false, "", false, false, false, false, false, "", false, "", false, "", "", "");
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(builder: (context) =>
                   FirstScreen(tipo: widget.tipo, pacienteIOS: pac,)), (
