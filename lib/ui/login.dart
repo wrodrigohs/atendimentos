@@ -554,7 +554,7 @@ class _LoginPageState extends State<LoginPage> {
           Paciente pac = new Paciente(nomeIOS, "", emailIOS, '', "", "", "", false, "", false, false, false, false, false, "", false, "", false, "", "", "");
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(builder: (context) =>
-                  FirstScreen(tipo: widget.tipo, pacienteIOS: pac,)), (
+                  FirstScreen(tipo: widget.tipo, pacienteIOS: pac, logadoIOS: true,)), (
               Route<dynamic> route) => false);
         }
       }

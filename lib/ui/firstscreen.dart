@@ -1702,7 +1702,7 @@ class _FirstScreenState extends State<FirstScreen> {
                 "\l.lead{Bem-vindo(a)}",
                   baseStyle: TextStyle(
                     color: Colors.white,
-                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
+                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/55 : MediaQuery.of(context).size.height/55,
                     fontFamily: 'quicksand',
                   ),
                 )
@@ -1712,12 +1712,11 @@ class _FirstScreenState extends State<FirstScreen> {
                 "\l.lead{Bem-vindo(a)}",
                   baseStyle: TextStyle(
                     color: Colors.white,
-                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/45 : MediaQuery.of(context).size.height/55,
+                    fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/55 : MediaQuery.of(context).size.height/55,
                     fontFamily: 'quicksand',
                   ),
                 )
-                    :
-                Container(),
+                    : Container(),
                 SizedBox(height: 20.0),
               ],
             ),
