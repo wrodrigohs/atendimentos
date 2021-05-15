@@ -17,10 +17,6 @@ String imageUrl;
 String usuario;
 
 Future<String> signInWithGoogle() async {
-  if(Platform.isIOS) {
-
-  }
-
   try {
     await Firebase.initializeApp();
 

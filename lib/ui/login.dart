@@ -540,6 +540,8 @@ class _LoginPageState extends State<LoginPage> {
         }
       }
 
+      print('%%%%%%%%%%%% $emailIOS $nomeIOS $usuario $imageUrlIOS %%%%%%%%%%%%');
+
       if (user != null) {
         if(widget.tipo == 'profissional') {
           Profissional profissional = new Profissional(nomeIOS, "", emailIOS, "", '', '', "", "", "",
