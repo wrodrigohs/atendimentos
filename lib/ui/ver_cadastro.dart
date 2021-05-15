@@ -832,7 +832,7 @@ class _EditarCadastroState extends State<EditarCadastro> {
                                       ),
                                       shape: RoundedRectangleBorder(
                                           side: BorderSide(
-                                              color: Colors.black,
+                                              color: Colors.white,
                                               width: 1,
                                               style: BorderStyle.solid
                                           ),
@@ -879,7 +879,7 @@ class _EditarCadastroState extends State<EditarCadastro> {
                                       ),
                                       shape: RoundedRectangleBorder(
                                           side: BorderSide(
-                                              color: Colors.black,
+                                              color: Colors.white,
                                               width: 1,
                                               style: BorderStyle.solid
                                           ),
@@ -901,7 +901,7 @@ class _EditarCadastroState extends State<EditarCadastro> {
                                 color: Colors.black,
                                 shape: RoundedRectangleBorder(
                                   side: BorderSide(
-                                      color: Colors.black,
+                                      color: Colors.white,
                                       width: 1,
                                       style: BorderStyle.solid
                                   ),

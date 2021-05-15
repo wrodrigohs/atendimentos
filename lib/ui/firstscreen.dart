@@ -130,12 +130,6 @@ class _FirstScreenState extends State<FirstScreen> {
       DeviceOrientation.portraitDown,
     ]);
 
-    if(widget.presente == true) {
-      setState(() {
-        presente = widget.presente;
-      });
-    }
-
     listaPacientes.sort((a, b) => (((converterData(a.data)).compareTo(converterData(b.data)))));
 
     if (Platform.isIOS) {
@@ -144,7 +138,13 @@ class _FirstScreenState extends State<FirstScreen> {
       distancia = AppBar().preferredSize.height + 40;
     }
 
-    presente = verificaPresente();
+    if(widget.presente == true) {
+      setState(() {
+        presente = widget.presente;
+      });
+    } else {
+      presente = verificaPresente();
+    }
 
     return SideMenu(
       key: _endSideMenuKey,
@@ -1302,9 +1302,7 @@ class _FirstScreenState extends State<FirstScreen> {
 
               if(appData.isPro == true) {
                 for(int i = 0; i < listaProfissional.length; i++) {
-                  bool cadastrado = false;
-                  verificaCadastro(cadastrado);
-                  if(cadastrado == true) {
+                  if(presente == true) {
                     if (Platform.isAndroid || (Platform.isIOS && widget.logadoIOS == false)) {
                       Navigator.push(context, MaterialPageRoute(
                           builder: (context) =>
@@ -3776,29 +3774,5 @@ class _FirstScreenState extends State<FirstScreen> {
       }
     }
     return presente;
-  }
-
-  bool verificaCadastro(bool cadastrado) {
-    if(widget.tipo == 'profissional') {
-      if(Platform.isAndroid) {
-        for(int i = 0; i < listaProfissional.length; i++) {
-          if(equalsIgnoreCase(listaProfissional[i].email, email)) {
-            setState(() {
-              cadastrado = true;
-              return cadastrado;
-            });
-          }
-        }
-      } else {
-        for(int i = 0; i < listaProfissional.length; i++) {
-          if(equalsIgnoreCase(listaProfissional[i].email, widget.proIOS.email)) {
-            setState(() {
-              cadastrado = true;
-              return cadastrado;
-            });
-          }
-        }
-      }
-    }
   }
 }
