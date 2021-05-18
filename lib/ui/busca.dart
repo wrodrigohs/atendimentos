@@ -219,15 +219,22 @@ class _BuscaState extends State<Busca> {
                                   onTap: () {
                                     launchWhatsApp(phone: '${listaBuscado[posicao].telefone}', message: 'Oi, ${listaBuscado[posicao].nome}, entro em contato para tratar da sua consulta de ${listaBuscado[posicao].data}.');
                                   },
-                                  leading: CircleAvatar(
-                                      child: Text('${listaBuscado[posicao].nome.substring(0,1).toUpperCase()}',
+                                  leading: listaBuscado[posicao].imageURL != null ?
+                                  CircleAvatar(
+                                    backgroundImage: NetworkImage(listaBuscado[posicao].imageURL),
+                                  )
+                                      :
+                                  CircleAvatar(
+                                      child: Text(
+                                        '${listaBuscado[posicao].nome.substring(0, 1).toUpperCase()}',
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontFamily: 'quicksand',
-                                          fontWeight: FontWeight.w600,
+                                          fontWeight: FontWeight.w700,
                                         ),
                                       ),
-                                      backgroundColor: Colors.black),
+                                      backgroundColor: Colors.black
+                                  ),
                                   title: Text(
                                     '${listaBuscado[posicao].nome}',
                                     style: TextStyle(
