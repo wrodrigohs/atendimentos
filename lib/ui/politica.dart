@@ -59,7 +59,7 @@ class _PoliticadePrivacidadeState extends State<PoliticadePrivacidade> {
                       TextSpan(
                         text: widget.tipo == 'profissional' ?
                         'São coletadas as informações pessoais que você nos dá: nome, e-mail, sua área de atuação profissional, seu endereço do instagram e do facebook e telefone.'
-                        :
+                            :
                         'São coletadas as informações pessoais que você nos dá: nome, telefone, e-mail, estado civil e sexo.',
                         style: TextStyle(
                           color: Colors.black,
@@ -94,7 +94,7 @@ class _PoliticadePrivacidadeState extends State<PoliticadePrivacidade> {
                       TextSpan(
                         text: widget.tipo == 'profissional' ?
                         'Como vocês obtêm meu consentimento?\nQuando você fornece informações pessoais como nome, telefone e e-mail para seu cadastro no aplicativo. Após o preenchimento do formulário para cadastro, entendemos que você está de acordo com a coleta de dados para serem utilizados pelo aplicativo.'
-                        :
+                            :
                         'Como vocês obtêm meu consentimento?\nQuando você fornece informações pessoais como nome, telefone, e-mail, estado civil e sexo para o agendamento de consultas pelo aplicativo. Após o preenchimento do formulário para agendamento de consulta entendemos que você está de acordo com a coleta de dados para serem utilizados pelo aplicativo.',
                         style: TextStyle(
                           color: Colors.black,
@@ -102,7 +102,23 @@ class _PoliticadePrivacidadeState extends State<PoliticadePrivacidade> {
                           fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                         ),
                       ),
-                      TextSpan(text: '\n\nSEÇÃO 4 - DIVULGAÇÃO\n',
+                      TextSpan(text: '\n\nSEÇÃO 4 - COMO EXCLUO MEUS DADOS?\n',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'quicksand',
+                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
+                        ),
+                      ),
+                      TextSpan(
+                        text: 'No aplicativo há um botão para remoção permanente dos dados, que remove seus dados do banco de dados. Atente-se para o fato de que essa ação é definitiva e não pode ser desfeita.',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: 'quicksand',
+                          fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
+                        ),
+                      ),
+                      TextSpan(text: '\n\nSEÇÃO 5 - DIVULGAÇÃO\n',
                         style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -118,7 +134,7 @@ class _PoliticadePrivacidadeState extends State<PoliticadePrivacidade> {
                           fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                         ),
                       ),
-                      TextSpan(text: '\n\nSEÇÃO 5 - SERVIÇOS DE TERCEIROS\n',
+                      TextSpan(text: '\n\nSEÇÃO 6 - SERVIÇOS DE TERCEIROS\n',
                         style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -134,7 +150,7 @@ class _PoliticadePrivacidadeState extends State<PoliticadePrivacidade> {
                           fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                         ),
                       ),
-                      TextSpan(text: '\n\nSEÇÃO 6 - SEGURANÇA\n',
+                      TextSpan(text: '\n\nSEÇÃO 7 - SEGURANÇA\n',
                         style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -150,7 +166,7 @@ class _PoliticadePrivacidadeState extends State<PoliticadePrivacidade> {
                           fontSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1000 ? MediaQuery.of(context).size.height/50 : MediaQuery.of(context).size.height/50,
                         ),
                       ),
-                      TextSpan(text: '\n\nSEÇÃO 7 - ALTERAÇÕES PARA ESSA POLÍTICA DE PRIVACIDADE\n',
+                      TextSpan(text: '\n\nSEÇÃO 8 - ALTERAÇÕES PARA ESSA POLÍTICA DE PRIVACIDADE\n',
                         style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
