@@ -118,6 +118,14 @@ class _FirstScreenState extends State<FirstScreen> {
   }
 
   Widget widgetPro() {
+
+    Fluttertoast.showToast(
+      msg:'$email\n\n $name',
+      toastLength: Toast.LENGTH_SHORT,
+      timeInSecForIosWeb: 5,
+    );
+
+    print('$email\n\n $name');
     //verificação das minhas contas para acesso VIP
     if((Platform.isAndroid) || (Platform.isIOS && widget.logadoIOS == false)) {
       if(email == 'aplicativoswr@gmail.com' || email == 'w.rodrigo@ufms.br'
