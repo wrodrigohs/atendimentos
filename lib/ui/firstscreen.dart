@@ -119,10 +119,18 @@ class _FirstScreenState extends State<FirstScreen> {
 
   Widget widgetPro() {
     //verificação das minhas contas para acesso VIP
-    if(email == 'aplicativoswr@gmail.com' || email == 'w.rodrigo@ufms.br'
-        || email == 'assinanteconsultorioonline@gmail.com'
-        || email == 'rodrigoicarsaojose@gmail.com') {
-      appData.isPro = true;
+    if((Platform.isAndroid) || (Platform.isIOS && widget.logadoIOS == false)) {
+      if(email == 'aplicativoswr@gmail.com' || email == 'w.rodrigo@ufms.br'
+          || email == 'assinanteconsultorioonline@gmail.com'
+          || email == 'rodrigoicarsaojose@gmail.com') {
+        appData.isPro = true;
+      }
+    } else if(widget.logadoIOS == true) {
+      if(widget.proIOS.email == 'aplicativoswr@gmail.com' || widget.proIOS.email == 'w.rodrigo@ufms.br'
+          || widget.proIOS.email == 'assinanteconsultorioonline@gmail.com'
+          || widget.proIOS.email == 'rodrigoicarsaojose@gmail.com') {
+        appData.isPro = true;
+      }
     }
 
     SystemChrome.setPreferredOrientations([
@@ -760,7 +768,8 @@ class _FirstScreenState extends State<FirstScreen> {
                               ),
                               onPressed: () {
                                 for(int i = 0; i < listaProfissional.length; i++) {
-                                  if(listaProfissional[i].email == email) {
+                                  if(listaProfissional[i].email == email ||
+                                    listaProfissional[i].email == widget.proIOS.email) {
                                     Navigator.pushReplacement(context, MaterialPageRoute(
                                         builder: (BuildContext context) => super.widget));
                                     Fluttertoast.showToast(
@@ -1150,10 +1159,18 @@ class _FirstScreenState extends State<FirstScreen> {
           LListItem(
             backgroundColor: Colors.transparent,
             onTap: () {
-              if(email == 'aplicativoswr@gmail.com' || email == 'w.rodrigo@ufms.br'
-                  || email == 'assinanteconsultorioonline@gmail.com'
-                  || email == 'rodrigoicarsaojose@gmail.com') {
-                appData.isPro = true;
+              if((Platform.isAndroid) || (Platform.isIOS && widget.logadoIOS == false)) {
+                if(email == 'aplicativoswr@gmail.com' || email == 'w.rodrigo@ufms.br'
+                    || email == 'assinanteconsultorioonline@gmail.com'
+                    || email == 'rodrigoicarsaojose@gmail.com') {
+                  appData.isPro = true;
+                }
+              } else if(widget.logadoIOS == true) {
+                if(widget.proIOS.email == 'aplicativoswr@gmail.com' || widget.proIOS.email == 'w.rodrigo@ufms.br'
+                    || widget.proIOS.email == 'assinanteconsultorioonline@gmail.com'
+                    || widget.proIOS.email == 'rodrigoicarsaojose@gmail.com') {
+                  appData.isPro = true;
+                }
               }
 
               if(appData.isPro == true) {
@@ -1196,10 +1213,18 @@ class _FirstScreenState extends State<FirstScreen> {
           LListItem(
             backgroundColor: Colors.transparent,
             onTap: () {
-              if(email == 'aplicativoswr@gmail.com' || email == 'w.rodrigo@ufms.br'
-                  || email == 'assinanteconsultorioonline@gmail.com'
-                  || email == 'rodrigoicarsaojose@gmail.com') {
-                appData.isPro = true;
+              if((Platform.isAndroid) || (Platform.isIOS && widget.logadoIOS == false)) {
+                if(email == 'aplicativoswr@gmail.com' || email == 'w.rodrigo@ufms.br'
+                    || email == 'assinanteconsultorioonline@gmail.com'
+                    || email == 'rodrigoicarsaojose@gmail.com') {
+                  appData.isPro = true;
+                }
+              } else if(widget.logadoIOS == true) {
+                if(widget.proIOS.email == 'aplicativoswr@gmail.com' || widget.proIOS.email == 'w.rodrigo@ufms.br'
+                    || widget.proIOS.email == 'assinanteconsultorioonline@gmail.com'
+                    || widget.proIOS.email == 'rodrigoicarsaojose@gmail.com') {
+                  appData.isPro = true;
+                }
               }
 
               if(appData.isPro == true) {
@@ -1248,10 +1273,18 @@ class _FirstScreenState extends State<FirstScreen> {
           LListItem(
             backgroundColor: Colors.transparent,
             onTap: () {
-              if(email == 'aplicativoswr@gmail.com' || email == 'w.rodrigo@ufms.br'
-                  || email == 'assinanteconsultorioonline@gmail.com'
-                  || email == 'rodrigoicarsaojose@gmail.com') {
-                appData.isPro = true;
+              if((Platform.isAndroid) || (Platform.isIOS && widget.logadoIOS == false)) {
+                if(email == 'aplicativoswr@gmail.com' || email == 'w.rodrigo@ufms.br'
+                    || email == 'assinanteconsultorioonline@gmail.com'
+                    || email == 'rodrigoicarsaojose@gmail.com') {
+                  appData.isPro = true;
+                }
+              } else if(widget.logadoIOS == true) {
+                if(widget.proIOS.email == 'aplicativoswr@gmail.com' || widget.proIOS.email == 'w.rodrigo@ufms.br'
+                    || widget.proIOS.email == 'assinanteconsultorioonline@gmail.com'
+                    || widget.proIOS.email == 'rodrigoicarsaojose@gmail.com') {
+                  appData.isPro = true;
+                }
               }
 
               if(appData.isPro == true) {
@@ -1296,10 +1329,18 @@ class _FirstScreenState extends State<FirstScreen> {
             child: LListItem(
               backgroundColor: Colors.transparent,
               onTap: () {
-                if(email == 'aplicativoswr@gmail.com' || email == 'w.rodrigo@ufms.br'
-                    || email == 'assinanteconsultorioonline@gmail.com'
-                    || email == 'rodrigoicarsaojose@gmail.com') {
-                  appData.isPro = true;
+                if((Platform.isAndroid) || (Platform.isIOS && widget.logadoIOS == false)) {
+                  if(email == 'aplicativoswr@gmail.com' || email == 'w.rodrigo@ufms.br'
+                      || email == 'assinanteconsultorioonline@gmail.com'
+                      || email == 'rodrigoicarsaojose@gmail.com') {
+                    appData.isPro = true;
+                  }
+                } else if(widget.logadoIOS == true) {
+                  if(widget.proIOS.email == 'aplicativoswr@gmail.com' || widget.proIOS.email == 'w.rodrigo@ufms.br'
+                      || widget.proIOS.email == 'assinanteconsultorioonline@gmail.com'
+                      || widget.proIOS.email == 'rodrigoicarsaojose@gmail.com') {
+                    appData.isPro = true;
+                  }
                 }
 
                 if(appData.isPro == true) {
