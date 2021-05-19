@@ -472,18 +472,7 @@ class _LoginPageState extends State<LoginPage> {
           if (result != null) {
             Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
                 FirstScreen(tipo: widget.tipo,)), (Route<dynamic> route) => false);
-            /*if(widget.tipo == 'profissional') {
-                                  Profissional profissional = new Profissional(name, "", email, "", usuario, imageUrl, "", "", "",
-                                      false, false, false, false, false, false, false, null, false);
-                                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                                      FirstScreen(tipo: widget.tipo, profissional:  profissional,)), (Route<dynamic> route) => false);
-                                } else {
-                                  Paciente pac = new Paciente(name, "", email, imageUrl, "", "", "", false, "", false, false, false, false, false, "", false, "", false, "", "", "");
-                                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                                      FirstScreen(tipo: widget.tipo, pacienteIOS: pac,)), (Route<dynamic> route) => false);
-                                }*/
-//                                print('$email $name $usuario $imageUrl');
-          }
+            }
         });
       },
       child: Padding(
@@ -556,11 +545,6 @@ class _LoginPageState extends State<LoginPage> {
               Route<dynamic> route) => false);
         }
       }
-      /*Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) =>
-              FirstScreen(tipo: widget.tipo)), (Route<dynamic> route) => false);*/
-      /*Navigator.pushReplacement(context, MaterialPageRoute
-        (builder: (context) => FirstScreen(tipo: widget.tipo)));*/
     } catch (e) {
       // TODO: Show alert here
       print('Erro no login com Apple ===> $e');

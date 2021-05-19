@@ -118,14 +118,6 @@ class _FirstScreenState extends State<FirstScreen> {
   }
 
   Widget widgetPro() {
-
-    Fluttertoast.showToast(
-      msg:'$email\n\n $name',
-      toastLength: Toast.LENGTH_SHORT,
-      timeInSecForIosWeb: 5,
-    );
-
-    print('$email\n\n $name');
     //verificação das minhas contas para acesso VIP
     if((Platform.isAndroid) || (Platform.isIOS && widget.logadoIOS == false)) {
       if(email == 'aplicativoswr@gmail.com' || email == 'w.rodrigo@ufms.br'
@@ -736,9 +728,9 @@ class _FirstScreenState extends State<FirstScreen> {
                         )
                             :
                         //ISSO PERMITE QUE A CONTA SEJA UTILIZADA EM MAIS DE UM DISPOSITIVO SIMULTANEAMENTE
-                        (appData.isPro == true || pro.assinante == true) && (presente == false)
-                            || (widget.logadoIOS == true && widget.proIOS.email.isEmpty)
-                            || (widget.logadoIOS == true && widget.proIOS.email == null) ?
+                        (appData.isPro == true || pro.assinante == true) && (presente == false) ?
+//                            || (widget.logadoIOS == true && widget.proIOS.email.isEmpty)
+//                            || (widget.logadoIOS == true && widget.proIOS.email == null) ?
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -1420,8 +1412,8 @@ class _FirstScreenState extends State<FirstScreen> {
             backgroundColor: Colors.transparent,
             onTap: () {
               for(int i = 0; i < listaProfissional.length; i++) {
-                if(equalsIgnoreCase(listaProfissional[i].nome, pac.nome)
-                    && equalsIgnoreCase(listaProfissional[i].email, pac.email)) {
+                if(equalsIgnoreCase(listaProfissional[i].nome, profissional.nome)
+                    && equalsIgnoreCase(listaProfissional[i].email, profissional.email)) {
                   Profissional profissional = listaProfissional[i];
                   _dialogRemocaoPermanenteProfissional(context, profissional, i);
                   return;
